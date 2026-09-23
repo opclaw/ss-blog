@@ -27,7 +27,7 @@ from urllib.error import HTTPError, URLError
 API_KEY = os.environ.get("YANDEX_API_KEY", "ВСТАВЬТЕ_ВАШ_API_КЛЮЧ_СЮДА")
 FOLDER_ID = os.environ.get("YANDEX_FOLDER_ID", "ВСТАВЬТЕ_ВАШ_FOLDER_ID_СЮДА")
 API_BASE = "https://searchapi.api.cloud.yandex.net/v2/wordstat"
-REGION_RU = "213"  # Россия целиком
+REGION_RU = "225"  # Россия целиком (213 — это только Москва)
 
 # SSL context (отключаем проверку для локального запуска)
 SSL_CTX = ssl.create_default_context()

@@ -50,7 +50,7 @@ SSL_CTX.check_hostname = False
 SSL_CTX.verify_mode = ssl.CERT_NONE
 
 def query(phrase):
-    body = json.dumps({"phrase": phrase, "numPhrases": 20, "regions": ["213"], "folderId": FOLDER}).encode()
+    body = json.dumps({"phrase": phrase, "numPhrases": 20, "regions": ["225"], "folderId": FOLDER}).encode()
     req = Request(f"{API}/topRequests", data=body, 
                   headers={"Authorization": f"Api-Key {KEY}", "Content-Type": "application/json"}, method="POST")
     with urlopen(req, timeout=30, context=SSL_CTX) as r:
