@@ -1,0 +1,673 @@
+<!--
+  ============================================
+  ШАБЛОН СТАТЬИ БЛОГА — Smart Solutions
+  Светлая тема для комфортного чтения
+  Версия: 1.0 | 24 сентября 2026
+  ============================================
+  
+  ИНСТРУКЦИЯ:
+  1. Скопируйте весь HTML-код на сервер в /blog/
+  2. Замените содержимое в <!-- КОНТЕНТ СТАТЬИ -->
+  3. Обновите <title>, meta description, OG-теги
+  4. Вставьте JSON-LD schema (см. schema-org-templates.html)
+  5. Заполните блок «Читайте также» (3-5 ссылок)
+  6. Добавьте FAQ-блок (5-7 вопросов)
+-->
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta -->
+  <title>{{ЗАГОЛОВОК}} — Smart Solutions</title>
+  <meta name="description" content="{{ОПИСАНИЕ 150-160 символов с ключевыми словами}}">
+  <meta name="keywords" content="{{ключевые слова через запятую}}">
+  <link rel="canonical" href="https://smartsolutions.today/blog/{{slug}}.html">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{{ЗАГОЛОВОК}}">
+  <meta property="og:description" content="{{ОПИСАНИЕ}}">
+  <meta property="og:image" content="https://smartsolutions.today/images/blog/{{og-image}}.jpg">
+  <meta property="og:url" content="https://smartsolutions.today/blog/{{slug}}.html">
+  <meta property="og:site_name" content="Smart Solutions">
+  <meta property="article:published_time" content="{{YYYY-MM-DD}}T09:00:00+03:00">
+  <meta property="article:modified_time" content="{{YYYY-MM-DD}}T09:00:00+03:00">
+  <meta property="article:author" content="Олег Кречетов">
+  <meta property="article:section" content="{{Рубрика}}">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ЗАГОЛОВОК}}">
+  <meta name="twitter:description" content="{{ОПИСАНИЕ}}">
+  <meta name="twitter:image" content="https://smartsolutions.today/images/blog/{{og-image}}.jpg">
+  
+  <!-- Schema.org (вставить из schema-org-templates.html) -->
+  
+  <!-- Шрифты и стили -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ============================================
+       СВЕТЛАЯ ТЕМА БЛОГА
+       ============================================ */
+    
+    :root {
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F8F9FA;
+      --bg-code: #F1F3F5;
+      --bg-accent: #EBF5FF;
+      --text-primary: #1A1A2E;
+      --text-secondary: #4A4A68;
+      --text-muted: #6C757D;
+      --accent: #2563EB;
+      --accent-light: #DBEAFE;
+      --border: #E5E7EB;
+      --border-light: #F0F0F0;
+      --success: #059669;
+      --warning: #D97706;
+      --max-width: 780px;
+      --reading-line: 68ch;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-size: 17px;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    /* --- Навигация (упрощённая для блога) --- */
+    .blog-nav {
+      background: var(--bg-primary);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .blog-nav__inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .blog-nav__logo {
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+    .blog-nav__links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .blog-nav__links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .blog-nav__links a:hover { color: var(--accent); }
+    
+    /* --- Хлебные крошки --- */
+    .breadcrumbs {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 16px 24px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .breadcrumbs a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .breadcrumbs a:hover { color: var(--accent); }
+    .breadcrumbs__sep { margin: 0 8px; }
+    
+    /* --- Шапка статьи --- */
+    .article-header {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 24px 24px 0;
+    }
+    .article-header__rubric {
+      display: inline-block;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .article-header__title {
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+    .article-header__subtitle {
+      font-size: 19px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+    .article-header__meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .article-header__author {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    /* --- Содержание (TOC) --- */
+    .article-toc {
+      max-width: var(--max-width);
+      margin: 32px auto;
+      padding: 0 24px;
+    }
+    .article-toc__inner {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .article-toc__title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text-secondary);
+    }
+    .article-toc__list {
+      list-style: none;
+      counter-reset: toc;
+    }
+    .article-toc__list li {
+      counter-increment: toc;
+      margin-bottom: 8px;
+    }
+    .article-toc__list li::before {
+      content: counter(toc) ".";
+      color: var(--accent);
+      font-weight: 600;
+      margin-right: 8px;
+    }
+    .article-toc__list a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 15px;
+    }
+    .article-toc__list a:hover { color: var(--accent); }
+    
+    /* --- Контент статьи --- */
+    .article-content {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+    .article-content h2 {
+      font-size: 26px;
+      font-weight: 700;
+      margin: 48px 0 16px;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+    .article-content h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 32px 0 12px;
+      color: var(--text-primary);
+    }
+    .article-content p {
+      margin-bottom: 18px;
+      max-width: var(--reading-line);
+      color: var(--text-secondary);
+    }
+    .article-content ul, .article-content ol {
+      margin: 0 0 18px 24px;
+      color: var(--text-secondary);
+    }
+    .article-content li {
+      margin-bottom: 8px;
+    }
+    .article-content strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .article-content a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    
+    /* --- Блоки-подсказки --- */
+    .callout {
+      background: var(--bg-accent);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 20px 24px;
+      margin: 24px 0;
+      font-size: 15px;
+    }
+    .callout--warning {
+      background: #FFF7ED;
+      border-left-color: var(--warning);
+    }
+    .callout--success {
+      background: #ECFDF5;
+      border-left-color: var(--success);
+    }
+    .callout__title {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+    
+    /* --- Таблица сравнения --- */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 15px;
+    }
+    .comparison-table th {
+      background: var(--bg-secondary);
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-primary);
+      border-bottom: 2px solid var(--border);
+    }
+    .comparison-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-light);
+      color: var(--text-secondary);
+      vertical-align: top;
+    }
+    .comparison-table tr:hover td {
+      background: var(--bg-secondary);
+    }
+    
+    /* --- Код-блок (для промптов) --- */
+    .code-block {
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 24px 0;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      color: var(--text-primary);
+    }
+    .code-block__label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    /* --- FAQ-аккордеон --- */
+    .faq-section {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px 48px;
+    }
+    .faq-section__title {
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+    .faq-item__question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 18px 48px 18px 20px;
+      text-align: left;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+      position: relative;
+      font-family: inherit;
+      line-height: 1.4;
+    }
+    .faq-item__question::after {
+      content: '+';
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 22px;
+      color: var(--accent);
+      font-weight: 300;
+      transition: transform 0.2s;
+    }
+    .faq-item.open .faq-item__question::after {
+      content: '−';
+    }
+    .faq-item__answer {
+      display: none;
+      padding: 0 20px 18px;
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .faq-item.open .faq-item__answer {
+      display: block;
+    }
+    
+    /* --- Блок «Читайте также» --- */
+    .read-also {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px 48px;
+    }
+    .read-also__title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+    .read-also__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .read-also__link {
+      display: block;
+      padding: 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      text-decoration: none;
+      transition: border-color 0.2s;
+    }
+    .read-also__link:hover { border-color: var(--accent); }
+    .read-also__link-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .read-also__link-meta {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    
+    /* --- CTA-блок (в конце статьи) --- */
+    .article-cta {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px 64px;
+    }
+    .article-cta__inner {
+      background: linear-gradient(135deg, #1E3A5F 0%, #0F172A 100%);
+      border-radius: 16px;
+      padding: 40px;
+      text-align: center;
+      color: white;
+    }
+    .article-cta__title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .article-cta__subtitle {
+      font-size: 16px;
+      opacity: 0.8;
+      margin-bottom: 24px;
+    }
+    .article-cta__btn {
+      display: inline-block;
+      background: white;
+      color: #0F172A;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 16px;
+      transition: transform 0.2s;
+    }
+    .article-cta__btn:hover { transform: translateY(-2px); }
+    
+    /* --- Адаптив --- */
+    @media (max-width: 768px) {
+      body { font-size: 16px; }
+      .article-header__title { font-size: 28px; }
+      .article-header__subtitle { font-size: 17px; }
+      .read-also__grid { grid-template-columns: 1fr; }
+      .article-cta__inner { padding: 28px 20px; }
+      .comparison-table { font-size: 14px; }
+      .comparison-table th, .comparison-table td { padding: 10px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- === НАВИГАЦИЯ === -->
+  <nav class="blog-nav">
+    <div class="blog-nav__inner">
+      <a href="/" class="blog-nav__logo">Smart Solutions</a>
+      <ul class="blog-nav__links">
+        <li><a href="/blog/">Блог</a></li>
+        <li><a href="/services.html">Услуги</a></li>
+        <li><a href="/ai.html">AI</a></li>
+        <li><a href="/#contacts">Контакты</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- === ХЛЕБНЫЕ КРОШКИ === -->
+  <nav class="breadcrumbs" aria-label="Хлебные крошки">
+    <a href="/">Главная</a>
+    <span class="breadcrumbs__sep">→</span>
+    <a href="/blog/">Блог</a>
+    <span class="breadcrumbs__sep">→</span>
+    <a href="/blog/rubrika/ai-agenty/">ИИ-агенты</a>
+    <span class="breadcrumbs__sep">→</span>
+    <span>{{Короткий заголовок}}</span>
+  </nav>
+
+  <!-- === ШАПКА СТАТЬИ === -->
+  <header class="article-header">
+    <span class="article-header__rubric">ИИ-агенты</span>
+    <h1 class="article-header__title">{{ПОЛНЫЙ ЗАГОЛОВОК СТАТЬИ}}</h1>
+    <p class="article-header__subtitle">{{ПОДЗАГОЛОВОК — 1-2 предложения, раскрывающие суть}}</p>
+    <div class="article-header__meta">
+      <span class="article-header__author">Олег Кречетов</span>
+      <span>{{ДД месяц YYYY}} · ~{{N}} мин чтения</span>
+    </div>
+  </header>
+
+  <!-- === СОДЕРЖАНИЕ === -->
+  <nav class="article-toc" aria-label="Содержание статьи">
+    <div class="article-toc__inner">
+      <div class="article-toc__title">Содержание</div>
+      <ol class="article-toc__list">
+        <li><a href="#sec-1">{{Раздел 1}}</a></li>
+        <li><a href="#sec-2">{{Раздел 2}}</a></li>
+        <li><a href="#sec-3">{{Раздел 3}}</a></li>
+        <!-- ... -->
+      </ol>
+    </div>
+  </nav>
+
+  <!-- === КОНТЕНТ СТАТЬИ === -->
+  <article class="article-content" id="article">
+    
+    <!-- Вводный абзац: сразу ответ на вопрос пользователя -->
+    <p>{{Первый абзац — прямой ответ на вопрос из заголовка. 2-3 предложения без воды.}}</p>
+    
+    <!-- Раздел 1 -->
+    <h2 id="sec-1">{{Заголовок раздела 1}}</h2>
+    <p>{{Текст раздела. Максимум var(--reading-line) символов в строке.}}</p>
+    
+    <!-- Пример callout-блока -->
+    <div class="callout">
+      <div class="callout__title">💡 Важно</div>
+      <p>{{Ключевая мысль, которую нужно выделить}}</p>
+    </div>
+    
+    <!-- Пример таблицы сравнения -->
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Критерий</th>
+          <th>Вариант A</th>
+          <th>Вариант B</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{Критерий 1}}</td>
+          <td>{{Значение A}}</td>
+          <td>{{Значение B}}</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <!-- Пример code-блока для промпта -->
+    <div class="code-block">
+      <span class="code-block__label">Пример промпта</span>
+{{текст промпта или конфигурации}}
+    </div>
+    
+    <!-- Раздел 2 -->
+    <h2 id="sec-2">{{Заголовок раздела 2}}</h2>
+    <p>{{Текст}}</p>
+    
+    <h3>{{Подзаголовок}}</h3>
+    <p>{{Текст}}</p>
+    
+    <!-- Пример warning callout -->
+    <div class="callout callout--warning">
+      <div class="callout__title">⚠️ Внимание</div>
+      <p>{{Предупреждение или ограничение}}</p>
+    </div>
+    
+    <!-- Раздел 3 -->
+    <h2 id="sec-3">{{Заголовок раздела 3}}</h2>
+    <p>{{Текст}}</p>
+    
+  </article>
+
+  <!-- === FAQ === -->
+  <section class="faq-section">
+    <h2 class="faq-section__title">Частые вопросы</h2>
+    
+    <div class="faq-item">
+      <button class="faq-item__question" onclick="this.parentElement.classList.toggle('open')">
+        {{Вопрос 1}}
+      </button>
+      <div class="faq-item__answer">
+        <p>{{Ответ 1}}</p>
+      </div>
+    </div>
+    
+    <div class="faq-item">
+      <button class="faq-item__question" onclick="this.parentElement.classList.toggle('open')">
+        {{Вопрос 2}}
+      </button>
+      <div class="faq-item__answer">
+        <p>{{Ответ 2}}</p>
+      </div>
+    </div>
+    
+    <div class="faq-item">
+      <button class="faq-item__question" onclick="this.parentElement.classList.toggle('open')">
+        {{Вопрос 3}}
+      </button>
+      <div class="faq-item__answer">
+        <p>{{Ответ 3}}</p>
+      </div>
+    </div>
+    
+    <div class="faq-item">
+      <button class="faq-item__question" onclick="this.parentElement.classList.toggle('open')">
+        {{Вопрос 4}}
+      </button>
+      <div class="faq-item__answer">
+        <p>{{Ответ 4}}</p>
+      </div>
+    </div>
+    
+    <div class="faq-item">
+      <button class="faq-item__question" onclick="this.parentElement.classList.toggle('open')">
+        {{Вопрос 5}}
+      </button>
+      <div class="faq-item__answer">
+        <p>{{Ответ 5}}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- === ЧИТАЙТЕ ТАКЖЕ === -->
+  <section class="read-also">
+    <h2 class="read-also__title">Читайте также</h2>
+    <div class="read-also__grid">
+      <a href="/blog/{{slug-1}}.html" class="read-also__link">
+        <div class="read-also__link-title">{{Заголовок статьи 1}}</div>
+        <div class="read-also__link-meta">{{Рубрика}} · {{N}} мин</div>
+      </a>
+      <a href="/blog/{{slug-2}}.html" class="read-also__link">
+        <div class="read-also__link-title">{{Заголовок статьи 2}}</div>
+        <div class="read-also__link-meta">{{Рубрика}} · {{N}} мин</div>
+      </a>
+      <a href="/blog/{{slug-3}}.html" class="read-also__link">
+        <div class="read-also__link-title">{{Заголовок статьи 3}}</div>
+        <div class="read-also__link-meta">{{Рубрика}} · {{N}} мин</div>
+      </a>
+      <a href="/blog/{{slug-4}}.html" class="read-also__link">
+        <div class="read-also__link-title">{{Заголовок статьи 4}}</div>
+        <div class="read-also__link-meta">{{Рубрика}} · {{N}} мин</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- === CTA === -->
+  <section class="article-cta">
+    <div class="article-cta__inner">
+      <h2 class="article-cta__title">Разберём ваш процесс?</h2>
+      <p class="article-cta__subtitle">Бесплатный аудит. Честно скажем, окупится ли ИИ в вашем случае.</p>
+      <a href="/#contacts" class="article-cta__btn">Обсудить задачу</a>
+    </div>
+  </section>
+
+</body>
+</html>

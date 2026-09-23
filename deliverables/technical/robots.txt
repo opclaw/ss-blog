@@ -1,0 +1,76 @@
+# ============================================
+# Smart Solutions Today — robots.txt
+# Обновлённая версия: 24 сентября 2026
+# ============================================
+
+# --- AI-поисковики (GEO-оптимизация) ---
+# Разрешаем всем AI-ботам индексировать контент
+# Это критически важно для попадания в ответы ChatGPT, Perplexity, Claude
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# --- Яндекс ---
+User-agent: Yandex
+Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&utm_referrer&yclid&gclid&fbclid
+Allow: /
+
+# --- Google ---
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+# --- Основной бот ---
+User-agent: *
+Allow: /
+Disallow: /consent.html
+Disallow: /consent-cookies.html
+
+# Служебные и технические файлы
+Disallow: /*.json$
+Disallow: /*.md$
+Disallow: /drafts/
+Disallow: /api/
+Disallow: /admin/
+
+# Старые WordPress-пути (оставляем для редиректов)
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /wp-content/
+Disallow: /feed/
+Disallow: /xmlrpc.php
+Disallow: /?p=
+Disallow: /trackback/
+
+# Sitemap
+Sitemap: https://smartsolutions.today/sitemap.xml
+Host: https://smartsolutions.today

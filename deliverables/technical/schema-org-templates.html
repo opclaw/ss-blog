@@ -1,0 +1,125 @@
+<!-- 
+  ============================================
+  JSON-LD Schema.org разметка для статьи блога
+  Вставить в <head> каждой статьи
+  Заменить значения в {{ двойных скобках }}
+  ============================================
+-->
+
+<!-- 1. Статья (Article) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{ЗАГОЛОВОК СТАТЬИ}}",
+  "description": "{{ОПИСАНИЕ 150-160 СИМВОЛОВ}}",
+  "image": "https://smartsolutions.today/images/blog/{{OG-IMAGE}}.jpg",
+  "author": {
+    "@type": "Person",
+    "name": "Олег Кречетов",
+    "url": "https://smartsolutions.today/ai.html",
+    "jobTitle": "Основатель Smart Solutions"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Smart Solutions",
+    "url": "https://smartsolutions.today",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://smartsolutions.today/logos/smartsolutions-logo.svg"
+    }
+  },
+  "datePublished": "{{YYYY-MM-DD}}",
+  "dateModified": "{{YYYY-MM-DD}}",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://smartsolutions.today/blog/{{URL}}.html"
+  },
+  "wordCount": {{КОЛИЧЕСТВО СЛОВ}},
+  "articleSection": "{{РУБРИКА: AI-агенты | Инструменты | SEO | Процессы | Управление | Отрасли}}",
+  "keywords": "{{КЛЮЧЕВЫЕ СЛОВА ЧЕРЕЗ ЗАПЯТУЮ}}"
+}
+</script>
+
+<!-- 2. FAQ (если есть FAQ-блок в статье) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "{{ВОПРОС 1}}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ОТВЕТ 1}}"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "{{ВОПРОС 2}}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ОТВЕТ 2}}"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "{{ВОПРОС 3}}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ОТВЕТ 3}}"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "{{ВОПРОС 4}}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ОТВЕТ 4}}"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "{{ВОПРОС 5}}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ОТВЕТ 5}}"
+      }
+    }
+  ]
+}
+</script>
+
+<!-- 3. Хлебные крошки (BreadcrumbList) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Главная",
+      "item": "https://smartsolutions.today/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Блог",
+      "item": "https://smartsolutions.today/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{РУБРИКА}}",
+      "item": "https://smartsolutions.today/blog/rubrika/{{slug}}/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "{{ЗАГОЛОВОК СТАТЬИ}}"
+    }
+  ]
+}
+</script>
