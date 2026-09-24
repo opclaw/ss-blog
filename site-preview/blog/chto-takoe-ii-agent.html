@@ -4,16 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Что такое ИИ-агент простыми словами — Smart Solutions</title>
-<meta name="description" content="ИИ-агент — программа, которая сама выполняет задачу по шагам: читает данные, работает с CRM и почтой, проверяет себя. Как устроен, чем отличается от чат-бота, примеры для бизнеса.">
+<meta name="description" content="ИИ-агент — программа, которая сама выполняет задачу по шагам: работает с CRM, почтой, 1С и зовёт человека, когда нужно решение. Как устроен, чем отличается от чат-бота, где окупается.">
 <link rel="canonical" href="https://smartsolutions.today/blog/chto-takoe-ii-agent.html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Что такое ИИ-агент простыми словами">
-<meta property="og:description" content="Как устроен ИИ-агент, чем он отличается от чат-бота и где реально экономит часы команды.">
 <meta property="og:url" content="https://smartsolutions.today/blog/chto-takoe-ii-agent.html">
-<meta property="og:site_name" content="Smart Solutions">
 <meta property="article:published_time" content="2026-09-25T09:00:00+03:00">
-<meta property="article:author" content="Олег Кречетов">
-<link rel="stylesheet" href="assets/blog.css">
+<!-- В превью: шрифты и реальный styles.css сайта. На сайте первые две строки не нужны. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://smartsolutions.today/styles.css">
+<link rel="stylesheet" href="assets/reading.css">
+<script>try{if(localStorage.getItem('read')==='paper')document.documentElement.dataset.read='paper'}catch(e){}</script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
 {"@type":"Article","headline":"Что такое ИИ-агент простыми словами: как работает и чем полезен бизнесу в 2026",
@@ -36,93 +37,129 @@
 </script>
 </head>
 <body>
-<header class="top">
-  <div class="wrap">
-    <a class="logo" href="https://smartsolutions.today/">Smart Solutions</a>
-    <nav class="nav">
-      <a href="https://smartsolutions.today/#approach">Подход</a>
-      <a href="https://smartsolutions.today/#projects">Проекты</a>
-      <a href="https://smartsolutions.today/#process">Процесс</a>
-      <a href="https://smartsolutions.today/services.html">Услуги</a>
-      <a href="https://smartsolutions.today/ai.html">AI</a>
-      <a href="#contacts">Контакты</a>
-    </nav>
-    <div class="top__act">
-      <a class="btn btn--ghost" href="tel:+79250909500">Позвонить</a>
-      <a class="btn" href="https://t.me/olegkrechetov">Написать</a>
+<div class="read-progress"><i></i></div>
+
+<nav class="nav scrolled" aria-label="Основное меню">
+  <div class="nav-inner">
+    <a class="nav-logo" href="https://smartsolutions.today/">Smart Solutions</a>
+    <div class="nav-menu">
+      <a class="nav-link" href="https://smartsolutions.today/#approach">Подход</a>
+      <a class="nav-link" href="https://smartsolutions.today/#projects">Проекты</a>
+      <a class="nav-link" href="https://smartsolutions.today/#process">Процесс</a>
+      <a class="nav-link" href="https://smartsolutions.today/services.html">Услуги</a>
+      <a class="nav-link nav-link-active" href="https://smartsolutions.today/ai.html">AI</a>
+      <a class="nav-link" href="#contacts">Контакты</a>
     </div>
+    <a class="nav-phone" href="tel:+79250909500">Позвонить</a>
+    <a class="nav-phone" href="https://t.me/olegkrechetov">Написать</a>
+    <button class="nav-burger" aria-label="Меню"><span></span><span></span><span></span></button>
   </div>
-  <div class="progress"></div>
-</header>
+</nav>
+<div class="mobile-menu">
+  <a class="mobile-link" href="https://smartsolutions.today/#approach">Подход</a>
+  <a class="mobile-link" href="https://smartsolutions.today/#projects">Проекты</a>
+  <a class="mobile-link" href="https://smartsolutions.today/services.html">Услуги</a>
+  <a class="mobile-link" href="https://smartsolutions.today/ai.html">AI</a>
+  <a class="mobile-link" href="#contacts">Контакты</a>
+</div>
 
-<section class="hero"><div class="wrap">
-  <nav class="crumbs"><a href="https://smartsolutions.today/">главная</a><span>/</span><a href="index.html">блог</a><span>/</span>ии-агенты</nav>
+<main class="article" id="main-content">
+  <div class="container">
+    <div class="article-shell">
 
-  <div class="a-head">
-    <div class="label">// ИИ-агенты</div>
-    <h1>Что такое ИИ-агент простыми словами</h1>
-    <p class="lead">Как он устроен, чем отличается от чат-бота и ассистента, и на каких задачах в компании он действительно экономит время.</p>
-    <div class="meta"><img src="/images/oleg-krechetov.jpg" alt=""><div><b>Олег Кречетов</b>, основатель Smart Solutions</div><span class="mono">25.09.2026 · 8 мин</span></div>
-  </div>
-</div></section>
-<main class="wrap">
+      <aside class="article-aside-left">
+        <p class="toc-section-label">Содержание</p>
+        <a href="#s1">Определение</a>
+        <a href="#s2">Агент, ассистент и чат-бот</a>
+        <a href="#s3">Как агент работает</a>
+        <a href="#s4">Пример: разбор заявок</a>
+        <a href="#s5">Система агентов</a>
+        <a href="#s6">Где окупается</a>
+        <a href="#s7">Что изменилось в 2026</a>
+        <a href="#s8">С чего начать</a>
+        <a href="#s9">Вопросы</a>
+        <div class="left-meta"><span class="js-left">осталось ~8 мин</span></div>
+        <button class="read-toggle" type="button" data-toggle-read><b>Aa</b><span class="js-read-label">светлый лист</span></button>
+      </aside>
 
-  <div class="layout">
-    <article class="prose">
-      <details class="toc-m"><summary>Содержание</summary>
-        <a href="#s1">Определение</a><a href="#s2">Агент, ассистент и чат-бот</a><a href="#s3">Как агент работает</a><a href="#s4">Пример: разбор заявок</a><a href="#s5">Система агентов</a><a href="#s6">Где окупается</a><a href="#s7">Что изменилось в 2026</a><a href="#s8">С чего начать</a><a href="#s9">Вопросы</a>
-      </details>
+      <div>
+        <div class="article-crumbs"><a href="https://smartsolutions.today/">Главная</a> / <a href="index.html">Блог</a> / ИИ-агенты</div>
+        <p class="toc-section-label">ИИ-агенты</p>
+        <h1 class="article-title">Что такое ИИ-агент простыми словами</h1>
+        <p class="article-lead">Как он устроен, чем отличается от чат-бота и ассистента, и на каких задачах в компании действительно экономит время.</p>
+        <div class="article-meta"><img src="/images/oleg-krechetov.jpg" alt=""><b>Олег Кречетов</b><span>25.09.2026</span><span>·</span><span>8 минут</span>
+          <button class="read-toggle read-toggle-m" type="button" data-toggle-read><b>Aa</b></button></div>
 
-      <div class="summary">
-        <p class="mono">коротко</p>
-        <ul>
-          <li>ИИ-агент — программа на основе языковой модели, которая сама выполняет задачу по шагам и работает в ваших системах: CRM, почте, таблицах, 1С.</li>
-          <li>Чат-бот и ассистент отвечают человеку. Агент действует сам, а человек проверяет результат.</li>
-          <li>Окупается на повторяющихся операциях с текстом и данными: заявки, документы, сверки.</li>
-        </ul>
-      </div>
+        <details class="article-toc"><summary class="toc-title">Содержание <span class="toc-toggle"></span></summary>
+          <ul><li><a href="#s1">Определение</a></li><li><a href="#s2">Агент, ассистент и чат-бот</a></li><li><a href="#s3">Как агент работает</a></li><li><a href="#s4">Пример: разбор заявок</a></li><li><a href="#s5">Система агентов</a></li><li><a href="#s6">Где окупается</a></li><li><a href="#s7">Что изменилось в 2026</a></li><li><a href="#s8">С чего начать</a></li><li><a href="#s9">Вопросы</a></li></ul>
+        </details>
 
-      <h2 id="s1">Определение</h2>
-      <p class="define">Агенту ставят цель, а не расписывают каждый шаг.</p>
-      <p>Обычную автоматизацию программируют правилами: если в письме есть слово «счёт», переложить его в папку бухгалтерии. Агенту говорят иначе: разбери сегодняшние заявки, заведи их в CRM и подготовь ответы. Какие шаги для этого нужны и в каком порядке, он решает сам.</p>
-      <p>В основе агента — языковая модель: GigaChat, Алиса AI (новое название YandexGPT), GPT, Claude или открытая модель на вашем сервере. Сама по себе модель умеет только отвечать текстом. Агентом она становится, когда ей дают доступ к программам, ваши данные и правила, что можно делать, а что нельзя.</p>
+        <div class="article-content">
 
-      <h2 id="s2">Агент, ассистент и чат-бот</h2>
-      <p>Эти слова путают даже подрядчики, поэтому уточняйте на берегу, что именно вам предлагают. Проще всего различать по тому, кто делает работу.</p>
-      <div class="tbl"><table>
-        <thead><tr><th></th><th>Чат-бот</th><th>ИИ-ассистент</th><th>ИИ-агент</th></tr></thead>
-        <tbody>
-          <tr><td>Что делает</td><td>Отвечает по сценарию</td><td>Помогает сотруднику писать, искать, разбираться</td><td>Выполняет задачу целиком</td></tr>
-          <tr><td>Кто ведёт</td><td>Пользователь нажимает кнопки</td><td>Сотрудник задаёт каждый запрос</td><td>Агент идёт к цели сам</td></tr>
-          <tr><td>Доступ к системам</td><td>Обычно нет</td><td>Читает документы</td><td>Читает и записывает: CRM, почта, 1С</td></tr>
-          <tr><td>Пример задачи</td><td>«Доставка или оплата?»</td><td>«Составь ответ клиенту»</td><td>«Обработай заявки за ночь»</td></tr>
-        </tbody>
-      </table></div>
+          <div class="brief">
+            <p class="brief-title">Коротко</p>
+            <ul>
+              <li>ИИ-агент — программа на основе языковой модели, которая сама выполняет задачу по шагам и работает в ваших системах: CRM, почте, таблицах, 1С.</li>
+              <li>Чат-бот и ассистент отвечают человеку. Агент действует сам, а человек проверяет результат.</li>
+              <li>Окупается на повторяющихся операциях с текстом и данными: заявки, документы, сверки.</li>
+            </ul>
+          </div>
 
-      <h2 id="s3">Как агент работает</h2>
-      <p>Любой агент повторяет один и тот же цикл, пока задача не решена: разбирается в задаче и контексте, планирует шаги, выполняет их через доступные инструменты и сверяет результат с правилами. Если проверка не прошла, пробует по-другому или останавливается и зовёт человека.</p>
-      <p>Чтобы это работало в компании, собирают пять частей: модель, инструкцию с ролью и границами полномочий, доступы к программам, базу знаний (регламенты, прайс, шаблоны, удачные прошлые ответы) и правила, когда передавать задачу сотруднику.</p>
-      <div class="aside"><span class="mono">// где обычно ломается</span>Дорогую модель подключают, а базу знаний не собирают. Тогда агент уверенно называет цены и сроки, которых нет в прайсе. Проблема почти всегда в данных, а не в модели.</div>
+          <h2 id="s1">Определение</h2>
+          <p class="pull-quote">Агенту ставят цель, а не расписывают каждый шаг.</p>
+          <p>Обычную автоматизацию программируют правилами: если в письме есть слово «счёт», переложить его в папку бухгалтерии. Агенту говорят иначе: разбери сегодняшние заявки, заведи их в CRM и подготовь ответы. Какие шаги для этого нужны и в каком порядке, он решает сам.</p>
+          <p>В основе агента — языковая модель: GigaChat, Алиса AI (новое название YandexGPT), GPT, Claude или открытая модель на вашем сервере. Сама по себе модель умеет только отвечать текстом. Агентом она становится, когда ей дают доступ к программам, ваши данные и правила, что можно делать, а что нельзя.</p>
 
-      <h2 id="s4">Пример: разбор входящих заявок</h2>
-      <p>Это один из четырёх процессов, которые мы внедряем. Заявки приходят с формы на сайте, на почту и в Telegram. Менеджер читает каждую, ищет клиента в CRM, выясняет, что нужно, и пишет ответ.</p>
-      <figure>
-        <figcaption><b>fig. 01</b> · обработка заявки агентом</figcaption>
-        <div class="chain">
-          <div><span>вход</span>Форма, почта, мессенджер</div>
-          <div><span>разбор</span>Тип, срочность, контакты</div>
-          <div><span>crm</span>Находит клиента или заводит карточку</div>
-          <div><span>черновик</span>Ответ по регламенту, со ссылкой на источник</div>
-          <div class="human"><span>менеджер</span>Проверяет и отправляет</div>
-        </div>
-      </figure>
-      <p>Менеджер больше не пишет с нуля, а правит готовое. Эффект считаем так: время на заявку до и после, умноженное на число заявок и ставку. Если раньше уходило 12 минут, а на проверку черновика — 3, то при 50 заявках в день это около 7,5 часа. Цифры здесь условные; на пилоте мы замеряем их у клиента до и после.</p>
+          <h2 id="s2">Агент, ассистент и чат-бот</h2>
+          <p>Эти слова путают даже подрядчики, поэтому уточняйте на берегу, что именно вам предлагают. Проще всего различать по тому, кто делает работу.</p>
+          <div class="article-table-wrap"><table class="article-table">
+            <thead><tr><th></th><th>Чат-бот</th><th>Ассистент</th><th>Агент</th></tr></thead>
+            <tbody>
+              <tr><td>Что делает</td><td>Отвечает по сценарию</td><td>Помогает сотруднику писать и искать</td><td>Выполняет задачу целиком</td></tr>
+              <tr><td>Кто ведёт</td><td>Пользователь, кнопками</td><td>Сотрудник, каждым запросом</td><td>Агент, по цели</td></tr>
+              <tr><td>Доступ</td><td>Обычно нет</td><td>Читает документы</td><td>Читает и пишет: CRM, почта, 1С</td></tr>
+              <tr><td>Пример</td><td>«Доставка или оплата?»</td><td>«Составь ответ клиенту»</td><td>«Обработай заявки за ночь»</td></tr>
+            </tbody>
+          </table></div>
 
-      <div class="todo"><b>НУЖНО ОТ ОЛЕГА — удалить эту плашку перед публикацией</b>Заменить условный пример реальным, можно без названия: отрасль, сколько заявок в день, сколько минут было и стало, что пошло не так на первой неделе. Один честный факт весит больше всей статьи.</div>
+          <h2 id="s3">Как агент работает</h2>
+          <p>Любой агент повторяет один цикл, пока задача не решена: разбирается в задаче, планирует шаги, выполняет их через доступные инструменты и сверяет результат с правилами. Не прошла проверка — пробует по-другому или останавливается и зовёт человека.</p>
+          <figure class="fig">
+            <figcaption><span>fig. 01</span><span>цикл работы агента</span></figcaption>
+            <svg class="fig-svg" viewBox="0 0 720 230" role="img" aria-label="Цикл: понять, спланировать, сделать, проверить; при ошибке — повторить или позвать человека">
+              <path class="f-acc-line" d="M170 70 H270 M450 70 H550 M620 100 V130 Q620 160 590 160 H130 Q100 160 100 130 V100" marker-end="url(#a)"/>
+              <path class="f-line" d="M360 70 H360"/>
+              <defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" class="f-acc"/></marker></defs>
+              <rect class="f-node" x="30" y="40" width="140" height="60" rx="10"/><text x="100" y="68" text-anchor="middle" class="f-label">ПОНЯТЬ</text><text x="100" y="86" text-anchor="middle" class="f-mono">задача и контекст</text>
+              <rect class="f-node" x="270" y="40" width="180" height="60" rx="10"/><text x="360" y="68" text-anchor="middle" class="f-label">СПЛАНИРОВАТЬ → СДЕЛАТЬ</text><text x="360" y="86" text-anchor="middle" class="f-mono">crm · почта · таблицы · 1с</text>
+              <rect class="f-node" x="550" y="40" width="140" height="60" rx="10"/><text x="620" y="68" text-anchor="middle" class="f-label">ПРОВЕРИТЬ</text><text x="620" y="86" text-anchor="middle" class="f-mono">по правилам</text>
+              <text x="360" y="182" text-anchor="middle" class="f-mono">не прошло — ещё круг</text>
+              <rect class="f-node f-human" x="520" y="190" width="170" height="32" rx="8"/><text x="605" y="211" text-anchor="middle" class="f-mono f-human-t">или → человек</text>
+            </svg>
+          </figure>
+          <p>Чтобы это работало в компании, собирают пять частей: модель, инструкцию с ролью и границами полномочий, доступы к программам, базу знаний (регламенты, прайс, шаблоны, удачные прошлые ответы) и правила, когда передавать задачу сотруднику.</p>
+          <div class="aside-note"><span class="tag">где обычно ломается</span><p>Дорогую модель подключают, а базу знаний не собирают. Тогда агент уверенно называет цены и сроки, которых нет в прайсе. Проблема почти всегда в данных, а не в модели.</p></div>
 
-      <p>Фрагмент инструкции для такого агента:</p>
-      <div class="prompt">
-        <div class="prompt__bar"><span>instruction · разбор заявок</span><button type="button">Копировать</button></div>
+          <h2 id="s4">Пример: разбор входящих заявок</h2>
+          <p>Это один из четырёх процессов, которые мы внедряем. Заявки приходят с формы на сайте, на почту и в Telegram. Менеджер читает каждую, ищет клиента в CRM, выясняет, что нужно, и пишет ответ.</p>
+          <figure class="fig">
+            <figcaption><span>fig. 02</span><span>заявка: от входа до ответа</span></figcaption>
+            <svg class="fig-svg" viewBox="0 0 720 150" role="img" aria-label="Заявка, разбор, CRM, черновик, проверка менеджером">
+              <defs><marker id="b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" class="f-acc"/></marker></defs>
+              <path class="f-acc-line" d="M122 60 H146 M264 60 H288 M406 60 H430 M548 60 H572" marker-end="url(#b)"/>
+              <g><rect class="f-node" x="10" y="30" width="112" height="60" rx="10"/><text x="66" y="57" text-anchor="middle" class="f-label">ВХОД</text><text x="66" y="75" text-anchor="middle" class="f-mono">форма · почта · tg</text></g>
+              <g><rect class="f-node" x="152" y="30" width="112" height="60" rx="10"/><text x="208" y="57" text-anchor="middle" class="f-label">РАЗБОР</text><text x="208" y="75" text-anchor="middle" class="f-mono">тип · срочность</text></g>
+              <g><rect class="f-node" x="294" y="30" width="112" height="60" rx="10"/><text x="350" y="57" text-anchor="middle" class="f-label">CRM</text><text x="350" y="75" text-anchor="middle" class="f-mono">карточка клиента</text></g>
+              <g><rect class="f-node" x="436" y="30" width="112" height="60" rx="10"/><text x="492" y="57" text-anchor="middle" class="f-label">ЧЕРНОВИК</text><text x="492" y="75" text-anchor="middle" class="f-mono">по регламенту</text></g>
+              <g><rect class="f-node f-human" x="578" y="30" width="132" height="60" rx="10"/><text x="644" y="57" text-anchor="middle" class="f-label f-human-t">МЕНЕДЖЕР</text><text x="644" y="75" text-anchor="middle" class="f-mono">проверил → отправил</text></g>
+              <text x="10" y="128" class="f-mono">агент готовит — человек решает</text>
+            </svg>
+          </figure>
+          <p>Менеджер больше не пишет с нуля, а правит готовое. Эффект считаем так: время на заявку до и после, умноженное на число заявок и ставку. Если раньше уходило 12 минут, а на проверку черновика — 3, то при 50 заявках в день это около 7,5 часа. Цифры здесь условные; на пилоте мы замеряем их у клиента до и после.</p>
+          <div class="todo"><b>нужно от Олега — удалить перед публикацией</b>Заменить условный пример реальным, можно без названия: отрасль, сколько заявок в день, сколько минут было и стало, что пошло не так на первой неделе.</div>
+          <p>Фрагмент инструкции для такого агента:</p>
+          <div class="prompt">
+            <div class="prompt-bar"><span>инструкция · разбор заявок</span><button type="button">копировать</button></div>
 <pre>Ты обрабатываешь новые заявки компании «[Название]».
 По каждой заявке подготовь карточку в CRM и черновик ответа.
 
@@ -133,89 +170,85 @@
 5. Жалоба или не хватает данных — пометь «нужен менеджер».
 
 Не отправляй ничего клиенту без подтверждения менеджера.</pre>
+          </div>
+
+          <h2 id="s5">Когда нужна система агентов</h2>
+          <p>Длинный процесс проще разделить между несколькими агентами, как между сотрудниками. В продажах, например, один квалифицирует заявку, второй собирает коммерческое предложение по шаблону, третий через три дня напоминает менеджеру о клиенте, который не ответил. У каждого узкая роль и короткая инструкция, поэтому ошибок меньше.</p>
+          <p>Начинать с такой системы мы не советуем. Сначала один агент на одном процессе, и только когда он стабильно работает, — следующий.</p>
+
+          <h2 id="s6">Где агент окупается, а где нет</h2>
+          <p>Хорошие кандидаты — операции, которые повторяются десятки раз в день, для которых есть регламент или хотя бы примеры, и где ошибку легко заметить. Например, <a href="https://smartsolutions.today/blog/ii-dlya-prodazh.html">обработка заявок в продажах</a>, черновики договоров и КП, ответы сотрудникам по внутренним регламентам, <a href="https://smartsolutions.today/blog/ii-dlya-buhgalterii.html">сверки в бухгалтерии</a>, <a href="https://smartsolutions.today/blog/ii-v-crm.html">заполнение CRM</a>.</p>
+          <p>Плохие — задачи, которые случаются раз в месяц, каждый раз решаются по-новому или где ошибка дорогая и всплывает не сразу. Там агент либо не окупится, либо создаст риск.</p>
+
+          <h2 id="s7">Что изменилось в 2026 году</h2>
+          <p>Интерес к теме заметно вырос. По данным Яндекс Вордстата, запрос «ии агент» за последние полгода задавали примерно на 50% чаще, чем в предыдущие шесть месяцев, «как создать ии агента» — в 2,6 раза чаще, «ии агент для 1с» — втрое.</p>
+          <p>Собрать агента теперь можно на российских моделях: GigaChat и Алиса AI умеют вызывать внешние инструменты. Растёт и интерес к локальным агентам на собственном сервере, когда данные не покидают компанию.</p>
+          <div class="todo"><b>нужно от Олега</b>Ваше мнение в 2–3 предложениях, с которым не все согласятся. Например, про «полностью автономных» агентов, которых сейчас активно продают.</div>
+
+          <h2 id="s8">С чего начать</h2>
+          <ol>
+            <li>Выберите один частый и понятный процесс. Формулировка «внедрить ИИ» не подходит, «разбирать заявки» — подходит.</li>
+            <li>Посчитайте, сколько он стоит сейчас: часы в неделю, умноженные на ставку. Как — в статье <a href="https://smartsolutions.today/blog/kak-poschitat-effekt-ot-ii-do-pilota.html">о расчёте эффекта до пилота</a>.</li>
+            <li>Соберите регламенты, шаблоны и 30–50 примеров хороших ответов.</li>
+            <li>Запустите пилот на 2–4 недели на реальных задачах, с проверкой каждого результата.</li>
+            <li>Замерьте снова и решите по цифрам, масштабировать или остановиться.</li>
+          </ol>
+          <h3>Готов ли процесс</h3>
+          <ul class="article-checklist">
+            <li>Операция повторяется хотя бы 20 раз в неделю</li>
+            <li>Есть регламент или примеры, как делать правильно</li>
+            <li>Данные уже в цифровом виде: CRM, почта, таблицы</li>
+            <li>Понятно, кто проверяет результат</li>
+            <li>Известно, сколько часов процесс занимает сейчас</li>
+          </ul>
+          <p>Если отметили меньше трёх пунктов, начинать стоит не с агента, а с описания процесса.</p>
+
+          <h2 id="s9">Вопросы</h2>
+          <div class="faq-d">
+            <details><summary>ИИ-агент и ChatGPT — это одно и то же?</summary><p>Нет. ChatGPT, GigaChat или Алиса AI — это языковые модели. Агент — система вокруг модели: инструкции, доступ к вашим данным и программам, правила проверки. Одна и та же модель может работать и как чат, и как агент.</p></details>
+            <details><summary>Агент заменит сотрудника?</summary><p>Агент забирает отдельные операции: разбор заявок, черновики документов, сверку данных. Решения, переговоры и ответственность остаются за сотрудником.</p></details>
+            <details><summary>Безопасно ли давать агенту доступ к CRM и документам?</summary><p>Да, если доступ ограничен: агент видит только нужные поля, работает с российскими или локальными моделями, а всё, что уходит клиенту, сначала подтверждает человек.</p></details>
+            <details><summary>Сколько стоит ИИ-агент для бизнеса?</summary><p>Пилот на одном процессе у нас стоит 100–300 тыс. ₽ и занимает 2–4 недели. Плюс оплата модели — обычно несколько тысяч рублей в месяц. Подробнее — в статье <a href="https://smartsolutions.today/blog/skolko-stoit-vnedrenie-ii.html">о стоимости внедрения</a>.</p></details>
+            <details><summary>Можно ли сделать ИИ-агента бесплатно?</summary><p>Для личных задач — да, на no-code платформах и бесплатных тарифах. Для процесса с данными клиентов бесплатные решения обычно не подходят: нет гарантий по безопасности и стабильности.</p></details>
+          </div>
+
+          <div class="author-end"><img src="/images/oleg-krechetov.jpg" alt="Олег Кречетов"><div><b>Олег Кречетов</b><p>Основатель Smart Solutions. С 2017 года строит системы привлечения клиентов, сейчас внедряет ИИ в процессы компаний с замером эффекта в часах и рублях.</p></div></div>
+
+          <div class="article-related">
+            <h2 class="no-num" style="margin-top:56px">Читать дальше</h2>
+            <div class="related-grid">
+              <a class="related-card" href="https://smartsolutions.today/blog/vnedrenie-ii-v-biznes.html"><span class="related-meta">с чего начать</span><span class="related-title">Внедрение ИИ в бизнес: от пилота до рабочей системы</span><span class="related-arrow">→</span></a>
+              <a class="related-card" href="https://smartsolutions.today/blog/kak-poschitat-effekt-ot-ii-do-pilota.html"><span class="related-meta">расчёт</span><span class="related-title">Как посчитать эффект от ИИ до пилота</span><span class="related-arrow">→</span></a>
+              <a class="related-card" href="https://smartsolutions.today/blog/ii-dlya-prodazh.html"><span class="related-meta">продажи</span><span class="related-title">ИИ для продаж: обработка заявок без потерь</span><span class="related-arrow">→</span></a>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <h2 id="s5">Когда нужна система агентов</h2>
-      <p>Длинный процесс проще разделить между несколькими агентами, как между сотрудниками. В продажах, например, один квалифицирует заявку, второй собирает коммерческое предложение по шаблону, третий через три дня напоминает менеджеру о клиенте, который не ответил. У каждого узкая роль и короткая инструкция, поэтому ошибок меньше.</p>
-      <p>Начинать с такой системы мы не советуем. Сначала один агент на одном процессе, и только когда он стабильно работает, — следующий.</p>
-
-      <h2 id="s6">Где агент окупается, а где нет</h2>
-      <p>Хорошие кандидаты — операции, которые повторяются десятки раз в день, для которых есть регламент или хотя бы примеры, и где ошибку легко заметить. Например, <a href="https://smartsolutions.today/blog/ii-dlya-prodazh.html">обработка заявок в продажах</a>, черновики договоров и КП, ответы сотрудникам по внутренним регламентам, <a href="https://smartsolutions.today/blog/ii-dlya-buhgalterii.html">сверки в бухгалтерии</a>, <a href="https://smartsolutions.today/blog/ii-v-crm.html">заполнение CRM</a>.</p>
-      <p>Плохие — задачи, которые случаются раз в месяц, каждый раз решаются по-новому или где ошибка дорогая и всплывает не сразу. Там агент либо не окупится, либо создаст риск.</p>
-
-      <h2 id="s7">Что изменилось в 2026 году</h2>
-      <p>Интерес к теме заметно вырос. По данным Яндекс Вордстата, запрос «ии агент» за последние полгода задавали примерно на 50% чаще, чем в предыдущие шесть месяцев, «как создать ии агента» — в 2,6 раза чаще, «ии агент для 1с» — втрое.</p>
-      <p>Собрать агента теперь можно на российских моделях: GigaChat и Алиса AI умеют вызывать внешние инструменты. Растёт и интерес к локальным агентам на собственном сервере, когда данные не покидают компанию.</p>
-
-      <div class="todo"><b>НУЖНО ОТ ОЛЕГА</b>Ваше мнение в 2–3 предложениях, с которым не все согласятся. Например: что вы думаете про «полностью автономных» агентов, которых сейчас активно продают, и почему в ваших пилотах всегда остаётся проверка человеком.</div>
-
-      <h2 id="s8">С чего начать</h2>
-      <ol>
-        <li>Выберите один частый и понятный процесс. Формулировка «внедрить ИИ» не подходит, «разбирать заявки» — подходит.</li>
-        <li>Посчитайте, сколько он стоит сейчас: часы в неделю, умноженные на ставку. Как это сделать — в статье <a href="https://smartsolutions.today/blog/kak-poschitat-effekt-ot-ii-do-pilota.html">о расчёте эффекта до пилота</a>.</li>
-        <li>Соберите регламенты, шаблоны и 30–50 примеров хороших ответов.</li>
-        <li>Запустите пилот на 2–4 недели на реальных задачах, с проверкой каждого результата.</li>
-        <li>Замерьте снова и решите по цифрам, масштабировать или остановиться.</li>
-      </ol>
-      <h3>Готов ли процесс</h3>
-      <ul class="check">
-        <li>Операция повторяется хотя бы 20 раз в неделю</li>
-        <li>Есть регламент или примеры, как делать правильно</li>
-        <li>Данные уже в цифровом виде: CRM, почта, таблицы</li>
-        <li>Понятно, кто проверяет результат</li>
-        <li>Известно, сколько часов процесс занимает сейчас</li>
-      </ul>
-      <p>Если отметили меньше трёх пунктов, начинать стоит не с агента, а с описания процесса.</p>
-
-      <h2 id="s9">Вопросы</h2>
-      <div class="faq">
-        <details><summary>ИИ-агент и ChatGPT — это одно и то же?</summary><p>Нет. ChatGPT, GigaChat или Алиса AI — это языковые модели. Агент — система вокруг модели: инструкции, доступ к вашим данным и программам, правила проверки. Одна и та же модель может работать и как чат, и как агент.</p></details>
-        <details><summary>Агент заменит сотрудника?</summary><p>Агент забирает отдельные операции: разбор заявок, черновики документов, сверку данных. Решения, переговоры и ответственность остаются за сотрудником.</p></details>
-        <details><summary>Безопасно ли давать агенту доступ к CRM и документам?</summary><p>Да, если доступ ограничен: агент видит только нужные поля, работает с российскими или локальными моделями, а всё, что уходит клиенту, сначала подтверждает человек.</p></details>
-        <details><summary>Сколько стоит ИИ-агент для бизнеса?</summary><p>Пилот на одном процессе у нас стоит 100–300 тыс. ₽ и занимает 2–4 недели. Плюс оплата модели — обычно несколько тысяч рублей в месяц. Подробнее — в статье <a href="https://smartsolutions.today/blog/skolko-stoit-vnedrenie-ii.html">о стоимости внедрения</a>.</p></details>
-        <details><summary>Можно ли сделать ИИ-агента бесплатно?</summary><p>Для личных задач — да, на no-code платформах и бесплатных тарифах. Для процесса с данными клиентов бесплатные решения обычно не подходят: нет гарантий по безопасности и стабильности.</p></details>
-      </div>
-
-      <div class="author"><img src="/images/oleg-krechetov.jpg" alt="Олег Кречетов"><div><b>Олег Кречетов</b><p>Основатель Smart Solutions. С 2017 года строит системы привлечения клиентов, сейчас внедряет ИИ в процессы компаний с замером эффекта в часах и рублях.</p></div></div>
-    </article>
-
-    <aside class="toc">
-      <span class="mono">содержание</span>
-      <a href="#s1">Определение</a>
-      <a href="#s2">Агент, ассистент и чат-бот</a>
-      <a href="#s3">Как агент работает</a>
-      <a href="#s4">Пример: разбор заявок</a>
-      <a href="#s5">Система агентов</a>
-      <a href="#s6">Где окупается</a>
-      <a href="#s7">Что изменилось в 2026</a>
-      <a href="#s8">С чего начать</a>
-      <a href="#s9">Вопросы</a>
-    </aside>
-  </div>
-
-  <div class="sec-t">// читать дальше</div>
-  <div class="list">
-    <a class="row" href="https://smartsolutions.today/blog/vnedrenie-ii-v-biznes.html"><span class="mono">с чего начать</span><div><h3>Внедрение ИИ в бизнес: от пилота до рабочей системы</h3><p>Выбор процесса, формула эффекта, пилот за 2–4 недели.</p></div><span class="mono">10 мин</span></a>
-    <a class="row" href="https://smartsolutions.today/blog/kak-poschitat-effekt-ot-ii-do-pilota.html"><span class="mono">расчёт</span><div><h3>Как посчитать эффект от ИИ до пилота</h3><p>Формула «часы × ставка», пример и шаблон.</p></div><span class="mono">11 мин</span></a>
-    <a class="row" href="https://smartsolutions.today/blog/ii-dlya-prodazh.html"><span class="mono">продажи</span><div><h3>ИИ для продаж: обработка заявок без потерь</h3><p>Скорость ответа, скоринг, follow-up и расчёт в рублях.</p></div><span class="mono">9 мин</span></a>
+      <aside class="article-aside-right">
+        <div class="aside-author"><img src="/images/oleg-krechetov.jpg" alt=""><div><b>Олег Кречетов</b><span>основатель Smart Solutions</span></div></div>
+        <p class="aside-text">Разберём один ваш процесс за 30 минут и честно скажем, окупится ли агент.</p>
+        <a class="aside-btn" href="#contacts">Обсудить процесс</a>
+        <a class="aside-tg" href="https://t.me/olegkrechetov">или в telegram @olegkrechetov</a>
+      </aside>
+    </div>
   </div>
 </main>
 
-<section class="contacts" id="contacts">
-  <div class="wrap">
-    <div class="label label--dark">// контакты</div>
-    <h2>Разберём ваш процесс?</h2>
-    <p class="contacts__sub">Честно скажем, окупится ли ИИ в вашем случае. Аудит бесплатный.</p>
-    <div class="contacts__grid">
-      <a href="tel:+79250909500"><span>Позвонить</span>+7 (925) 090-95-00</a>
-      <a href="https://t.me/olegkrechetov"><span>Telegram</span>@olegkrechetov</a>
-      <a href="https://wa.me/79250909500"><span>WhatsApp</span>Написать</a>
-      <a href="mailto:ok@smartsolutions.today"><span>Email</span>ok@smartsolutions.today</a>
+<section class="section section-cta" id="contacts">
+  <div class="cta-content">
+    <h2 class="cta-title">Разберём ваш процесс?</h2>
+    <p class="cta-subtitle text-secondary">Честно скажем, окупится ли ИИ в вашем случае. Аудит бесплатный.</p>
+    <div class="contacts-grid">
+      <a class="contact-card" href="tel:+79250909500"><span class="contact-icon-wrap"><svg class="contact-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span><span class="contact-label">Позвонить</span><span class="contact-value">+7 (925) 090-95-00</span></a>
+      <a class="contact-card" href="https://t.me/olegkrechetov"><span class="contact-icon-wrap"><svg class="contact-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg></span><span class="contact-label">Telegram</span><span class="contact-value">@olegkrechetov</span></a>
+      <a class="contact-card" href="https://wa.me/79250909500"><span class="contact-icon-wrap"><svg class="contact-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.6 7.3L3 21l2.3-5.3A8.5 8.5 0 1 1 21 11.5z"/></svg></span><span class="contact-label">WhatsApp</span><span class="contact-value">Написать</span></a>
+      <a class="contact-card" href="mailto:ok@smartsolutions.today"><span class="contact-icon-wrap"><svg class="contact-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></span><span class="contact-label">Email</span><span class="contact-value">ok@smartsolutions.today</span></a>
     </div>
-    <p class="contacts__note">Берём ограниченное число внедрений одновременно — каждый пилот требует полного погружения.</p>
+    <p class="cta-urgency text-muted">Берём ограниченное число внедрений одновременно — каждый пилот требует полного погружения.</p>
   </div>
 </section>
-<footer><div class="wrap"><span>© Smart Solutions, 2017–2026 · Москва, ул. Воронцовская</span><a href="https://smartsolutions.today/consent.html">Политика конфиденциальности</a></div></footer>
-<script src="assets/blog.js"></script>
+
+<script src="assets/reading.js"></script>
 </body>
 </html>

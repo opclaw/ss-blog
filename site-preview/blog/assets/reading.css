@@ -1,0 +1,164 @@
+/* ============================================================
+   reading.css — заплатка поверх styles.css сайта (v4)
+   Подключать ПОСЛЕ styles.css только на страницах /blog/*.
+   Ничего не переопределяет в шапке и блоке контактов.
+   ============================================================ */
+
+/* ---------- Переменные чтения ---------- */
+.article{
+  --read-fg: rgba(245,245,247,.82);
+  --read-strong: #F5F5F7;
+  --read-muted: rgba(245,245,247,.5);
+  --read-line: rgba(255,255,255,.08);
+  --read-accent: var(--accent,#00D9FF);
+  --read-soft: rgba(0,217,255,.06);
+  --read-size: 18px;
+}
+/* Светлый лист — опция, по кнопке Aa */
+html[data-read="paper"] body{background:#F6F4EF}
+html[data-read="paper"] .article{
+  --read-fg:#2A2B30; --read-strong:#121317; --read-muted:#6E6F75;
+  --read-line:rgba(18,19,23,.1); --read-accent:#0A7C93; --read-soft:rgba(10,124,147,.07);
+  background:#F6F4EF; color:#2A2B30;
+}
+html[data-read="paper"] .article .fig{background:#FFFFFF;border-color:var(--read-line)}
+html[data-read="paper"] .article .fig-svg .f-node{fill:#FFFFFF}
+html[data-read="paper"] .article .article-aside-right{background:#FFFFFF}
+
+/* ---------- Шапка статьи ---------- */
+.article .article-crumbs a,.article .article-crumbs{color:var(--read-muted)}
+.article .article-title{max-width:18ch;text-wrap:balance;color:var(--read-strong)}
+.article .article-lead{
+  font-family:'Manrope',sans-serif;font-size:clamp(1.15rem,1.6vw,1.35rem);line-height:1.5;
+  color:var(--read-muted);max-width:40ch;margin:0 0 28px;text-wrap:pretty
+}
+.article .article-meta{display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:var(--read-muted)}
+.article .article-meta img{width:36px;height:36px;border-radius:50%;object-fit:cover;background:var(--read-line)}
+.article .article-meta b{font-family:'Inter',sans-serif;font-weight:600;color:var(--read-strong);letter-spacing:0}
+
+/* ---------- Текст ---------- */
+.article .article-content{
+  font-size:var(--read-size);line-height:1.7;color:var(--read-fg);
+  max-width:64ch;hyphens:auto;-webkit-hyphens:auto;hanging-punctuation:first;
+}
+.article .article-content p,.article .article-content li{text-wrap:pretty}
+.article .article-content > p{margin-bottom:1.15em}
+.article .article-content strong{color:var(--read-strong);font-weight:600}
+.article .article-content a{color:var(--read-strong);text-decoration:underline;text-decoration-color:var(--read-accent);text-decoration-thickness:1px;text-underline-offset:4px;transition:color .2s}
+.article .article-content a:hover{color:var(--read-accent)}
+.article .article-content li::marker{color:var(--read-accent)}
+
+/* Заголовки разделов: моно-номер как на ai.html, без лишней рамки */
+.article .article-content{counter-reset:sec}
+.article .article-content h2{
+  color:var(--read-strong);border-top:1px solid var(--read-line);
+  font-size:clamp(1.5rem,2.4vw,1.9rem);margin:72px 0 20px;padding-top:28px;scroll-margin-top:100px
+}
+.article .article-content h2::before{
+  counter-increment:sec;content:counter(sec,decimal-leading-zero) " /";
+  display:block;font:500 .74rem/1 var(--font-mono);letter-spacing:.12em;color:var(--read-accent);margin-bottom:14px
+}
+.article .article-content h2.no-num::before{content:none}
+.article .article-content h3{color:var(--read-strong);font-size:1.15rem;margin:36px 0 10px}
+
+/* «Коротко» — линия, а не карточка */
+.article .brief{border-left:2px solid var(--read-accent);padding:4px 0 4px 22px;margin:0 0 56px}
+.article .brief-title{font:500 .7rem/1 var(--font-mono);letter-spacing:.18em;text-transform:uppercase;color:var(--read-accent);margin:0 0 14px}
+.article .brief ul{list-style:none;margin:0;padding:0}
+.article .brief li{position:relative;padding-left:22px;margin:0 0 10px;font-size:.95em;color:var(--read-fg)}
+.article .brief li::before{content:"—";position:absolute;left:0;color:var(--read-accent);font-family:var(--font-mono)}
+
+/* Выносная мысль (компонент сайта .pull-quote) */
+.article .pull-quote{color:var(--read-strong);border-left-color:var(--read-accent);max-width:30ch;text-wrap:balance}
+
+/* Врезка «где ломается» — линия и моно-метка */
+.article .aside-note{border-top:1px solid var(--read-line);border-bottom:1px solid var(--read-line);padding:20px 0;margin:36px 0;font-size:.95em}
+.article .aside-note .tag{display:block;font:500 .7rem/1 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--read-accent);margin-bottom:10px}
+.article .aside-note p{margin:0}
+
+/* Таблица сравнения — тише, чем на сайте */
+.article .article-table thead th{background:transparent;border-top:0;color:var(--read-muted);font-family:var(--font-mono);font-weight:500}
+.article .article-table td:first-child{color:var(--read-muted);font-weight:500}
+.article .article-table tbody td{color:var(--read-fg);border-bottom-color:var(--read-line)}
+.article .article-table td:nth-child(4){color:var(--read-strong)}
+.article .article-table thead th:nth-child(4){color:var(--read-accent)}
+
+/* Схемы .fig */
+.article .fig{margin:40px 0}
+.article .fig figcaption{border-bottom-color:var(--read-line)}
+.article .fig-svg .f-node{fill:#0E0E14;stroke:var(--read-line)}
+.article .fig-svg .f-line{stroke:var(--read-muted);stroke-width:1;fill:none}
+.article .fig-svg .f-acc-line{stroke:var(--read-accent);stroke-width:1.5;fill:none}
+.article .fig-svg text{fill:var(--read-strong)}
+.article .fig-svg .f-mono{fill:var(--read-muted)}
+.article .fig-svg .f-acc{fill:var(--read-accent)}
+.article .fig-svg .f-human{stroke:#10B981}
+.article .fig-svg .f-human-t{fill:#10B981}
+
+/* Промпт — моно, как blockquote сайта */
+.article .prompt{border:1px solid var(--read-line);border-radius:var(--radius,12px);margin:32px 0;overflow:hidden;background:rgba(255,255,255,.02)}
+html[data-read="paper"] .article .prompt{background:#FFFFFF}
+.article .prompt-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 18px;border-bottom:1px solid var(--read-line);font:500 .7rem var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--read-muted)}
+.article .prompt-bar button{background:none;border:1px solid var(--read-line);color:var(--read-accent);font:500 .7rem var(--font-mono);letter-spacing:.08em;padding:5px 10px;border-radius:6px;cursor:pointer}
+.article .prompt pre{margin:0;padding:20px 22px;font:.86rem/1.75 var(--font-mono);white-space:pre-wrap;color:var(--read-fg)}
+
+/* Чек-лист сайта — в цветах чтения */
+.article .article-checklist li{border-bottom-color:var(--read-line)}
+.article .article-checklist li::before{border-color:var(--read-accent)}
+
+/* FAQ на <details> — без JS */
+.article .faq-d details{border-bottom:1px solid var(--read-line)}
+.article .faq-d summary{cursor:pointer;list-style:none;padding:20px 32px 20px 0;position:relative;color:var(--read-strong);font-weight:500}
+.article .faq-d summary::-webkit-details-marker{display:none}
+.article .faq-d summary::after{content:"+";position:absolute;right:4px;top:16px;font:400 1.3rem var(--font-mono);color:var(--read-muted);transition:transform .25s}
+.article .faq-d details[open] summary::after{transform:rotate(45deg);color:var(--read-accent)}
+.article .faq-d details p{margin:0 0 20px;font-size:.95em}
+
+/* Автор в конце */
+.article .author-end{display:flex;gap:18px;align-items:flex-start;border-top:1px solid var(--read-line);padding-top:32px;margin-top:64px}
+.article .author-end img{width:64px;height:64px;border-radius:50%;object-fit:cover;background:var(--read-line);flex:none}
+.article .author-end b{color:var(--read-strong);font-family:'Manrope',sans-serif;font-size:1.05rem}
+.article .author-end p{margin:4px 0 0;font-size:.9em;color:var(--read-muted)}
+
+/* Пометка для редактора (только в превью) */
+.article .todo{border:1px dashed #D9B400;background:rgba(217,180,0,.08);border-radius:10px;padding:14px 18px;margin:28px 0;font-size:.9em;color:#E9D27A}
+html[data-read="paper"] .article .todo{color:#6B5700;background:#FFF8D6}
+.article .todo b{display:block;font:500 .68rem var(--font-mono);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+
+/* ---------- Боковые колонки ---------- */
+@media (min-width:1180px){
+  .article .article-aside-left a{color:var(--read-muted)}
+  .article .article-aside-left a.active{color:var(--read-strong);border-left-color:var(--read-accent)}
+}
+.article .left-meta{margin-top:22px;padding-top:16px;border-top:1px solid var(--read-line);font:500 .7rem var(--font-mono);letter-spacing:.08em;color:var(--read-muted)}
+.article .read-toggle{margin-top:12px;background:none;border:1px solid var(--read-line);color:var(--read-fg);border-radius:8px;padding:8px 12px;font:500 .72rem var(--font-mono);letter-spacing:.06em;cursor:pointer;display:inline-flex;gap:8px;align-items:center}
+.article .read-toggle:hover{border-color:var(--read-accent);color:var(--read-accent)}
+.article .read-toggle b{font-family:'Manrope',sans-serif;font-size:.95rem}
+
+/* Правая колонка: автор + одна тихая кнопка */
+.article .article-aside-right{gap:14px;padding:22px}
+.article .aside-author{display:flex;gap:12px;align-items:center}
+.article .aside-author img{width:44px;height:44px;border-radius:50%;object-fit:cover;background:var(--read-line)}
+.article .aside-author b{display:block;font-family:'Manrope',sans-serif;color:var(--read-strong);font-size:.98rem}
+.article .aside-author span{font-size:.78rem;color:var(--read-muted);line-height:1.35;display:block}
+.article .aside-text{font-size:.86rem;line-height:1.5;color:var(--read-fg);margin:0}
+.article .aside-btn{display:block;text-align:center;background:var(--read-strong);color:#08080D;border-radius:8px;padding:11px 14px;font-weight:600;font-size:.88rem;text-decoration:none;transition:opacity .2s}
+html[data-read="paper"] .article .aside-btn{color:#F6F4EF}
+.article .aside-btn:hover{opacity:.85}
+.article .aside-tg{font:500 .72rem var(--font-mono);color:var(--read-muted);text-align:center;text-decoration:none}
+.article .aside-tg:hover{color:var(--read-accent)}
+
+/* Мобильный переключатель */
+.read-toggle-m{display:none}
+@media (max-width:1179px){.read-toggle-m{display:inline-flex}}
+
+/* Выделение текста */
+.article ::selection{background:var(--read-accent);color:#08080D}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+@media (max-width:640px){.article{--read-size:17px}.article .article-content h2{margin-top:52px}}
+
+/* v4: подписи в схемах + прогресс (на случай, если в styles.css иначе) */
+.fig-svg .f-label{font:600 12px/1 var(--font-mono,monospace);letter-spacing:.08em;fill:var(--read-fg,#F5F5F7)}
+.read-progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:1001;background:transparent}
+.read-progress i{display:block;height:100%;width:0;background:var(--accent,#00D9FF);transition:width .1s linear}
