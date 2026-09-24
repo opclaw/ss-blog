@@ -113,6 +113,11 @@ def parse(path, url, text=None):
     return d
 
 
+# Журнал намеренных правок контента: {"blog/x.html": {"reason": "...", "allow": ["text"]}}
+_EDITS_FILE = Path(__file__).with_name('content-edits.json')
+EDITS = json.loads(_EDITS_FILE.read_text(encoding='utf-8')) if _EDITS_FILE.exists() else {}
+
+
 NEW_CARD = re.compile(r'\s*<a class="blog-grid-card" href="/blog/([\w-]+)\.html">.*?</a>', re.S)
 
 
@@ -170,7 +175,10 @@ def main():
 
         # --- content
         ca, cb = A.zones['content'], B.zones['content']
-        if ca['text'] != cb['text']:
+        edit = EDITS.get(rel)
+        if ca['text'] != cb['text'] and edit and 'text' in edit['allow']:
+            notes.append(f"текст отредактирован: {edit['reason']}")
+        elif ca['text'] != cb['text']:
             ta, tb = ' '.join(ca['text']), ' '.join(cb['text'])
             i = next((i for i, (x, y) in enumerate(zip(ta, tb)) if x != y), min(len(ta), len(tb)))
             diffs.append(f'текст контента отличается @{i}: …{ta[max(0,i-40):i+60]!r} ≠ …{tb[max(0,i-40):i+60]!r}')

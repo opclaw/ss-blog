@@ -1,0 +1,38 @@
+{
+  "blog/ii-dlya-buhgalterii.html": {
+    "reason": "заголовок раздела о расчёте вместо строки из ТЗ",
+    "allow": [
+      "text"
+    ]
+  },
+  "blog/ii-dlya-nedvizhimosti.html": {
+    "reason": "заголовок раздела о расчёте вместо строки из ТЗ",
+    "allow": [
+      "text"
+    ]
+  },
+  "blog/ii-dlya-onlain-shkoly.html": {
+    "reason": "заголовок раздела о расчёте вместо строки из ТЗ",
+    "allow": [
+      "text"
+    ]
+  },
+  "blog/ii-dlya-restorana.html": {
+    "reason": "заголовок раздела о расчёте вместо строки из ТЗ",
+    "allow": [
+      "text"
+    ]
+  },
+  "blog/ii-dlya-turagentstva.html": {
+    "reason": "заголовок раздела о расчёте вместо строки из ТЗ",
+    "allow": [
+      "text"
+    ]
+  },
+  "blog/ii-v-crm.html": {
+    "reason": "опечатка «обработить»",
+    "allow": [
+      "text"
+    ]
+  }
+}
