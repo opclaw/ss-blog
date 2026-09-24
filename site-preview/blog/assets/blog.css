@@ -5,7 +5,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
 :root{
   --night:#08080D; --night-2:#0E0E14; --cyan:#00D9FF; --cyan-ink:#0A7C93; --green:#10B981;
-  --paper:#FFFFFF; --bg:#F4F5F7; --ink:#0E0F14; --ink-2:#40444F; --ink-3:#7A7F8C; --line:#E3E5EA;
+  --paper:#FFFFFF; --bg:#FFFFFF; --ink:#0E0F14; --ink-2:#40444F; --ink-3:#7A7F8C; --line:#E3E5EA;
   --r:8px; --measure:66ch;
   --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
   --head:"Manrope","Inter",sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
@@ -44,8 +44,7 @@ a:hover{text-decoration-color:currentColor}
 
 .layout{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:72px;align-items:start}
 @media(max-width:1020px){.layout{grid-template-columns:1fr}.toc{display:none}}
-.prose{max-width:var(--measure);background:var(--paper);padding:48px 56px;border-radius:var(--r);border:1px solid var(--line)}
-@media(max-width:720px){.prose{padding:28px 20px;margin:0 -8px}}
+.prose{max-width:var(--measure);padding-top:48px}
 .prose h2{font:700 28px/1.25 var(--head);letter-spacing:-.02em;margin:60px 0 16px;scroll-margin-top:90px}
 .prose h3{font:700 20px var(--head);margin:34px 0 10px}
 .prose p{margin:0 0 20px}
@@ -102,7 +101,7 @@ figcaption b{color:var(--ink);font-weight:500}
 .author img{width:56px;height:56px;flex:none}
 .author p{margin:2px 0 0;font-size:16px;color:var(--ink-2)}
 
-.toc{position:sticky;top:96px;font-size:14px}
+.toc{position:sticky;top:96px;font-size:14px;padding-top:48px}
 .toc .mono{display:block;margin-bottom:12px}
 .toc a{display:block;color:var(--ink-3);text-decoration:none;padding:5px 0 5px 14px;border-left:1px solid var(--line);line-height:1.4}
 .toc a:hover{color:var(--ink)}.toc a.on{color:var(--ink);border-left:2px solid var(--cyan-ink);padding-left:13px}
@@ -121,7 +120,7 @@ figcaption b{color:var(--ink);font-weight:500}
 .row p{margin:0;font-size:15.5px;color:var(--ink-2);line-height:1.5}
 .row .mono:last-child{text-align:right}
 @media(max-width:700px){.row{grid-template-columns:1fr;gap:6px}.row .mono:last-child{text-align:left}}
-.row--new{background:var(--paper);margin:0 -20px;padding:22px 20px;border-radius:var(--r)}
+.row--new h3::after{content:'новое';font:500 11px var(--mono);color:var(--cyan-ink);border:1px solid currentColor;border-radius:4px;padding:1px 6px;margin-left:10px;vertical-align:3px}
 
 .hub-hero{padding:60px 0 32px;max-width:760px}
 .hub-hero h1{font:800 clamp(36px,5vw,56px)/1.08 var(--head);letter-spacing:-.035em;margin:12px 0 16px}
@@ -135,3 +134,45 @@ figcaption b{color:var(--ink);font-weight:500}
 
 footer{background:var(--night);color:rgba(255,255,255,.45);margin-top:80px;padding:36px 0;font-size:14px}
 footer a{color:rgba(255,255,255,.7)}
+
+/* ===== v3: шапка и подвал как на сайте ===== */
+.top__act{display:flex;gap:10px}
+.btn--ghost{background:transparent;color:#F5F5F7;border:1px solid rgba(255,255,255,.15)}
+.btn--ghost:hover{background:rgba(255,255,255,.08);color:#fff}
+@media(max-width:560px){.btn--ghost{display:none}}
+
+/* Тёмный заголовочный блок — продолжение шапки */
+.hero{background:var(--night);color:#F5F5F7;padding:4px 0 56px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;width:420px;height:420px;right:-120px;top:-160px;border-radius:50%;background:radial-gradient(circle,rgba(0,217,255,.08) 0%,transparent 70%);pointer-events:none}
+.hero .crumbs,.hero .crumbs a{color:rgba(255,255,255,.4)}
+.hero .crumbs a:hover{color:#fff}
+.hero .label{color:var(--cyan)}
+.hero .a-head{margin-bottom:0}
+.hero .lead,.hero .hub-hero p{color:rgba(255,255,255,.62)}
+.hero .meta{color:rgba(255,255,255,.45)}.hero .meta b{color:#F5F5F7}.hero .mono{color:rgba(255,255,255,.45)}
+.hero .meta img{background:rgba(255,255,255,.1)}
+.hub-hero{padding:44px 0 0}
+main .filters{margin-top:32px}
+
+/* Оглавление на мобильных */
+.toc-m{display:none;border:1px solid var(--line);border-radius:var(--r);padding:0 16px;margin:0 0 32px;font-size:15px}
+.toc-m summary{cursor:pointer;padding:12px 0;font:500 13px var(--mono);color:var(--ink-3)}
+.toc-m a{display:block;padding:6px 0;text-decoration:none;color:var(--ink-2)}
+.toc-m[open]{padding-bottom:10px}
+@media(max-width:1020px){.toc-m{display:block}}
+
+/* Контакты — тот же блок, что в конце каждой страницы сайта */
+.contacts{background:var(--night);color:#F5F5F7;margin-top:96px;padding:80px 0 64px;border-top:1px solid rgba(255,255,255,.06)}
+.label--dark{color:var(--cyan)}
+.contacts h2{font:800 clamp(30px,4vw,44px)/1.1 var(--head);letter-spacing:-.03em;margin:12px 0 12px}
+.contacts__sub{color:rgba(255,255,255,.6);font-size:19px;margin:0 0 36px}
+.contacts__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:900px){.contacts__grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.contacts__grid{grid-template-columns:1fr}}
+.contacts__grid a{display:block;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:20px;color:#F5F5F7;text-decoration:none;font-weight:600;font-size:16px;transition:border-color .3s,background .3s}
+.contacts__grid a:hover{border-color:rgba(0,217,255,.4);background:rgba(0,217,255,.05)}
+.contacts__grid span{display:block;font:500 12px var(--mono);color:rgba(255,255,255,.45);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em}
+.contacts__note{color:rgba(255,255,255,.4);font-size:14px;margin:28px 0 0}
+footer{margin-top:0;border-top:1px solid rgba(255,255,255,.06);padding:24px 0}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a{text-decoration:none}
