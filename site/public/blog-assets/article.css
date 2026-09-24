@@ -1,7 +1,7 @@
 /* Smart Solutions — статья блога (лист v6) внутри общего каркаса сайта.
    Шапка, меню, контакты и подвал — из styles.css сайта. Префикс bl-.
    Шапка и финальный блок — тёмные, как на всём сайте. Лист статьи — светлый. Префикс bl-. */
-:root{
+.bl-sheet{
   --ink:#08080D; --ink2:#0E0E14; --on-ink:#F5F5F7; --on-ink-dim:rgba(245,245,247,.6); --ink-line:rgba(255,255,255,.08);
   --paper:#FAFAF7; --paper2:#F1F1EC; --card:#FFFFFF;
   --fg:#101014; --text:#2B2B33; --dim:#5E5E68; --mute:#8C8C96; --line:#E4E4DE; --line2:#D2D2CA;
@@ -10,7 +10,7 @@
   --col:700px;
 }
 html{scroll-padding-top:84px}
-.bl-sheet{padding-top:72px;background:var(--paper);color:var(--text);font:400 18px/1.72 var(--f-t);-webkit-font-smoothing:antialiased}
+.bl-sheet{background:var(--paper);color:var(--text);font:400 18px/1.72 var(--f-t);-webkit-font-smoothing:antialiased}
 .bl-sheet a{color:inherit}
 
 /* ГЕРОЙ: миллиметровка + живая схема */
@@ -224,7 +224,7 @@ html{scroll-padding-top:84px}
 
 
 @media (max-width:600px){.bl-sheet{font-size:17px}.bl-intro{font-size:19px}.bl-text h2{margin-top:64px}.bl-fig{padding:18px;margin-left:-8px;margin-right:-8px}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+@media (prefers-reduced-motion:reduce){.bl-sheet *{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 
 /* таблица */
 .bl-table-wrap{margin:28px 0 36px;overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--card)}
@@ -238,7 +238,7 @@ html{scroll-padding-top:84px}
 
 /* стыковка с каркасом сайта */
 .bl-page .nav{background:rgba(8,8,13,.92);border-bottom-color:var(--border)}
-.bl-sheet h1,.bl-sheet h2,.bl-sheet h3{margin-bottom:0}
 .bl-text ul,.bl-text ol{margin:0 0 1.1em}
 .bl-text li{margin:0 0 .45em}
 .bl-page .section-cta{margin-top:0}
+.bl-page .bl-hero{padding-top:64px}

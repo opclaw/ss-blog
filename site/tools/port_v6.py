@@ -37,25 +37,43 @@ lines = [l for l in lines if not re.match(r'^\.bl-(cta|contacts|urg|top)\b', l)]
 lines = [l for l in lines if not re.match(r'^@media \(max-width:(860|480)px\)\{\.bl-contacts', l)]
 lines = [l for l in lines if not l.startswith('::selection') and not re.match(r'^/\* (прогресс|ШАПКА|ФИНАЛ)', l)]
 css = '\n'.join(lines)
-css = css.replace('body.bl{margin:0;', '.bl-sheet{padding-top:72px;')
+css = css.replace('body.bl{margin:0;', '.bl-sheet{')
 css = css.replace('.bl a{color:inherit}', '.bl-sheet a{color:inherit}')
 css = css.replace('body.bl{font-size:17px}', '.bl-sheet{font-size:17px}')
 css = css.replace('html{scroll-behavior:smooth;scroll-padding-top:84px;-webkit-text-size-adjust:100%}',
                   'html{scroll-padding-top:84px}')
 css = re.sub(r'^\*\{box-sizing:border-box\}\n', '', css, flags=re.M)
+# переменные листа — только внутри листа, чтобы не перебить --fg/--green сайта (логотип, подвал, контакты)
+css = css.replace(':root{', '.bl-sheet{', 1)
+assert ':root' not in css
+css = css.replace('@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}', '@media (prefers-reduced-motion:reduce){.bl-sheet *{animation:none!important;transition:none!important}')
 css = css.replace('/* Smart Solutions — статья блога v6.',
                   '/* Smart Solutions — статья блога (лист v6) внутри общего каркаса сайта.\n'
                   '   Шапка, меню, контакты и подвал — из styles.css сайта. Префикс bl-.')
 css += '''
 /* стыковка с каркасом сайта */
 .bl-page .nav{background:rgba(8,8,13,.92);border-bottom-color:var(--border)}
-.bl-sheet h1,.bl-sheet h2,.bl-sheet h3{margin-bottom:0}
 .bl-text ul,.bl-text ol{margin:0 0 1.1em}
 .bl-text li{margin:0 0 .45em}
 .bl-page .section-cta{margin-top:0}
+.bl-page .bl-hero{padding-top:64px}
 '''
 for bad in ('bl-nav', 'bl-mobile', 'bl-burger', 'bl-cta', 'bl-top', 'body.bl'):
     assert bad not in css, bad
+# защита: ни одно правило листа не должно действовать за его пределами
+def selectors(t):
+    t = re.sub(r'/\*.*?\*/', '', t, flags=re.S); out = []; i = 0
+    while True:
+        j = t.find('{', i)
+        if j < 0: return out
+        sel = t[i:j].strip(); depth = 1; k = j + 1
+        while depth:
+            depth += {'{': 1, '}': -1}.get(t[k], 0); k += 1
+        if sel.startswith(('@media', '@supports')): out += selectors(t[j + 1:k - 1])
+        elif not sel.startswith('@keyframes'): out += [x.strip() for x in sel.split(',')]
+        i = k
+leak = sorted({x for x in selectors(css) if not re.match(r'^(\.bl-|\.ha-|html$|from$|to$|\d)', x)})
+assert not leak, f'правила вне листа статьи: {leak}'
 ASSETS_OUT.mkdir(parents=True, exist_ok=True)
 (ASSETS_OUT / 'article.css').write_text(css, encoding='utf-8')
 
@@ -91,6 +109,8 @@ for src in sorted(PREV.glob('*.html')):
     for ld in lds:
         json.loads(ld)
     main = re.search(r'<main class="bl-sheet" id="article">.*?</main>', html, re.S).group(0)
+    # оглавление: без класса сайта article-aside-left — его стили (серый/голубой, скрытие) ломают светлый лист
+    main = main.replace('class="bl-toc article-aside-left"', 'class="bl-toc"')
     main = main.replace('https://smartsolutions.today/', '/')
     main = main.replace('href="/index.html', 'href="/')
     main = main.replace('href="/blog/index.html"', 'href="/blog/"')
