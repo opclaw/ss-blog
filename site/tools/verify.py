@@ -107,10 +107,22 @@ class Doc(HTMLParser):
         return u
 
 
-def parse(path, url):
+def parse(path, url, text=None):
     d = Doc(url)
-    d.feed(path.read_text(encoding='utf-8'))
+    d.feed(path.read_text(encoding='utf-8') if text is None else text)
     return d
+
+
+NEW_CARD = re.compile(r'\s*<a class="blog-grid-card" href="/blog/([\w-]+)\.html">.*?</a>', re.S)
+
+
+def strip_new_cards(text):
+    """Убирает карточки статей, которых нет в оригинале (новые статьи). Возвращает (текст, [slug])."""
+    added = []
+    def sub(m):
+        if (LEGACY / 'blog' / f'{m.group(1)}.html').exists(): return m.group(0)
+        added.append(m.group(1)); return ''
+    return NEW_CARD.sub(sub, text), added
 
 
 def url_of(rel):
@@ -136,8 +148,10 @@ def main():
         a_path, b_path = LEGACY / rel, DIST / rel
         if not b_path.exists():
             print(f'✗ {rel}: НЕТ В СБОРКЕ'); total_diff += 1; continue
-        A, B = parse(a_path, url_of(rel)), parse(b_path, url_of(rel))
+        b_text, added = strip_new_cards(b_path.read_text(encoding='utf-8'))
+        A, B = parse(a_path, url_of(rel)), parse(b_path, url_of(rel), b_text)
         diffs, notes = [], []
+        for slug in added: notes.append(f'карточка новой статьи: {slug}')
 
         # --- head
         if A.title != B.title: diffs.append(f'title: {A.title!r} → {B.title!r}')
@@ -197,6 +211,13 @@ def main():
         mark = '✓' if not diffs else '✗'
         print(f'{mark} {rel:48} {"; ".join(sorted(set(notes))) if notes else ""}')
         for d in diffs: print(f'    DIFF {d}')
+
+    # --- новые страницы (которых нет в оригинале)
+    new_pages = sorted(str(p.relative_to(DIST)) for p in DIST.rglob('*.html')
+                       if not (LEGACY / p.relative_to(DIST)).exists() and not re.match(r'(google|yandex)', p.name))
+    if new_pages:
+        print(f'\nНовые страницы ({len(new_pages)}) — проверяются на битые ссылки и JS:')
+        for n in new_pages: print(f'  + {n}')
 
     # --- битые внутренние ссылки в сборке
     broken = Counter()

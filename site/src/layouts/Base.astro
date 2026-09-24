@@ -26,11 +26,13 @@ interface Props {
   /** полоса чтения статьи (#readProgress) */
   readProgress?: boolean;
   hasContacts?: boolean;
+  /** класс для <body class={bodyClass}> (например, bl-page для светлых статей) */
+  bodyClass?: string;
 }
 const {
   title, description, path,
   ogTitle = title, ogDescription = description, ogType = 'website', ogImage = SITE.ogImage,
-  jsonLd = [], active = null, skipTo = '#main-content', effects = false, readProgress = false, hasContacts = true,
+  jsonLd = [], active = null, skipTo = '#main-content', effects = false, readProgress = false, hasContacts = true, bodyClass,
 } = Astro.props;
 const isHome = path === '/';
 const canonical = new URL(path, SITE.url).href;
@@ -76,7 +78,7 @@ const canonical = new URL(path, SITE.url).href;
   <Metrika />
 </head>
 
-<body>
+<body class={bodyClass}>
   {effects && (
   <Fragment>
   <!-- Preloader -->

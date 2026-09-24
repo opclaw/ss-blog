@@ -41,6 +41,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://smartsolutions.today/blog/chto-takoe-ii-agent.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://smartsolutions.today/blog/ii-dlya-prodazh.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
