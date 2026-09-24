@@ -1,0 +1,203 @@
+---
+// Сгенерировано из legacy/version-4/blog/index.html (tools/import_legacy.py). Дальше правим здесь.
+import Base from '../../layouts/Base.astro';
+import ContactCards from '../../components/ContactCards.astro';
+const jsonLd = [
+  "{\"@context\": \"https://schema.org\", \"@type\": \"CollectionPage\", \"name\": \"Блог об ИИ для бизнеса — Smart Solutions\", \"url\": \"https://smartsolutions.today/blog/\", \"inLanguage\": \"ru\"}",
+  "{\n    \"@context\": \"https://schema.org\",\n    \"@type\": \"BreadcrumbList\",\n    \"itemListElement\": [\n      {\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Главная\", \"item\": \"https://smartsolutions.today/\"},\n      {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Блог\", \"item\": \"https://smartsolutions.today/blog/\"}\n    ]\n  }"
+];
+---
+<Base
+  title={"Блог об ИИ для бизнеса — Smart Solutions"}
+  description={"Исследования внедрения ИИ в процессы компании: расчёты эффекта в часах и рублях, честные ограничения, пилоты."}
+  path="/blog/"
+  jsonLd={jsonLd}
+  active="ai"
+  skipTo="#article"
+  readProgress
+>
+<style is:inline slot="head">
+    .ai-blog-lead { color: var(--secondary); font-size: .85rem; font-weight: 400; display: block; margin-top: 4px; }
+  </style>
+  <article class="article" id="article">
+    <div class="container container-narrow">
+      <nav class="article-crumbs" aria-label="Хлебные крошки">
+        <a href="/">Главная</a> / <a href="/ai.html">AI</a> / <span>Блог</span>
+      </nav>
+      <p class="label">Блог · AI-направление</p>
+      <h1 class="article-title">Исследования с цифрами</h1>
+      <p class="article-meta">Smart Solutions · внедрение ИИ с замером эффекта</p>
+
+            <section class="blog-section">
+        <h2 class="blog-section-title">С чего начать</h2>
+        <p class="blog-section-desc">
+          Общая логика, цены, новые форматы поиска. Начните здесь, если только разбираетесь в теме.
+        </p>
+        <div class="blog-grid">
+        <a class="blog-grid-card" href="/blog/vnedrenie-ii-v-biznes.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">pillar</span><span class="blog-grid-time">10 мин</span></span>
+          <span class="blog-grid-title">Внедрение ИИ в бизнес: с чего начать&nbsp;и как довести пилот до рабочей системы</span>
+          <span class="blog-grid-lead">Процессный подход: выбор процесса, формула эффекта, пилот за 2–4 недели и честные ограничения.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="/blog/skolko-stoit-vnedrenie-ii.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">стоимость</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">Стоимость внедрения ИИ: формула окупаемости и реальные цифры</span>
+          <span class="blog-grid-lead">Аудит бесплатно, пилот 50–150 тыс ₽, внедрение от 200 тыс ₽.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="/blog/kak-poschitat-effekt-ot-ii-do-pilota.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">расчёт</span><span class="blog-grid-time">11 мин</span></span>
+          <span class="blog-grid-title">Как посчитать эффект от ИИ до пилота: формула и пример расчёта</span>
+          <span class="blog-grid-lead">Формула «часы × ставка = рубли», рабочий пример, готовый шаблон и честные границы.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="/blog/geo-optimizaciya.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">GEO</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">GEO-оптимизация: как попадать в ответы ChatGPT, Нейро и Алисы</span>
+          <span class="blog-grid-lead">Новый канал привлечения: как стать тем, кого цитируют нейросети.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        </div>
+      </section>
+      <section class="blog-section">
+        <h2 class="blog-section-title">По задачам</h2>
+        <p class="blog-section-desc">
+          Типовые процессы, которые есть в любом бизнесе: продажи, маркетинг, бухгалтерия, HR, CRM.
+        </p>
+        <div class="blog-grid">
+        <a class="blog-grid-card" href="/blog/ii-dlya-prodazh.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">продажи</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для продаж: как обрабатывать заявки в 5 раз быстрее и не терять клиентов</span>
+          <span class="blog-grid-lead">Скорость ответа решает: конверсия ×4–9 за 5 минут, скоринг, follow-up и расчёт в рублях.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="/blog/ii-dlya-marketinga.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">маркетинг</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для маркетинга: контент, заявки и аналитика без расширения штата</span>
+          <span class="blog-grid-lead">Контент-конвейер из одного интервью в 10 форматов, отчёты за 1–2 часа, мониторинг в фоне.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="/blog/ii-dlya-hr.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">HR</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для HR: как ускорить найм и адаптацию без потери человеческого решения</span>
+          <span class="blog-grid-lead">Скрининг 300 резюме за 4 часа вместо 20, скрининг-диалоги, адаптация за 14 дней.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="/blog/ii-dlya-buhgalterii.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">бухгалтерия</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для бухгалтерии: первичка и сверки в 6 раз быстрее</span>
+          <span class="blog-grid-lead">Первичка 6 мин → 1 мин, сверки со вторым глазом, отчётность без авралов.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="/blog/ii-v-crm.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">CRM</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ в CRM: автоматизация работы с клиентами без потери качества</span>
+          <span class="blog-grid-lead">Скоринг, автозаполнение, подсказки и автосопровождение.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        </div>
+      </section>
+      <section class="blog-section">
+        <h2 class="blog-section-title">По отраслям</h2>
+        <p class="blog-section-desc">
+          Конкретные ниши — как ИИ решает задачи в вашей индустрии.
+        </p>
+        <div class="blog-grid">
+        <a class="blog-grid-card" href="/blog/ii-dlya-restorana.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">рестораны</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для ресторана: как привлекать гостей и возвращать их без роста рекламы</span>
+          <span class="blog-grid-lead">Отзывы за час, возврат 5–15% из «мёртвой» базы, контент из фактуры кухни.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="/blog/ii-dlya-nedvizhimosti.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">недвижимость</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ в недвижимости: как агентству получать больше заявок и не терять их</span>
+          <span class="blog-grid-lead">Ответ за 2 минуты, подборки с пояснениями, реанимация старой базы.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="/blog/ii-dlya-onlain-shkoly.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">онлайн-школы</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для онлайн-школы: как привлекать учеников и доводить их до оплаты</span>
+          <span class="blog-grid-lead">40% заявок остывает без быстрого ответа; воронка, дожим без спама, удержание.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="/blog/ii-dlya-medcentra.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">медицина</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для медицинского центра: как привлекать пациентов и не терять заявки</span>
+          <span class="blog-grid-lead">Запись за 2–3 минуты, no-show 15–20% → 4–7%. Только админ-процессы, не лечение.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="/blog/ii-dlya-yuristov.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">юристы</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для юристов: договоры, консультации и поиск рисков</span>
+          <span class="blog-grid-lead">Квалификация обращений за минуты, документы 60–90 мин → 15–20.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="/blog/ii-dlya-salona-krasoty.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">салоны</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для салона красоты: как заполнять расписание и возвращать клиентов</span>
+          <span class="blog-grid-lead">Пустые окна −30–50%, возврат «спящих» клиентов 8–15%.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="/blog/ii-dlya-turagentstva.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">туризм</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для турагентства: подбор туров и оформление за минуты</span>
+          <span class="blog-grid-lead">Подбор тура за минуты, пакет документов, возврат туристов.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="/blog/ii-dlya-stroitelstva.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">стройка</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">Автоматизация строительства: сметы и документы за минуты</span>
+          <span class="blog-grid-lead">Ответ за 2–3 минуты, сметы-черновики, договоры и акты по шаблонам.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="/blog/ii-dlya-proizvodstva.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">производство</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ на производстве: от заявки до отгрузки без авралов</span>
+          <span class="blog-grid-lead">Спецификация 2 ч → 20 мин, документооборот по шаблонам.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="/blog/ii-dlya-logistiki.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">логистика</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">Автоматизация логистики: заявки, статусы, без ручных звонков</span>
+          <span class="blog-grid-lead">Карточка рейса за минуты, сверки без ручного перебора.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="/blog/ii-dlya-internet-magazina.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">e-commerce</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для интернет-магазина: заказы и возврат покупателей на автопилоте</span>
+          <span class="blog-grid-lead">Брошенные корзины, ассистент по товарам, повторные продажи.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        </div>
+      </section>
+
+    </div>
+  </article>
+
+  <!-- ===== CTA ===== -->
+  <section id="contacts" class="section section-cta">
+    <div class="container">
+      <div class="cta-content">
+        <h2 class="cta-title">Разберём ваш процесс?</h2>
+        <p class="text-secondary cta-subtitle">Честно скажем, окупится ли ИИ в вашем случае. Аудит бесплатный.</p>
+
+        <ContactCards />
+
+        <p class="cta-urgency">Берём ограниченное число внедрений одновременно — каждый пилот требует полного погружения.</p>
+      </div>
+    </div>
+  </section>
+<Fragment slot="tail">
+<script is:inline>
+    (function () {
+      var bar = document.getElementById('readProgress');
+      addEventListener('scroll', function () {
+        var h = document.documentElement.scrollHeight - innerHeight;
+        bar.style.width = (h > 0 ? (scrollY / h) * 100 : 0) + '%';
+      }, { passive: true });
+    })();
+  </script>
+</Fragment>
+</Base>

@@ -1,0 +1,22 @@
+---
+// Шапка сайта. Разметка 1:1 с version 4/index.html; пути и активный пункт — по странице.
+import { SITE, CONTACTS, NAV, navHref, type NavKey } from '../data/site';
+interface Props { active?: NavKey | null; isHome?: boolean; hasContacts?: boolean }
+const { active = null, isHome = false, hasContacts = true } = Astro.props;
+---
+<nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href={isHome ? '#' : '/'} class="nav-logo">{SITE.name}</a>
+      <div class="nav-menu" id="navMenu">
+        {NAV.map((i) => (
+        <a href={navHref(i, { isHome, hasContacts })} class={i.key === active ? 'nav-link nav-link-active' : 'nav-link'}>{i.label}</a>
+        ))}
+      </div>
+      <a href={`tel:${CONTACTS.tel}`} class="nav-phone">{CONTACTS.phone}</a>
+      <button class="nav-burger" id="navBurger" aria-label="Открыть меню" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>

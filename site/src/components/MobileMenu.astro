@@ -1,0 +1,21 @@
+---
+// Мобильное меню. Разметка 1:1 с version 4/index.html (классы .mobile-link — их слушает script.js).
+import { CONTACTS, NAV, navHref } from '../data/site';
+interface Props { isHome?: boolean; hasContacts?: boolean }
+const { isHome = false, hasContacts = true } = Astro.props;
+---
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Навигация">
+    <div class="mobile-menu-glow"></div>
+    {NAV.map((i) => <a href={navHref(i, { isHome, hasContacts })} class="mobile-link">{i.label}</a>)}
+    <div class="mobile-contacts">
+      <a href={`tel:${CONTACTS.tel}`} class="mobile-contact">
+        <svg width="18" height="18"><use href="/icons.svg#icon-phone"/></svg>
+        Позвонить
+      </a>
+      <span class="mobile-contacts-divider"></span>
+      <a href={CONTACTS.telegram} class="mobile-contact">
+        <svg width="18" height="18"><use href="/icons.svg#icon-telegram"/></svg>
+        Написать
+      </a>
+    </div>
+  </div>

@@ -1,0 +1,941 @@
+---
+// Сгенерировано из legacy/version-4/ai.html (tools/import_legacy.py). Дальше правим здесь.
+import Base from '../layouts/Base.astro';
+import ContactCards from '../components/ContactCards.astro';
+---
+<Base
+  title={"Внедрение ИИ в процессы компании — Smart Solutions"}
+  description={"Внедряем искусственный интеллект в ежедневные процессы: заявки, документы, база знаний, отчёты. Сначала считаем эффект в часах и рублях — потом внедряем."}
+  path="/ai.html"
+  ogDescription={"Нейросеть — 20% результата. Остальные 80 — процесс. Считаем эффект до внедрения, в часах и рублях."}
+  active="ai"
+  effects
+>
+<style is:inline slot="head">
+    /* AI page additions: receipt, scheme, pilot progress */
+    .ai-hero { padding-top: clamp(140px, 18vh, 200px); padding-bottom: clamp(80px, 10vh, 130px); }
+    .ai-hero-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(320px, 5fr);
+      gap: clamp(32px, 5vw, 80px);
+      align-items: center;
+    }
+    .ai-hero-content { max-width: 720px; }
+    .ai-hero-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(2.5rem, 5.4vw, 4.5rem);
+      font-weight: 800;
+      letter-spacing: -0.032em;
+      line-height: 1.04;
+      margin: 22px 0 30px;
+    }
+    .ai-hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+
+    .receipt {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-hover);
+      border-radius: var(--radius);
+      font-family: var(--font-mono);
+      transform: rotate(0.8deg);
+      max-width: 460px;
+      justify-self: end;
+      width: 100%;
+      overflow: hidden;
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+    .receipt:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.35); transform: rotate(0deg); }
+    .receipt-head {
+      padding: 14px 18px;
+      border-bottom: 1px dashed var(--border);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+    }
+    .receipt-head span:first-child { color: var(--accent); }
+    .receipt-body { padding: 10px 0; }
+    .receipt-row {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 14px;
+      padding: 8px 18px;
+      font-size: 0.78rem;
+      line-height: 1.5;
+    }
+    .receipt-key { color: var(--muted); }
+    .receipt-row--sum { border-top: 1px dashed var(--border); margin-top: 6px; padding-top: 12px; }
+    .receipt-row--sum .receipt-val { color: var(--green); font-weight: 500; }
+    .receipt-foot {
+      padding: 12px 18px 16px;
+      border-top: 1px dashed var(--border);
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    .scheme {
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      border-radius: var(--radius);
+      padding: clamp(18px, 2.6vw, 36px);
+      position: relative;
+      overflow: hidden;
+    }
+    .scheme::before {
+      content: "";
+      position: absolute;
+      top: 10px; left: 10px; right: 10px; bottom: 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      pointer-events: none;
+    }
+    .scheme-cap {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .scheme-cap span:first-child { color: var(--accent); }
+    .scheme-svg { width: 100%; height: auto; display: block; position: relative; }
+    .scheme .draw { stroke-dasharray: var(--len, 1000); stroke-dashoffset: var(--len, 1000); }
+    .scheme.drawn .draw { stroke-dashoffset: 0; transition: stroke-dashoffset 1.6s cubic-bezier(0.22, 1, 0.36, 1); }
+    .scheme.drawn .draw.d2 { transition-delay: 0.25s; }
+    .scheme.drawn .draw.d3 { transition-delay: 0.5s; }
+    .scheme.drawn .draw.d4 { transition-delay: 0.75s; }
+    .scheme .fade-el { opacity: 0; transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+    .scheme.drawn .fade-el { opacity: 1; }
+    .scheme.drawn .fade-el.f2 { transition-delay: 0.4s; }
+    .scheme.drawn .fade-el.f3 { transition-delay: 0.8s; }
+    .scheme.drawn .fade-el.f4 { transition-delay: 1.15s; }
+    .sc-label { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.04em; fill: var(--fg); }
+    .sc-mono { font-family: var(--font-mono); font-size: 11.5px; fill: var(--secondary); }
+    .sc-dim { fill: var(--muted); font-size: 11px; }
+    .sc-accent { fill: var(--accent); font-size: 11px; letter-spacing: 0.06em; }
+    .sc-note { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em; fill: var(--accent); }
+    .sc-inv { fill: #08080D; }
+    .scheme-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(16px, 3vw, 40px);
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--secondary);
+      position: relative;
+      text-align: center;
+    }
+    .scheme-legend b { color: var(--accent); font-weight: 500; margin-right: 6px; }
+
+    .ai-formula {
+      max-width: none;
+    }
+    .ai-formula-label {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      display: block;
+      margin-bottom: 20px;
+    }
+    .ai-formula-eq {
+      font-family: var(--font-mono);
+      font-size: clamp(1.25rem, 2.9vw, 2.3rem);
+      font-weight: 500;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      margin: 0;
+    }
+    .ai-formula-accent { color: var(--accent); }
+    .ai-formula-note {
+      margin-top: 26px;
+      font-size: clamp(0.98rem, 1.3vw, 1.12rem);
+      color: var(--secondary);
+      max-width: 560px;
+      line-height: 1.6;
+    }
+
+    .ai-weeks-wrap { position: relative; }
+    .ai-weeks-progress {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 2px;
+      width: 0;
+      background: var(--accent);
+      transition: width 0.15s linear;
+      z-index: 2;
+    }
+
+    .ai-emphasis {
+      margin-top: 44px;
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+      font-weight: 700;
+      letter-spacing: -0.018em;
+      line-height: 1.25;
+      max-width: 720px;
+    }
+    .ai-emphasis strong { color: var(--accent); font-weight: 800; }
+
+    .ai-refuse-list { margin-top: 10px; }
+    .ai-refuse {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .ai-refuse:first-child { border-top: 1px solid var(--border); }
+    .ai-refuse-marker {
+      flex-shrink: 0;
+      width: 12px;
+      height: 12px;
+      margin-top: 6px;
+      border: 2px solid rgba(239, 68, 68, 0.6);
+      border-radius: 50%;
+      position: relative;
+    }
+    .ai-refuse-marker::after,
+    .ai-refuse-marker::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 12px;
+      height: 2px;
+      background: rgba(239, 68, 68, 0.7);
+      transform-origin: center;
+    }
+    .ai-refuse-marker::after { transform: translate(-50%, -50%) rotate(-45deg); }
+    .ai-refuse-marker::before { transform: translate(-50%, -50%) rotate(45deg); }
+    .ai-refuse p {
+      margin: 0;
+      font-size: clamp(1rem, 1.4vw, 1.15rem);
+      line-height: 1.55;
+      color: var(--fg);
+      max-width: 760px;
+    }
+    .ai-refuse s { text-decoration-color: rgba(239, 68, 68, 0.5); text-decoration-thickness: 2px; }
+    .ai-fit-note {
+      margin-top: 40px;
+      padding: clamp(22px, 3vw, 34px);
+      border: 1px solid var(--border-hover);
+      border-radius: var(--radius);
+      background: var(--card-bg);
+    }
+    .ai-fit-note p {
+      margin: 0;
+      font-size: clamp(1.02rem, 1.4vw, 1.2rem);
+      line-height: 1.6;
+      color: var(--secondary);
+      max-width: 820px;
+    }
+
+    .ai-serif { font-style: normal; font-weight: 800; color: var(--accent); letter-spacing: -0.02em; }
+
+    @media (max-width: 900px) {
+      .ai-hero-layout { grid-template-columns: 1fr; }
+      .receipt { justify-self: start; transform: none; max-width: 100%; }
+      .ai-hero-actions .btn { width: 100%; justify-content: space-between; }
+      .scheme-cap { flex-direction: column; gap: 6px; }
+      .scheme-legend { flex-direction: column; gap: 8px; }
+      .ai-formula-eq { font-size: clamp(1.05rem, 5.4vw, 1.5rem); }
+      .ai-week { grid-template-columns: 1fr; gap: 8px; padding: 22px 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .scheme .draw { stroke-dashoffset: 0 !important; transition: none !important; }
+      .packet { opacity: 0 !important; }
+      .receipt { transform: none !important; }
+    }
+  
+  /* ===== Формула + график окупаемости: 2-кол. ===== */
+    .ai-formula-grid {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+      gap: clamp(24px, 4vw, 56px);
+      align-items: start;
+    }
+    @media (max-width: 880px) {
+      .ai-formula-grid { grid-template-columns: 1fr !important; }
+    }
+    .ai-payback {
+      padding: 18px 20px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.015);
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .ai-payback-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .ai-payback-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    .ai-payback-meta {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--secondary);
+    }
+    .ai-payback-svg {
+      width: 360px;
+      max-width: 100%;
+      height: 200px;
+      display: block;
+      margin: 0 auto;
+    }
+    @media (max-width: 880px) {
+      .ai-payback-svg { width: 100%; }
+    }
+    .ai-payback-svg .ax-tick {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      fill: rgba(255, 255, 255, 0.45);
+    }
+    .ai-payback-svg .ax-label {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      fill: rgba(255, 255, 255, 0.55);
+    }
+    .ai-payback-svg .ax-callout {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      fill: var(--accent);
+      font-weight: 600;
+    }
+    .ai-payback-svg .ax-legend {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      fill: rgba(255, 255, 255, 0.55);
+    }
+    .ai-payback-foot {
+      font-size: 0.78rem;
+      color: var(--secondary);
+      margin-top: 6px;
+      line-height: 1.45;
+    }
+    .ai-payback-stat {
+      color: var(--accent);
+      font-weight: 700;
+      font-family: var(--font-mono);
+    }
+  </style>
+  <section class="section ai-hero" id="main-content">
+    <div class="container">
+      <div class="ai-hero-layout">
+        <div class="ai-hero-content">
+          <p class="label fade-in">AI-направление Smart Solutions</p>
+
+          <h1 class="ai-hero-title fade-in fade-in-d1">
+            Вам не нужен ИИ.<br>
+            <span class="text-accent">Вам нужны 20 часов команды в неделю.</span>
+          </h1>
+
+          <p class="text-secondary fade-in fade-in-d2" style="max-width:560px;">
+            Внедряем искусственный интеллект в ежедневную работу компании:
+            заявки, документы, база знаний, отчёты. Сначала считаем эффект
+            в часах и рублях. Потом — и только потом — внедряем.
+          </p>
+
+          <div class="ai-hero-actions fade-in fade-in-d3">
+            <a href="#contacts" class="btn btn-primary btn-shimmer">
+              Обсудить процесс
+              <svg width="18" height="18"><use href="/icons.svg#icon-arrow-right"/></svg>
+            </a>
+            <a href="#audit" class="btn btn-outline">Как считаем эффект</a>
+          </div>
+        </div>
+
+        <aside class="receipt fade-in fade-in-d3" aria-label="Пример результата аудита">
+          <div class="receipt-head">
+            <span>Аудит процесса</span>
+            <span>№ 001</span>
+          </div>
+          <div class="receipt-body">
+            <div class="receipt-row">
+              <span class="receipt-key">процесс</span>
+              <span class="receipt-val">обработка входящих заявок</span>
+            </div>
+            <div class="receipt-row">
+              <span class="receipt-key">сейчас</span>
+              <span class="receipt-val">14 ч/нед — ручные ответы</span>
+            </div>
+            <div class="receipt-row">
+              <span class="receipt-key">после ИИ</span>
+              <span class="receipt-val">3 ч/нед — проверка черновиков</span>
+            </div>
+            <div class="receipt-row receipt-row--sum">
+              <span class="receipt-key">эффект</span>
+              <span class="receipt-val">≈ 44 ч/мес возвращается команде</span>
+            </div>
+            <div class="receipt-row receipt-row--sum">
+              <span class="receipt-key">в деньгах</span>
+              <span class="receipt-val">≈ 88 000 ₽/мес при ставке 2 000 ₽/ч</span>
+            </div>
+          </div>
+          <div class="receipt-foot">цифры — иллюстрация формата; ваши считаем на аудите</div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== fig. 01: SVG SCHEME ===== -->
+  <section class="section section-alt section-border-top">
+    <div class="container">
+      <figure class="scheme" id="scheme" aria-label="Схема работы ИИ-контура">
+        <figcaption class="scheme-cap">
+          <span>fig. 01</span>
+          <span>Контур обработки заявки — как это устроено</span>
+        </figcaption>
+        <svg viewBox="0 0 1200 480" class="scheme-svg" role="img">
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0L10 5L0 10z" fill="#00D9FF"/>
+            </marker>
+          </defs>
+
+          <line x1="80" y1="46" x2="1120" y2="46" stroke="var(--muted)" stroke-width="0.75" class="fade-el"/>
+          <line x1="80" y1="40" x2="80" y2="52" stroke="var(--muted)" stroke-width="0.75" class="fade-el"/>
+          <line x1="1120" y1="40" x2="1120" y2="52" stroke="var(--muted)" stroke-width="0.75" class="fade-el"/>
+          <text x="600" y="36" text-anchor="middle" class="sc-mono sc-dim fade-el">цикл: от заявки до ответа — 2 минуты вместо 40</text>
+
+          <rect x="80" y="170" width="170" height="130" fill="var(--bg-elevated)" stroke="#00D9FF" stroke-width="1.25" class="draw" style="--len:600"/>
+          <text x="165" y="200" text-anchor="middle" class="sc-label fade-el f2">ЗАЯВКА</text>
+          <text x="165" y="222" text-anchor="middle" class="sc-mono fade-el f2">форма · почта</text>
+          <text x="165" y="240" text-anchor="middle" class="sc-mono fade-el f2">мессенджер</text>
+          <text x="165" y="272" text-anchor="middle" class="sc-note fade-el f2">①</text>
+
+          <line id="flowA" x1="250" y1="235" x2="330" y2="235" stroke="#00D9FF" stroke-width="1.25" marker-end="url(#arr)" class="draw d2" style="--len:80"/>
+
+          <rect x="340" y="120" width="380" height="240" fill="none" stroke="#00D9FF" stroke-width="1.25" stroke-dasharray="6 4" class="fade-el f2"/>
+          <text x="530" y="106" text-anchor="middle" class="sc-mono sc-accent fade-el f2">ПЕРИМЕТР БЕЗОПАСНОСТИ · данные не покидают контур</text>
+
+          <rect x="370" y="150" width="320" height="52" fill="var(--bg-elevated)" stroke="#00D9FF" stroke-width="1" class="draw d2" style="--len:744"/>
+          <text x="530" y="172" text-anchor="middle" class="sc-label fade-el f3">КЛАССИФИКАЦИЯ</text>
+          <text x="530" y="192" text-anchor="middle" class="sc-mono fade-el f3">тип запроса · срочность · тон</text>
+
+          <rect x="370" y="216" width="320" height="52" fill="var(--bg-elevated)" stroke="#00D9FF" stroke-width="1" class="draw d3" style="--len:744"/>
+          <text x="530" y="238" text-anchor="middle" class="sc-label fade-el f3">БАЗА ЗНАНИЙ</text>
+          <text x="530" y="258" text-anchor="middle" class="sc-mono fade-el f3">регламенты · цены · кейсы</text>
+
+          <rect x="370" y="282" width="320" height="52" fill="#00D9FF" class="draw d4" style="--len:744"/>
+          <text x="530" y="304" text-anchor="middle" class="sc-label sc-inv fade-el f4">ЧЕРНОВИК ОТВЕТА</text>
+          <text x="530" y="324" text-anchor="middle" class="sc-mono sc-inv fade-el f4">со ссылкой на источник</text>
+
+          <text x="530" y="392" text-anchor="middle" class="sc-note fade-el f4">②</text>
+
+          <line id="flowB" x1="720" y1="235" x2="800" y2="235" stroke="#00D9FF" stroke-width="1.25" marker-end="url(#arr)" class="draw d3" style="--len:80"/>
+
+          <rect x="810" y="170" width="170" height="148" fill="var(--bg-elevated)" stroke="#00D9FF" stroke-width="1.25" class="draw d3" style="--len:636"/>
+          <!-- голова: круг -->
+          <circle cx="895" cy="200" r="10" fill="none" stroke="#00D9FF" stroke-width="1.5"/>
+          <!-- шея: короткая вертикаль -->
+          <line x1="895" y1="210" x2="895" y2="218" stroke="#00D9FF" stroke-width="1.5"/>
+          <!-- плечи + тело: трапеция с заливкой (бюст) -->
+          <path d="M875 222 Q895 215 915 222 L921 250 Q895 254 869 250 Z" fill="rgba(0,217,255,0.06)" stroke="#00D9FF" stroke-width="1.5"/>
+          <text x="895" y="282" text-anchor="middle" class="sc-label fade-el f4">ПРОВЕРКА</text>
+          <text x="895" y="306" text-anchor="middle" class="sc-mono fade-el f4">менеджер</text>
+          <text x="985" y="148" text-anchor="middle" class="sc-note fade-el f4">③</text>
+
+          <line x1="980" y1="235" x2="1060" y2="235" stroke="#00D9FF" stroke-width="1.25" marker-end="url(#arr)" class="draw d4" style="--len:80"/>
+
+          <rect x="1070" y="170" width="50" height="130" fill="var(--fg)" class="fade-el f4"/>
+          <text x="1095" y="228" text-anchor="middle" class="sc-label sc-inv fade-el f4" transform="rotate(-90 1095 235)">ОТВЕТ</text>
+
+          <line x1="80" y1="420" x2="720" y2="420" stroke="var(--muted)" stroke-width="0.75" class="fade-el"/>
+          <line x1="80" y1="414" x2="80" y2="426" stroke="var(--muted)" stroke-width="0.75" class="fade-el"/>
+          <line x1="720" y1="414" x2="720" y2="426" stroke="var(--muted)" stroke-width="0.75" class="fade-el"/>
+          <text x="400" y="446" text-anchor="middle" class="sc-mono sc-dim fade-el">автоматически — без участия человека</text>
+
+          <line x1="810" y1="420" x2="980" y2="420" stroke="var(--muted)" stroke-width="0.75" class="fade-el"/>
+          <line x1="810" y1="414" x2="810" y2="426" stroke="var(--muted)" stroke-width="0.75" class="fade-el"/>
+          <line x1="980" y1="414" x2="980" y2="426" stroke="var(--muted)" stroke-width="0.75" class="fade-el"/>
+          <text x="895" y="446" text-anchor="middle" class="sc-mono sc-dim fade-el">контроль человеком</text>
+
+          <line x1="165" y1="262" x2="165" y2="300" stroke="var(--muted)" stroke-width="0.5" stroke-dasharray="2 2" class="fade-el f2"/>
+          <text x="165" y="316" text-anchor="middle" class="sc-mono sc-dim fade-el f2">вход из любого канала</text>
+          <line x1="895" y1="318" x2="895" y2="334" stroke="var(--muted)" stroke-width="0.5" stroke-dasharray="2 2" class="fade-el f4"/>
+          <text x="895" y="346" text-anchor="middle" class="sc-mono sc-dim fade-el f4">решение — за человеком</text>
+
+          <!-- бегущий пакет: чистый SVG animateMotion, без JS -->
+          <circle r="4" fill="#00D9FF" opacity="1">
+            <animateMotion
+              dur="4s"
+              repeatCount="indefinite"
+              path="M250,235 L800,235 L895,235 L980,235 L1055,235"/>
+            <animate attributeName="r" values="4;5;4" dur="0.9s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+        <div class="scheme-legend">
+          <span><b>①</b> заявка из любого канала</span>
+          <span><b>②</b> ИИ готовит черновик внутри контура</span>
+          <span><b>③</b> человек проверяет и отправляет</span>
+        </div>
+      </figure>
+    </div>
+      </section>
+
+  <!-- ===== FORMULA ===== -->
+  <section class="section section-border-top section-glow section-glow-cyan" id="audit">
+    <div class="container">
+      <div class="ai-formula-grid">
+        <div class="ai-formula fade-in">
+          <span class="ai-formula-label">// наш единственный критерий</span>
+          <p class="ai-formula-eq">
+            эффект = <span class="ai-formula-accent">часы команды × ставка</span> − стоимость внедрения
+          </p>
+          <p class="ai-formula-note">
+            Если число не сходится — мы откажемся от проекта.
+            Это экономит время и деньги вам. И репутацию — нам.
+          </p>
+        </div>
+
+        <div class="ai-payback" aria-label="График окупаемости внедрения">
+          <div class="ai-payback-head">
+            <span class="ai-payback-label">// окупаемость на реальном примере</span>
+            <span class="ai-payback-meta">HR, 40 ч/нед, ставка 800 ₽</span>
+          </div>
+          <svg class="ai-payback-svg" viewBox="0 0 360 200" role="img" preserveAspectRatio="xMidYMid meet" style="max-width:360px;width:100%;height:200px;">
+            <!-- оси -->
+            <line x1="40" y1="20" x2="40" y2="170" stroke="rgba(255,255,255,0.18)"/>
+            <line x1="40" y1="170" x2="340" y2="170" stroke="rgba(255,255,255,0.18)"/>
+
+            <!-- сетка по Y -->
+            <line x1="40" y1="125" x2="340" y2="125" stroke="rgba(255,255,255,0.06)"/>
+            <line x1="40" y1="80" x2="340" y2="80" stroke="rgba(255,255,255,0.06)"/>
+
+            <!-- y-метки -->
+            <text x="34" y="174" text-anchor="end" class="ax-tick">0</text>
+            <text x="34" y="129" text-anchor="end" class="ax-tick">50K</text>
+            <text x="34" y="84" text-anchor="end" class="ax-tick">100K</text>
+            <text x="34" y="34" text-anchor="end" class="ax-tick">200K</text>
+
+            <!-- x-метки -->
+            <text x="40" y="186" class="ax-tick">0</text>
+            <text x="100" y="186" class="ax-tick">1</text>
+            <text x="160" y="186" class="ax-tick">2</text>
+            <text x="220" y="186" class="ax-tick">3</text>
+            <text x="280" y="186" class="ax-tick">4</text>
+            <text x="340" y="186" class="ax-tick">5 мес</text>
+
+            <!-- стоимость внедрения: горизонтальная линия 200K -->
+            <line x1="40" y1="34" x2="340" y2="34" stroke="rgba(255,255,255,0.4)" stroke-dasharray="4 3"/>
+            <text x="335" y="28" text-anchor="end" class="ax-label">стоимость внедрения</text>
+
+            <!-- кривая эффекта: растёт -->
+            <path d="M40,170 L100,150 L160,118 L220,82 L280,52 L340,28" fill="none" stroke="var(--accent)" stroke-width="2"/>
+
+            <!-- точка окупаемости: на ~2.5 мес -->
+            <circle cx="190" cy="100" r="5" fill="var(--accent)" stroke="#0a0a0e" stroke-width="2"/>
+            <line x1="190" y1="100" x2="190" y2="170" stroke="var(--accent)" stroke-dasharray="2 3" opacity="0.6"/>
+            <line x1="194" y1="98" x2="240" y2="88" stroke="var(--accent)" stroke-width="0.75" opacity="0.6"/>
+            <text x="244" y="84" class="ax-callout">окупаемость</text>
+            <text x="244" y="96" class="ax-callout">~ 2 мес</text>
+
+            <!-- легенда -->
+            <g transform="translate(220, 145)">
+              <line x1="0" y1="0" x2="14" y2="0" stroke="var(--accent)" stroke-width="2"/>
+              <text x="20" y="4" class="ax-legend">эффект</text>
+            </g>
+            <g transform="translate(220, 158)">
+              <line x1="0" y1="0" x2="14" y2="0" stroke="rgba(255,255,255,0.4)" stroke-dasharray="3 2"/>
+              <text x="20" y="4" class="ax-legend">внедрение</text>
+            </g>
+          </svg>
+          <p class="ai-payback-foot">
+            <span class="ai-payback-stat">2 мес</span> — средняя окупаемость. Цифра зависит от объёма и ставки.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 01 / ЧЕСТНО ПРО ИИ ===== -->
+  <section class="section section-border-top">
+    <div class="container">
+      <p class="label ai-sec-label"><span class="ai-sec-num">01</span>Честно про ИИ</p>
+      <h2 class="ai-h2">Почему большинство<br>внедрений <span class="text-accent">не окупается</span></h2>
+
+      <div class="problems-list" data-stagger>
+        <div class="problem-card" data-stagger-item>
+          <div class="problem-icon"><svg width="20" height="20"><use href="/icons.svg#icon-image"/></svg></div>
+          <div>
+            <p class="problem-title">Магия вместо замера</p>
+            <p class="problem-result">Покупают «нейросеть», не зная, сколько часов она вернёт</p>
+          </div>
+        </div>
+        <div class="problem-card" data-stagger-item>
+          <div class="problem-icon"><svg width="20" height="20"><use href="/icons.svg#icon-document"/></svg></div>
+          <div>
+            <p class="problem-title">Плохие данные</p>
+            <p class="problem-result">База знаний разрозненная, регламентов нет, ИИ выдумывает ответы</p>
+          </div>
+        </div>
+        <div class="problem-card" data-stagger-item>
+          <div class="problem-icon"><svg width="20" height="20"><use href="/icons.svg#icon-cursor-click"/></svg></div>
+          <div>
+            <p class="problem-title">Инструмент вместо процесса</p>
+            <p class="problem-result">Доступы раздали, а команду не научили — через месяц всё заброшено</p>
+          </div>
+        </div>
+        <div class="problem-card" data-stagger-item>
+          <div class="problem-icon"><svg width="20" height="20"><use href="/icons.svg#icon-refresh"/></svg></div>
+          <div>
+            <p class="problem-title">Никто не проверяет</p>
+            <p class="problem-result">ИИ пишет клиентам без контроля — ошибки дорожат внедрения</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="ai-emphasis">
+        Проблема не в модели.<br>
+        <strong>Проблема — когда ИИ внедряют без расчёта, данных и правил.</strong>
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== 02 / ЧТО ВНЕДРЯЕМ ===== -->
+  <section class="section section-alt section-border-top">
+    <div class="container">
+      <p class="label ai-sec-label"><span class="ai-sec-num">02</span>Что внедряем</p>
+      <h2 class="ai-h2">Четыре процесса, где эффект<br>измеряется <em class="ai-serif">быстрее всего</em></h2>
+
+      <div class="ai-service-list" data-stagger>
+        <div class="ai-service" data-stagger-item>
+          <div class="ai-service-head">
+            <span class="ai-service-num">01</span>
+            <h3>AI-ассистент по базе знаний</h3>
+          </div>
+          <p class="text-muted">Отвечает сотрудникам и клиентам из регламентов и документов компании — со ссылкой на источник, а не «из интернета». Новичок перестаёт отвлекать коллег, клиент получает ответ за секунды.</p>
+          <p class="ai-service-meta">поддержка · продажи · адаптация кадров</p>
+        </div>
+
+        <div class="ai-service" data-stagger-item>
+          <div class="ai-service-head">
+            <span class="ai-service-num">02</span>
+            <h3>Обработка входящих заявок</h3>
+          </div>
+          <p class="text-muted">Классификация обращений, извлечение данных, черновики ответов, передача в CRM или мессенджер. Менеджер проверяет и отправляет — вместо того чтобы писать с нуля.</p>
+          <p class="ai-service-meta">отдел продаж · клиентский сервис</p>
+        </div>
+
+        <div class="ai-service" data-stagger-item>
+          <div class="ai-service-head">
+            <span class="ai-service-num">03</span>
+            <h3>Документы и коммерческие предложения</h3>
+          </div>
+          <p class="text-muted">Первые версии КП, договоров и отчётов — по вашим шаблонам, с вашими данными, за минуты. Роль человека — проверка и решение.</p>
+          <p class="ai-service-meta">продажи · юристы · финансы</p>
+        </div>
+
+        <div class="ai-service" data-stagger-item>
+          <div class="ai-service-head">
+            <span class="ai-service-num">04</span>
+            <h3>Обучение команды и правила</h3>
+          </div>
+          <p class="text-muted">Сценарии по ролям, библиотека промптов под ваши задачи, правила проверки результатов ИИ. Без этого пункта внедрение умирает через месяц — поэтому он обязательный, а не опциональный.</p>
+          <p class="ai-service-meta">вся команда · закрепление результата</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 03 / ПОДХОД ===== -->
+  <section class="section section-border-top" id="pilot">
+    <div class="container">
+      <p class="label ai-sec-label"><span class="ai-sec-num">03</span>Подход</p>
+      <h2 class="ai-h2">Один процесс. 2–4 недели.<br><span class="text-accent">Измеримый ответ.</span></h2>
+
+      <div class="stats-grid" data-stagger>
+        <div class="stat-card" data-stagger-item>
+          <div class="stat-num">1</div>
+          <div class="stat-label">процесс за пилот</div>
+          <p class="stat-desc">Не распыляемся. Берём одну болезненную операцию и считаем её до и после.</p>
+        </div>
+        <div class="stat-card" data-stagger-item>
+          <div class="stat-num">2–4</div>
+          <div class="stat-label">недели</div>
+          <p class="stat-desc">Замер, данные, контур безопасности, работа в бою, повторный замер.</p>
+        </div>
+        <div class="stat-card" data-stagger-item>
+          <div class="stat-num">0 ₽</div>
+          <div class="stat-label">аудит</div>
+          <p class="stat-desc">Если окупаемости нет — так и скажем. Никакой платы за разговор.</p>
+        </div>
+      </div>
+
+      <div class="ai-steps ai-weeks-wrap" id="aiWeeks" data-stagger>
+        <div class="ai-weeks-progress" id="weeksProgress"></div>
+        <div class="ai-step" data-stagger-item>
+          <span class="ai-step-num">неделя 01</span>
+          <h3>Замер</h3>
+          <p class="text-muted">Фиксируем, сколько часов команда сжигает на процессе сейчас. Без этого числа начинать нельзя — не с чем будет сравнить.</p>
+        </div>
+        <div class="ai-step" data-stagger-item>
+          <span class="ai-step-num">неделя 02</span>
+          <h3>Данные и контур</h3>
+          <p class="text-muted">Собираем базу знаний, шаблоны, историю обращений. Настраиваем безопасный контур: что можно нейросети, что остаётся внутри периметра.</p>
+        </div>
+        <div class="ai-step" data-stagger-item>
+          <span class="ai-step-num">неделя 03</span>
+          <h3>Пилот в бою</h3>
+          <p class="text-muted">Команда работает с ИИ на реальных задачах. Не демо, не презентация — настоящие заявки и документы.</p>
+        </div>
+        <div class="ai-step" data-stagger-item>
+          <span class="ai-step-num">неделя 04</span>
+          <h3>Метрики</h3>
+          <p class="text-muted">Замеряем повторно. Считаем дельту в часах и рублях. Решаем по цифрам: масштабируем или честно останавливаемся.</p>
+        </div>
+      </div>
+
+      <p class="ai-emphasis">
+        Пилот не обязует вас ни к чему дальше.<br>
+        <strong>Если дельта слабая — вы это увидите первыми.</strong>
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== 04 / ГРАНИЦЫ ===== -->
+  <section class="section section-alt section-border-top">
+    <div class="container">
+      <p class="label ai-sec-label"><span class="ai-sec-num">04</span>Границы</p>
+      <h2 class="ai-h2">Мы откажем вам, <em class="ai-serif">если…</em></h2>
+
+      <div class="ai-refuse-list" data-stagger>
+        <div class="ai-refuse" data-stagger-item>
+          <span class="ai-refuse-marker"></span>
+          <p>Вы ждёте, что ИИ <s>«сам всё сделает»</s> — без правил, данных и проверки человеком. Так не работает нигде.</p>
+        </div>
+        <div class="ai-refuse" data-stagger-item>
+          <span class="ai-refuse-marker"></span>
+          <p>Процессы не описаны вообще, и наводить порядок не входит в планы. Автоматизация хаоса даёт <s>ускоренный хаос</s>.</p>
+        </div>
+        <div class="ai-refuse" data-stagger-item>
+          <span class="ai-refuse-marker"></span>
+          <p>Нужен результат «к понедельнику» без аудита и пилота. Мы так не умеем — и <s>не советуем тем, кто умеет</s>.</p>
+        </div>
+      </div>
+
+      <div class="ai-fit-note">
+        <p>
+          <em class="ai-serif">И наоборот.</em> Если в компании 10–200 сотрудников, есть повторяющиеся
+          процессы с текстами, заявками или документами, и вы готовы начать с одного пилота —
+          разговор будет предметным.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 05 / FAQ ===== -->
+  <section class="section section-border-top">
+    <div class="container container-narrow">
+      <p class="label ai-sec-label"><span class="ai-sec-num">05</span>Вопросы</p>
+      <h2 class="ai-h2">То, что спрашивают <em class="ai-serif">до подписания</em></h2>
+
+      <div class="faq-list" id="faqList">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="ai-faq-0">
+            <span>Это безопасно? Данные не утекут?</span>
+            <svg class="faq-icon" width="20" height="20"><use href="/icons.svg#icon-chevron-down"/></svg>
+          </button>
+          <div class="faq-answer" id="ai-faq-0" role="region">
+            <p>Проектируем контур под ваш уровень требований: российские или локальные модели, разграничение доступа, правила — что можно отправлять нейросети, а что остаётся внутри периметра. Никаких клиентских данных в публичных чатах.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="ai-faq-1">
+            <span>Сколько это стоит?</span>
+            <svg class="faq-icon" width="20" height="20"><use href="/icons.svg#icon-chevron-down"/></svg>
+          </button>
+          <div class="faq-answer" id="ai-faq-1" role="region">
+            <p>Зависит от процесса: объёмы данных, интеграции, число сценариев. Аудит бесплатный — после него называем точную цифру и прогноз окупаемости. Если окупаемости нет, так и скажем.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="ai-faq-2">
+            <span>А если команда не будет этим пользоваться?</span>
+            <svg class="faq-icon" width="20" height="20"><use href="/icons.svg#icon-chevron-down"/></svg>
+          </button>
+          <div class="faq-answer" id="ai-faq-2" role="region">
+            <p>Именно поэтому обучение и правила — обязательная часть внедрения, а не опция. Сценарии под конкретные роли, инструкции на одной странице, закрепление в ежедневной работе. «Раздать доступы» — это не внедрение.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="ai-faq-3">
+            <span>Чем вы отличаетесь от «настроим ChatGPT за день»?</span>
+            <svg class="faq-icon" width="20" height="20"><use href="/icons.svg#icon-chevron-down"/></svg>
+          </button>
+          <div class="faq-answer" id="ai-faq-3" role="region">
+            <p>Тем же, чем система привлечения отличается от «сделать сайт»: процесс вместо инструмента. Аудит, расчёт эффекта, пилот на реальных данных, метрики до и после, обучение команды.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="ai-faq-4">
+            <span>Нужно покупать серверы или особое ПО?</span>
+            <svg class="faq-icon" width="20" height="20"><use href="/icons.svg#icon-chevron-down"/></svg>
+          </button>
+          <div class="faq-answer" id="ai-faq-4" role="region">
+            <p>Нет. Начинаем с облачных решений в безопасном контуре. Собственная инфраструктура — только если этого требуют ваши правила безопасности. Решается на аудите.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== 06 — ЧТО ДАЛЬШЕ ===== -->
+  <section class="section section-alt section-border-top" id="next-step">
+    <div class="container">
+      <p class="label ai-sec-label"><span class="ai-sec-num">06</span>Что дальше</p>
+      <h2 class="ai-h2">Следующий шаг</h2>
+      <p class="ai-lead">Один процесс за 2–4 недели. Без презентаций и питчей — на ваших данных, с замером эффекта.</p>
+      <ol class="next-step-list">
+        <li>
+          <span class="next-num">01</span>
+          <div class="next-body">
+            <h3>Бесплатная диагностика</h3>
+            <p>30 минут. Видим процесс и узкое место. Без обязательств.</p>
+          </div>
+        </li>
+        <li>
+          <span class="next-num">02</span>
+          <div class="next-body">
+            <h3>Пилот 2–4 недели</h3>
+            <p>ИИ в контуре, человек проверяет, метрики до/после — на цифрах.</p>
+          </div>
+        </li>
+        <li>
+          <span class="next-num">03</span>
+          <div class="next-body">
+            <h3>Решение о масштабировании</h3>
+            <p>На цифрах, не на ощущениях. Без переплат за «коробочное» внедрение.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+<!-- ===== 07 / ИЗ БЛОГА ===== -->
+  <section class="section section-border-top" id="blog">
+    <div class="container">
+      <p class="label ai-sec-label"><span class="ai-sec-num">07</span>Из блога</p>
+      <h2 class="ai-h2">Исследования <span class="ai-serif">с цифрами</span></h2>
+      <p class="ai-lead">Сначала — общая логика и цены. Затем — задачи, которые есть в любом бизнесе. И наконец — конкретные отрасли.</p>
+
+      <div class="blog-cols">
+        <div class="blog-col">
+          <p class="blog-col-label">С чего начать</p>
+          <a class="blog-card" href="/blog/vnedrenie-ii-v-biznes.html"><span class="blog-card-title">Внедрение ИИ в бизнес: с чего начать&nbsp;и как довести пилот до системы</span><span class="blog-card-meta">pillar · 10 мин</span></a>
+          <a class="blog-card" href="/blog/skolko-stoit-vnedrenie-ii.html"><span class="blog-card-title">Сколько стоит внедрение ИИ в бизнес: честная вилка цен</span><span class="blog-card-meta">стоимость · 9 мин</span></a>
+          <a class="blog-card" href="/blog/kak-poschitat-effekt-ot-ii-do-pilota.html"><span class="blog-card-title">Как посчитать эффект от ИИ до пилота: формула и пример</span><span class="blog-card-meta">расчёт · 11 мин</span></a>
+          <a class="blog-card" href="/blog/geo-optimizaciya.html"><span class="blog-card-title">GEO-оптимизация: как попадать в ответы ChatGPT, Нейро и Алисы</span><span class="blog-card-meta">GEO · 9 мин</span></a>
+        </div>
+        <div class="blog-col">
+          <p class="blog-col-label">По задачам</p>
+          <a class="blog-card" href="/blog/ii-dlya-prodazh.html"><span class="blog-card-title">ИИ для продаж: заявки в 4 раза быстрее без потерь</span><span class="blog-card-meta">продажи · 9 мин</span></a>
+          <a class="blog-card" href="/blog/ii-dlya-marketinga.html"><span class="blog-card-title">ИИ для маркетинга: контент, заявки и аналитика</span><span class="blog-card-meta">маркетинг · 9 мин</span></a>
+          <a class="blog-card" href="/blog/ii-dlya-buhgalterii.html"><span class="blog-card-title">ИИ для бухгалтерии: первичка и сверки в 6 раз быстрее</span><span class="blog-card-meta">бухгалтерия · 9 мин</span></a>
+          <a class="blog-card" href="/blog/ii-dlya-hr.html"><span class="blog-card-title">ИИ для HR: найм и адаптация без потери человеческого решения</span><span class="blog-card-meta">HR · 9 мин</span></a>
+          </div>
+      </div>
+
+      <div class="ai-blog-toggle-wrap" style="margin-top: 24px;">
+        <button class="ai-blog-toggle" type="button" aria-label="Показать все отрасли">
+          <span class="ai-blog-toggle-text">Показать все отрасли</span>
+          <span class="ai-blog-toggle-count">(11)</span>
+        </button>
+      </div>
+
+      <div class="blog-cols-collapsed" hidden>
+        <p class="blog-col-label">Отрасли</p>
+        <a class="blog-card" href="/blog/ii-dlya-restorana.html"><span class="blog-card-title">ИИ для ресторана: как привлекать гостей и возвращать их без постоянных звонков</span><span class="blog-card-meta">ресторан · 9 мин</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-medcentra.html"><span class="blog-card-title">ИИ для медицинского центра: как привлекать пациентов и не терять заявки</span><span class="blog-card-meta">медцентр · 9 мин</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-salona-krasoty.html"><span class="blog-card-title">ИИ для салона красоты: как заполнять расписание и возвращать клиентов</span><span class="blog-card-meta">салон · 8 мин</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-turagentstva.html"><span class="blog-card-title">ИИ для турагентства: подбор туров и оформление за минуты</span><span class="blog-card-meta">туризм · 9 мин</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-onlain-shkoly.html"><span class="blog-card-title">ИИ для онлайн-школы: как привлекать учеников и доводить их до оплаты</span><span class="blog-card-meta">онлайн-школа · 9 мин</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-internet-magazina.html"><span class="blog-card-title">ИИ для интернет-магазина: заказы и возврат покупателей на автопилоте</span><span class="blog-card-meta">e-commerce · 9 мин</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-yuristov.html"><span class="blog-card-title">ИИ для юридической компании: больше обращений из поиска и мессенджеров</span><span class="blog-card-meta">юристы · 9 мин</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-nedvizhimosti.html"><span class="blog-card-title">ИИ в недвижимости: как агентству получать больше заявок и не терять их</span><span class="blog-card-meta">недвижимость · 9 мин</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-stroitelstva.html"><span class="blog-card-title">ИИ для строительной компании: сметы и документы за минуты</span><span class="blog-card-meta">стройка · 9 мин</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-logistiki.html"><span class="blog-card-title">ИИ для логистики: заявки и статусы без ручных звонков</span><span class="blog-card-meta">логистика · 9 мин</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-proizvodstva.html"><span class="blog-card-title">ИИ на производстве: от заявки до отгрузки без авралов</span><span class="blog-card-meta">производство · 9 мин</span></a>
+        <a class="blog-card" href="/blog/ii-v-crm.html"><span class="blog-card-title">ИИ в CRM: автоматизация работы с клиентами без потери качества</span><span class="blog-card-meta">CRM · 9 мин</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 08 / КОНТАКТЫ ===== -->
+  <section id="contacts" class="section section-cta">
+    <div class="container">
+      <div class="cta-content">
+        <!-- p убран, т.к. контакты - финальная секция -->
+        <h2 class="cta-title">Обсудим ваш процесс?</h2>
+        <p class="text-secondary cta-subtitle">
+          Разберём один процесс вашей команды и честно скажем, окупится ли там ИИ.
+        </p>
+
+        <ContactCards />
+
+        <p class="cta-urgency text-muted">
+          Берём ограниченное число внедрений одновременно —
+          каждый пилот требует полного погружения.
+        </p>
+      </div>
+    </div>
+  </section>
+<Fragment slot="tail">
+<!-- Inline scripts for new interactions only -->
+  <script is:inline>
+(function() {
+      const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Scheme draw-on-scroll (packet handled by SVG animateMotion)
+      const scheme = document.getElementById('scheme');
+      if (scheme) {
+        const schemeObserver = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              scheme.classList.add('drawn');
+              obs.disconnect();
+            }
+          });
+        }, { threshold: 0.25 });
+        schemeObserver.observe(scheme);
+      }
+
+      // Pilot weeks progress line
+      const weeks = document.getElementById('aiWeeks');
+      const wp = document.getElementById('weeksProgress');
+      if (weeks && wp && !prefersReduced) {
+        const updateProgress = () => {
+          const r = weeks.getBoundingClientRect();
+          const visible = Math.min(Math.max(innerHeight * 0.7 - r.top, 0), r.height);
+          wp.style.width = (visible / r.height * 100) + '%';
+        };
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        updateProgress();
+      }
+    })();
+  </script>
+</Fragment>
+</Base>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Как посчитать эффект от ИИ до пилота: формула и пример расчёта</title>
+  <meta name="description" content="Как посчитать эффект от внедрения ИИ до старта пилота: формула «часы × ставка = рубли», рабочий пример расчёта, готовый шаблон и честные границы. Без хайпа.">
+  <link rel="canonical" href="https://smartsolutions.today/blog/kak-poschitat-effekt-ot-ii-do-pilota.html">
+  <meta property="og:title" content="Как посчитать эффект от ИИ до пилота: формула и пример расчёта">
+  <meta property="og:description" content="Как посчитать эффект от внедрения ИИ до старта пилота: формула «часы × ставка = рубли», рабочий пример расчёта, готовый шаблон и честные границы.">
+  <meta property="og:image" content="https://smartsolutions.today/images/og-cover.jpg">
+  <meta property="og:url" content="https://smartsolutions.today/blog/kak-poschitat-effekt-ot-ii-do-pilota.html">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="ru_RU">
+  <link rel="apple-touch-icon" sizes="180x180" href="../apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="../android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#08080D">
+  <link rel="stylesheet" href="../styles.css">
+  <script src="../script.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Как посчитать эффект от ИИ до пилота: формула и пример расчёта", "description": "Как посчитать эффект от внедрения ИИ до старта пилота: формула «часы × ставка = рубли», рабочий пример расчёта, готовый шаблон и честные границы.", "author": {"@type": "Person", "name": "Олег Кречетов", "jobTitle": "Основатель Smart Solutions"}, "publisher": {"@type": "Organization", "name": "Smart Solutions"}, "datePublished": "2026-08-31", "inLanguage": "ru", "dateModified": "2026-08-31"}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Какой процент экономии закладывать в расчёт?", "acceptedAnswer": {"@type": "Answer", "text": "Для текстовых задач (черновики писем, ответы на типовые вопросы, расшифровка) — 40–60% времени на подготовку черновика. Для извлечения данных из документов — 30–50%. Для задач, где нужна проверка человеком, — 15–30%. Закладывайте нижнюю границу: если расчёт сходится даже при 20% экономии, проект точно стоит делать. Оценка по нашим пилотам."}}, {"@type": "Question", "name": "Что делать, если эффект не сходится?", "acceptedAnswer": {"@type": "Answer", "text": "Честно не делать проект. Если при консервативной оценке окупаемость больше 6–9 месяцев, лучше выбрать другой процесс или отказаться от внедрения. Это нормальный результат расчёта — он и нужен, чтобы не тратить деньги на заведомо слабый сценарий."}}, {"@type": "Question", "name": "Сколько должен длиться пилот, чтобы проверить расчёт?", "acceptedAnswer": {"@type": "Answer", "text": "2–4 недели. За это время набирается 20–50 реальных задач — достаточно, чтобы сравнить время до и после. Меньше — выборка не репрезентативна, больше — вы тратите деньги на процесс, который мог не сработать."}}, {"@type": "Question", "name": "Можно ли посчитать эффект без специалиста?", "acceptedAnswer": {"@type": "Answer", "text": "Да, если процесс простой и вы можете замерить время. Возьмите одну типовую задачу, засеките, сколько занимает её выполнение, умножьте на частоту и ставку — получите базу. Сложность обычно не в расчёте, а в честной оценке процента экономии: тут легко обмануть себя."}}, {"@type": "Question", "name": "Что входит в стоимость пилота?", "acceptedAnswer": {"@type": "Answer", "text": "Подписка на модель или API, настройка интеграции с вашими системами, время специалиста на настройку и проверку, обучение команды. Минимальный бюджет — от 50 000 до 150 000 ₽ (оценка по рынку). Если считаете эффект, закладывайте и стоимость поддержки после пилота: обновление источников, контроль качества."}}]}</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Главная", "item": "https://smartsolutions.today/"},
+      {"@type": "ListItem", "position": 2, "name": "Блог", "item": "https://smartsolutions.today/blog/"},
+      {"@type": "ListItem", "position": 3, "name": "Как посчитать эффект от ИИ до пилота", "item": "https://smartsolutions.today/blog/kak-poschitat-effekt-ot-ii-do-pilota.html"}
+    ]
+  }
+  </script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106747750', 'ym');
+
+    ym(106747750, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/106747750" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+</head>
+<body>
+  <div class="read-progress"><i id="readProgress"></i></div>
+
+  <a href="#article" class="skip-nav">Перейти к содержимому</a>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">Smart Solutions</a>
+      <div class="nav-menu" id="navMenu">
+        <a href="../index.html#approach" class="nav-link">Подход</a>
+        <a href="../index.html#projects" class="nav-link">Проекты</a>
+        <a href="../index.html#process" class="nav-link">Процесс</a>
+        <a href="../services.html" class="nav-link">Услуги</a>
+        <a href="../ai.html" class="nav-link nav-link-active">AI</a>
+        <a href="../index.html#contacts" class="nav-link">Контакты</a>
+      </div>
+      <a href="tel:+792****9500" class="nav-phone">+7 (925) 090-95-00</a>
+      <button class="nav-burger" id="navBurger" aria-label="Открыть меню" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu overlay -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#approach" class="mobile-menu-link">Подход</a>
+    <a href="../index.html#projects" class="mobile-menu-link">Проекты</a>
+    <a href="../index.html#process" class="mobile-menu-link">Процесс</a>
+    <a href="../services.html" class="mobile-menu-link">Услуги</a>
+    <a href="../ai.html" class="mobile-menu-link">AI</a>
+    <a href="../index.html#contacts" class="mobile-menu-link">Контакты</a>
+    <a href="tel:+792****9500" class="mobile-menu-phone">+7 (925) 090-95-00</a>
+  </div>
+
+  <article class="article" id="article">
+    <div class="container container-narrow">
+      <nav class="article-crumbs" aria-label="Хлебные крошки">
+        <a href="../index.html">Главная</a> / <a href="../ai.html">AI</a> / <span>Блог</span>
+      </nav>
+      <p class="label">Исследование · AI-направление</p>
+      <h1 class="article-title">Как посчитать эффект от ИИ до пилота: формула и пример расчёта</h1>
+      <p class="article-meta">Олег Кречетов, основатель Smart Solutions · август 2026 · ~11 минут чтения</p>
+
+      <details class="article-toc" id="articleToc" open>
+        <summary class="toc-title">Содержание <span class="toc-toggle"></span></summary>
+        <ul>
+          <li><a href="#sec-1">Почему большинство пилотов ИИ не окупаются</a></li>
+          <li><a href="#sec-2">Формула эффекта: часы × ставка = рубли</a></li>
+          <li><a href="#sec-3">Шаг 1. Посчитайте текущую стоимость процесса</a></li>
+          <li><a href="#sec-4">Шаг 2. Прикиньте честный процент экономии</a></li>
+          <li><a href="#sec-5">Шаг 3. Сравните со стоимостью пилота: окупаемость</a></li>
+          <li><a href="#sec-6">Готовый шаблон: паспорт сценария</a></li>
+          <li><a href="#sec-7">Как проверить расчёт: тестовый набор</a></li>
+          <li><a href="#sec-8">Где ИИ точно не окупится: честные границы</a></li>
+          <li><a href="#sec-9">Частые ошибки в расчёте эффекта</a></li>
+          <li><a href="#sec-10">Чек-лист: готовы ли вы к расчёту</a></li>
+          <li><a href="#sec-11">Что делать после расчёта: следующий шаг</a></li>
+        </ul>
+      </details>
+
+      <div class="article-shell">
+    <aside class="article-aside-left" aria-label="Содержание">
+      <p class="toc-section-label">В статье</p>
+    <ol><li><a href="#sec-1">Почему большинство пилотов ИИ не окупаются</a></li><li><a href="#sec-2">Формула эффекта: часы × ставка = рубли</a></li><li><a href="#sec-3">Шаг 1. Посчитайте текущую стоимость процесса</a></li><li><a href="#sec-4">Шаг 2. Прикиньте честный процент экономии</a></li><li><a href="#sec-5">Шаг 3. Сравните со стоимостью пилота: окупаемость</a></li><li><a href="#sec-6">Готовый шаблон: паспорт сценария</a></li><li><a href="#sec-7">Как проверить расчёт: тестовый набор</a></li><li><a href="#sec-8">Где ИИ точно не окупится: честные границы</a></li><li><a href="#sec-9">Частые ошибки в расчёте эффекта</a></li><li><a href="#sec-10">Чек-лист: готовы ли вы к расчёту</a></li><li><a href="#sec-11">Что делать после расчёта: следующий шаг</a></li></ol>
+    </aside>
+    <div class="article-inner">
+      <div class="article-content">
+<p>В апреле один из наших клиентов купил двадцать лицензий корпоративного ИИ-сервиса и раздал их отделу продаж. Потратил около 400 тысяч рублей за полгода. Когда я спросил, какой эффект это дало, он ответил честно: «Не знаю. Вроде быстрее стало». Быстрее — это не цифра. Это ощущение.</p>
+<p>Проблема была не в сервисе — он нормальный. Проблема в том, что эффект никто не посчитал до покупки. Ни текущую стоимость процесса, ни честный процент экономии, ни окупаемость. Просто купили и стали ждать чуда.</p>
+<p>Эта статья — о том, как посчитать эффект от ИИ до старта пилота. Одна простая формула, рабочий пример расчёта и готовый шаблон, который можно скопировать. Без обещаний «вырасти в 10 раз» — только цифры, которые можно проверить.</p>
+
+<div class="tldr"><p class="tldr-title">Коротко</p><p>Посчитайте текущую стоимость процесса (время × ставка × частота). Прикиньте честный процент экономии — для большинства задач это 20–50%, не 90%. Сравните со стоимостью пилота. Если окупаемость больше 6 месяцев — не делайте. Формула, шаблон и пример — ниже.</p></div>
+
+<h2 id="sec-1">Почему большинство пилотов ИИ не окупаются</h2>
+<p>Мы регулярно приходим в компании после неудачных попыток внедрения. Картина почти всегда одна и та же: куплен инструмент, разданы доступы, проведён вебинар — и всё. Дальше ИИ живёт своей жизнью, а деньги списываются ежемесячно.</p>
+<p>Корень проблемы — не технология. Корень в том, что эффект не посчитали до старта. Компания не знает:</p>
+<ul>
+  <li>сколько сейчас стоит процесс, который она хочет автоматизировать;</li>
+  <li>какую долю этого процесса реально заберёт ИИ;</li>
+  <li>когда окупятся вложения в пилот.</li>
+</ul>
+<p>Без этих трёх цифр любое внедрение — это ставка на удачу. Иногда она срабатывает. Чаще — нет. Расчёт до старта превращает ставку в решение.</p>
+
+<figure class="fig">
+  <figcaption><span>Рис. 1</span><span>Формула эффекта: от часов к рублям</span><span class="fig-hint">листайте →</span></figcaption>
+  <svg viewBox="0 0 720 200" class="fig-svg" role="img" aria-label="Формула эффекта ИИ">
+    <rect x="20" y="60" width="180" height="70" rx="8" fill="#16161D" stroke="#2A2A33"/>
+    <text x="110" y="90" fill="#E8E8ED" font-family="Manrope" font-size="15" text-anchor="middle" font-weight="700">Часы процесса</text>
+    <text x="110" y="112" fill="#8A8A96" font-family="Manrope" font-size="12" text-anchor="middle">в месяц</text>
+    <text x="225" y="105" fill="#00D9FF" font-family="Manrope" font-size="22" text-anchor="middle" font-weight="700">×</text>
+    <rect x="255" y="60" width="180" height="70" rx="8" fill="#16161D" stroke="#2A2A33"/>
+    <text x="345" y="90" fill="#E8E8ED" font-family="Manrope" font-size="15" text-anchor="middle" font-weight="700">Ставка часа</text>
+    <text x="345" y="112" fill="#8A8A96" font-family="Manrope" font-size="12" text-anchor="middle">зарплата + нагрузка</text>
+    <text x="460" y="105" fill="#00D9FF" font-family="Manrope" font-size="22" text-anchor="middle" font-weight="700">=</text>
+    <rect x="490" y="60" width="210" height="70" rx="8" fill="#0E2A33" stroke="#00D9FF"/>
+    <text x="595" y="90" fill="#00D9FF" font-family="Manrope" font-size="15" text-anchor="middle" font-weight="700">Стоимость процесса</text>
+    <text x="595" y="112" fill="#8A8A96" font-family="Manrope" font-size="12" text-anchor="middle">в рублях в месяц</text>
+  </svg>
+</figure>
+
+<h2 id="sec-2">Формула эффекта: часы × ставка = рубли</h2>
+<p>Вся методика сводится к одной формуле. Она намеренно простая — чтобы её мог посчитать любой руководитель без аналитика:</p>
+<p><strong>Стоимость процесса в месяц = часы в месяц × ставка часа</strong></p>
+<p>Где:</p>
+<ul>
+  <li><strong>Часы в месяц</strong> — сколько времени команда тратит на процесс. Не «на работу вообще», а именно на этот процесс.</li>
+  <li><strong>Ставка часа</strong> — полная стоимость часа сотрудника: оклад, налоги, взносы, доля офиса и инструментов. Обычно это оклад ÷ 150 часов × 1,5 (оценка).</li>
+</ul>
+<p>Дальше — эффект: честный процент времени, который заберёт ИИ, умноженный на стоимость процесса. Получаем экономию в рублях в месяц. Сравниваем её со стоимостью пилота — и получаем окупаемость.</p>
+
+<h2 id="sec-3">Шаг 1. Посчитайте текущую стоимость процесса</h2>
+<p>Возьмите один конкретный процесс. Не «продажи» и не «маркетинг» — а конкретную операцию: обработка входящей заявки, подготовка коммерческого предложения, ответы на типовые вопросы клиентов.</p>
+<p>Замерьте три цифры:</p>
+<ul>
+  <li><strong>Время на одну задачу.</strong> Возьмите 3–5 реальных задач и засеките, сколько занимает каждая от начала до результата (включая проверку и согласование).</li>
+  <li><strong>Частоту.</strong> Сколько таких задач в месяц.</li>
+  <li><strong>Ставку.</strong> Полная стоимость часа исполнителя.</li>
+</ul>
+<p><strong>Пример (оценка).</strong> Подготовка КП: 40 минут на одно, 60 штук в месяц, ставка часа 800 ₽. Итого: 40 часов × 800 ₽ = <strong>32 000 ₽ в месяц</strong> — текущая стоимость процесса.</p>
+<p>Важно: считайте полный цикл, а не только «писать текст». Если менеджер пишет КП 20 минут, а потом 20 минут проверяет и согласовывает — считаем 40.</p>
+<p><strong>Второй пример — входящие заявки (оценка).</strong> Менеджер разбирает заявку 15 минут, заявок 200 в месяц, ставка 800 ₽. Итого: 50 часов × 800 ₽ = <strong>40 000 ₽ в месяц</strong>. Если ИИ классифицирует заявку и готовит черновик ответа, а менеджер только проверяет, консервативная экономия — 35%. Получаем 14 000 ₽ в месяц. При стоимости пилота 80 000 ₽ окупаемость — меньше 6 месяцев. Это уже рабочий сценарий.</p>
+<p>Формула одна и та же для любого процесса. Меняются только три цифры: время, частота, ставка. Поэтому расчёт занимает полчаса, а не неделю аналитики.</p>
+
+<h2 id="sec-4">Шаг 2. Прикиньте честный процент экономии</h2>
+<p>Здесь большинство и обманывает себя. Презентации обещают «80% автоматизации». Реальность — скромнее, потому что человек всё равно проверяет результат и разбирает исключения.</p>
+<p>Ориентиры по нашим пилотам (оценка):</p>
+<ul>
+  <li><strong>Черновики текстов</strong> (письма, ответы, расшифровка): 40–60% времени на подготовку черновика.</li>
+  <li><strong>Извлечение данных из документов:</strong> 30–50%.</li>
+  <li><strong>Задачи с обязательной проверкой человеком:</strong> 15–30%.</li>
+</ul>
+<p>Правило: закладывайте нижнюю границу. Если расчёт сходится даже при 20% экономии — проект точно стоит делать. Если сходится только при 70% — это фантазия, а не расчёт.</p>
+<p>Продолжим пример: ИИ готовит черновик КП, менеджер проверяет и правит. Консервативно — экономия 40% времени. Значит, экономия: 32 000 ₽ × 0,4 = <strong>12 800 ₽ в месяц</strong>.</p>
+
+<figure class="fig">
+  <figcaption><span>Рис. 2</span><span>Расчёт на примере: подготовка КП</span><span class="fig-hint">листайте →</span></figcaption>
+  <svg viewBox="0 0 720 260" class="fig-svg" role="img" aria-label="Пример расчёта эффекта">
+    <text x="20" y="35" fill="#8A8A96" font-family="Manrope" font-size="13">Текущая стоимость</text>
+    <text x="20" y="60" fill="#E8E8ED" font-family="Manrope" font-size="16" font-weight="700">40 ч × 800 ₽ = 32 000 ₽/мес</text>
+    <text x="20" y="105" fill="#8A8A96" font-family="Manrope" font-size="13">Экономия (40%)</text>
+    <text x="20" y="130" fill="#00D9FF" font-family="Manrope" font-size="16" font-weight="700">12 800 ₽/мес</text>
+    <text x="20" y="175" fill="#8A8A96" font-family="Manrope" font-size="13">Стоимость пилота</text>
+    <text x="20" y="200" fill="#E8E8ED" font-family="Manrope" font-size="16" font-weight="700">150 000 ₽ (разово)</text>
+    <rect x="380" y="40" width="320" height="180" rx="10" fill="#0E2A33" stroke="#00D9FF"/>
+    <text x="540" y="90" fill="#8A8A96" font-family="Manrope" font-size="13" text-anchor="middle">Окупаемость</text>
+    <text x="540" y="130" fill="#00D9FF" font-family="Manrope" font-size="34" font-weight="800" text-anchor="middle">11,7 мес</text>
+    <text x="540" y="165" fill="#E8E8ED" font-family="Manrope" font-size="13" text-anchor="middle">150 000 ÷ 12 800</text>
+    <text x="540" y="195" fill="#FF6B6B" font-family="Manrope" font-size="12" text-anchor="middle">Долго — ищем сильнее</text>
+  </svg>
+</figure>
+
+<h2 id="sec-5">Шаг 3. Сравните со стоимостью пилота: окупаемость</h2>
+<p>Осталось подставить стоимость пилота. Минимальный бюджет — от 50 000 до 150 000 ₽ (оценка по рынку): подписка на модель или API, настройка интеграции, время специалиста, обучение команды.</p>
+<p><strong>Окупаемость = стоимость пилота ÷ экономия в месяц</strong></p>
+<p>В нашем примере: 150 000 ÷ 12 800 = <strong>11,7 месяцев</strong>. Это долго. Значит, либо ищем процесс с большей экономией, либо масштабируем на большее число задач, либо честно не делаем.</p>
+<p>Ориентир: окупаемость до 3–4 месяцев — делать точно. До 6 месяцев — обсуждаемо. Больше 9 — почти всегда нет.</p>
+<p>Заметьте: расчёт уже окупился. Мы не потратили 150 тысяч, чтобы узнать это после пилота — мы узнали это до, бесплатно.</p>
+
+<h2 id="sec-6">Готовый шаблон: паспорт сценария</h2>
+<p>Чтобы расчёт не держать в голове, используйте паспорт сценария — одну страницу, которую можно скопировать и заполнить под свой процесс. Это готовый артефакт, а не теория.</p>
+
+<table class="article-table">
+  <thead><tr><th>Поле</th><th>Что зафиксировать</th><th>Пример (КП)</th></tr></thead>
+  <tbody>
+    <tr><td>Процесс</td><td>Конкретная операция с началом и концом</td><td>Подготовка КП от брифа до согласования</td></tr>
+    <tr><td>Время на задачу</td><td>Полный цикл, включая проверку</td><td>40 минут</td></tr>
+    <tr><td>Частота</td><td>Задач в месяц</td><td>60</td></tr>
+    <tr><td>Ставка часа</td><td>Оклад ÷ 150 ч × 1,5</td><td>800 ₽</td></tr>
+    <tr><td>Стоимость процесса</td><td>Часы × ставка</td><td>32 000 ₽/мес</td></tr>
+    <tr><td>Что забирает ИИ</td><td>Конкретный этап</td><td>Черновик КП</td></tr>
+    <tr><td>% экономии</td><td>Консервативно, нижняя граница</td><td>40%</td></tr>
+    <tr><td>Экономия</td><td>Стоимость × %</td><td>12 800 ₽/мес</td></tr>
+    <tr><td>Стоимость пилота</td><td>Подписка + настройка + обучение</td><td>150 000 ₽</td></tr>
+    <tr><td>Окупаемость</td><td>Пилот ÷ экономия</td><td>11,7 мес → не делаем</td></tr>
+    <tr><td>Риск</td><td>Последствие ошибки ИИ</td><td>Неточная цена в КП — проверка менеджером</td></tr>
+    <tr><td>Контроль</td><td>Кто подтверждает результат</td><td>Менеджер проверяет каждое КП</td></tr>
+  </tbody>
+</table>
+
+<p>Заполненный паспорт — это и есть решение: делать или не делать. Если окупаемость не сходится — вы это видите сразу, без пилота.</p>
+
+<h2 id="sec-7">Как проверить расчёт: тестовый набор</h2>
+<p>Расчёт на бумаге — это гипотеза. Проверить её можно до пилота, на тестовом наборе. Это подход из практики оценки ИИ-систем (evals): переводим бизнес-цель в конкретные задания и критерии.</p>
+<p>Соберите 10–20 обезличенных примеров реальных задач: типовые, сложные и пограничные. Прогоните через ИИ и замерьте:</p>
+<ul>
+  <li>сколько времени заняла обработка против ручной;</li>
+  <li>сколько правок потребовал результат;</li>
+  <li>какая доля задач подошла под автоматизацию, а какая ушла к человеку.</li>
+</ul>
+<p>Если на тестовом наборе экономия совпала с расчётом (±10%) — гипотеза подтверждена, можно пилотить. Если нет — скорректируйте процент экономии и пересчитайте окупаемость. Это и есть честная проверка до вложений.</p>
+
+<figure class="fig">
+  <figcaption><span>Рис. 3</span><span>Когда пилот имеет смысл</span><span class="fig-hint">листайте →</span></figcaption>
+  <svg viewBox="0 0 720 240" class="fig-svg" role="img" aria-label="Матрица окупаемости">
+    <rect x="80" y="30" width="290" height="80" rx="8" fill="#0E2A33" stroke="#00D9FF"/>
+    <text x="225" y="65" fill="#00D9FF" font-family="Manrope" font-size="14" text-anchor="middle" font-weight="700">До 4 мес — делать</text>
+    <text x="225" y="90" fill="#8A8A96" font-family="Manrope" font-size="12" text-anchor="middle">экономия &gt; 25% от пилота в мес</text>
+    <rect x="390" y="30" width="290" height="80" rx="8" fill="#16161D" stroke="#2A2A33"/>
+    <text x="535" y="65" fill="#E8E8ED" font-family="Manrope" font-size="14" text-anchor="middle" font-weight="700">4–9 мес — обсуждаемо</text>
+    <text x="535" y="90" fill="#8A8A96" font-family="Manrope" font-size="12" text-anchor="middle">ищем сильнее / масштабируем</text>
+    <rect x="80" y="130" width="600" height="80" rx="8" fill="#2A1215" stroke="#FF6B6B"/>
+    <text x="380" y="165" fill="#FF6B6B" font-family="Manrope" font-size="14" text-anchor="middle" font-weight="700">Больше 9 мес — не делаем</text>
+    <text x="380" y="190" fill="#8A8A96" font-family="Manrope" font-size="12" text-anchor="middle">это не пилот, это инвестиция без проверки</text>
+  </svg>
+</figure>
+
+<h2 id="sec-8">Где ИИ точно не окупится: честные границы</h2>
+<p>Честность важнее оптимизма. Вот где расчёт почти всегда не сходится:</p>
+<ul>
+  <li><strong>Редкие задачи.</strong> Если процесс случается 2 раза в месяц, экономия в рублях мизерная, а пилот всё равно стоит денег.</li>
+  <li><strong>Задачи, где ошибка дорогая.</strong> Если неточность в ответе стоит клиента или денег, человек проверяет всё подряд — и экономия испаряется.</li>
+  <li><strong>Задачи без источников данных.</strong> Если факты разбросаны по головам и почте, ИИ будет выдумывать, а сотрудник — перепроверять.</li>
+  <li><strong>Творческие задачи с уникальным результатом.</strong> ИИ даёт среднее, а нужно уникальное.</li>
+</ul>
+<p>Если ваш процесс попадает в этот список — не расчёт виноват, просто не та задача. Выберите другую.</p>
+
+<h2 id="sec-9">Частые ошибки в расчёте эффекта</h2>
+<ul>
+  <li><strong>Считать только «время написания».</strong> Забывают про проверку, согласование и исключения. Считайте полный цикл.</li>
+  <li><strong>Закладывать 70–80% экономии.</strong> Это презентационная цифра, а не рабочая. Нижняя граница честнее.</li>
+  <li><strong>Не считать стоимость поддержки.</strong> После пилота нужны обновление источников, контроль качества, права доступа. Это тоже деньги.</li>
+  <li><strong>Считать по одной удачной задаче.</strong> Нужна выборка из типовых, сложных и пограничных примеров.</li>
+  <li><strong>Не фиксировать риск.</strong> Если последствие ошибки не описано, контроль будет формальным.</li>
+</ul>
+
+<h2 id="sec-10">Чек-лист: готовы ли вы к расчёту</h2>
+<ul>
+  <li>Выбран один конкретный процесс с понятным началом и концом.</li>
+  <li>Замерено время на 3–5 реальных задачах (полный цикл).</li>
+  <li>Известна частота задач в месяц.</li>
+  <li>Посчитана полная ставка часа исполнителя.</li>
+  <li>Процент экономии — консервативный (нижняя граница).</li>
+  <li>Учтена стоимость пилота и поддержки.</li>
+  <li>Посчитана окупаемость, и она до 6 месяцев.</li>
+  <li>Описан риск и роль человека в контроле.</li>
+</ul>
+
+<h2 id="sec-11">Что делать после расчёта: следующий шаг</h2>
+<p>Если расчёт сходится — не бросайтесь сразу внедрять. Сначала проверьте гипотезу на тестовом наборе (шаг 7), потом запускайте пилот за 2–4 недели с замером до и после. Если не сходится — это тоже результат: вы сэкономили деньги и время, не потратив их на слабый сценарий.</p>
+<p>Полную схему внедрения — от выбора процесса до боевой системы — разбираем в статье <a href="vnedrenie-ii-v-biznes.html">«Внедрение ИИ в бизнес: с чего начать и как довести пилот до рабочей системы»</a>.</p>
+
+<h2>Частые вопросы</h2>
+<h3>Какой процент экономии закладывать в расчёт?</h3>
+<p>Для текстовых задач — 40–60% времени на черновик, для извлечения данных — 30–50%, для задач с проверкой человеком — 15–30%. Закладывайте нижнюю границу: если расчёт сходится даже при 20%, проект стоит делать.</p>
+<h3>Что делать, если эффект не сходится?</h3>
+<p>Честно не делать проект. Если при консервативной оценке окупаемость больше 6–9 месяцев, выберите другой процесс или откажитесь. Это нормальный результат расчёта.</p>
+<h3>Сколько должен длиться пилот, чтобы проверить расчёт?</h3>
+<p>2–4 недели. За это время набирается 20–50 реальных задач — достаточно для сравнения времени до и после.</p>
+<h3>Можно ли посчитать эффект без специалиста?</h3>
+<p>Да, если процесс простой и вы можете замерить время. Сложность обычно не в расчёте, а в честной оценке процента экономии.</p>
+<h3>Что входит в стоимость пилота?</h3>
+<p>Подписка на модель или API, настройка интеграции, время специалиста, обучение команды. Минимум — от 50 000 до 150 000 ₽ (оценка). Плюс поддержка после пилота.</p>
+
+      </div>
+      <div class="article-related">
+        <h2 class="article-faq-title">Читать дальше</h2>
+        <div class="related-grid">
+          <a class="related-card" href="vnedrenie-ii-v-biznes.html">
+            <span class="related-meta">стратегия · 10 мин</span>
+            <span class="related-title">Внедрение ИИ в бизнес: с чего начать и как довести пилот до системы</span>
+            <span class="related-arrow">→</span>
+          </a>
+          <a class="related-card" href="skolko-stoit-vnedrenie-ii.html">
+            <span class="related-meta">стоимость · 9 мин</span>
+            <span class="related-title">Сколько стоит внедрение ИИ в бизнес: честная вилка цен</span>
+            <span class="related-arrow">→</span>
+          </a>
+          <a class="related-card" href="ii-dlya-prodazh.html">
+            <span class="related-meta">продажи · 9 мин</span>
+            <span class="related-title">ИИ для продаж: как обрабатывать заявки быстрее и не терять клиентов</span>
+            <span class="related-arrow">→</span>
+          </a>
+        </div>
+      </div>
+      </div>
+    <aside class="article-aside-right">
+    <p class="sticky-label">Автор</p>
+    <p class="sticky-author">Олег Кречетов</p>
+    <p class="sticky-author-desc">Основатель Smart Solutions. Запускаю ИИ в бизнес-процессы с замером эффекта.</p>
+    <a href="https://t.me/olegkrechetov" class="contact-row primary" target="_blank" rel="noopener">
+      <svg width="20" height="20" class="contact-icon"><use href="../icons.svg#icon-telegram"/></svg>
+      <div><span class="label">Telegram</span><span class="value">@olegkrechetov</span></div>
+    </a>
+  </aside>
+  </div>
+</article>
+
+<!-- ===== CTA после статьи ===== -->
+<section class="section section-cta">
+  <div class="container">
+    <div class="cta-content">
+      <h2 class="cta-title">Посчитаем эффект для вашего процесса?</h2>
+      <p class="text-secondary cta-subtitle">Честно скажем, окупится ли ИИ в вашем случае. Аудит бесплатный.</p>
+
+      <div class="contacts-grid">
+        <a href="tel:+792****9500" class="contact-card">
+          <span class="contact-icon-wrap"><svg width="32" height="32" class="contact-icon"><use href="../icons.svg#icon-phone"/></svg></span>
+          <span class="contact-label">Позвонить</span>
+          <span class="contact-value">+7 (925) 090-95-00</span>
+        </a>
+
+        <a href="https://t.me/olegkrechetov" target="_blank" rel="noopener" class="contact-card">
+          <span class="contact-icon-wrap"><svg width="30" height="30" class="contact-icon"><use href="../icons.svg#icon-telegram"/></svg></span>
+          <span class="contact-label">Telegram</span>
+          <span class="contact-value">@olegkrechetov</span>
+        </a>
+
+        <a href="https://wa.me/79250909500" target="_blank" rel="noopener" class="contact-card">
+          <span class="contact-icon-wrap"><svg width="30" height="30" class="contact-icon"><use href="../icons.svg#icon-whatsapp"/></svg></span>
+          <span class="contact-label">WhatsApp</span>
+          <span class="contact-value">Написать</span>
+        </a>
+
+        <a href="mailto:ok@smartsolutions.today" class="contact-card">
+          <span class="contact-icon-wrap"><svg width="34" height="34" class="contact-icon"><use href="../icons.svg#icon-email"/></svg></span>
+          <span class="contact-label">Email</span>
+          <span class="contact-value">ok@smartsolutions.today</span>
+        </a>
+      </div>
+
+      <p class="cta-urgency">Берём ограниченное число внедрений одновременно — каждый пилот требует полного погружения.</p>
+    </div>
+  </div>
+</section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <span class="footer-logo">Smart Solutions</span>
+          <p class="footer-desc text-muted">Системы привлечения клиентов<br>на основе исследований</p>
+        </div>
+        <div class="footer-col">
+          <a href="../index.html#approach" class="footer-link">Подход</a>
+          <a href="../index.html#projects" class="footer-link">Проекты</a>
+          <a href="../index.html#process" class="footer-link">Процесс</a>
+          <a href="../services.html" class="footer-link">Услуги</a>
+          <a href="../ai.html" class="footer-link">AI-направление</a>
+          <a href="index.html" class="footer-link">Блог</a>
+        </div>
+        <div class="footer-col">
+          <a href="tel:+79250909500" class="footer-link">+7 (925) 090-95-00</a>
+          <a href="mailto:ok@smartsolutions.today" class="footer-link">ok@smartsolutions.today</a>
+          <a href="https://t.me/olegkrechetov" class="footer-link">
+            <svg width="16" height="16" class="icon-inline"><use href="../icons.svg#icon-telegram"/></svg>
+            Telegram
+          </a>
+          <a href="https://wa.me/79250909500" target="_blank" rel="noopener" class="footer-link">
+            <svg width="16" height="16" class="icon-inline"><use href="../icons.svg#icon-whatsapp"/></svg>
+            WhatsApp
+          </a>
+          <span class="footer-link footer-address">
+            <svg width="14" height="14" class="icon-inline"><use href="../icons.svg#icon-location"/></svg>
+            Москва, ул. Воронцовская, д. 35-Б
+          </span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="text-muted">&copy; 2017–2026 Smart Solutions</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var bar = document.getElementById('readProgress');
+      addEventListener('scroll', function () {
+        var h = document.documentElement.scrollHeight - innerHeight;
+        bar.style.width = (h > 0 ? (scrollY / h) * 100 : 0) + '%';
+      }, { passive: true });
+    })();
+  </script>
+  <script>
+    (function () {
+      if (innerWidth < 640) document.getElementById('articleToc').removeAttribute('open');
+    })();
+  </script>
+  <!-- Back to top -->
+  <button class="back-to-top" id="backToTop" aria-label="Наверх">
+    <svg width="20" height="20"><use href="../icons.svg#icon-arrow-up"/></svg>
+  </button>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 48">
+  <!-- AG circle icon -->
+  <circle cx="24" cy="24" r="21" fill="none" stroke="#333" stroke-width="2.5"/>
+  <!-- A inside circle -->
+  <path d="M24,9 L13,37 L17,37 L24,19 L31,37 L35,37 Z" fill="#333"/>
+  <line x1="17" y1="31" x2="31" y2="31" stroke="#333" stroke-width="2"/>
+  <!-- G overlapping -->
+  <path d="M31,14 A13,13 0 1,0 31,34" fill="none" stroke="#333" stroke-width="2.5"/>
+  <line x1="31" y1="24" x2="39" y2="24" stroke="#333" stroke-width="2.5"/>
+  <!-- Text -->
+  <text x="56" y="22" font-family="'Arial', sans-serif" font-size="17" font-weight="700" letter-spacing="3" fill="#333">ARCHITECTURAL</text>
+  <text x="56" y="42" font-family="'Arial', sans-serif" font-size="17" font-weight="700" letter-spacing="3" fill="#333">GRILLE</text>
+</svg>
