@@ -66,5 +66,17 @@
     "allow": [
       "text"
     ]
+  },
+  "blog/ii-dlya-salona-krasoty.html": {
+    "reason": "время чтения приведено к факту: 2297 слов → 13 мин (было 9)",
+    "allow": [
+      "text"
+    ]
+  },
+  "blog/vnedrenie-ii-v-biznes.html": {
+    "reason": "время чтения приведено к факту: 2600 слов → 14 мин (было 10)",
+    "allow": [
+      "text"
+    ]
   }
 }
