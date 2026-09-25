@@ -27,11 +27,14 @@ BASE = 'https://smartsolutions.today'
 MANUAL_DATES: dict[str, str] = {
     # 2026-09-25: на ai.html добавлена карточка статьи «Что такое ИИ-агент» и поправлен счётчик
     '/ai.html': '2026-09-25',
+    # 2026-09-25: новая посадочная под кластер «ИИ-агенты» (115 459 показов/мес в Wordstat)
+    '/ai-agenty.html': '2026-09-25',
 }
 
 # (регулярка адреса, changefreq, priority)
 RULES = [
     (r'^/$', 'weekly', '1.0'),
+    (r'^/ai-agenty\.html$', 'weekly', '0.9'),
     (r'^/services\.html$', 'monthly', '0.8'),
     (r'^/cases/', 'monthly', '0.7'),
     (r'^/ai\.html$', 'weekly', '0.9'),
