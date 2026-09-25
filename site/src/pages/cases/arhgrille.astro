@@ -2,9 +2,14 @@
 // Сгенерировано из legacy/version-4/cases/arhgrille.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
+const jsonLd = [
+  "{\"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Главная\", \"item\": \"https://smartsolutions.today/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Проекты\", \"item\": \"https://smartsolutions.today/#projects\"}, {\"@type\": \"ListItem\", \"position\": 3, \"name\": \"Кейс Arhgrille\", \"item\": \"https://smartsolutions.today/cases/arhgrille.html\"}]}",
+];
 ---
+
 <Base
-  title={"Arhgrille: от нуля до стабильного потока заказов — Smart Solutions"}
+  jsonLd={jsonLd}
+  title={"Кейс Arhgrille: стабильный поток заказов"}
   description={"Как исследование аудитории и сегментация помогли производителю декоративных решёток выйти на 1.8М ₽ за 3 месяца и расти 5 лет подряд."}
   path="/cases/arhgrille.html"
   ogDescription={"B2B-кейс: сегментация аудитории, 3 сценария на сайте, 5 лет сопровождения. Подробный разбор."}

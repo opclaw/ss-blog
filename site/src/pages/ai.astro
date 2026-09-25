@@ -2,8 +2,13 @@
 // Сгенерировано из legacy/version-4/ai.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../layouts/Base.astro';
 import ContactCards from '../components/ContactCards.astro';
+const jsonLd = [
+  "{\"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Главная\", \"item\": \"https://smartsolutions.today/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"AI-направление\", \"item\": \"https://smartsolutions.today/ai.html\"}]}",
+];
 ---
+
 <Base
+  jsonLd={jsonLd}
   title={"Внедрение ИИ в процессы компании — Smart Solutions"}
   description={"Внедряем искусственный интеллект в ежедневные процессы: заявки, документы, база знаний, отчёты. Сначала считаем эффект в часах и рублях — потом внедряем."}
   path="/ai.html"
