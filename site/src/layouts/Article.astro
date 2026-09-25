@@ -31,7 +31,7 @@ const jsonLd = [
     { '@type': 'ListItem', position: 3, name: p.breadcrumb, item: url } ] },
 ].map((o) => JSON.stringify(o));
 ---
-<Base title={p.title} description={p.description} path={p.path} ogType="article" jsonLd={jsonLd}
+<Base mainWrap={false} title={p.title} description={p.description} path={p.path} ogType="article" jsonLd={jsonLd}
       active="ai" skipTo="#article" readProgress bodyClass="bl-page">
 <Fragment slot="head">
   <link rel="stylesheet" href="/blog-assets/article.css">

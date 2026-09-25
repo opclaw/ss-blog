@@ -9,6 +9,10 @@ RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 
 # === Редиректы старого сайта (WordPress) ===
 
+# Дубли адресов: /index.html и /blog/index.html → короткие версии (canonical указывает на них)
+RewriteRule ^index\.html$ https://smartsolutions.today/ [R=301,L]
+RewriteRule ^blog/index\.html$ https://smartsolutions.today/blog/ [R=301,L]
+
 # /portfolio/* → главная (на новом сайте портфолио на главной)
 RewriteRule ^portfolio/?$ https://smartsolutions.today/ [R=301,L]
 RewriteRule ^portfolio/.+ https://smartsolutions.today/ [R=301,L]

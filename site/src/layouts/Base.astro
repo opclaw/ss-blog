@@ -28,11 +28,14 @@ interface Props {
   hasContacts?: boolean;
   /** класс для <body class={bodyClass}> (например, bl-page для светлых статей) */
   bodyClass?: string;
+  /** оборачивать содержимое в <main>: выключают макеты, у которых свой <main> (Article.astro) */
+  mainWrap?: boolean;
 }
 const {
   title, description, path,
   ogTitle = title, ogDescription = description, ogType = 'website', ogImage = SITE.ogImage,
   jsonLd = [], active = null, skipTo = '#main-content', effects = false, readProgress = false, hasContacts = true, bodyClass,
+  mainWrap = true,
 } = Astro.props;
 const isHome = path === '/';
 const canonical = new URL(path, SITE.url).href;
@@ -108,7 +111,7 @@ const canonical = new URL(path, SITE.url).href;
   <!-- Mobile menu overlay -->
   <MobileMenu isHome={isHome} hasContacts={hasContacts} />
 
-  <slot />
+  {mainWrap ? <main><slot /></main> : <slot />}
 
   <!-- ===== FOOTER ===== -->
   <Footer isHome={isHome} hasContacts={hasContacts} />
