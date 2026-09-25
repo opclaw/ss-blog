@@ -13,13 +13,16 @@ cd site
 npm install
 npm run dev        # http://localhost:4321 — живая перезагрузка
 npm run check      # сборка + все проверки (перед каждым деплоем)
-npm run audit      # только SEO-аудит сборки, с человекочитаемым списком замечаний
+npm run audit      # SEO-аудит: мета, схемы, вес, robots/sitemap/.htaccess
+npm run qa         # доступность и целостность разметки: якоря, дубли id, alt, контакты, типографика
+npm run content    # контент-аудит статей: объём, время чтения, структура, повторы, цифры
 npm run sitemap    # пересобрать sitemap.xml из готовых страниц
 ```
 
 `npm run check` по шагам: сборка → сверка каждой страницы с эталоном `legacy/version-4` →
-актуален ли `sitemap.xml` → JS на всех страницах (меню, бургер, FAQ) → интерактив kit → SEO-аудит.
-То же самое запускается в GitHub Actions на каждый push.
+актуален ли `sitemap.xml` → JS на всех страницах (меню, бургер, FAQ) → интерактив kit →
+QA-проверка (доступность, якоря, контакты, типографика) → SEO-аудит. Ошибки любого шага останавливают
+сборку; то же самое запускается в GitHub Actions на каждый push.
 
 Готовый сайт — в `site/dist/`. Его и заливаем на хостинг.
 
@@ -48,6 +51,8 @@ site/
     ├── verify.py             сверка сборки с оригиналом (эталон legacy/version-4)
     ├── make-sitemap.py       сборка sitemap.xml из dist (lastmod — из схем статей)
     ├── seo-audit.py          SEO-аудит сборки: мета, схемы, ссылки, вес, robots/sitemap
+    ├── qa-check.py           доступность и разметка: якоря, дубли id, alt, контакты, типографика
+    ├── content-audit.py      контент-аудит статей (отчёт — tools/content-report.json)
     ├── js-check.mjs          прогон script.js на всех страницах (меню, бургер, FAQ)
     ├── kit-check.mjs         прогон интерактива статей нового образца (scan/tabs/matrix/calc/prompt)
     ├── content-edits.json    журнал намеренных правок контента (для verify.py)
