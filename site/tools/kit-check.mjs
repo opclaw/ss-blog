@@ -37,10 +37,37 @@ for (const f of files.sort()) {
     const on = machine.filter((x) => x.classList.contains('on')).length;
     const lit = root.querySelectorAll('.kit-risk.on').length;
     if (on !== machine.length || lit !== machine.length) errs.push(`scan: подсвечено ${lit}, находок ${on} из ${machine.length}`);
-    const hb = root.querySelector('[data-scan-human]');
-    if (hb) { if (hb.hidden) errs.push('scan: кнопка «что ИИ не увидел» не появилась'); hb.click(); if (!finds.some((x) => x.classList.contains('human') && x.classList.contains('on'))) errs.push('scan: находка человека не открылась'); }
+    // реестр: открыто максимум одно объяснение, итоговая строка появилась
+    if (finds.filter((x) => x.classList.contains('open')).length > 1) errs.push('scan: открыто больше одной находки');
+    if (!root.querySelector('.kit-scan-sum')) errs.push('scan: нет строки-итога');
+    if (!root.classList.contains('scanned')) errs.push('scan: после прогона нет отметки scanned');
+    // клик по находке раскрывает объяснение и переключает aria-expanded
+    const closed = finds.filter((x) => !x.classList.contains('open'))[0];
+    const closedHead = closed.querySelector('.kit-find-head');
+    if (!closedHead) errs.push('scan: у находки нет кнопки-заголовка');
+    else {
+      if (closedHead.getAttribute('aria-expanded') !== 'false') errs.push('scan: у закрытой находки aria-expanded не false');
+      closedHead.click();
+      if (!closed.classList.contains('open')) errs.push('scan: клик по находке не раскрывает объяснение');
+      if (closedHead.getAttribute('aria-expanded') !== 'true') errs.push('scan: aria-expanded не переключается');
+      if (finds.filter((x) => x.classList.contains('open')).length !== 1) errs.push('scan: одновременно открыто несколько объяснений');
+      const note = closed.querySelector('.kit-find-note');
+      if (!note || !note.textContent.trim()) errs.push('scan: у находки пустое объяснение');
+    }
+    // клик по подсвеченному пункту в договоре выделяет и раскрывает соответствующую находку
     const r = root.querySelector('.kit-risk.on'); r.click();
-    if (!root.querySelector('.kit-finds li.active')) errs.push('scan: клик по пункту не выделяет находку');
+    const active = root.querySelector('.kit-finds li.active');
+    if (!active) errs.push('scan: клик по пункту не выделяет находку');
+    else if (!active.classList.contains('open')) errs.push('scan: клик по пункту не раскрывает объяснение');
+    // «что ИИ не увидел» — отдельная находка человека
+    const hb = root.querySelector('[data-scan-human]');
+    if (hb) {
+      if (hb.hidden) errs.push('scan: кнопка «что ИИ не увидел» не появилась');
+      hb.click();
+      const h = finds.filter((x) => x.classList.contains('human'))[0];
+      if (!h || !h.classList.contains('on')) errs.push('scan: находка человека не открылась');
+      else if (!h.classList.contains('open')) errs.push('scan: находка человека не раскрыта');
+    }
     ok.push(`scan ${machine.length}+${finds.length - machine.length}`);
   }
   for (const root of d.querySelectorAll('[data-kit="tabs"]')) {
