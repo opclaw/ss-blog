@@ -12,15 +12,19 @@
     ]
   },
   "blog/ii-dlya-onlain-shkoly.html": {
-    "reason": "заголовок раздела о расчёте вместо строки из ТЗ",
+    "reason": "заголовок раздела о расчёте вместо строки из ТЗ; заголовок укорочен до 48 символов (было 77)",
     "allow": [
-      "text"
+      "meta",
+      "text",
+      "title"
     ]
   },
   "blog/ii-dlya-restorana.html": {
-    "reason": "заголовок раздела о расчёте вместо строки из ТЗ",
+    "reason": "заголовок раздела о расчёте вместо строки из ТЗ; заголовок укорочен до 43 символов (было 69)",
     "allow": [
-      "text"
+      "meta",
+      "text",
+      "title"
     ]
   },
   "blog/ii-dlya-turagentstva.html": {
@@ -30,15 +34,23 @@
     ]
   },
   "blog/ii-v-crm.html": {
-    "reason": "опечатка «обработить»",
+    "reason": "опечатка «обработить»; заголовок укорочен до 50 символов (было 64); карточка «ИИ в недвижимости» в «Читать дальше»",
     "allow": [
-      "text"
+      "classes",
+      "links",
+      "meta",
+      "text",
+      "title"
     ]
   },
   "blog/kak-poschitat-effekt-ot-ii-do-pilota.html": {
-    "reason": "удалена история о несуществующем клиенте (20 лицензий, 400 тыс.)",
+    "reason": "удалена история о несуществующем клиенте (20 лицензий, 400 тыс.); заголовок укорочен до 38 символов (было 64); карточка «ИИ для медцентра» в «Читать дальше»",
     "allow": [
-      "text"
+      "classes",
+      "links",
+      "meta",
+      "text",
+      "title"
     ]
   },
   "blog/ii-dlya-yuristov.html": {
@@ -54,29 +66,119 @@
     ]
   },
   "ai.html": {
-    "reason": "добавлена карточка статьи «Что такое ИИ-агент» в блок «Из блога» и исправлен счётчик отраслей (11 → 12)",
+    "reason": "добавлена карточка статьи «Что такое ИИ-агент» в блок «Из блога» и исправлен счётчик отраслей (11 → 12); добавлена разметка BreadcrumbList",
     "allow": [
-      "text",
+      "classes",
+      "jsonld",
       "links",
-      "classes"
+      "text"
     ]
   },
   "blog/ii-dlya-prodazh.html": {
-    "reason": "подпись блока TL;DR приведена к «Коротко» (было «Основное»)",
+    "reason": "подпись блока TL;DR приведена к «Коротко» (было «Основное»); карточка «ИИ в недвижимости» в «Читать дальше» — входящая ссылка статье без ссылок",
     "allow": [
+      "classes",
+      "links",
       "text"
     ]
   },
   "blog/ii-dlya-salona-krasoty.html": {
-    "reason": "время чтения приведено к факту: 2297 слов → 13 мин (было 9)",
+    "reason": "время чтения приведено к факту: 2297 слов → 13 мин (было 9); карточка «ИИ для медцентра» в «Читать дальше»",
     "allow": [
+      "classes",
+      "links",
       "text"
     ]
   },
   "blog/vnedrenie-ii-v-biznes.html": {
-    "reason": "время чтения приведено к факту: 2600 слов → 14 мин (было 10)",
+    "reason": "время чтения приведено к факту: 2600 слов → 14 мин (было 10); карточка «ИИ для HR» в «Читать дальше»",
     "allow": [
+      "classes",
+      "links",
       "text"
+    ]
+  },
+  "blog/ii-dlya-logistiki.html": {
+    "reason": "заголовок в выдаче укорочен до 52 символов (было 80, обрезался)",
+    "allow": [
+      "meta",
+      "title"
+    ]
+  },
+  "blog/ii-dlya-medcentra.html": {
+    "reason": "заголовок укорочен до 42 символов (было 74)",
+    "allow": [
+      "meta",
+      "title"
+    ]
+  },
+  "blog/ii-dlya-stroitelstva.html": {
+    "reason": "заголовок укорочен до 52 символов (было 76)",
+    "allow": [
+      "meta",
+      "title"
+    ]
+  },
+  "blog/skolko-stoit-vnedrenie-ii.html": {
+    "reason": "заголовок укорочен до 49 символов (было 80)",
+    "allow": [
+      "meta",
+      "title"
+    ]
+  },
+  "cases/arhgrille.html": {
+    "reason": "заголовок укорочен до 42 символов (было 68); добавлена разметка BreadcrumbList; заголовок укорочен до 42 символов (было 68)",
+    "allow": [
+      "jsonld",
+      "meta",
+      "title"
+    ]
+  },
+  "blog/chto-takoe-ii-agent.html": {
+    "reason": "описание укорочено до 109 символов (было 186, обрезалось в выдаче)",
+    "allow": [
+      "meta",
+      "title"
+    ]
+  },
+  "blog/ii-dlya-proizvodstva.html": {
+    "reason": "карточка «ИИ для HR» в «Читать дальше»",
+    "allow": [
+      "classes",
+      "links",
+      "text"
+    ]
+  },
+  "index.html": {
+    "reason": "добавлена разметка Organization + WebSite",
+    "allow": [
+      "jsonld",
+      "meta",
+      "title"
+    ]
+  },
+  "services.html": {
+    "reason": "добавлена разметка BreadcrumbList",
+    "allow": [
+      "jsonld",
+      "meta",
+      "title"
+    ]
+  },
+  "cases/cnd-store.html": {
+    "reason": "добавлена разметка BreadcrumbList",
+    "allow": [
+      "jsonld",
+      "meta",
+      "title"
+    ]
+  },
+  "cases/moya-planeta.html": {
+    "reason": "добавлена разметка BreadcrumbList",
+    "allow": [
+      "jsonld",
+      "meta",
+      "title"
     ]
   }
 }

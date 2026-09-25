@@ -70,6 +70,12 @@ site/
 
 **Отключить Метрику** — `metrikaId: null` в `src/data/site.ts`.
 
+**Страница 404** — `src/pages/404.astro`, закрыта `noindex` и не входит в `sitemap.xml`;
+на хостинге работает через `ErrorDocument 404 /404.html` в `public/.htaccess`.
+
+**Микроразметка** — `jsonLd` передаётся в `Base` массивом строк: на главной `Organization` + `WebSite`,
+на услугах, AI-хабе и кейсах — `BreadcrumbList`, в статьях нового макета схема собирается из данных.
+
 **Новая статья блога** — взять за основу статью нового образца (`blog/ii-dlya-yuristov.astro` или
 `blog/chto-takoe-ii-agent.astro`): макет `Article.astro` сам собирает оглавление, «Коротко», вопросы и JSON-LD.
 Поменять `title`, `description`, `path`, `datePublished`/`dateModified`, текст, затем:
