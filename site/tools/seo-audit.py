@@ -232,7 +232,8 @@ def main() -> None:
                     faq += sum(len(o.get('mainEntity') or []) for o in find_objects(json.loads(b), 'FAQPage'))
                 except json.JSONDecodeError:
                     pass
-            visible = len(re.findall(r'<details\b', html)) + len(re.findall(r'faq-answer', html))
+            visible = (len(re.findall(r'<details\b', html)) + len(re.findall(r'faq-answer', html))
+                       + len(re.findall(r'Частые вопросы', html)))
             if faq and not visible:
                 warn(f'{r}: FAQPage в схеме ({faq} вопросов), но видимого FAQ на странице нет')
             if not faq:
@@ -362,6 +363,60 @@ def main() -> None:
         missing = sorted(slugs - linked)
         if missing:
             warn(f'ai.html: в блоке «Из блога» нет {len(missing)} статей: {", ".join(missing)}')
+
+    # --- служебные файлы: валидность и совпадение с данными сайта
+    import xml.etree.ElementTree as ET
+    sm_file = PUBLIC / 'sitemap.xml'
+    if sm_file.exists():
+        try:
+            ET.fromstring(sm_file.read_text(encoding='utf-8'))
+        except ET.ParseError as e:
+            err(f'sitemap.xml: битый XML ({e})')
+    for name in ('manifest.json',):
+        f = DIST / name
+        if f.exists():
+            try:
+                json.loads(f.read_text(encoding='utf-8'))
+            except json.JSONDecodeError as e:
+                err(f'{name}: битый JSON ({e})')
+    bc = DIST / 'browserconfig.xml'
+    if bc.exists():
+        try:
+            ET.fromstring(bc.read_text(encoding='utf-8'))
+        except ET.ParseError as e:
+            warn(f'browserconfig.xml: битый XML ({e})')
+    og = re.search(r'ogImage:\s*\'([^\']+)\'', (ROOT / 'src' / 'data' / 'site.ts').read_text(encoding='utf-8'))
+    if og:
+        og_rel = urlparse(og.group(1)).path.lstrip('/')
+        if not (DIST / og_rel).exists():
+            err(f'og:image {og.group(1)} — файла нет в сборке')
+    mid = re.search(r'metrikaId:\s*(\d+)', (ROOT / 'src' / 'data' / 'site.ts').read_text(encoding='utf-8'))
+    if mid:
+        want = mid.group(1)
+        ids = set(re.findall(r'mc\.yandex\.ru/metrika/tag\.js\?id=(\d+)', (DIST / 'index.html').read_text(encoding='utf-8')))
+        # Метрика подключается в одном месте — сверим id на всех страницах
+        for p_ in pages:
+            found = re.findall(r'mc\.yandex\.ru/metrika/tag\.js\?id=(\d+)', p_.read_text(encoding='utf-8'))
+            if found and set(found) != {want}:
+                err(f'{rel(p_)}: счётчик Метрики {found} ≠ {want} из site.ts')
+
+    # --- вес страницы: HTML + подключённые css/js/картинки
+    heavy_pages = []
+    for p_ in pages:
+        html_ = p_.read_text(encoding='utf-8')
+        total = p_.stat().st_size
+        for m in re.finditer(r'<(?:link|script)[^>]+(?:href|src)="(/[^"]+\.(?:css|js))"', html_):
+            f = DIST / m.group(1).lstrip('/')
+            if f.exists():
+                total += f.stat().st_size
+        for m in re.finditer(r'<img[^>]+src="(/images/[^"]+)"', html_):
+            f = DIST / m.group(1).lstrip('/')
+            if f.exists():
+                total += f.stat().st_size
+        heavy_pages.append((total / 1024, rel(p_)))
+    heavy_pages.sort(reverse=True)
+    note('тяжелейшие страницы (HTML + свои css/js + картинки): ' +
+         ', '.join(f'{r} {kb:.0f} КБ' for kb, r in heavy_pages[:4]))
 
     # --- вес
     css = PUBLIC / 'styles.css'
