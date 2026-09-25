@@ -6,6 +6,11 @@ on:
   pull_request:
     paths: ['site/**', 'legacy/**']
   workflow_dispatch:
+    inputs:
+      deploy:
+        description: 'Выложить сборку на прод smartsolutions.today (rsync, нужны секреты BEGET_*)'
+        type: boolean
+        default: false
 
 jobs:
   build-and-verify:
@@ -32,3 +37,72 @@ jobs:
           name: site-dist
           path: site/dist
           include-hidden-files: true
+
+  # Выкладка на прод запускается только вручную: Actions → site → Run workflow → отметить «Выложить сборку на прод».
+  # Обычные push и pull request деплой не трогают — решение о релизе остаётся за владельцем.
+  deploy:
+    needs: build-and-verify
+    if: github.event_name == 'workflow_dispatch' && inputs.deploy
+    runs-on: ubuntu-latest
+    environment:
+      name: Production
+      url: https://smartsolutions.today/
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Проверить, что доступы к хостингу заданы
+        env:
+          BEGET_USER: ${{ secrets.BEGET_USER }}
+          BEGET_HOST: ${{ secrets.BEGET_HOST }}
+          BEGET_PATH: ${{ secrets.BEGET_PATH }}
+        run: |
+          missing=0
+          for v in BEGET_USER BEGET_HOST BEGET_PATH; do
+            if [ -z "${!v}" ]; then
+              echo "::error::Не задан секрет $v — Settings → Secrets and variables → Actions → New repository secret"
+              missing=1
+            fi
+          done
+          [ "$missing" = 0 ] || exit 1
+          echo "доступы на месте: пользователь $BEGET_USER, хост $BEGET_HOST"
+
+      - name: Настроить SSH (ключ из секрета BEGET_SSH_KEY, если задан)
+        env:
+          SSH_KEY: ${{ secrets.BEGET_SSH_KEY }}
+          SSH_HOST: ${{ secrets.BEGET_HOST }}
+          SSH_PORT: ${{ secrets.BEGET_PORT }}
+        run: |
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          if [ -n "$SSH_KEY" ]; then
+            printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
+            chmod 600 ~/.ssh/id_ed25519
+            echo "ssh-ключ записан"
+          else
+            echo "::warning::BEGET_SSH_KEY не задан — пробуем подключиться без ключа"
+          fi
+          ssh-keyscan -p "${SSH_PORT:-22}" -H "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+
+      - run: npm ci
+
+      - name: Релиз: сборка → проверки → выгрузка → проверка прода → IndexNow
+        env:
+          BEGET_USER: ${{ secrets.BEGET_USER }}
+          BEGET_HOST: ${{ secrets.BEGET_HOST }}
+          BEGET_PATH: ${{ secrets.BEGET_PATH }}
+          BEGET_PORT: ${{ secrets.BEGET_PORT }}
+        run: |
+          if [ -n "${BEGET_PORT:-}" ]; then
+            export RSYNC_RSH="ssh -p $BEGET_PORT"
+          fi
+          ./release.sh
