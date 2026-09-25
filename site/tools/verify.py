@@ -134,6 +134,15 @@ def url_of(rel):
     return BASE + rel
 
 
+# Что разрешено менять у страницы: ключи записываются в tools/content-edits.json
+# (title, meta, jsonld, text, links, classes, id, rewrite — «rewrite» снимает все проверки контента).
+def allow(edit, key):
+    if not edit:
+        return False
+    keys = edit.get('allow') or []
+    return key in keys or 'rewrite' in keys
+
+
 def ld_data(lst):
     out = []
     for x in lst:
@@ -160,23 +169,29 @@ def main():
         for slug in added: notes.append(f'карточка новой статьи: {slug}')
 
         # --- head
-        if A.title != B.title: diffs.append(f'title: {A.title!r} → {B.title!r}')
+        if A.title != B.title:
+            if allow(edit, 'title'): notes.append(f"title изменён: {edit['reason']}")
+            else: diffs.append(f'title: {A.title!r} → {B.title!r}')
         if A.meta.get('theme-color') != B.meta.get('theme-color'):
             if (A.meta.get('theme-color') or '').lower() == '#0a0a0a' and B.meta.get('theme-color') == '#08080D':
                 notes.append('theme-color выровнен (#0a0a0a → #08080D, цвет фона сайта)')
             else: diffs.append(f"meta theme-color: {A.meta.get('theme-color')!r} → {B.meta.get('theme-color')!r}")
         for k in ('description', 'og:title', 'og:description', 'og:image', 'og:type', 'og:locale'):
-            if A.meta.get(k) != B.meta.get(k): diffs.append(f'meta {k}: {A.meta.get(k)!r} → {B.meta.get(k)!r}')
+            if A.meta.get(k) != B.meta.get(k):
+                if allow(edit, 'meta'): notes.append(f"meta {k} изменён: {edit['reason']}")
+                else: diffs.append(f'meta {k}: {A.meta.get(k)!r} → {B.meta.get(k)!r}')
         for k in ('og:url',):
             if A.meta.get(k) is None and B.meta.get(k): notes.append(f'добавлен {k}')
             elif A.meta.get(k) != B.meta.get(k): diffs.append(f'meta {k}: {A.meta.get(k)!r} → {B.meta.get(k)!r}')
         if A.canonical is None and B.canonical: notes.append('добавлен canonical')
         elif A.canonical and urljoin(BASE, A.canonical).replace('/index.html', '/') != B.canonical: diffs.append(f'canonical: {A.canonical} → {B.canonical}')
-        if ld_data(A.ld) != ld_data(B.ld): diffs.append(f'JSON-LD отличается ({len(A.ld)} → {len(B.ld)})')
+        if ld_data(A.ld) != ld_data(B.ld):
+            if allow(edit, 'jsonld'): notes.append(f"JSON-LD изменён: {edit['reason']}")
+            else: diffs.append(f'JSON-LD отличается ({len(A.ld)} → {len(B.ld)})')
 
         # --- content
         ca, cb = A.zones['content'], B.zones['content']
-        if ca['text'] != cb['text'] and edit and 'text' in edit['allow']:
+        if ca['text'] != cb['text'] and allow(edit, 'text'):
             notes.append(f"текст отредактирован: {edit['reason']}")
         elif ca['text'] != cb['text']:
             ta, tb = ' '.join(ca['text']), ' '.join(cb['text'])
@@ -185,17 +200,25 @@ def main():
         la = [l.replace('#FIXED', '') for l in ca['links']]
         if '#FIXED' in ''.join(ca['links']): notes.append('исправлен tel в контенте')
         if la != cb['links']:
-            sa, sb = Counter(la), Counter(cb['links'])
-            only_a, only_b = sa - sb, sb - sa
-            diffs.append(f'ссылки контента: убраны {dict(only_a)} добавлены {dict(only_b)}' if (only_a or only_b) else 'ссылки контента: другой порядок')
+            if allow(edit, 'links'):
+                sa, sb = Counter(la), Counter(cb['links'])
+                notes.append(f"ссылки контента: +{sum((sb - sa).values())} −{sum((sa - sb).values())} — {edit['reason']}")
+            else:
+                sa, sb = Counter(la), Counter(cb['links'])
+                only_a, only_b = sa - sb, sb - sa
+                diffs.append(f'ссылки контента: убраны {dict(only_a)} добавлены {dict(only_b)}' if (only_a or only_b) else 'ссылки контента: другой порядок')
         cls_a, cls_b = ca['classes'], cb['classes']
         # мобильное меню на нестандартных классах могло попасть в «контент» оригинала — не считаем
         if cls_a != cls_b:
-            d1, d2 = cls_a - cls_b, cls_b - cls_a
-            diffs.append(f'классы контента: убраны {dict(d1)} добавлены {dict(d2)}')
+            if allow(edit, 'classes'):
+                notes.append(f"классы контента изменены: {edit['reason']}")
+            else:
+                d1, d2 = cls_a - cls_b, cls_b - cls_a
+                diffs.append(f'классы контента: убраны {dict(d1)} добавлены {dict(d2)}')
         ids_a, ids_b = list(ca['ids']), list(cb['ids'])
         if ids_a != ids_b:
             if sorted(ids_b) == sorted(ids_a + ['contacts']): notes.append('id="contacts" у блока контактов')
+            elif allow(edit, 'id'): notes.append(f"id контента изменены: {edit['reason']}")
             else: diffs.append(f'id контента: {ids_a} → {ids_b}')
 
         # --- подключения: ровно по одному разу

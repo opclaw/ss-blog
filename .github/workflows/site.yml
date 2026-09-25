@@ -24,12 +24,9 @@ jobs:
         with:
           python-version: '3.12'
       - run: npm ci
-      - name: Сборка
-        run: npm run build
-      - name: Сверка с оригиналом (legacy/version-4)
-        run: python3 tools/verify.py
-      - name: Проверка JS (меню, бургер, FAQ)
-        run: node tools/js-check.mjs dist
+      - name: Сборка + все проверки
+        # build → сверка с legacy → sitemap актуален → JS (меню, бургер, FAQ) → интерактив kit → SEO-аудит
+        run: npm run check
       - uses: actions/upload-artifact@v4
         with:
           name: site-dist
