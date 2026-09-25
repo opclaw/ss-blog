@@ -147,6 +147,34 @@
 .kit-dark .kit-funnel-bar i{background:rgba(245,245,247,.3)}
 .kit-funnel-bar:last-child i{background:var(--acc-t)}
 @media (prefers-reduced-motion:reduce){.kit-funnel-bar i{transition:none}}
+
+/* ---------- Checklist: готовность к пилоту ---------- */
+.kit-check-list{list-style:none;margin:0;padding:8px 20px 4px}
+.kit-check-list li{border-bottom:1px solid var(--line)}
+.kit-check-list li:last-child{border-bottom:0}
+.kit-check-list label{display:flex;gap:12px;align-items:flex-start;padding:12px 0;cursor:pointer;font-size:15px;line-height:1.55;color:var(--text)}
+.kit-check-list input{flex:0 0 auto;width:20px;height:20px;margin:2px 0 0;accent-color:var(--acc-t);cursor:pointer}
+.kit-check-list input:checked + span{color:var(--fg)}
+.kit-check-out{padding:16px 20px 18px;border-top:1px solid var(--line);background:var(--paper2)}
+.kit-check-bar{height:8px;border-radius:999px;background:var(--line2);overflow:hidden}
+.kit-check-bar i{display:block;height:100%;border-radius:999px;background:var(--acc-t);transition:width .25s}
+.kit-check-verdict{margin:12px 0 0;font:600 16px/1.35 var(--f-d);color:var(--fg)}
+.kit-check-legend{margin:8px 0 0;font:400 13px/1.5 var(--f-t);color:var(--dim)}
+.kit-check-legend span{opacity:.5}
+.kit-check-legend span.on{opacity:1;color:var(--acc-t)}
+@media (prefers-reduced-motion:reduce){.kit-check-bar i{transition:none}}
+
+/* ---------- Таблица (универсальная: тёмная внутри .kit-dark, светлая вне) ---------- */
+.kit-table-wrap{margin:28px 0 36px;overflow-x:auto;border:1px solid var(--line, rgba(16,16,20,.12));border-radius:16px;background:var(--card, #fff)}
+.kit-table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.5;min-width:560px}
+.kit-table th{font:500 12px/1.3 var(--f-m, ui-monospace, monospace);letter-spacing:.06em;text-transform:uppercase;color:var(--acc-t, #0A7EA4);text-align:left;padding:14px 16px;border-bottom:1px solid var(--line, rgba(16,16,20,.12));background:var(--paper2, rgba(16,16,20,.03))}
+.kit-table td{padding:13px 16px;border-bottom:1px solid var(--line, rgba(16,16,20,.12));vertical-align:top;color:var(--dim, rgba(16,16,20,.65))}
+.kit-table tr:last-child td{border-bottom:0}
+.kit-table td:first-child{font:500 13px/1.6 var(--f-m, ui-monospace, monospace);color:var(--mute, rgba(16,16,20,.5));white-space:nowrap}
+.kit-table th:last-child{background:var(--acc-soft, rgba(10,126,164,.08))}
+.kit-table td:last-child{color:var(--fg, #101014);font-weight:500;background:var(--acc-soft, rgba(10,126,164,.08))}
+.kit-cap-tbl{margin:0 0 -20px;font:500 12px/1.4 var(--f-m, ui-monospace, monospace);letter-spacing:.06em;text-transform:uppercase;color:var(--dim, rgba(16,16,20,.65))}
+.kit-cap-tbl b{margin-right:10px;color:var(--acc-t, #0A7EA4);font-weight:500}
 /* ---------- Факт-таблица с датой проверки ---------- */
 .kit-src{font:400 13px/1.5 var(--f-t);color:var(--mute);margin:-24px 0 32px}
 .kit-src a{color:var(--acc-t)}

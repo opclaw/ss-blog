@@ -1,0 +1,26 @@
+---
+// Чек-лист готовности: читатель отмечает, что уже есть, и получает вердикт.
+// Без JS видны все пункты и шкала «сколько пунктов что значит» — смысл не теряется.
+interface Level { from: number; text: string }
+interface Props { fig?: number; title: string; items: string[]; levels?: Level[]; note?: string }
+const { fig, title, items, note, levels = [
+  { from: 0, text: 'Пока рано: сначала опишите процесс и соберите данные' },
+  { from: 3, text: 'Можно запускать пилот на одном процессе' },
+  { from: 5, text: 'Есть база для масштабирования на другие процессы' },
+] } = Astro.props;
+const id = 'kc' + Math.abs([...title].reduce((a, c) => (a * 31 + c.charCodeAt(0)) | 0, 7)).toString(36);
+---
+<figure class="kit kit-check" data-kit="check">
+  <figcaption class="kit-cap">{fig && <b>Рис. {fig}</b>}{title}<em>отметьте, что уже есть</em></figcaption>
+  <ul class="kit-check-list">
+    {items.map((t, i) => (
+      <li><label><input type="checkbox" id={`${id}-c${i}`} data-c /> <span>{t}</span></label></li>
+    ))}
+  </ul>
+  <div class="kit-check-out" aria-live="polite">
+    <div class="kit-check-bar"><i data-cbar style="width:0%"></i></div>
+    <p class="kit-check-verdict" data-cverdict>Отметьте пункты — покажем вердикт</p>
+    <p class="kit-check-legend">{levels.map((l) => <span data-cl={l.from}>{l.from}+ — {l.text}</span>)}</p>
+  </div>
+  {note && <p class="kit-foot">{note}</p>}
+</figure>

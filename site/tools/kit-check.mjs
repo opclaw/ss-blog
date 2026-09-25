@@ -90,6 +90,16 @@ for (const f of files.sort()) {
     if (out.textContent === before) errs.push('calc: итог не меняется от ползунка');
     ok.push(`calc ${before}→${out.textContent}`);
   }
+  for (const root of d.querySelectorAll('[data-kit="check"]')) {
+    const boxes = [...root.querySelectorAll('input[data-c]')], verdict = root.querySelector('[data-cverdict]');
+    if (!boxes.length || !verdict) { errs.push('check: нет пунктов или вердикта'); continue; }
+    const before = verdict.textContent.trim();
+    boxes.forEach((b) => { b.checked = true; b.dispatchEvent(new w.Event('change')); });
+    if (verdict.textContent.trim() === before) errs.push('check: вердикт не меняется от отметок');
+    const bar = root.querySelector('[data-cbar]');
+    if (bar && bar.style.width !== '100%') errs.push(`check: шкала не заполнилась (${bar.style.width || 'пусто'})`);
+    ok.push(`check 0→${boxes.length}`);
+  }
   for (const root of d.querySelectorAll('[data-kit="funnel"]')) {
     const now = root.querySelector('[data-fr="now"]'), fast = root.querySelector('[data-fr="fast"]'), lbl = root.querySelector('[data-flbl]');
     if (!now || !fast || !lbl) { errs.push('funnel: нет строк результата'); continue; }

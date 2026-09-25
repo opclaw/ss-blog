@@ -153,6 +153,34 @@
   });
 
 
+
+  /* ---------- Checklist: отметки → шкала и вердикт ---------- */
+  $$('[data-kit="check"]').forEach(function (root) {
+    root.classList.add('kit-js');
+    var boxes = $$('input[data-c]', root), bar = $('[data-cbar]', root), verdict = $('[data-cverdict]', root);
+    var levels = [];
+    var legend = $('.kit-check-legend', root);
+    if (legend) {
+      // пороги берём из легенды, чтобы текст вердикта жил в одном месте — в компоненте
+      legend.textContent.split(' · ').forEach(function (part, i) {
+        var m = part.match(/^(\d+)\+/);
+        if (m) levels.push({ from: +m[1], text: part.replace(/^\d+\+\s*—\s*/, '') });
+      });
+    }
+    function upd() {
+      var n = boxes.filter(function (b) { return b.checked; }).length;
+      if (bar) bar.style.width = Math.round(n / boxes.length * 100) + '%';
+      if (verdict && levels.length) {
+        var cur = levels[0];
+        levels.forEach(function (l) { if (n >= l.from) cur = l; });
+        verdict.textContent = n === 0 ? 'Отметьте пункты — покажем вердикт' : cur.text;
+        $$('[data-cl]', root).forEach(function (el) { el.classList.toggle('on', n > 0 && +el.dataset.cl === cur.from); });
+      }
+    }
+    boxes.forEach(function (b) { b.addEventListener('change', upd); });
+    upd();
+  });
+
   /* ---------- Funnel: заявки → диалог → сделка ---------- */
   $$('[data-kit="funnel"]').forEach(function (root) {
     root.classList.add('kit-js');
