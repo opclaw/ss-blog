@@ -1,0 +1,21 @@
+---
+// Калькулятор. expr — выражение от id полей (пишем сами, не пользовательский ввод).
+interface Input { id: string; label: string; min: number; max: number; step: number; value: number; unit?: string }
+interface Out { expr: string; label?: string; unit?: string; dig?: number }
+interface Props { fig?: number; title: string; inputs: Input[]; main: Out & { label: string }; rows?: (Out & { label: string })[]; note: string }
+const { fig, title, inputs, main, rows = [], note } = Astro.props;
+---
+<figure class="kit kit-calc" data-kit="calc">
+  <figcaption class="kit-cap">{fig && <b>Рис. {fig}</b>}{title}<em>подставьте свои цифры</em></figcaption>
+  <div class="kit-calc-grid">
+    <div class="kit-calc-in">
+      {inputs.map((i) => <label><span>{i.label}</span><output data-o={i.id}>{i.value}{i.unit}</output><input type="range" min={i.min} max={i.max} step={i.step} value={i.value} data-i={i.id} data-unit={i.unit} aria-label={i.label} /></label>)}
+    </div>
+    <div class="kit-calc-out" aria-live="polite">
+      <p class="kit-calc-k">{main.label}</p>
+      <p class="kit-calc-big"><span data-r data-expr={main.expr} data-dig={main.dig}>0</span><small>{main.unit}</small></p>
+      <ul class="kit-calc-rows">{rows.map((r) => <li><span>{r.label}</span><b><span data-r data-expr={r.expr} data-dig={r.dig}>0</span> {r.unit}</b></li>)}</ul>
+    </div>
+  </div>
+  <p class="kit-foot">{note}</p>
+</figure>

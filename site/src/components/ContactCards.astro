@@ -1,0 +1,29 @@
+---
+// Четыре карточки контактов. Одинаковы на всех страницах (сверено по 27 страницам version 4).
+import { CONTACTS } from '../data/site';
+---
+<div class="contacts-grid">
+          <a href={`tel:${CONTACTS.tel}`} class="contact-card">
+            <span class="contact-icon-wrap"><svg width="32" height="32" class="contact-icon"><use href="/icons.svg#icon-phone"/></svg></span>
+            <span class="contact-label">Позвонить</span>
+            <span class="contact-value">{CONTACTS.phone}</span>
+          </a>
+
+          <a href={CONTACTS.telegram} target="_blank" rel="noopener" class="contact-card">
+            <span class="contact-icon-wrap"><svg width="30" height="30" class="contact-icon"><use href="/icons.svg#icon-telegram"/></svg></span>
+            <span class="contact-label">Telegram</span>
+            <span class="contact-value">{CONTACTS.telegramHandle}</span>
+          </a>
+
+          <a href={CONTACTS.whatsapp} target="_blank" rel="noopener" class="contact-card">
+            <span class="contact-icon-wrap"><svg width="30" height="30" class="contact-icon"><use href="/icons.svg#icon-whatsapp"/></svg></span>
+            <span class="contact-label">WhatsApp</span>
+            <span class="contact-value">Написать</span>
+          </a>
+
+          <a href={`mailto:${CONTACTS.email}`} class="contact-card">
+            <span class="contact-icon-wrap"><svg width="34" height="34" class="contact-icon"><use href="/icons.svg#icon-email"/></svg></span>
+            <span class="contact-label">Email</span>
+            <span class="contact-value">{CONTACTS.email}</span>
+          </a>
+        </div>

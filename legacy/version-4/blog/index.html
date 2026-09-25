@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Блог об ИИ для бизнеса — Smart Solutions</title>
+  <meta name="description" content="Исследования внедрения ИИ в процессы компании: расчёты эффекта в часах и рублях, честные ограничения, пилоты.">
+  <link rel="canonical" href="https://smartsolutions.today/blog/">
+  <meta property="og:title" content="Блог об ИИ для бизнеса — Smart Solutions">
+  <meta property="og:description" content="Исследования внедрения ИИ в процессы компании: расчёты эффекта в часах и рублях, честные ограничения, пилоты.">
+  <meta property="og:image" content="https://smartsolutions.today/images/og-cover.jpg">
+  <meta property="og:url" content="https://smartsolutions.today/blog/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#08080D">
+  <link rel="stylesheet" href="../styles.css">
+  <script src="../script.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    .ai-blog-lead { color: var(--secondary); font-size: .85rem; font-weight: 400; display: block; margin-top: 4px; }
+  </style>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "CollectionPage", "name": "Блог об ИИ для бизнеса — Smart Solutions", "url": "https://smartsolutions.today/blog/", "inLanguage": "ru"}</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Главная", "item": "https://smartsolutions.today/"},
+      {"@type": "ListItem", "position": 2, "name": "Блог", "item": "https://smartsolutions.today/blog/"}
+    ]
+  }
+  </script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106747750', 'ym');
+
+    ym(106747750, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/106747750" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+</head>
+<body>
+
+  <a href="#article" class="skip-nav">Перейти к содержимому</a>
+  <div class="read-progress"><i id="readProgress"></i></div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">Smart Solutions</a>
+      <div class="nav-menu" id="navMenu">
+        <a href="../index.html#approach" class="nav-link">Подход</a>
+        <a href="../index.html#projects" class="nav-link">Проекты</a>
+        <a href="../index.html#process" class="nav-link">Процесс</a>
+        <a href="../services.html" class="nav-link">Услуги</a>
+        <a href="../ai.html" class="nav-link nav-link-active">AI</a>
+        <a href="#contacts" class="nav-link">Контакты</a>
+      </div>
+      <a href="tel:+792****9500" class="nav-phone">+7 (925) 090-95-00</a>
+      <button class="nav-burger" id="navBurger" aria-label="Открыть меню" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu overlay -->
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Навигация">
+    <div class="mobile-menu-glow"></div>
+    <a href="../index.html#approach" class="mobile-link">Подход</a>
+    <a href="../index.html#projects" class="mobile-link">Проекты</a>
+    <a href="../index.html#process" class="mobile-link">Процесс</a>
+    <a href="../services.html" class="mobile-link">Услуги</a>
+    <a href="../ai.html" class="mobile-link">AI</a>
+    <a href="#contacts" class="mobile-link">Контакты</a>
+    <div class="mobile-contacts">
+      <a href="tel:+792****9500" class="mobile-contact">
+        <svg width="18" height="18"><use href="../icons.svg#icon-phone"/></svg>
+        Позвонить
+      </a>
+      <span class="mobile-contacts-divider"></span>
+      <a href="https://t.me/olegkrechetov" class="mobile-contact">
+        <svg width="18" height="18"><use href="../icons.svg#icon-telegram"/></svg>
+        Написать
+      </a>
+    </div>
+  </div>
+
+  <article class="article" id="article">
+    <div class="container container-narrow">
+      <nav class="article-crumbs" aria-label="Хлебные крошки">
+        <a href="../index.html">Главная</a> / <a href="../ai.html">AI</a> / <span>Блог</span>
+      </nav>
+      <p class="label">Блог · AI-направление</p>
+      <h1 class="article-title">Исследования с цифрами</h1>
+      <p class="article-meta">Smart Solutions · внедрение ИИ с замером эффекта</p>
+
+            <section class="blog-section">
+        <h2 class="blog-section-title">С чего начать</h2>
+        <p class="blog-section-desc">
+          Общая логика, цены, новые форматы поиска. Начните здесь, если только разбираетесь в теме.
+        </p>
+        <div class="blog-grid">
+        <a class="blog-grid-card" href="vnedrenie-ii-v-biznes.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">pillar</span><span class="blog-grid-time">10 мин</span></span>
+          <span class="blog-grid-title">Внедрение ИИ в бизнес: с чего начать&nbsp;и как довести пилот до рабочей системы</span>
+          <span class="blog-grid-lead">Процессный подход: выбор процесса, формула эффекта, пилот за 2–4 недели и честные ограничения.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="skolko-stoit-vnedrenie-ii.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">стоимость</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">Стоимость внедрения ИИ: формула окупаемости и реальные цифры</span>
+          <span class="blog-grid-lead">Аудит бесплатно, пилот 50–150 тыс ₽, внедрение от 200 тыс ₽.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="kak-poschitat-effekt-ot-ii-do-pilota.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">расчёт</span><span class="blog-grid-time">11 мин</span></span>
+          <span class="blog-grid-title">Как посчитать эффект от ИИ до пилота: формула и пример расчёта</span>
+          <span class="blog-grid-lead">Формула «часы × ставка = рубли», рабочий пример, готовый шаблон и честные границы.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="geo-optimizaciya.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">GEO</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">GEO-оптимизация: как попадать в ответы ChatGPT, Нейро и Алисы</span>
+          <span class="blog-grid-lead">Новый канал привлечения: как стать тем, кого цитируют нейросети.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        </div>
+      </section>
+      <section class="blog-section">
+        <h2 class="blog-section-title">По задачам</h2>
+        <p class="blog-section-desc">
+          Типовые процессы, которые есть в любом бизнесе: продажи, маркетинг, бухгалтерия, HR, CRM.
+        </p>
+        <div class="blog-grid">
+        <a class="blog-grid-card" href="ii-dlya-prodazh.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">продажи</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для продаж: как обрабатывать заявки в 5 раз быстрее и не терять клиентов</span>
+          <span class="blog-grid-lead">Скорость ответа решает: конверсия ×4–9 за 5 минут, скоринг, follow-up и расчёт в рублях.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="ii-dlya-marketinga.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">маркетинг</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для маркетинга: контент, заявки и аналитика без расширения штата</span>
+          <span class="blog-grid-lead">Контент-конвейер из одного интервью в 10 форматов, отчёты за 1–2 часа, мониторинг в фоне.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="ii-dlya-hr.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">HR</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для HR: как ускорить найм и адаптацию без потери человеческого решения</span>
+          <span class="blog-grid-lead">Скрининг 300 резюме за 4 часа вместо 20, скрининг-диалоги, адаптация за 14 дней.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="ii-dlya-buhgalterii.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">бухгалтерия</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для бухгалтерии: первичка и сверки в 6 раз быстрее</span>
+          <span class="blog-grid-lead">Первичка 6 мин → 1 мин, сверки со вторым глазом, отчётность без авралов.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="ii-v-crm.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">CRM</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ в CRM: автоматизация работы с клиентами без потери качества</span>
+          <span class="blog-grid-lead">Скоринг, автозаполнение, подсказки и автосопровождение.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        </div>
+      </section>
+      <section class="blog-section">
+        <h2 class="blog-section-title">По отраслям</h2>
+        <p class="blog-section-desc">
+          Конкретные ниши — как ИИ решает задачи в вашей индустрии.
+        </p>
+        <div class="blog-grid">
+        <a class="blog-grid-card" href="ii-dlya-restorana.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">рестораны</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для ресторана: как привлекать гостей и возвращать их без роста рекламы</span>
+          <span class="blog-grid-lead">Отзывы за час, возврат 5–15% из «мёртвой» базы, контент из фактуры кухни.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="ii-dlya-nedvizhimosti.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">недвижимость</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ в недвижимости: как агентству получать больше заявок и не терять их</span>
+          <span class="blog-grid-lead">Ответ за 2 минуты, подборки с пояснениями, реанимация старой базы.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="ii-dlya-onlain-shkoly.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">онлайн-школы</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для онлайн-школы: как привлекать учеников и доводить их до оплаты</span>
+          <span class="blog-grid-lead">40% заявок остывает без быстрого ответа; воронка, дожим без спама, удержание.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="ii-dlya-medcentra.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">медицина</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для медицинского центра: как привлекать пациентов и не терять заявки</span>
+          <span class="blog-grid-lead">Запись за 2–3 минуты, no-show 15–20% → 4–7%. Только админ-процессы, не лечение.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="ii-dlya-yuristov.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">юристы</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для юристов: договоры, консультации и поиск рисков</span>
+          <span class="blog-grid-lead">Квалификация обращений за минуты, документы 60–90 мин → 15–20.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="ii-dlya-salona-krasoty.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">салоны</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для салона красоты: как заполнять расписание и возвращать клиентов</span>
+          <span class="blog-grid-lead">Пустые окна −30–50%, возврат «спящих» клиентов 8–15%.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="ii-dlya-turagentstva.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">туризм</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для турагентства: подбор туров и оформление за минуты</span>
+          <span class="blog-grid-lead">Подбор тура за минуты, пакет документов, возврат туристов.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="ii-dlya-stroitelstva.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">стройка</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">Автоматизация строительства: сметы и документы за минуты</span>
+          <span class="blog-grid-lead">Ответ за 2–3 минуты, сметы-черновики, договоры и акты по шаблонам.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="ii-dlya-proizvodstva.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">производство</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ на производстве: от заявки до отгрузки без авралов</span>
+          <span class="blog-grid-lead">Спецификация 2 ч → 20 мин, документооборот по шаблонам.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="ii-dlya-logistiki.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">логистика</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">Автоматизация логистики: заявки, статусы, без ручных звонков</span>
+          <span class="blog-grid-lead">Карточка рейса за минуты, сверки без ручного перебора.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        <a class="blog-grid-card" href="ii-dlya-internet-magazina.html">
+          <span class="blog-grid-meta"><span class="blog-grid-label">e-commerce</span><span class="blog-grid-time">9 мин</span></span>
+          <span class="blog-grid-title">ИИ для интернет-магазина: заказы и возврат покупателей на автопилоте</span>
+          <span class="blog-grid-lead">Брошенные корзины, ассистент по товарам, повторные продажи.</span>
+          <span class="blog-grid-arrow">→</span>
+        </a>
+        </div>
+      </section>
+
+    </div>
+  </article>
+
+  <!-- ===== CTA ===== -->
+  <section id="contacts" class="section section-cta">
+    <div class="container">
+      <div class="cta-content">
+        <h2 class="cta-title">Разберём ваш процесс?</h2>
+        <p class="text-secondary cta-subtitle">Честно скажем, окупится ли ИИ в вашем случае. Аудит бесплатный.</p>
+
+        <div class="contacts-grid">
+          <a href="tel:+792****9500" class="contact-card">
+            <span class="contact-icon-wrap"><svg width="32" height="32" class="contact-icon"><use href="../icons.svg#icon-phone"/></svg></span>
+            <span class="contact-label">Позвонить</span>
+            <span class="contact-value">+7 (925) 090-95-00</span>
+          </a>
+
+          <a href="https://t.me/olegkrechetov" target="_blank" rel="noopener" class="contact-card">
+            <span class="contact-icon-wrap"><svg width="30" height="30" class="contact-icon"><use href="../icons.svg#icon-telegram"/></svg></span>
+            <span class="contact-label">Telegram</span>
+            <span class="contact-value">@olegkrechetov</span>
+          </a>
+
+          <a href="https://wa.me/79250909500" target="_blank" rel="noopener" class="contact-card">
+            <span class="contact-icon-wrap"><svg width="30" height="30" class="contact-icon"><use href="../icons.svg#icon-whatsapp"/></svg></span>
+            <span class="contact-label">WhatsApp</span>
+            <span class="contact-value">Написать</span>
+          </a>
+
+          <a href="mailto:ok@smartsolutions.today" class="contact-card">
+            <span class="contact-icon-wrap"><svg width="34" height="34" class="contact-icon"><use href="../icons.svg#icon-email"/></svg></span>
+            <span class="contact-label">Email</span>
+            <span class="contact-value">ok@smartsolutions.today</span>
+          </a>
+        </div>
+
+        <p class="cta-urgency">Берём ограниченное число внедрений одновременно — каждый пилот требует полного погружения.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <span class="footer-logo">Smart Solutions</span>
+          <p class="footer-desc text-muted">Системы привлечения клиентов<br>на основе исследований</p>
+        </div>
+        <div class="footer-col">
+          <a href="../index.html#approach" class="footer-link">Подход</a>
+          <a href="../index.html#projects" class="footer-link">Проекты</a>
+          <a href="../index.html#process" class="footer-link">Процесс</a>
+          <a href="../services.html" class="footer-link">Услуги</a>
+          <a href="../ai.html" class="footer-link">AI-направление</a>
+          <a href="index.html" class="footer-link">Блог</a>
+        </div>
+        <div class="footer-col">
+          <a href="tel:+792****9500" class="footer-link">+7 (925) 090-95-00</a>
+          <a href="mailto:ok@smartsolutions.today" class="footer-link">ok@smartsolutions.today</a>
+          <a href="https://t.me/olegkrechetov" class="footer-link">
+            <svg width="16" height="16" class="icon-inline"><use href="../icons.svg#icon-telegram"/></svg>
+            Telegram
+          </a>
+          <a href="https://wa.me/79250909500" target="_blank" rel="noopener" class="footer-link">
+            <svg width="16" height="16" class="icon-inline"><use href="../icons.svg#icon-whatsapp"/></svg>
+            WhatsApp
+          </a>
+          <span class="footer-link footer-address">
+            <svg width="14" height="14" class="icon-inline"><use href="../icons.svg#icon-location"/></svg>
+            Москва, ул. Воронцовская, д. 35-Б
+          </span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="text-muted">&copy; 2017–2026 Smart Solutions</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var bar = document.getElementById('readProgress');
+      addEventListener('scroll', function () {
+        var h = document.documentElement.scrollHeight - innerHeight;
+        bar.style.width = (h > 0 ? (scrollY / h) * 100 : 0) + '%';
+      }, { passive: true });
+    })();
+  </script>
+  <!-- Back to top -->
+  <button class="back-to-top" id="backToTop" aria-label="Наверх">
+    <svg width="20" height="20"><use href="../icons.svg#icon-arrow-up"/></svg>
+  </button>
+
+</body>
+</html>

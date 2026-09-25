@@ -1,0 +1,38 @@
+User-agent: *
+Allow: /
+Disallow: /consent.html
+Disallow: /consent-cookies.html
+Disallow: /*.json$
+Disallow: /*.md$
+
+# Старые WordPress-пути
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /wp-content/
+Disallow: /feed/
+Disallow: /xmlrpc.php
+Disallow: /?p=
+Disallow: /trackback/
+
+# Яндекс: не индексировать дубли страниц с рекламными метками
+User-agent: Yandex
+Allow: /
+Disallow: /consent.html
+Disallow: /consent-cookies.html
+Disallow: /*.json$
+Disallow: /*.md$
+Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&gclid&fbclid&_openstat
+
+# ИИ-поисковики: разрешаем явно, чтобы нас цитировали (GEO)
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: PerplexityBot
+User-agent: Google-Extended
+Allow: /
+Disallow: /consent.html
+Disallow: /consent-cookies.html
+
+Sitemap: https://smartsolutions.today/sitemap.xml

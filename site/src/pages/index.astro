@@ -1,0 +1,844 @@
+---
+// Сгенерировано из legacy/version-4/index.html (tools/import_legacy.py). Дальше правим здесь.
+import Base from '../layouts/Base.astro';
+import ContactCards from '../components/ContactCards.astro';
+---
+<Base
+  title={"Smart Solutions — Системы привлечения клиентов для бизнеса"}
+  description={"Изучаем ваш рынок, конкурентов и клиентов. Выстраиваем систему, которая стабильно приводит заявки. Москва."}
+  path="/"
+  ogDescription={"Изучаем рынок, конкурентов и клиентов. Выстраиваем систему, которая стабильно приводит заявки."}
+  effects
+>
+  <section class="section section-hero" id="main-content">
+    <div class="hero-decoration">
+      <div class="hero-grid"></div>
+      <div class="hero-glow hero-glow-1"></div>
+      <div class="hero-glow hero-glow-2"></div>
+    </div>
+    <div class="container">
+      <div class="hero-layout">
+        <div class="hero-content">
+          <p class="label fade-in">Москва &bull; Привлечение клиентов через цифровые каналы</p>
+
+          <h1 class="hero-title fade-in fade-in-d1">
+            Вам не нужен сайт.<br>
+            <span class="text-accent">Вам нужны клиенты.</span>
+          </h1>
+
+          <p class="hero-summary fade-in fade-in-d2">
+            Соединяем сайт, рекламу, аналитику и ИИ в систему привлечения клиентов.
+          </p>
+
+          <a href="#contacts" class="btn btn-primary btn-shimmer fade-in fade-in-d3">
+            Обсудить проект
+            <svg width="18" height="18"><use href="/icons.svg#icon-arrow-right"/></svg>
+          </a>
+
+        </div>
+
+        <div class="hero-visual fade-in fade-in-d2">
+          <div class="hero-constellation">
+            <!-- Central hub -->
+            <div class="const-hub">
+              <div class="const-hub-ring"></div>
+              <div class="const-hub-ring const-hub-ring--2"></div>
+              <div class="const-hub-core"></div>
+            </div>
+            <!-- Orbiting nodes -->
+            <div class="const-node const-node--1"><span></span></div>
+            <div class="const-node const-node--2"><span></span></div>
+            <div class="const-node const-node--3"><span></span></div>
+            <div class="const-node const-node--4"><span></span></div>
+            <div class="const-node const-node--5"><span></span></div>
+            <!-- Connecting lines (SVG) -->
+            <svg class="const-lines" viewBox="0 0 400 400" fill="none">
+              <line x1="200" y1="200" x2="80" y2="90" stroke="url(#line-grad)" stroke-width="1" opacity="0.15"/>
+              <line x1="200" y1="200" x2="330" y2="110" stroke="url(#line-grad)" stroke-width="1" opacity="0.12"/>
+              <line x1="200" y1="200" x2="320" y2="300" stroke="url(#line-grad-g)" stroke-width="1" opacity="0.1"/>
+              <line x1="200" y1="200" x2="70" y2="280" stroke="url(#line-grad)" stroke-width="1" opacity="0.12"/>
+              <line x1="200" y1="200" x2="200" y2="50" stroke="url(#line-grad-g)" stroke-width="1" opacity="0.08"/>
+              <!-- Cross-connections -->
+              <line x1="80" y1="90" x2="330" y2="110" stroke="url(#line-grad)" stroke-width="0.5" opacity="0.06"/>
+              <line x1="330" y1="110" x2="320" y2="300" stroke="url(#line-grad-g)" stroke-width="0.5" opacity="0.06"/>
+              <line x1="70" y1="280" x2="80" y2="90" stroke="url(#line-grad)" stroke-width="0.5" opacity="0.05"/>
+              <defs>
+                <linearGradient id="line-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="rgb(0,217,255)" stop-opacity="1"/>
+                  <stop offset="100%" stop-color="rgb(0,217,255)" stop-opacity="0"/>
+                </linearGradient>
+                <linearGradient id="line-grad-g" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="rgb(16,185,129)" stop-opacity="1"/>
+                  <stop offset="100%" stop-color="rgb(16,185,129)" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <!-- Ambient particles -->
+            <div class="const-particles">
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <svg width="20" height="20"><use href="/icons.svg#icon-arrow-down"/></svg>
+    </div>
+  </section>
+
+  <!-- ===== ЛОГОТИПЫ КЛИЕНТОВ — Trust Bar ===== -->
+  <div class="logo-strip">
+    <div class="marquee" id="marquee">
+      <div class="marquee-track">
+        <img src="/logos/eksmo.svg" alt="Эксмо" class="client-logo">
+        <img src="/logos/saby.svg" alt="Saby" class="client-logo">
+        <img src="/logos/moya-planeta.svg" alt="Моя Планета" class="client-logo">
+        <img src="/logos/archgrille.svg" alt="Architectural Grille" class="client-logo">
+        <img src="/logos/ace-events.svg" alt="Ace Events" class="client-logo">
+        <img src="/logos/istra-dolina.svg" alt="Истринская долина" class="client-logo">
+        <img src="/logos/westvirt.svg" alt="WestVirt" class="client-logo">
+        <img src="/logos/chaika.svg" alt="Chaika" class="client-logo">
+        <!-- Duplicate for seamless loop -->
+        <img src="/logos/eksmo.svg" alt="Эксмо" class="client-logo">
+        <img src="/logos/saby.svg" alt="Saby" class="client-logo">
+        <img src="/logos/moya-planeta.svg" alt="Моя Планета" class="client-logo">
+        <img src="/logos/archgrille.svg" alt="Architectural Grille" class="client-logo">
+        <img src="/logos/ace-events.svg" alt="Ace Events" class="client-logo">
+        <img src="/logos/istra-dolina.svg" alt="Истринская долина" class="client-logo">
+        <img src="/logos/westvirt.svg" alt="WestVirt" class="client-logo">
+        <img src="/logos/chaika.svg" alt="Chaika" class="client-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ЭКРАН 1.5: НАПРАВЛЕНИЯ ===== -->
+  <section class="section section-directions section-border-top">
+    <div class="container">
+      <div class="section-header">
+        <p class="label label-accent">Направления</p>
+        <h2 class="section-title">Две системы, одна цель — клиенты.</h2>
+      </div>
+
+      <div class="directions-grid">
+        <a href="#approach" class="direction-card">
+          <span class="direction-num">01</span>
+          <span class="direction-label">Системы привлечения</span>
+          <h3 class="direction-title">Упаковка и поддержание сайтов</h3>
+          <p class="direction-desc">
+            Исследование рынка → сайт с ясным оффером → реклама и аналитика → сопровождение и рост.
+            Работаем не на «сделать сайт», а на стабильный поток заявок.
+          </p>
+          <span class="direction-arrow">→</span>
+        </a>
+
+        <a href="/ai.html" class="direction-card direction-card--ai">
+          <span class="direction-num">02</span>
+          <span class="direction-label">ИИ в процессах</span>
+          <h3 class="direction-title">Внедрение с замером эффекта</h3>
+          <p class="direction-desc">
+            Аудит процесса → пилот за 2–4 недели → боевая система.
+            Цена пилота 100–300К, эффект измеряем в часах и рублях.
+          </p>
+          <span class="direction-arrow">→</span>
+        </a>
+      </div>
+      <p class="directions-meta">Аудит → пилот 2–4 недели → фиксированный бюджет</p>
+    </div>
+  </section>
+
+  <!-- ===== ЭКРАН 2: ПРОБЛЕМА ===== -->
+  <section id="approach" class="section section-border-top">
+    <div class="container">
+      <div class="problems-grid">
+        <div class="problems-text">
+          <p class="label">Проблема</p>
+          <h2>Почему сайт не приносит результат</h2>
+          <p class="text-secondary">
+            Стандартный сценарий: дизайнер рисует, копирайтер пишет,
+            разработчик верстает. Каждый делает свою часть.
+            Но никто не задал главный вопрос — чего хотят ваши клиенты.
+          </p>
+        </div>
+
+        <div class="problems-list" data-stagger>
+          <div class="problem-card" data-stagger-item>
+            <div class="problem-icon">
+              <svg width="20" height="20"><use href="/icons.svg#icon-image"/></svg>
+            </div>
+            <div>
+              <p class="problem-title">Дизайн</p>
+              <p class="problem-result">Красиво, но не понятно</p>
+            </div>
+          </div>
+          <div class="problem-card" data-stagger-item>
+            <div class="problem-icon">
+              <svg width="20" height="20"><use href="/icons.svg#icon-document"/></svg>
+            </div>
+            <div>
+              <p class="problem-title">Тексты</p>
+              <p class="problem-result">&laquo;Индивидуальный подход&raquo; — как у всех</p>
+            </div>
+          </div>
+          <div class="problem-card" data-stagger-item>
+            <div class="problem-icon">
+              <svg width="20" height="20"><use href="/icons.svg#icon-cursor-click"/></svg>
+            </div>
+            <div>
+              <p class="problem-title">Реклама</p>
+              <p class="problem-result">Клики есть, заявок нет</p>
+            </div>
+          </div>
+          <div class="problem-card" data-stagger-item>
+            <div class="problem-icon">
+              <svg width="20" height="20"><use href="/icons.svg#icon-refresh"/></svg>
+            </div>
+            <div>
+              <p class="problem-title">Результат</p>
+              <p class="problem-result">Новый подрядчик, те же проблемы</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="problem-conclusion glow-pulse">
+        <p>Проблема не в исполнителях.<br><strong>Проблема — никто не отвечает за результат.</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ЭКРАН 3: РЕШЕНИЕ ===== -->
+  <section class="section section-alt section-accent-line">
+    <div class="container">
+      <div class="solution-header">
+        <p class="label label-accent">Наш подход</p>
+        <h2>Сначала понимаем ваш рынок.<br>Потом выстраиваем систему.</h2>
+        <p class="text-secondary">
+          Прежде чем что-то делать, мы изучаем ваших клиентов,
+          конкурентов и рынок. Каждое решение основано на данных —
+          от структуры сайта до рекламного объявления.
+        </p>
+      </div>
+
+      <div class="stats-grid" data-stagger>
+        <div class="stat-card tilt" data-stagger-item>
+          <div class="stat-num" data-countup="60" data-prefix="до ">до 60</div>
+          <div class="stat-label">интервью с клиентами</div>
+          <p class="stat-desc">Почему покупают, что важно при выборе, какие сомнения были</p>
+        </div>
+        <div class="stat-card tilt" data-stagger-item>
+          <div class="stat-num" data-countup="20" data-suffix="+">20+</div>
+          <div class="stat-label">конкурентов обзвонено</div>
+          <p class="stat-desc">Звоним под видом клиента. Фиксируем цены, офферы, слабые места</p>
+        </div>
+        <div class="stat-card tilt" data-stagger-item>
+          <div class="stat-num" data-countup="9">9</div>
+          <div class="stat-label">направлений анализа</div>
+          <p class="stat-desc">Рынок, аудитория, конкуренты, УТП, цены, возражения, триггеры покупки</p>
+        </div>
+      </div>
+
+      <p class="solution-result">
+        Результат: система, которая говорит на языке ваших клиентов.
+        Отвечает на их вопросы. Снимает сомнения. Приводит заявки.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== ЭКРАН 4: КЕЙСЫ ===== -->
+  <section id="projects" class="section section-border-top section-glow section-glow-cyan">
+    <div class="container">
+      <p class="label">Портфолио</p>
+      <h2>Проекты</h2>
+
+      <div class="cases-grid" data-stagger>
+
+        <!-- CND-Store -->
+        <div class="case-card tilt" data-stagger-item>
+          <div class="case-tag">E-commerce</div>
+          <h3 class="case-name">CND-Store</h3>
+          <p class="case-desc">Интернет-магазин американской косметики</p>
+          <div class="case-divider"></div>
+          <div class="case-metrics">
+            <div class="case-metric">
+              <span class="case-metric-val case-metric-val--accent">340%</span>
+              <span class="case-metric-lbl">ROI рекламы</span>
+            </div>
+            <div class="case-metric">
+              <span class="case-metric-val">+40%</span>
+              <span class="case-metric-lbl">средний чек</span>
+            </div>
+            <div class="case-metric">
+              <span class="case-metric-val">+10M&nbsp;₽</span>
+              <span class="case-metric-lbl">к выручке</span>
+            </div>
+          </div>
+          <p class="case-approach">Исследование пути клиента, редизайн checkout, позиционирование на основе JTBD</p>
+          <a href="/cases/cnd-store.html" class="case-card-link">
+            Читать полный разбор <svg width="16" height="16"><use href="/icons.svg#icon-arrow-right"/></svg>
+          </a>
+        </div>
+
+        <!-- Arhgrille -->
+        <div class="case-card tilt" data-stagger-item>
+          <div class="case-tag">B2B</div>
+          <h3 class="case-name">Arhgrille</h3>
+          <p class="case-desc">Декоративные архитектурные решётки</p>
+          <div class="case-divider"></div>
+          <div class="case-metrics">
+            <div class="case-metric">
+              <span class="case-metric-val case-metric-val--accent">1 мес.</span>
+              <span class="case-metric-lbl">до первых заказов</span>
+            </div>
+            <div class="case-metric">
+              <span class="case-metric-val">3</span>
+              <span class="case-metric-lbl">сегмента ЦА</span>
+            </div>
+          </div>
+          <p class="case-approach">Исследование аудитории, три сценария, сегментированная структура</p>
+          <a href="/cases/arhgrille.html" class="case-card-link">
+            Читать полный разбор <svg width="16" height="16"><use href="/icons.svg#icon-arrow-right"/></svg>
+          </a>
+        </div>
+
+        <!-- Моя Планета -->
+        <div class="case-card tilt" data-stagger-item>
+          <div class="case-tag">Медиа</div>
+          <h3 class="case-name">Моя Планета</h3>
+          <p class="case-desc">Портал о путешествиях</p>
+          <div class="case-divider"></div>
+          <div class="case-metrics">
+            <div class="case-metric">
+              <span class="case-metric-val case-metric-val--accent">&times;33</span>
+              <span class="case-metric-lbl">рост трафика</span>
+            </div>
+            <div class="case-metric">
+              <span class="case-metric-val">1M</span>
+              <span class="case-metric-lbl">посетителей / мес</span>
+            </div>
+          </div>
+          <p class="case-approach">Контент-стратегия, структура, SEO-оптимизация</p>
+          <a href="/cases/moya-planeta.html" class="case-card-link">
+            Читать полный разбор <svg width="16" height="16"><use href="/icons.svg#icon-arrow-right"/></svg>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Project gallery — horizontal scroll -->
+      <div class="gallery-section">
+        <h3 class="gallery-title">Галерея проектов</h3>
+        <div class="gallery-track">
+          <div class="gallery-item">
+            <img src="/images/moya-planeta-1.jpg" alt="Моя Планета" loading="lazy">
+            <span class="gallery-label">Моя Планета</span>
+          </div>
+          <div class="gallery-item">
+            <img src="/images/eksmo-cover.jpg" alt="Эксмо" loading="lazy">
+            <span class="gallery-label">Эксмо</span>
+          </div>
+          <div class="gallery-item">
+            <img src="/images/index-arhgrill.png" alt="Arhgrille" loading="lazy">
+            <span class="gallery-label">Arhgrille</span>
+          </div>
+          <div class="gallery-item">
+            <img src="/images/aceevents.jpg" alt="Ace Events" loading="lazy">
+            <span class="gallery-label">Ace Events</span>
+          </div>
+          <div class="gallery-item">
+            <img src="/images/chaika-cover.png" alt="Chaika" loading="lazy">
+            <span class="gallery-label">Chaika</span>
+          </div>
+          <div class="gallery-item">
+            <img src="/images/mamkupi-cover.png" alt="Мам, купи!" loading="lazy">
+            <span class="gallery-label">Мам, купи!</span>
+          </div>
+          <div class="gallery-item">
+            <img src="/images/vocal-cover.jpg" alt="Школа вокала Сокериной" loading="lazy">
+            <span class="gallery-label">Школа вокала Сокериной</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Niches — pill tags -->
+      <div class="niches-block">
+        <div class="niches-pills">
+          <span class="niche-pill"><span class="niche-pill-cat">E-commerce</span> CND-Store, Chaika, Мам&nbsp;купи!</span>
+          <span class="niche-pill"><span class="niche-pill-cat">B2B</span> Arhgrille, WestVirt, Saby</span>
+          <span class="niche-pill"><span class="niche-pill-cat">Медиа &amp; издательства</span> Моя Планета, Эксмо</span>
+          <span class="niche-pill"><span class="niche-pill-cat">Мероприятия</span> Ace Events</span>
+          <span class="niche-pill"><span class="niche-pill-cat">Образование</span> Школа вокала Сокериной</span>
+        </div>
+      </div>
+
+      <div class="cases-cta">
+        <p class="mid-cta-text">Расскажите о задаче — скажем честно, сможем ли помочь</p>
+        <a href="#contacts" class="btn btn-primary btn-shimmer">
+          Обсудить проект <svg width="18" height="18"><use href="/icons.svg#icon-arrow-right"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ЭКРАН 5: ОТЗЫВЫ ===== -->
+  <section class="section section-alt">
+    <div class="container">
+      <p class="label">Отзывы</p>
+      <h2>Что говорят клиенты</h2>
+
+      <div class="testimonials-grid" data-stagger>
+        <div class="testimonial-card testimonial-featured" data-stagger-item>
+          <div class="testimonial-header">
+            <div class="testimonial-avatar testimonial-avatar-green">С</div>
+            <div>
+              <p class="testimonial-name">Светлана Коргушова</p>
+              <p class="testimonial-role">Генеральный директор, &laquo;Империя раков&raquo;</p>
+            </div>
+          </div>
+          <div class="testimonial-quote">&ldquo;</div>
+          <p class="testimonial-text">
+            Результат превзошёл все наши ожидания. Объёмы обращений
+            увеличились в разы. Менеджеры работают на полную мощность.
+            Мы очень рады, что обратились в Smart Solutions, и уверены,
+            что это была лучшая инвестиция в развитие нашего бизнеса.
+          </p>
+        </div>
+
+        <div class="testimonial-card" data-stagger-item>
+          <div class="testimonial-badge">4+ года сотрудничества</div>
+          <div class="testimonial-header">
+            <div class="testimonial-avatar testimonial-avatar-cyan">A</div>
+            <div>
+              <p class="testimonial-name">Ace Events</p>
+              <p class="testimonial-role">Организация мероприятий</p>
+            </div>
+          </div>
+          <div class="testimonial-quote">&ldquo;</div>
+          <p class="testimonial-text">
+            Сотрудничаем более 4 лет. За это время реализовано
+            несколько сайтов и рекламных кампаний. Профессиональная
+            команда, всегда на связи, оперативно реагируют на любые задачи.
+          </p>
+        </div>
+
+        <div class="testimonial-card" data-stagger-item>
+          <div class="testimonial-badge">5+ лет сопровождения</div>
+          <div class="testimonial-header">
+            <div class="testimonial-avatar testimonial-avatar-purple">A</div>
+            <div>
+              <p class="testimonial-name">Architectural Grille</p>
+              <p class="testimonial-role">Производство архитектурных решёток</p>
+            </div>
+          </div>
+          <div class="testimonial-quote">&ldquo;</div>
+          <p class="testimonial-text">
+            Пять лет непрерывной работы. Начинали с простого сайта,
+            а в итоге выстроили систему для трёх разных аудиторий —
+            архитекторы, дизайнеры, частные клиенты. Ребята не просто
+            выполняют задачи, а думают вместе с нами о бизнесе.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ЭКРАН 6: О СТУДИИ ===== -->
+  <section class="section section-border-top">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text">
+          <p class="label">О нас</p>
+          <h2>Не делаем сайты ради сайтов.<br>Выстраиваем системы, которые приводят клиентов.</h2>
+          <p class="text-secondary">
+            Smart Solutions — студия в Москве. Выстраиваем системы
+            привлечения клиентов: от исследования рынка до стабильного
+            потока заявок. Работаем с 2017 года. 25+ проектов
+            в e-commerce, услугах, B2B, медиа.
+          </p>
+          <p class="text-secondary">
+            Наш подход вырос из простого наблюдения:
+            когда решения основаны на данных о реальных клиентах,
+            результат приходит быстрее и стоит дешевле.
+          </p>
+          <p class="text-secondary">
+            Мы не агентство на 50 человек с потоком однотипных проектов.
+            Мы небольшая команда, которая глубоко погружается
+            в бизнес каждого клиента и отвечает за результат.
+          </p>
+        </div>
+        <div class="about-facts">
+          <div class="about-timeline" data-stagger>
+            <div class="about-fact" data-stagger-item>
+              <span class="about-fact-num" data-countup="2017">2017</span>
+              <span class="about-fact-label">работаем с 2017</span>
+            </div>
+            <div class="about-fact" data-stagger-item>
+              <span class="about-fact-num">25+</span>
+              <span class="about-fact-label">проектов в разных нишах</span>
+            </div>
+            <div class="about-fact" data-stagger-item>
+              <span class="about-fact-num">
+                <svg width="18" height="18" class="icon-inline"><use href="/icons.svg#icon-location"/></svg>Москва
+              </span>
+              <span class="about-fact-label">ул. Воронцовская</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ЭКРАН 7: ПРОЦЕСС ===== -->
+  <section id="process" class="section section-alt section-accent-line-green">
+    <div class="container">
+      <div class="section-header">
+        <p class="label">Процесс</p>
+        <h2>Как устроена работа</h2>
+        <p class="text-secondary">
+          9 этапов. От запуска до роста. Полное погружение в бизнес клиента.
+        </p>
+      </div>
+
+      <div class="process-list" data-stagger>
+        <div class="process-item" data-stagger-item>
+          <span class="process-num">01</span>
+          <div class="process-info">
+            <h3>Расчёт эффективности</h3>
+            <p class="process-detail">Unit-экономика: стоимость клиента, бюджет, окупаемость</p>
+          </div>
+          <span class="process-duration">2 дня</span>
+        </div>
+        <div class="process-item" data-stagger-item>
+          <span class="process-num">02</span>
+          <div class="process-info">
+            <h3>Исследование клиентов</h3>
+            <p class="process-detail">Глубинные интервью с покупателями: мотивация, критерии выбора, сомнения</p>
+          </div>
+          <span class="process-duration">5 дней</span>
+        </div>
+        <div class="process-item" data-stagger-item>
+          <span class="process-num">03</span>
+          <div class="process-info">
+            <h3>Анализ конкурентов</h3>
+            <p class="process-detail">Обзвон 20+ конкурентов под видом клиента. Карта рынка: цены, офферы, слабые места</p>
+          </div>
+          <span class="process-duration">3 дня</span>
+        </div>
+        <div class="process-item" data-stagger-item>
+          <span class="process-num">04</span>
+          <div class="process-info">
+            <h3>Прототип и тексты</h3>
+            <p class="process-detail">Структура и контент на основе данных. Каждый тезис подкреплён исследованием</p>
+          </div>
+          <span class="process-duration">7 дней</span>
+        </div>
+        <div class="process-item" data-stagger-item>
+          <span class="process-num">05</span>
+          <div class="process-info">
+            <h3>Тест на целевой аудитории</h3>
+            <p class="process-detail">Прототип проверяется на реальных людях до вложений в дизайн</p>
+          </div>
+          <span class="process-duration">3 дня</span>
+        </div>
+        <div class="process-item" data-stagger-item>
+          <span class="process-num">06</span>
+          <div class="process-info">
+            <h3>Дизайн</h3>
+            <p class="process-detail">Визуальное решение, усиливающее смыслы и снимающее возражения аудитории</p>
+          </div>
+          <span class="process-duration">14 дней</span>
+        </div>
+        <div class="process-item" data-stagger-item>
+          <span class="process-num">07</span>
+          <div class="process-info">
+            <h3>Разработка</h3>
+            <p class="process-detail">Адаптивная вёрстка, скорость, интеграция с CRM и системами аналитики</p>
+          </div>
+          <span class="process-duration">7 дней</span>
+        </div>
+        <div class="process-item" data-stagger-item>
+          <span class="process-num">08</span>
+          <div class="process-info">
+            <h3>Запуск</h3>
+            <p class="process-detail">Тестирование, запуск рекламы, первые заявки</p>
+          </div>
+          <span class="process-duration">7-14 дней</span>
+        </div>
+        <div class="process-item" data-stagger-item>
+          <span class="process-num">09</span>
+          <div class="process-info">
+            <h3>Рост и оптимизация</h3>
+            <p class="process-detail">Аналитика, A/B-тесты, доработки, реклама. Сопровождение или партнёрство</p>
+          </div>
+          <span class="process-duration">от 6 мес.</span>
+        </div>
+      </div>
+
+      <div class="guarantee-box glow-pulse-green">
+        <div class="guarantee-icon">
+          <svg width="24" height="24"><use href="/icons.svg#icon-shield-check"/></svg>
+        </div>
+        <div>
+          <p class="guarantee-title">Остаёмся рядом</p>
+          <p class="text-secondary">
+            Поддержка после запуска включена.
+            Средний срок работы с клиентом — 3+ года.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ЭКРАН 8: ФОРМАТ РАБОТЫ ===== -->
+  <section class="section section-border-top section-glow section-glow-green">
+    <div class="container">
+      <div class="section-header">
+        <p class="label">Формат</p>
+        <h2>Формат работы</h2>
+        <p class="text-secondary">
+          Каждый проект включает полный цикл:
+          от исследования рынка до стабильного потока заявок.
+        </p>
+      </div>
+
+      <div class="format-grid">
+        <div class="format-card format-card-research tilt">
+          <h3 class="format-card-title">Исследование</h3>
+          <p class="format-card-subtitle">Данные перед решениями</p>
+          <ul class="format-list">
+            <li>Интервью с клиентами</li>
+            <li>Обзвон конкурентов</li>
+            <li>Анализ рынка и ниши</li>
+            <li>Карта аудитории</li>
+            <li>Позиционирование и УТП</li>
+          </ul>
+        </div>
+        <div class="format-connector">
+          <svg width="40" height="40"><use href="/icons.svg#icon-long-arrow-right"/></svg>
+        </div>
+        <div class="format-card format-card-delivery tilt">
+          <h3 class="format-card-title">Реализация</h3>
+          <p class="format-card-subtitle">От дизайна до первых заявок</p>
+          <ul class="format-list">
+            <li>Дизайн на основе данных</li>
+            <li>Адаптивная разработка</li>
+            <li>Интеграция с CRM</li>
+            <li>Настройка аналитики</li>
+            <li>Запуск рекламы</li>
+            <li>Сопровождение после запуска</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="format-note text-secondary">
+        Стоимость зависит от масштаба проекта: лендинг, корпоративный сайт,
+        интернет-магазин, портал. Проекты от 200 000 ₽. Обсудим задачу — назовём точную цифру.
+      </p>
+
+      <a href="#contacts" class="btn btn-primary btn-shimmer">Обсудить проект <svg width="18" height="18"><use href="/icons.svg#icon-arrow-right"/></svg></a>
+    </div>
+  </section>
+
+  <!-- ===== ЭКРАН 9: СОПРОВОЖДЕНИЕ ===== -->
+  <section class="section section-alt section-pattern">
+    <div class="container">
+      <div class="partnership-layout">
+        <div class="partnership-text-col">
+          <p class="label">Долгосрочное сотрудничество</p>
+          <h2>Сайт — начало.<br>Поток клиентов — продолжение.</h2>
+
+          <p class="text-secondary partnership-text">
+            Не бросаем после сдачи. Помогаем расти: аналитика, доработки, реклама, SEO.
+          </p>
+
+          <div class="partnership-packages">
+            <div class="partnership-package">
+              <h3 class="partnership-package-title">Базовое сопровождение</h3>
+              <p class="partnership-package-price">от 50 000 ₽/мес</p>
+              <div class="partnership-points">
+                <div class="partnership-point">
+                  <svg class="animated-check" width="20" height="20"><use href="/icons.svg#icon-check"/></svg>
+                  <span>Техническая поддержка сайта</span>
+                </div>
+                <div class="partnership-point">
+                  <svg class="animated-check" width="20" height="20"><use href="/icons.svg#icon-check"/></svg>
+                  <span>Мелкие доработки</span>
+                </div>
+                <div class="partnership-point">
+                  <svg class="animated-check" width="20" height="20"><use href="/icons.svg#icon-check"/></svg>
+                  <span>Ежемесячный отчёт по аналитике</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="partnership-package">
+              <h3 class="partnership-package-title">Расширенное сопровождение</h3>
+              <p class="partnership-package-price">от 100 000 ₽/мес</p>
+              <div class="partnership-points">
+                <div class="partnership-point">
+                  <svg class="animated-check" width="20" height="20"><use href="/icons.svg#icon-check"/></svg>
+                  <span>Всё из базового</span>
+                </div>
+                <div class="partnership-point">
+                  <svg class="animated-check" width="20" height="20"><use href="/icons.svg#icon-check"/></svg>
+                  <span>Ведение рекламы и SEO</span>
+                </div>
+                <div class="partnership-point">
+                  <svg class="animated-check" width="20" height="20"><use href="/icons.svg#icon-check"/></svg>
+                  <span>A/B-тестирование и оптимизация</span>
+                </div>
+                <div class="partnership-point">
+                  <svg class="animated-check" width="20" height="20"><use href="/icons.svg#icon-check"/></svg>
+                  <span>Ежемесячная стратегическая сессия</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="partnership-fine text-muted">
+            Со временем сопровождение может перерасти в партнёрство — когда ваш рост становится нашим общим результатом.
+          </p>
+        </div>
+
+        <div class="partnership-visual">
+          <div class="partnership-diagram">
+            <div class="partnership-circle partnership-circle-you">Ваш бизнес<br>растёт</div>
+            <div class="partnership-arrow">
+              <svg width="60" height="24" fill="none" stroke="currentColor" viewBox="0 0 60 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2 12h56M46 6l12 6-12 6" opacity="0.5"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M58 12H2M14 18L2 12l12-6" opacity="0.5"/></svg>
+            </div>
+            <div class="partnership-circle partnership-circle-us">Мы<br>помогаем</div>
+          </div>
+          <p class="partnership-diagram-label">Долгосрочное сотрудничество</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ЭКРАН 9.5: AI-МОСТИК ===== -->
+  <section class="section section-ai-bridge section-border-top">
+    <div class="container">
+      <p class="label label-accent">/ AI-направление</p>
+      <h2 class="ai-bridge-title">ИИ в процессах — новый продукт Smart Solutions.</h2>
+      <p class="text-secondary ai-bridge-text">
+        Внедрение с замером эффекта: аудит → пилот → боевая система.<br>
+        Бюджет фиксируется после аудита.
+      </p>
+      <a href="/ai.html" class="btn btn-primary btn-shimmer">
+        Разобраться в AI-направлении
+        <svg width="18" height="18"><use href="/icons.svg#icon-arrow-right"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== ЭКРАН 10: FAQ ===== -->
+  <section class="section section-border-top">
+    <div class="container container-narrow">
+      <p class="label">FAQ</p>
+      <h2>Вопросы</h2>
+
+      <div class="faq-list" id="faqList">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-0">
+            <span>Сколько это стоит?</span>
+            <svg class="faq-icon" width="20" height="20"><use href="/icons.svg#icon-chevron-down"/></svg>
+          </button>
+          <div class="faq-answer" id="faq-0" role="region">
+            <p>Зависит от масштаба: лендинг, корпоративный сайт, интернет-магазин, портал. В стоимость всегда входит исследование, проектирование, дизайн, разработка и сопровождение после запуска. Обсудим задачу — назовём точную цифру.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-1">
+            <span>Почему так долго? Другие делают за 2 недели</span>
+            <svg class="faq-icon" width="20" height="20"><use href="/icons.svg#icon-chevron-down"/></svg>
+          </button>
+          <div class="faq-answer" id="faq-1" role="region">
+            <p>Сегодня сайт может собрать кто угодно — с помощью конструктора или нейросети. Но сайт без исследования аудитории и стратегии привлечения — это витрина без покупателей. Мы строим не страницу, а систему, которая приводит клиентов. Это требует времени, но работает годами.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-2">
+            <span>А если сайт не принесёт заявок?</span>
+            <svg class="faq-icon" width="20" height="20"><use href="/icons.svg#icon-chevron-down"/></svg>
+          </button>
+          <div class="faq-answer" id="faq-2" role="region">
+            <p>Именно поэтому мы начинаем с исследования, а не с дизайна. Когда сайт строится на данных о реальных клиентах, риск промахнуться минимален. А после запуска мы остаёмся: анализируем поведение, тестируем гипотезы, дорабатываем — пока система не выйдет на стабильный поток заявок.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-3">
+            <span>Почему вы уверены в результате?</span>
+            <svg class="faq-icon" width="20" height="20"><use href="/icons.svg#icon-chevron-down"/></svg>
+          </button>
+          <div class="faq-answer" id="faq-3" role="region">
+            <p>Потому что каждое решение основано на данных. Тексты — из интервью с реальными клиентами. Конкуренты — изучены изнутри. Прототип — протестирован до вложений в дизайн. Когда сайт построен на данных, он конвертирует.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-4">
+            <span>У меня уже есть сайт, можно доработать?</span>
+            <svg class="faq-icon" width="20" height="20"><use href="/icons.svg#icon-chevron-down"/></svg>
+          </button>
+          <div class="faq-answer" id="faq-4" role="region">
+            <p>Можно. Но иногда эффективнее начать с нуля на основе исследования, чем переделывать старый. Проведём аудит и скажем честно, что будет результативнее.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-5">
+            <span>Работаете с регионами?</span>
+            <svg class="faq-icon" width="20" height="20"><use href="/icons.svg#icon-chevron-down"/></svg>
+          </button>
+          <div class="faq-answer" id="faq-5" role="region">
+            <p>Да. Исследование, проектирование, согласования — всё онлайн. Офис в Москве для личных встреч, если нужно.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-6">
+            <span>Что входит в сопровождение?</span>
+            <svg class="faq-icon" width="20" height="20"><use href="/icons.svg#icon-chevron-down"/></svg>
+          </button>
+          <div class="faq-answer" id="faq-6" role="region">
+            <p>Базовое: техническая поддержка, мелкие доработки, ежемесячный отчёт по аналитике. Расширенное: плюс ведение рекламы, SEO, A/B-тестирование и стратегические сессии. Подробнее — обсудим под вашу задачу.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-7">
+            <span>Можно начать с проекта, а потом перейти на сопровождение?</span>
+            <svg class="faq-icon" width="20" height="20"><use href="/icons.svg#icon-chevron-down"/></svg>
+          </button>
+          <div class="faq-answer" id="faq-7" role="region">
+            <p>Да, большинство клиентов так и делают. Сначала проект, потом — сопровождение для тех, кто хочет продолжить рост. Это не обязательство, а следующий шаг.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-8">
+            <span>Как вы отчитываетесь по сопровождению?</span>
+            <svg class="faq-icon" width="20" height="20"><use href="/icons.svg#icon-chevron-down"/></svg>
+          </button>
+          <div class="faq-answer" id="faq-8" role="region">
+            <p>Ежемесячный отчёт: трафик, конверсии, заявки, выполненные задачи. Созвон для обсуждения результатов и планов на следующий месяц.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ЭКРАН 11: CTA ===== -->
+  <section id="contacts" class="section section-cta">
+    <div class="container">
+      <div class="cta-content">
+        <h2 class="cta-title">Напишите или позвоните</h2>
+        <p class="text-secondary cta-subtitle">
+          Выберите удобный канал — ответим быстро.
+        </p>
+
+        <ContactCards />
+
+        <p class="cta-urgency text-muted">
+          Работаем с ограниченным числом проектов одновременно —
+          на каждый нужно полное погружение.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,56 @@
+{
+  "blog/ii-dlya-buhgalterii.html": {
+    "reason": "заголовок раздела о расчёте вместо строки из ТЗ",
+    "allow": [
+      "text"
+    ]
+  },
+  "blog/ii-dlya-nedvizhimosti.html": {
+    "reason": "H2 из ТЗ заменён; удалён несуществующий кейс (агентство, 12 агентов)",
+    "allow": [
+      "text"
+    ]
+  },
+  "blog/ii-dlya-onlain-shkoly.html": {
+    "reason": "заголовок раздела о расчёте вместо строки из ТЗ",
+    "allow": [
+      "text"
+    ]
+  },
+  "blog/ii-dlya-restorana.html": {
+    "reason": "заголовок раздела о расчёте вместо строки из ТЗ",
+    "allow": [
+      "text"
+    ]
+  },
+  "blog/ii-dlya-turagentstva.html": {
+    "reason": "заголовок раздела о расчёте вместо строки из ТЗ",
+    "allow": [
+      "text"
+    ]
+  },
+  "blog/ii-v-crm.html": {
+    "reason": "опечатка «обработить»",
+    "allow": [
+      "text"
+    ]
+  },
+  "blog/kak-poschitat-effekt-ot-ii-do-pilota.html": {
+    "reason": "удалена история о несуществующем клиенте (20 лицензий, 400 тыс.)",
+    "allow": [
+      "text"
+    ]
+  },
+  "blog/ii-dlya-yuristov.html": {
+    "reason": "новый интент «сервисы и проверка договоров» (deliverables/articles/ii-dlya-yuristov/REVIEW.md)",
+    "allow": [
+      "rewrite"
+    ]
+  },
+  "blog/index.html": {
+    "reason": "обновлена карточка переписанной статьи «ИИ для юристов»",
+    "allow": [
+      "text"
+    ]
+  }
+}

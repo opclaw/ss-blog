@@ -1,0 +1,39 @@
+---
+// Подвал. Разметка 1:1 с version 4/index.html (7 пунктов, контакты, адрес).
+import { SITE, CONTACTS, FOOTER_NAV, navHref } from '../data/site';
+interface Props { isHome?: boolean; hasContacts?: boolean }
+const { isHome = false, hasContacts = true } = Astro.props;
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <span class="footer-logo">{SITE.name}</span>
+          <p class="footer-desc text-muted" set:html={SITE.footerDesc}></p>
+        </div>
+        <div class="footer-col">
+          {FOOTER_NAV.map((i) => <a href={navHref(i, { isHome, hasContacts })} class="footer-link">{i.label}</a>)}
+        </div>
+        <div class="footer-col">
+          <a href={`tel:${CONTACTS.tel}`} class="footer-link">{CONTACTS.phone}</a>
+          <a href={`mailto:${CONTACTS.email}`} class="footer-link">{CONTACTS.email}</a>
+          <a href={CONTACTS.telegram} class="footer-link">
+            <svg width="16" height="16" class="icon-inline"><use href="/icons.svg#icon-telegram"/></svg>
+            Telegram
+          </a>
+          <a href={CONTACTS.whatsapp} target="_blank" rel="noopener" class="footer-link">
+            <svg width="16" height="16" class="icon-inline"><use href="/icons.svg#icon-whatsapp"/></svg>
+            WhatsApp
+          </a>
+          <span class="footer-link footer-address">
+            <svg width="14" height="14" class="icon-inline"><use href="/icons.svg#icon-location"/></svg>
+            {CONTACTS.address}
+          </span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="text-muted">&copy; {SITE.since}–{year} {SITE.name}</span>
+      </div>
+    </div>
+  </footer>

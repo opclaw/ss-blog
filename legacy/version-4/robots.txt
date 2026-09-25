@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+
+# Служебные страницы — не индексировать
+Disallow: /consent.html
+Disallow: /consent-cookies.html
+
+# Файлы
+Disallow: /*.json$
+Disallow: /*.md$
+
+# Старые WordPress-пути
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /wp-content/
+Disallow: /feed/
+Disallow: /xmlrpc.php
+Disallow: /?p=
+Disallow: /trackback/
+
+Host: https://smartsolutions.today
+Sitemap: https://smartsolutions.today/sitemap.xml

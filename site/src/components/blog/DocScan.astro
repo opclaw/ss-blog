@@ -1,0 +1,34 @@
+---
+// Вычитка документа: сканер подсвечивает рискованные пункты, справа — находки.
+// Последняя находка с human:true — то, что видит только человек с контекстом сделки.
+interface Clause { text: string; n?: string }            // в text риск помечается [[...]]
+interface Find { n: string; level: 'high' | 'mid' | 'human'; title: string; note: string }
+interface Props { fig: number; title: string; docTitle: string; clauses: Clause[]; finds: Find[]; note?: string; autorun?: boolean }
+const { fig, title, docTitle, clauses, finds, note, autorun = false } = Astro.props;
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+const lv = { high: 'высокий риск', mid: 'проверить', human: 'видит человек' };
+const machine = finds.filter((f) => f.level !== 'human').length;
+const render = (c: Clause) => esc(c.text).replace(/\[\[(.+?)\]\]/g, (_m, t) => `<span class="kit-risk ${finds.find((f) => f.n === c.n)?.level ?? 'mid'}" data-n="${c.n}">${t}<sup>${c.n}</sup></span>`);
+---
+<figure class="kit kit-scan" data-kit="scan" data-autorun={autorun ? '' : undefined}>
+  <figcaption class="kit-cap"><b>Рис. {fig}</b>{title}<em>иллюстрация, условия вымышленные</em></figcaption>
+  <div class="kit-scan-grid">
+    <div class="kit-doc">
+      <div class="kit-scan-line" aria-hidden="true"></div>
+      <p class="kit-doc-h">{docTitle}</p>
+      {clauses.map((c, i) => <p><span class="n">{i + 1}.</span><Fragment set:html={render(c)} /></p>)}
+    </div>
+    <div class="kit-side">
+      <div class="kit-side-top">
+        <button type="button" class="kit-btn" data-scan-run>Проверить договор</button>
+        <span class="kit-count" aria-live="polite"><b data-scan-count>0</b>из {machine} находок</span>
+      </div>
+      <p class="kit-scan-hint">Нажмите — модель пройдёт по тексту. Нажмите на подсвеченный пункт, чтобы увидеть объяснение.</p>
+      <ol class="kit-finds">
+        {finds.map((f) => <li class={f.level} data-n={f.n}><span class="lv">{f.level === 'human' ? '' : `№${f.n} · `}{lv[f.level]}</span><b>{f.title}</b>{f.note}</li>)}
+      </ol>
+      <button type="button" class="kit-btn ghost" data-scan-human hidden>А что ИИ не увидел?</button>
+    </div>
+  </div>
+  {note && <p class="kit-foot">{note}</p>}
+</figure>

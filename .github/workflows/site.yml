@@ -1,0 +1,37 @@
+name: site
+
+on:
+  push:
+    paths: ['site/**', 'legacy/**', '.github/workflows/site.yml']
+  pull_request:
+    paths: ['site/**', 'legacy/**']
+  workflow_dispatch:
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - name: Сборка
+        run: npm run build
+      - name: Сверка с оригиналом (legacy/version-4)
+        run: python3 tools/verify.py
+      - name: Проверка JS (меню, бургер, FAQ)
+        run: node tools/js-check.mjs dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site-dist
+          path: site/dist
+          include-hidden-files: true
