@@ -95,7 +95,7 @@ jobs:
 
       - run: npm ci
 
-      - name: Релиз: сборка → проверки → выгрузка → проверка прода → IndexNow
+      - name: 'Релиз: сборка → проверки → выгрузка → проверка прода → IndexNow'
         env:
           BEGET_USER: ${{ secrets.BEGET_USER }}
           BEGET_HOST: ${{ secrets.BEGET_HOST }}
