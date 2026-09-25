@@ -124,7 +124,9 @@ def main() -> None:
         print('Нет site/dist — сначала соберите: npm run build')
         sys.exit(1)
 
-    pages = sorted(p for p in DIST.rglob('*.html') if not re.match(r'(google|yandex)', p.name))
+    SERVICE = {'404.html'}   # служебные страницы: noindex, в sitemap не входят
+    pages = sorted(p for p in DIST.rglob('*.html')
+                   if not re.match(r'(google|yandex)', p.name) and p.name not in SERVICE)
     articles = [p for p in pages if p.parent.name == 'blog' and p.name != 'index.html']
     blog_index = DIST / 'blog' / 'index.html'
 
@@ -318,7 +320,7 @@ def main() -> None:
     else:
         s = sm.read_text(encoding='utf-8')
         locs = set(re.findall(r'<loc>([^<]+)</loc>', s))
-        own = {url_of(rel(p)) for p in pages}
+        own = {url_of(rel(p)) for p in pages}   # 404 в карту сайта не входит — это правильно
         if own - locs:
             err(f'sitemap.xml: нет {len(own - locs)} страниц: {", ".join(sorted(own - locs)[:5])}')
         if locs - own:

@@ -1,3 +1,6 @@
+# Своя страница 404 вместо заглушки хостинга
+ErrorDocument 404 /404.html
+
 # Принудительный HTTPS (Beget: nginx-фронт + Apache-бэкенд, Apache видит http внутри)
 RewriteEngine On
 RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
