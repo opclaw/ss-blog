@@ -9,8 +9,9 @@
     "preview": "astro preview --host 0.0.0.0",
     "import:legacy": "python3 tools/import_legacy.py",
     "verify": "python3 tools/verify.py",
-    "check": "astro build && python3 tools/verify.py && node tools/js-check.mjs dist",
-    "test:js": "node tools/js-check.mjs dist"
+    "check": "astro build && python3 tools/verify.py && node tools/js-check.mjs dist && node tools/kit-check.mjs dist",
+    "test:js": "node tools/js-check.mjs dist",
+    "test:kit": "node tools/kit-check.mjs dist"
   },
   "dependencies": {
     "astro": "^7.3.5"

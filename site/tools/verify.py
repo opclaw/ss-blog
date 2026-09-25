@@ -156,6 +156,7 @@ def main():
         b_text, added = strip_new_cards(b_path.read_text(encoding='utf-8'))
         A, B = parse(a_path, url_of(rel)), parse(b_path, url_of(rel), b_text)
         diffs, notes = [], []
+        edit = EDITS.get(rel)
         for slug in added: notes.append(f'карточка новой статьи: {slug}')
 
         # --- head
@@ -175,7 +176,6 @@ def main():
 
         # --- content
         ca, cb = A.zones['content'], B.zones['content']
-        edit = EDITS.get(rel)
         if ca['text'] != cb['text'] and edit and 'text' in edit['allow']:
             notes.append(f"текст отредактирован: {edit['reason']}")
         elif ca['text'] != cb['text']:
@@ -214,6 +214,11 @@ def main():
             old = (A.zones[z]['text'], A.zones[z]['links'])
             if z != 'nav' and old[0] != sig[z][0]: notes.append(f'{z} приведён к эталону')
             if any('#FIXED' in l for l in A.zones[z]['links']): notes.append(f'{z}: исправлен tel')
+        if edit and 'rewrite' in edit['allow']:
+            skip = ('title', 'meta ', 'JSON-LD', 'текст', 'ссылки контента', 'классы контента', 'id контента')
+            dropped = [x for x in diffs if x.startswith(skip)]
+            diffs = [x for x in diffs if not x.startswith(skip)]
+            if dropped: notes.append(f"статья переписана: {edit['reason']}")
         for n in notes: fixes[n] += 1
         total_diff += len(diffs)
         mark = '✓' if not diffs else '✗'

@@ -34,5 +34,23 @@
     "allow": [
       "text"
     ]
+  },
+  "blog/kak-poschitat-effekt-ot-ii-do-pilota.html": {
+    "reason": "удалена история о несуществующем клиенте (20 лицензий, 400 тыс.)",
+    "allow": [
+      "text"
+    ]
+  },
+  "blog/ii-dlya-yuristov.html": {
+    "reason": "новый интент «сервисы и проверка договоров» (deliverables/articles/ii-dlya-yuristov/REVIEW.md)",
+    "allow": [
+      "rewrite"
+    ]
+  },
+  "blog/index.html": {
+    "reason": "обновлена карточка переписанной статьи «ИИ для юристов»",
+    "allow": [
+      "text"
+    ]
   }
 }

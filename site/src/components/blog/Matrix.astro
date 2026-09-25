@@ -1,0 +1,19 @@
+---
+// Светофор задач: можно отдать / с проверкой / нельзя. Нажатие на задачу — объяснение внизу.
+interface Item { t: string; note: string }
+interface Col { tone: 'go' | 'check' | 'stop'; title: string; items: Item[] }
+interface Props { fig?: number; title: string; cols: Col[]; hint?: string }
+const { fig, title, cols, hint = 'Нажмите на задачу — объясним, почему она здесь.' } = Astro.props;
+---
+<figure class="kit kit-matrix" data-kit="matrix">
+  <figcaption class="kit-cap">{fig && <b>Рис. {fig}</b>}{title}</figcaption>
+  <div class="kit-matrix-grid">
+    {cols.map((c) => (
+      <div class={`kit-col ${c.tone}`}>
+        <p class="kit-col-t"><i></i>{c.title}</p>
+        <div class="kit-chips">{c.items.map((it) => <button type="button" class="kit-chip" aria-pressed="false">{it.t}<small>{it.note}</small></button>)}</div>
+      </div>
+    ))}
+  </div>
+  <p class="kit-matrix-note" aria-live="polite">{hint}</p>
+</figure>

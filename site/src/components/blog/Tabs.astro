@@ -1,0 +1,15 @@
+---
+// Вкладки. Без JS все панели идут подряд.
+interface Tab { label: string; html: string }
+interface Props { fig?: number; title: string; tabs: Tab[]; note?: string }
+const { fig, title, tabs, note } = Astro.props;
+const id = 'kt' + Math.abs([...title].reduce((a, c) => (a * 31 + c.charCodeAt(0)) | 0, 7)).toString(36);
+---
+<figure class="kit kit-tabs" data-kit="tabs">
+  <figcaption class="kit-cap">{fig && <b>Рис. {fig}</b>}{title}</figcaption>
+  <div class="kit-tabs-bar" role="tablist" aria-label={title}>
+    {tabs.map((t, i) => <button type="button" role="tab" id={`${id}-t${i}`} aria-controls={`${id}-p${i}`} aria-selected={i === 0 ? 'true' : 'false'}>{t.label}</button>)}
+  </div>
+  {tabs.map((t, i) => <div class="kit-panel" role="tabpanel" id={`${id}-p${i}`} aria-labelledby={`${id}-t${i}`}><Fragment set:html={t.html} /></div>)}
+  {note && <p class="kit-foot">{note}</p>}
+</figure>

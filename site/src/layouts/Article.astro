@@ -1,0 +1,106 @@
+---
+// Макет статьи блога нового образца (лист v6 + библиотека kit).
+// Порядок как на сайте: надзаголовок → H1 → мета → оглавление → текст → «Коротко» → вопросы → «Читать дальше» → контакты.
+// JSON-LD (Article, FAQPage, BreadcrumbList) строится из этих же данных — FAQ на странице и в разметке не расходятся.
+import Base from './Base.astro';
+import ContactCards from '../components/ContactCards.astro';
+import { SITE } from '../data/site';
+
+interface Toc { id: string; label: string }
+interface Faq { q: string; a: string }
+interface More { href: string; meta: string; title: string }
+interface Props {
+  title: string; description: string; path: string;
+  kicker: string; h1: string; monthYear: string; minutes: number;
+  datePublished: string; dateModified: string;
+  toc: Toc[]; brief: string[]; faq: Faq[]; more: More[];
+  breadcrumb: string;
+}
+const p = Astro.props;
+const url = new URL(p.path, SITE.url).href;
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'Article', headline: p.h1, description: p.description,
+    author: { '@type': 'Person', name: 'Олег Кречетов', jobTitle: 'Основатель Smart Solutions' },
+    publisher: { '@type': 'Organization', name: 'Smart Solutions', url: SITE.url },
+    datePublished: p.datePublished, dateModified: p.dateModified, inLanguage: 'ru', mainEntityOfPage: url },
+  { '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: p.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Главная', item: SITE.url + '/' },
+    { '@type': 'ListItem', position: 2, name: 'Блог', item: SITE.url + '/blog/' },
+    { '@type': 'ListItem', position: 3, name: p.breadcrumb, item: url } ] },
+].map((o) => JSON.stringify(o));
+---
+<Base title={p.title} description={p.description} path={p.path} ogType="article" jsonLd={jsonLd}
+      active="ai" skipTo="#article" readProgress bodyClass="bl-page">
+<Fragment slot="head">
+  <link rel="stylesheet" href="/blog-assets/article.css">
+  <link rel="stylesheet" href="/blog-assets/kit.css">
+</Fragment>
+
+<main class="bl-sheet" id="article">
+  <header class="bl-hero">
+    <div class="bl-hero-in">
+      <div class="bl-hero-txt">
+        <p class="bl-kicker">{p.kicker}</p>
+        <h1>{p.h1}</h1>
+        <p class="bl-meta">Олег Кречетов, основатель Smart Solutions · {p.monthYear} · ~{p.minutes} минут чтения</p>
+      </div>
+      <slot name="hero" />
+    </div>
+  </header>
+
+  <div class="bl-body">
+    <aside class="bl-toc" aria-label="Содержание">
+      <p>Содержание</p>
+      {p.toc.map((t) => <a href={`#${t.id}`}>{t.label}</a>)}
+      <span class="bl-left" id="readLeft"></span>
+    </aside>
+    <div class="bl-text">
+      <details class="bl-toc-m"><summary>Содержание</summary><ol>{p.toc.map((t) => <li><a href={`#${t.id}`}>{t.label}</a></li>)}</ol></details>
+
+      <slot />
+
+      <div class="bl-brief">
+        <p class="bl-brief-t">Коротко</p>
+        <ul>{p.brief.map((b) => <li>{b}</li>)}</ul>
+      </div>
+
+      <h2 id="sec-faq" class="no-num">Частые вопросы</h2>
+      <div class="bl-faq">
+        {p.faq.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}
+      </div>
+
+      <section class="bl-more" aria-label="Читать дальше">
+        <h2 class="no-num">Читать дальше</h2>
+        {p.more.map((m) => <a href={m.href}><span>{m.meta}</span><b>{m.title}</b><i>→</i></a>)}
+      </section>
+    </div>
+  </div>
+</main>
+
+<section id="contacts" class="section section-cta">
+  <div class="container">
+    <div class="cta-content">
+      <h2 class="cta-title">Разберём ваш процесс?</h2>
+      <p class="text-secondary cta-subtitle">Честно скажем, окупится ли ИИ в вашем случае. Аудит бесплатный.</p>
+      <ContactCards />
+      <p class="cta-urgency">Берём ограниченное число внедрений одновременно — каждый пилот требует полного погружения.</p>
+    </div>
+  </div>
+</section>
+
+<Fragment slot="tail">
+<script is:inline>
+  (function () {
+    var bar = document.getElementById('readProgress');
+    addEventListener('scroll', function () {
+      var h = document.documentElement.scrollHeight - innerHeight;
+      bar.style.width = (h > 0 ? (scrollY / h) * 100 : 0) + '%';
+    }, { passive: true });
+  })();
+</script>
+<script is:inline src="/blog-assets/article.js"></script>
+<script is:inline src="/blog-assets/kit.js"></script>
+</Fragment>
+</Base>

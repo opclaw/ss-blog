@@ -111,6 +111,9 @@ for src in sorted(PREV.glob('*.html')):
     main = re.search(r'<main class="bl-sheet" id="article">.*?</main>', html, re.S).group(0)
     # оглавление: без класса сайта article-aside-left — его стили (серый/голубой, скрытие) ломают светлый лист
     main = main.replace('class="bl-toc article-aside-left"', 'class="bl-toc"')
+    # внутренние пометки «нужно от Олега» в публичный HTML не попадают (список — в REVIEW.md статьи)
+    todos = re.findall(r'<div class="bl-todo">(.*?)</div>', main, re.S)
+    main = re.sub(r'\s*<div class="bl-todo">.*?</div>', '', main, flags=re.S)
     main = main.replace('https://smartsolutions.today/', '/')
     main = main.replace('href="/index.html', 'href="/')
     main = main.replace('href="/blog/index.html"', 'href="/blog/"')
@@ -166,3 +169,4 @@ const jsonLd = {json.dumps(lds, ensure_ascii=False, indent=2)};
     out = SITE / 'src' / 'pages' / 'blog' / f'{slug}.astro'
     out.write_text(page, encoding='utf-8')
     print('✓', out.relative_to(SITE), '|', title)
+    for t in todos: print('   todo:', re.sub(r'<[^>]+>', ' ', t).strip()[:160])

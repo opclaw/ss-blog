@@ -91,3 +91,22 @@ const jsonLd = [ /* Article, FAQPage, BreadcrumbList — исходный JSON *
    root `site`, output `dist`).
 
 GitHub Actions (`.github/workflows/site.yml`) на каждый push собирает сайт и запускает сверку.
+
+## Статьи нового образца (светлый лист + интерактив)
+
+Эталон — `src/pages/blog/ii-dlya-yuristov.astro`. Правила — `BLOG-BRIEF.md` в корне репозитория.
+
+- Макет `src/layouts/Article.astro`: надзаголовок, H1, мета, оглавление, «Коротко», вопросы, «Читать дальше», контакты.
+  JSON-LD (Article, FAQPage, BreadcrumbList) строится из тех же данных.
+- Библиотека интерактива `src/components/blog/` + `public/blog-assets/kit.{css,js}`:
+
+| Компонент | Что делает |
+|---|---|
+| `DocScan` | вычитка документа: сканер, подсветка рисков, находки, «что ИИ не увидел» |
+| `Tabs` | вкладки (без JS — все панели подряд) |
+| `Matrix` | «светофор»: можно / с проверкой / нельзя, объяснение по клику |
+| `Calc` | калькулятор: ползунки и формулы `expr` от id полей |
+| `Prompt` | промпт с кнопкой «копировать» |
+
+- Любая правка текста старой статьи записывается в `tools/content-edits.json` (`text` — правка, `rewrite` — статья переписана).
+- `npm run check` нажимает весь интерактив (`tools/kit-check.mjs`) — сломанный компонент не пройдёт.

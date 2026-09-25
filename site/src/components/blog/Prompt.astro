@@ -1,0 +1,8 @@
+---
+interface Props { label: string; text: string }
+const { label, text } = Astro.props;
+---
+<div class="kit-prompt" data-kit="prompt">
+  <div class="kit-prompt-bar"><span>{label}</span><button type="button">копировать</button></div>
+  <pre>{text}</pre>
+</div>
