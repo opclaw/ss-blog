@@ -2,6 +2,7 @@
 // Сгенерировано из legacy/version-4/blog/ii-dlya-proizvodstva.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
+import AuthorCard from '../../components/blog/AuthorCard.astro';
 const jsonLd = [
   "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ на производстве: от заявки до отгрузки без авралов\", \"description\": \"Как ИИ убирает ручную работу с заявками, спецификациями и документами на производстве 20–500 человек. Пилот 2–4 недели. Расчёт эффекта в рублях.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-23\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"Сколько времени занимает внедрение?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Пилот — 2–4 недели. Полноценное решение по одному-двум процессам — 1,5–3 месяца. Масштабирование на всё предприятие занимает 6–12 месяцев итерациями.\"}}, {\"@type\": \"Question\", \"name\": \"Нужен ли программист в штате?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Нет. Внешняя команда настраивает и интегрирует решение. Внутренний ответственный — менеджер или инженер, который понимает процесс и проверяет результаты.\"}}, {\"@type\": \"Question\", \"name\": \"Какие данные нужны для старта?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Реальные примеры входящих заявок или документов, шаблоны КП/спецификаций/договоров, доступ к почте или CRM, прайс и справочники номенклатуры. Чем больше примеров, тем точнее настройка.\"}}, {\"@type\": \"Question\", \"name\": \"Безопасно ли передавать данные ИИ?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Работаем с закрытыми моделями и настройками, которые не отправляют ваши данные на сторонние публичные сервисы. Конфиденциальные договоры и чертежи остаются под контролем компании.\"}}, {\"@type\": \"Question\", \"name\": \"Что если эффект не появится?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Пилот как раз для этого. За 2–4 недели понятно, окупается ли автоматизация. Если цифры не складываются — отказываемся без больших потерь.\"}}]}",
@@ -232,15 +233,9 @@ const jsonLd = [
       </div>
       </div>
     </div>
-    <aside class="article-aside-right">
-    <p class="sticky-label">Автор</p>
-    <p class="sticky-author">Олег Кречетов</p>
-    <p class="sticky-author-desc">Основатель Smart Solutions. Запускаю ИИ в бизнес-процессы с замером эффекта.</p>
-    <a href="https://t.me/olegkrechetov" class="contact-row primary" target="_blank" rel="noopener">
-      <svg width="20" height="20" class="contact-icon"><use href="/icons.svg#icon-telegram"/></svg>
-      <div><span class="label">Telegram</span><span class="value">@olegkrechetov</span></div>
-    </a>
-  </aside>
+    <div class="article-aside-right">
+      <AuthorCard />
+    </div>
   </div>
   </div>
 </article>

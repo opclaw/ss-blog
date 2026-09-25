@@ -2,6 +2,7 @@
 // Сгенерировано из legacy/version-4/blog/kak-poschitat-effekt-ot-ii-do-pilota.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
+import AuthorCard from '../../components/blog/AuthorCard.astro';
 const jsonLd = [
   "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"Как посчитать эффект от ИИ до пилота: формула и пример расчёта\", \"description\": \"Как посчитать эффект от внедрения ИИ до старта пилота: формула «часы × ставка = рубли», рабочий пример расчёта, готовый шаблон и честные границы.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-31\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-31\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"Какой процент экономии закладывать в расчёт?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Для текстовых задач (черновики писем, ответы на типовые вопросы, расшифровка) — 40–60% времени на подготовку черновика. Для извлечения данных из документов — 30–50%. Для задач, где нужна проверка человеком, — 15–30%. Закладывайте нижнюю границу: если расчёт сходится даже при 20% экономии, проект точно стоит делать. Оценка по нашим пилотам.\"}}, {\"@type\": \"Question\", \"name\": \"Что делать, если эффект не сходится?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Честно не делать проект. Если при консервативной оценке окупаемость больше 6–9 месяцев, лучше выбрать другой процесс или отказаться от внедрения. Это нормальный результат расчёта — он и нужен, чтобы не тратить деньги на заведомо слабый сценарий.\"}}, {\"@type\": \"Question\", \"name\": \"Сколько должен длиться пилот, чтобы проверить расчёт?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"2–4 недели. За это время набирается 20–50 реальных задач — достаточно, чтобы сравнить время до и после. Меньше — выборка не репрезентативна, больше — вы тратите деньги на процесс, который мог не сработать.\"}}, {\"@type\": \"Question\", \"name\": \"Можно ли посчитать эффект без специалиста?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Да, если процесс простой и вы можете замерить время. Возьмите одну типовую задачу, засеките, сколько занимает её выполнение, умножьте на частоту и ставку — получите базу. Сложность обычно не в расчёте, а в честной оценке процента экономии: тут легко обмануть себя.\"}}, {\"@type\": \"Question\", \"name\": \"Что входит в стоимость пилота?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Подписка на модель или API, настройка интеграции с вашими системами, время специалиста на настройку и проверку, обучение команды. Минимальный бюджет — от 50 000 до 150 000 ₽ (оценка по рынку). Если считаете эффект, закладывайте и стоимость поддержки после пилота: обновление источников, контроль качества.\"}}]}",
@@ -265,15 +266,9 @@ const jsonLd = [
         </div>
       </div>
       </div>
-    <aside class="article-aside-right">
-    <p class="sticky-label">Автор</p>
-    <p class="sticky-author">Олег Кречетов</p>
-    <p class="sticky-author-desc">Основатель Smart Solutions. Запускаю ИИ в бизнес-процессы с замером эффекта.</p>
-    <a href="https://t.me/olegkrechetov" class="contact-row primary" target="_blank" rel="noopener">
-      <svg width="20" height="20" class="contact-icon"><use href="/icons.svg#icon-telegram"/></svg>
-      <div><span class="label">Telegram</span><span class="value">@olegkrechetov</span></div>
-    </a>
-  </aside>
+    <div class="article-aside-right">
+      <AuthorCard />
+    </div>
   </div>
   </div>
 </article>

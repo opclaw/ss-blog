@@ -2,6 +2,7 @@
 // Сгенерировано из legacy/version-4/blog/ii-dlya-nedvizhimosti.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
+import AuthorCard from '../../components/blog/AuthorCard.astro';
 const jsonLd = [
   "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ в недвижимости: как агентству получать больше заявок и не терять их в обработке\", \"description\": \"Разбираем, где агентство недвижимости теряет заявки и как ИИ ускоряет ответы, подборки и follow-up. С цифрами, чек-листом готовности и честным взглядом на окупаемость.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-23\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"Заменит ли ИИ агентов недвижимости?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Нет. ИИ забирает рутину: первичный ответ, квалификация, подборка, черновики. Переговоры, показы, эмоциональная поддержка клиента и закрытие сделок остаются за людьми. Агент с ИИ становится быстрее и продуктивнее.\"}}, {\"@type\": \"Question\", \"name\": \"Сколько стоит внедрение?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Пилот обычно стоит 30 000–80 000 ₽ + 10 000–30 000 ₽/мес на поддержку и использование моделей. Стоимость зависит от количества каналов, объёма базы и сложности интеграций.\"}}, {\"@type\": \"Question\", \"name\": \"Можно ли подключить ИИ к нашему сайту и Авито?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Да. Большинство современных решений интегрируются с сайтом через виджеты, с мессенджерами через API, а с CRM — через вебхуки или готовые коннекторы. Авито и ЦИАН требуют более специфичной настройки, но тоже возможны.\"}}, {\"@type\": \"Question\", \"name\": \"Нужен ли программист в агентстве?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Не обязательно. Многие решения настраиваются через low-code платформы или подрядчика. Но нужен человек со стороны бизнеса, который будет формулировать задачи, проверять качество и дорабатывать процессы.\"}}, {\"@type\": \"Question\", \"name\": \"Как быстро увидеть результат?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Первые изменения по скорости ответа видны уже через неделю. Конверсия в показ и экономия времени становятся заметны через 3–4 недели после запуска и доводки. Сделки из реанимированной базы могут появиться через 1–2 месяца.\"}}]}",
@@ -208,15 +209,9 @@ const jsonLd = [
       </div>
       </div>
     </div>
-    <aside class="article-aside-right">
-    <p class="sticky-label">Автор</p>
-    <p class="sticky-author">Олег Кречетов</p>
-    <p class="sticky-author-desc">Основатель Smart Solutions. Запускаю ИИ в бизнес-процессы с замером эффекта.</p>
-    <a href="https://t.me/olegkrechetov" class="contact-row primary" target="_blank" rel="noopener">
-      <svg width="20" height="20" class="contact-icon"><use href="/icons.svg#icon-telegram"/></svg>
-      <div><span class="label">Telegram</span><span class="value">@olegkrechetov</span></div>
-    </a>
-  </aside>
+    <div class="article-aside-right">
+      <AuthorCard />
+    </div>
   </div>
   </div>
 </article>

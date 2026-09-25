@@ -2,6 +2,7 @@
 // Сгенерировано из legacy/version-4/blog/ii-dlya-medcentra.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
+import AuthorCard from '../../components/blog/AuthorCard.astro';
 const jsonLd = [
   "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ для медицинского центра: как привлекать пациентов и не терять заявки\", \"description\": \"Как ИИ‑ассистент помогает медцентру отвечать на заявки за секунды, снижать неявки и реактивировать пациентов. С цифрами, пилотом и чек-листом.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-23\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"Заменит ли ИИ администратора клиники?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Нет. ИИ берёт рутину: напоминания, типовые вопросы, запись по шаблону. Сложные случаи, жалобы, эмпатия, сопровождение пациентов с особыми потребностями — всё это остаётся за человеком.\"}}, {\"@type\": \"Question\", \"name\": \"Может ли ИИ ставить диагнозы или советовать лечение?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Нет и не должен. В этой статье ИИ используется только для административных процессов. Любые вопросы по диагнозу, лечению и результатам анализов он переводит к врачу.\"}}, {\"@type\": \"Question\", \"name\": \"Как защитить персональные данные пациентов?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Данные здоровья — особая категория. Используйте сервисы с российской инфраструктурой, заключайте соглашение об обработке персональных данных, настраивайте шифрование и доступ только по ролям. Не отправляйте медицинские карты в открытые иностранные API.\"}}, {\"@type\": \"Question\", \"name\": \"Сколько стоит внедрение и когда окупается?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Простой чат‑бот на сайте или в WhatsApp — 15 000–40 000 ₽ в месяц. Интеграция с CRM и голосовой бот добавляют стоимость. При нормальной загрузке клиники окупаемость обычно 1–2 месяца за счёт снижения потерь и неявок.\"}}, {\"@type\": \"Question\", \"name\": \"С чего начать, чтобы не провалить проект?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"С пилота на одном канале. Составьте базу знаний, зафиксируйте метрики «до», запустите на 2–4 недели, проанализируйте результат. Не пытайтесь автоматизировать всё сразу.\"}}]}",
@@ -214,15 +215,9 @@ const jsonLd = [
       </div>
       </div>
     </div>
-    <aside class="article-aside-right">
-    <p class="sticky-label">Автор</p>
-    <p class="sticky-author">Олег Кречетов</p>
-    <p class="sticky-author-desc">Основатель Smart Solutions. Запускаю ИИ в бизнес-процессы с замером эффекта.</p>
-    <a href="https://t.me/olegkrechetov" class="contact-row primary" target="_blank" rel="noopener">
-      <svg width="20" height="20" class="contact-icon"><use href="/icons.svg#icon-telegram"/></svg>
-      <div><span class="label">Telegram</span><span class="value">@olegkrechetov</span></div>
-    </a>
-  </aside>
+    <div class="article-aside-right">
+      <AuthorCard />
+    </div>
   </div>
   </div>
 </article>

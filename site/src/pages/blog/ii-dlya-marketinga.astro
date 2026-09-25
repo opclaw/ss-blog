@@ -2,6 +2,7 @@
 // Сгенерировано из legacy/version-4/blog/ii-dlya-marketinga.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
+import AuthorCard from '../../components/blog/AuthorCard.astro';
 const jsonLd = [
   "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ для маркетинга: контент, заявки и аналитика без расширения штата\", \"description\": \"Как бизнесу внедрить ИИ в маркетинг без расширения штата. Честный разбор: где окупается, как считать эффект в часах и рублях, какие риски. Кейсы и чек-лист.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-23\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"Сколько стоит внедрение ИИ для маркетинга?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Базовый пилот — от 150 000 до 350 000 руб. разово. Плюс ежемесячные подписки на сервисы — 5 000–30 000 руб. Окупаемость — 2–5 месяцев только на экономии времени.\"}}, {\"@type\": \"Question\", \"name\": \"Заменит ли ИИ маркетолога?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Нет. ИИ забирает рутину: черновики, сбор данных, транскрибацию, мониторинг. Маркетолог остаётся за стратегию, смыслы, контроль, работу с клиентами и каналами.\"}}, {\"@type\": \"Question\", \"name\": \"Какой ИИ-инструмент лучше для контента?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Универсального нет. Для текстов — GPT-класс моделей с правильными промптами и вашей базой знаний. Для картинок — Midjourney или DALL-E. Для транскрибации — Whisper. Для автоматизации — Make, n8n, Zapier. Подбирается под задачи.\"}}, {\"@type\": \"Question\", \"name\": \"Что если у нас нет времени на пилот?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Пилот требует 3–5 часов в неделю от одного сотрудника. Если этого нет — эффекта от ИИ не будет. Технология не работает без участия человека на этапе внедрения.\"}}, {\"@type\": \"Question\", \"name\": \"Можно ли доверять ИИ-отчётам?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"ИИ-отчёт — это черновик. Он собирает данные быстрее человека и подсвечивает аномалии, но решения принимает человек. Цифры нужно проверять, особенно на старте.\"}}]}",
@@ -226,15 +227,9 @@ const jsonLd = [
       </div>
       </div>
     </div>
-    <aside class="article-aside-right">
-    <p class="sticky-label">Автор</p>
-    <p class="sticky-author">Олег Кречетов</p>
-    <p class="sticky-author-desc">Основатель Smart Solutions. Запускаю ИИ в бизнес-процессы с замером эффекта.</p>
-    <a href="https://t.me/olegkrechetov" class="contact-row primary" target="_blank" rel="noopener">
-      <svg width="20" height="20" class="contact-icon"><use href="/icons.svg#icon-telegram"/></svg>
-      <div><span class="label">Telegram</span><span class="value">@olegkrechetov</span></div>
-    </a>
-  </aside>
+    <div class="article-aside-right">
+      <AuthorCard />
+    </div>
   </div>
   </div>
 </article>

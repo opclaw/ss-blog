@@ -2,6 +2,7 @@
 // Сгенерировано из legacy/version-4/blog/ii-dlya-internet-magazina.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
+import AuthorCard from '../../components/blog/AuthorCard.astro';
 const jsonLd = [
   "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ для интернет-магазина: заказы и возврат покупателей на автопилоте\", \"description\": \"Разбираем, где ИИ реально помогает интернет-магазину: ответы на вопросы, брошенные корзины, статусы заказов, отзывы и повторные продажи. С цифрами и оценкой эффекта.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-23\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"Заменит ли ИИ менеджеров магазина?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Нет. ИИ закрывает рутинные и повторяющиеся задачи: статусы, типовые вопросы, напоминания. Сложные случаи, жалобы, нестандартные запросы и переговоры по-прежнему остаются за человеком. ИИ разгружает команду, но не заменяет её.\"}}, {\"@type\": \"Question\", \"name\": \"Сколько времени занимает запуск?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Пилот обычно занимает 2–4 недели. Полноценный запуск по нескольким сценариям — от 1 до 2 месяцев. Всё зависит от состояния базы товаров и количества сценариев, которые нужно автоматизировать.\"}}, {\"@type\": \"Question\", \"name\": \"Безопасно ли доверять ИИ ответы клиентам?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Только в рамках проверенных сценариев. Важно, чтобы ассистент работал по базе знаний, а не придумывал ответы. Нужны эскалации на человека и регулярный контроль диалогов.\"}}, {\"@type\": \"Question\", \"name\": \"Подходит ли ИИ маленькому магазину?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Если обращений меньше 10–15 в день и заказов немного, автоматизация может не окупиться. ИИ имеет смысл, когда рутины много и она отнимает время менеджеров. Для небольших магазинов иногда достаточно шаблонных ответов и простых рассылок.\"}}, {\"@type\": \"Question\", \"name\": \"Как понять, что ИИ работает?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Смотрите на метрики: время ответа, доля закрытых без участия человека вопросов, конверсия возвращённых корзин, повторные продажи по сегментам, снижение нагрузки на менеджеров. Если метрики не растут — что-то не так с настройкой или базой знаний.\"}}]}",
@@ -192,15 +193,9 @@ const jsonLd = [
       </div>
       </div>
     </div>
-    <aside class="article-aside-right">
-    <p class="sticky-label">Автор</p>
-    <p class="sticky-author">Олег Кречетов</p>
-    <p class="sticky-author-desc">Основатель Smart Solutions. Запускаю ИИ в бизнес-процессы с замером эффекта.</p>
-    <a href="https://t.me/olegkrechetov" class="contact-row primary" target="_blank" rel="noopener">
-      <svg width="20" height="20" class="contact-icon"><use href="/icons.svg#icon-telegram"/></svg>
-      <div><span class="label">Telegram</span><span class="value">@olegkrechetov</span></div>
-    </a>
-  </aside>
+    <div class="article-aside-right">
+      <AuthorCard />
+    </div>
   </div>
   </div>
 </article>

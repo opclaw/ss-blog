@@ -2,6 +2,7 @@
 // Сгенерировано из legacy/version-4/blog/ii-dlya-logistiki.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
+import AuthorCard from '../../components/blog/AuthorCard.astro';
 const jsonLd = [
   "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ для логистики: заявки и статусы без ручных звонков\", \"description\": \"Как ИИ убирает рутину в заявках, статусах, документах и сверках логистической компании. Сколько часов и рублей сэкономить. Пилот за 2–4 недели.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-23\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"Может ли ИИ полностью заменить логиста?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Нет. ИИ заменяет рутинные операции: извлечение данных, обновление статусов, сверку. Сложные маршруты, переговоры с перевозчиками, решение внештатных ситуаций остаются за человеком.\"}}, {\"@type\": \"Question\", \"name\": \"Сколько стоит внедрение ИИ в логистику?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Пилот — от 150 000 ₽, полноценное решение с интеграциями — 400 000–600 000 ₽. Стоимость зависит от количества каналов, систем и сложности документов. Окупаемость при типовой нагрузке — 2–4 месяца.\"}}, {\"@type\": \"Question\", \"name\": \"Что делать, если заявки приходят в неструктурированном виде?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Это как раз тот случай, где ИИ полезен. Модель обучается на примерах ваших заявок и постепенно распознаёт адреса, даты, грузы и условия независимо от формы сообщения.\"}}, {\"@type\": \"Question\", \"name\": \"Нужно ли обучать сотрудников работе с ИИ?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Да, но не глубоко. Главное — научить менеджеров проверять выдачу ИИ и исправлять ошибки первые недели. Именно эта обратная связь повышает точность системы.\"}}, {\"@type\": \"Question\", \"name\": \"Как понять, что ИИ окупится именно у нас?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Замерьте сейчас: сколько времени уходит на заявки, статусы, документы и сверки. Переведите часы в рубли по ставке сотрудников. Если рутина занимает больше 30 % рабочего времени — есть смысл делать пилот.\"}}]}",
@@ -211,15 +212,9 @@ const jsonLd = [
       </div>
       </div>
     </div>
-    <aside class="article-aside-right">
-    <p class="sticky-label">Автор</p>
-    <p class="sticky-author">Олег Кречетов</p>
-    <p class="sticky-author-desc">Основатель Smart Solutions. Запускаю ИИ в бизнес-процессы с замером эффекта.</p>
-    <a href="https://t.me/olegkrechetov" class="contact-row primary" target="_blank" rel="noopener">
-      <svg width="20" height="20" class="contact-icon"><use href="/icons.svg#icon-telegram"/></svg>
-      <div><span class="label">Telegram</span><span class="value">@olegkrechetov</span></div>
-    </a>
-  </aside>
+    <div class="article-aside-right">
+      <AuthorCard />
+    </div>
   </div>
   </div>
 </article>

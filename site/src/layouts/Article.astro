@@ -4,6 +4,7 @@
 // JSON-LD (Article, FAQPage, BreadcrumbList) строится из этих же данных — FAQ на странице и в разметке не расходятся.
 import Base from './Base.astro';
 import ContactCards from '../components/ContactCards.astro';
+import AuthorCard from '../components/blog/AuthorCard.astro';
 import { SITE } from '../data/site';
 
 interface Toc { id: string; label: string }
@@ -75,6 +76,11 @@ const jsonLd = [
         <h2 class="no-num">Читать дальше</h2>
         {p.more.map((m) => <a href={m.href}><span>{m.meta}</span><b>{m.title}</b><i>→</i></a>)}
       </section>
+    </div>
+
+    <!-- третья колонка на широких экранах; на узких — в потоке после статьи -->
+    <div class="bl-author">
+      <AuthorCard />
     </div>
   </div>
 </main>

@@ -2,6 +2,7 @@
 // Сгенерировано из legacy/version-4/blog/ii-dlya-salona-krasoty.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
+import AuthorCard from '../../components/blog/AuthorCard.astro';
 const jsonLd = [
   "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ для салона красоты: как заполнять расписание и возвращать клиентов\", \"description\": \"Как ИИ-ассистент помогает салону красоты отвечать в мессенджерах, заполнять окна и возвращать клиентов. Честный расчёт эффекта, пилот и ошибки.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-23\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"ИИ заменит администратора салона?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Не сразу. В первые недели ассистент берёт рутину: цены, свободное время, запись, перенос. Сложные случаи, конфликты и особые пожелания остаются за человеком. Полная замена возможна только после месяцев обучения под конкретный салон и его клиентов.\"}}, {\"@type\": \"Question\", \"name\": \"Сколько стоит внедрить ИИ в салон красоты?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Типичный диапазон: 15 000–30 000 ₽ в месяц в зависимости от числа мессенджеров, услуг и обращений. Первичная настройка — 20 000–50 000 ₽. Вложения окупаются, если салон теряет записи из-за неотвеченных сообщений или пустых окон.\"}}, {\"@type\": \"Question\", \"name\": \"Какие мессенджеры поддерживает ассистент?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"WhatsApp Business API, Telegram, ВКонтакте, Instagram* Direct. Важно: нужен официальный WhatsApp Business API, а не личный WhatsApp, иначе подключение будет ненадёжным и может слететь.\"}}, {\"@type\": \"Question\", \"name\": \"Будет ли ИИ звонить клиентам?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Голосовые звонки возможны, но для салона красоты обычно избыточны. Текстовые мессенджеры решают 80 % задач: запись, напоминание, возврат, отзыв. Звонки добавляют, если клиенты пожилые или не пользуются мессенджерами.\"}}, {\"@type\": \"Question\", \"name\": \"Что нужно, чтобы запустить пилот за неделю?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Актуальный прайс, цифровой календарь мастеров, база клиентов и выделенный администратор на 2–3 недели для контроля. Без этих четырёх вещей пилот затянется и не даст чисел.\"}}]}",
@@ -214,15 +215,9 @@ const jsonLd = [
       </div>
       </div>
     </div>
-    <aside class="article-aside-right">
-    <p class="sticky-label">Автор</p>
-    <p class="sticky-author">Олег Кречетов</p>
-    <p class="sticky-author-desc">Основатель Smart Solutions. Запускаю ИИ в бизнес-процессы с замером эффекта.</p>
-    <a href="https://t.me/olegkrechetov" class="contact-row primary" target="_blank" rel="noopener">
-      <svg width="20" height="20" class="contact-icon"><use href="/icons.svg#icon-telegram"/></svg>
-      <div><span class="label">Telegram</span><span class="value">@olegkrechetov</span></div>
-    </a>
-  </aside>
+    <div class="article-aside-right">
+      <AuthorCard />
+    </div>
   </div>
   </div>
 </article>

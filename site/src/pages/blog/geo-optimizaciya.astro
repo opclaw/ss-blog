@@ -2,6 +2,7 @@
 // Сгенерировано из legacy/version-4/blog/geo-optimizaciya.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
+import AuthorCard from '../../components/blog/AuthorCard.astro';
 const jsonLd = [
   "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"GEO-оптимизация: как попадать в ответы ChatGPT, Нейро и Алисы\", \"description\": \"Разбираем GEO-оптимизацию для рунета: как нейросети выбирают источники, какие сигналы учитывают и как оформить контент, чтобы его цитировали. Без магии и обещаний.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-23\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"GEO-оптимизация гарантирует попадание в ответы нейросетей?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Нет. GEO повышает вероятность, но не гарантирует. Модели непредсказуемы, источники меняются, и вы не можете купить место в ответе.\"}}, {\"@type\": \"Question\", \"name\": \"Сколько времени занимает результат?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Оценка: первые заметные упоминания возможны через 3–6 месяцев регулярной работы с контентом и авторитетом. В конкурентных нишах — от полугода до года.\"}}, {\"@type\": \"Question\", \"name\": \"Нужен ли отдельный бюджет на GEO?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Не обязательно отдельный бюджет, но нужны ресурсы: экспертные статьи, работа с PR, мониторинг. Часто GEO эффективнее встраивать в существующий SEO и контент-план.\"}}, {\"@type\": \"Question\", \"name\": \"Работает ли GEO для малого бизнеса?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Да, если ниша узкая и экспертная. Например, «настройка amoCRM для агентств недвижимости» — хороший запрос для GEO. «Лучший сайт в Москве» — слишком широкий и конкурентный.\"}}, {\"@type\": \"Question\", \"name\": \"GEO влияет на классическую выдачу?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Косвенно. Структура, факты, FAQ и авторитетные упоминания полезны и для SEO. Но механики ранжирования в поиске и в AI-ответах разные, поэтому лучше считать GEO самостоятельным направлением.\"}}]}",
@@ -181,15 +182,9 @@ const jsonLd = [
       </div>
       </div>
     </div>
-    <aside class="article-aside-right">
-    <p class="sticky-label">Автор</p>
-    <p class="sticky-author">Олег Кречетов</p>
-    <p class="sticky-author-desc">Основатель Smart Solutions. Запускаю ИИ в бизнес-процессы с замером эффекта.</p>
-    <a href="https://t.me/olegkrechetov" class="contact-row primary" target="_blank" rel="noopener">
-      <svg width="20" height="20" class="contact-icon"><use href="/icons.svg#icon-telegram"/></svg>
-      <div><span class="label">Telegram</span><span class="value">@olegkrechetov</span></div>
-    </a>
-  </aside>
+    <div class="article-aside-right">
+      <AuthorCard />
+    </div>
   </div>
   </div>
 </article>

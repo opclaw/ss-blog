@@ -2,6 +2,7 @@
 // Сгенерировано из legacy/version-4/blog/ii-dlya-stroitelstva.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
+import AuthorCard from '../../components/blog/AuthorCard.astro';
 const jsonLd = [
   "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ для строительной компании: сметы и документы за минуты\", \"description\": \"Разбираем, где ИИ реально ускоряет строительную компанию: заявки, сметы, договоры, акты, уведомления. Считаем эффект в часах и рублях. Пилот 2–4 недели.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-23\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"Сможет ли ИИ считать сметы точнее сметчика?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Нет. ИИ считает быстрее по типовым позициям, но не видит объект и не знает особенностей работ. Сметчик всегда проверяет и корректирует результат. ИИ — ускорение, не замена.\"}}, {\"@type\": \"Question\", \"name\": \"Что нужно для запуска: какие данные и системы?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Актуальный прайс, шаблоны документов, доступ к каналам заявок, CRM или таблица, где ведутся проекты. Чем структурированнее данные, тем быстрее настройка.\"}}, {\"@type\": \"Question\", \"name\": \"Как быстро команда начнёт экономить время?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Первый эффект на заявках — через 2–3 дня после настройки. На сметах и документах — через 1–2 недели, после того как ИИ обучится на 10–20 примерах.\"}}, {\"@type\": \"Question\", \"name\": \"Безопасно ли передавать заявки и документы в ИИ?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Можно развернуть решение в закрытом контуре или использовать российские модели, которые не передают данные за пределы РФ. Конкретная схема зависит от требований компании и регулятора.\"}}, {\"@type\": \"Question\", \"name\": \"Сколько стоит внедрение и когда окупится?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Стоимость зависит от количества процессов и источников данных. Окупаемость обычно 2–4 месяца, если экономия 35 000–50 000 ₽/мес на двух сотрудниках. Пилот покажет реальные цифры до масштабирования.\"}}]}",
@@ -218,15 +219,9 @@ const jsonLd = [
       </div>
       </div>
     </div>
-    <aside class="article-aside-right">
-    <p class="sticky-label">Автор</p>
-    <p class="sticky-author">Олег Кречетов</p>
-    <p class="sticky-author-desc">Основатель Smart Solutions. Запускаю ИИ в бизнес-процессы с замером эффекта.</p>
-    <a href="https://t.me/olegkrechetov" class="contact-row primary" target="_blank" rel="noopener">
-      <svg width="20" height="20" class="contact-icon"><use href="/icons.svg#icon-telegram"/></svg>
-      <div><span class="label">Telegram</span><span class="value">@olegkrechetov</span></div>
-    </a>
-  </aside>
+    <div class="article-aside-right">
+      <AuthorCard />
+    </div>
   </div>
   </div>
 </article>

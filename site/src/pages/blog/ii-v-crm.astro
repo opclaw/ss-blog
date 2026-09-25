@@ -2,6 +2,7 @@
 // Сгенерировано из legacy/version-4/blog/ii-v-crm.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
+import AuthorCard from '../../components/blog/AuthorCard.astro';
 const jsonLd = [
   "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ в CRM: автоматизация работы с клиентами без потери качества\", \"description\": \"Как внедрить ИИ в CRM, чтобы снизить рутину менеджеров и не потерять качество обработки лидов. Разбор процессов, оценка эффекта, пилот и чек-лист.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-23\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"Может ли ИИ полностью заменить менеджеров по продажам?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Нет. ИИ убирает рутину и помогает расставлять приоритеты, но переговоры, сложные возражения и построение отношений остаются за человеком. В B2B и в высокочековых сделках клиенты хотят общаться с экспертом, а не с алгоритмом.\"}}, {\"@type\": \"Question\", \"name\": \"Сколько времени занимает внедрение?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Простые функции — автозаполнение, подсказки, базовый скоринг — можно запустить за 2–4 недели. Сложные проекты с интеграциями и обучением моделей занимают 2–3 месяца. Всё зависит от состояния CRM и количества данных.\"}}, {\"@type\": \"Question\", \"name\": \"Какие данные нужны для старта?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Минимум: история сделок, заполненные карточки клиентов, источники лидов, этапы воронки и записи взаимодействий. Чем больше чистых данных, тем лучше работает ИИ.\"}}, {\"@type\": \"Question\", \"name\": \"Безопасно ли передавать клиентские данные в ИИ?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Это зависит от инструмента и провайдера. Важно проверять, где обрабатываются данные, соответствует ли сервис требованиям законодательства и есть ли возможность работы в закрытом контуре. Для персональных данных клиентов лучше использовать решения с российской инфраструктурой или локальное размещение.\"}}, {\"@type\": \"Question\", \"name\": \"Как понять, что ИИ окупается?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Измеряйте метрики до и после: время на рутинные операции, скорость обработки лидов, конверсия воронки, средний чек, удержание клиентов. Если через пилот разница видна и она перекрывает затраты на внедрение, проект можно масштабировать.\"}}]}",
@@ -194,15 +195,9 @@ const jsonLd = [
       </div>
       </div>
     </div>
-    <aside class="article-aside-right">
-    <p class="sticky-label">Автор</p>
-    <p class="sticky-author">Олег Кречетов</p>
-    <p class="sticky-author-desc">Основатель Smart Solutions. Запускаю ИИ в бизнес-процессы с замером эффекта.</p>
-    <a href="https://t.me/olegkrechetov" class="contact-row primary" target="_blank" rel="noopener">
-      <svg width="20" height="20" class="contact-icon"><use href="/icons.svg#icon-telegram"/></svg>
-      <div><span class="label">Telegram</span><span class="value">@olegkrechetov</span></div>
-    </a>
-  </aside>
+    <div class="article-aside-right">
+      <AuthorCard />
+    </div>
   </div>
   </div>
 </article>

@@ -1,6 +1,7 @@
 ---
 // Статья блога (дизайн v6). Сгенерировано tools/port_v6.py из site-preview/blog/chto-takoe-ii-agent.html; дальше правим здесь.
 import Base from '../../layouts/Base.astro';
+import AuthorCard from '../../components/blog/AuthorCard.astro';
 import ContactCards from '../../components/ContactCards.astro';
 const jsonLd = [
   "{\"@context\":\"https://schema.org\",\"@graph\":[\n{\"@type\":\"Article\",\"headline\":\"Что такое ИИ-агент простыми словами: как работает и чем полезен бизнесу в 2026\",\n \"description\":\"Как устроен ИИ-агент, чем отличается от чат-бота и ассистента, примеры для бизнеса.\",\n \"author\":{\"@type\":\"Person\",\"name\":\"Олег Кречетов\",\"jobTitle\":\"Основатель Smart Solutions\"},\n \"publisher\":{\"@type\":\"Organization\",\"name\":\"Smart Solutions\",\"url\":\"https://smartsolutions.today/\"},\n \"datePublished\":\"2026-09-25\",\"dateModified\":\"2026-09-25\",\"inLanguage\":\"ru\",\n \"mainEntityOfPage\":\"https://smartsolutions.today/blog/chto-takoe-ii-agent.html\"},\n{\"@type\":\"BreadcrumbList\",\"itemListElement\":[\n {\"@type\":\"ListItem\",\"position\":1,\"name\":\"Главная\",\"item\":\"https://smartsolutions.today/\"},\n {\"@type\":\"ListItem\",\"position\":2,\"name\":\"Блог\",\"item\":\"https://smartsolutions.today/blog/\"},\n {\"@type\":\"ListItem\",\"position\":3,\"name\":\"Что такое ИИ-агент\"}]},\n{\"@type\":\"FAQPage\",\"mainEntity\":[\n {\"@type\":\"Question\",\"name\":\"ИИ-агент и ChatGPT — это одно и то же?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Нет. ChatGPT, GigaChat или Алиса AI — это языковые модели, «мозг». Агент — система вокруг модели: инструкции, доступ к вашим данным и программам, правила проверки. Одна и та же модель может работать и как чат, и как агент.\"}},\n {\"@type\":\"Question\",\"name\":\"Агент заменит сотрудника?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Агент забирает отдельные операции: разбор заявок, черновики документов, сверку данных. Решения, переговоры и ответственность остаются за сотрудником.\"}},\n {\"@type\":\"Question\",\"name\":\"Безопасно ли давать агенту доступ к CRM и документам?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Да, если доступ ограничен: агент видит только нужные поля, работает с российскими или локальными моделями, а все отправки наружу проходят через подтверждение человеком.\"}},\n {\"@type\":\"Question\",\"name\":\"Сколько стоит ИИ-агент для бизнеса?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Пилот на одном процессе у нас стоит 100–300 тыс. ₽ и занимает 2–4 недели. Плюс расходы на модель — обычно тысячи рублей в месяц.\"}},\n {\"@type\":\"Question\",\"name\":\"Можно ли сделать ИИ-агента бесплатно?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Для личных задач — да, на no-code платформах и бесплатных тарифах. Для бизнес-процесса с данными клиентов бесплатные решения обычно не подходят из-за ограничений по безопасности и стабильности.\"}}]}\n]}"
@@ -228,6 +229,11 @@ const jsonLd = [
         <a href="/blog/kak-poschitat-effekt-ot-ii-do-pilota.html"><span>расчёт</span><b>Как посчитать эффект от ИИ до пилота</b><i>→</i></a>
         <a href="/blog/ii-dlya-prodazh.html"><span>продажи</span><b>ИИ для продаж</b><i>→</i></a>
       </section>
+    </div>
+
+    <!-- третья колонка на широких экранах; на узких — в потоке после статьи -->
+    <div class="bl-author">
+      <AuthorCard />
     </div>
   </div>
 </main>

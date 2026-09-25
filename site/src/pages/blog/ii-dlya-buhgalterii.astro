@@ -2,6 +2,7 @@
 // Сгенерировано из legacy/version-4/blog/ii-dlya-buhgalterii.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
+import AuthorCard from '../../components/blog/AuthorCard.astro';
 const jsonLd = [
   "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ для бухгалтерии: первичка и сверки в 6 раз быстрее\", \"description\": \"Разбираем, где ИИ реально ускоряет бухгалтерию малого бизнеса: первичка, сверки, отчётность, запросы сотрудников. Считаем эффект в часах и рублях. Пилот 2–4 недели.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-23\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"Заменит ли ИИ бухгалтера?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Нет. ИИ ускоряет рутину: распознаёт документы, ищет расхождения, готовит черновики ответов. Решения, проверки и подпись остаются за человеком. Бухгалтер остаётся контролёром и аналитиком.\"}}, {\"@type\": \"Question\", \"name\": \"Сколько стоит внедрение?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Стоимость зависит от источников данных, системы учёта и количества процессов. Пилот обычно занимает 2–4 недели и стоит существенно меньше годовой лицензии. После пилота у вас есть конкретная цифра экономии — и вы решаете, окупается ли масштабирование.\"}}, {\"@type\": \"Question\", \"name\": \"Безопасно ли передавать документы ИИ?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Документы обрабатываются в защищённых контурах. Мы используем решения с российской инфраструктурой и соблюдаем требования 152-ФЗ. Важно: вы сами выбираете, какие данные участвуют в пилоте.\"}}, {\"@type\": \"Question\", \"name\": \"С какими системами работаете?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Основная интеграция — с 1С. Также подключаем облачные хранилища, Telegram, корпоративную почту, системы ЭДО и банковские сервисы. Если у вас нестандартная система — обсудим варианты.\"}}, {\"@type\": \"Question\", \"name\": \"Как быстро увидеть эффект?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Обычно первые результаты появляются через 1–2 недели пилота. Окончательная экономия и ROI фиксируются через 2–4 недели — после сравнения времени до и после.\"}}, {\"@type\": \"Question\", \"name\": \"Какие гарантии, что ИИ не ошибётся?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Гарантии даёт не ИИ, а процесс: человек всё проверяет, а ИИ только готовит и подсвечивает. Мы не включаем автоматическое разнесение без подтверждения до тех пор, пока точность не стабилизируется на высоком уровне по вашим документам.\"}}, {\"@type\": \"Question\", \"name\": \"Подойдёт ли ИИ, если у нас мало документов?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Если первичных документов меньше 50 в месяц и нет массовых сверок — эффект может быть меньше стоимости внедрения. На этапе замера мы это проверим и скажем честно.\"}}, {\"@type\": \"Question\", \"name\": \"Нужно ли менять 1С?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Обычно нет. Большинство решений интегрируются с 1С через стандартные API или обмен файлами. Если у вас сильно переписанная или устаревшая конфигурация — обсудим отдельно.\"}}]}",
@@ -250,15 +251,9 @@ const jsonLd = [
       </div>
       </div>
     </div>
-    <aside class="article-aside-right">
-    <p class="sticky-label">Автор</p>
-    <p class="sticky-author">Олег Кречетов</p>
-    <p class="sticky-author-desc">Основатель Smart Solutions. Запускаю ИИ в бизнес-процессы с замером эффекта.</p>
-    <a href="https://t.me/olegkrechetov" class="contact-row primary" target="_blank" rel="noopener">
-      <svg width="20" height="20" class="contact-icon"><use href="/icons.svg#icon-telegram"/></svg>
-      <div><span class="label">Telegram</span><span class="value">@olegkrechetov</span></div>
-    </a>
-  </aside>
+    <div class="article-aside-right">
+      <AuthorCard />
+    </div>
   </div>
   </div>
 </article>

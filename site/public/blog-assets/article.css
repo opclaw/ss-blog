@@ -34,7 +34,7 @@ html{scroll-padding-top:84px}
 @media (max-width:860px){.bl-hero-in{grid-template-columns:1fr;padding:48px 20px 40px;gap:24px}.bl-hero-art{max-width:360px}}
 
 /* ТЕЛО */
-.bl-body{max-width:1240px;margin:0 auto;padding:64px 24px 40px;display:grid;grid-template-columns:220px minmax(0,var(--col)) 1fr;gap:56px}
+.bl-body{max-width:1240px;margin:0 auto;padding:64px 24px 40px;display:grid;grid-template-columns:200px minmax(0,var(--col)) 240px;gap:40px}
 .bl-toc{position:sticky;top:100px;align-self:start;font-size:13px}
 .bl-toc p{font:500 11px/1 var(--f-m);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin:0 0 12px}
 .bl-toc a{display:block;padding:7px 0 7px 14px;border-left:2px solid var(--line);color:var(--dim);text-decoration:none;line-height:1.35;transition:.15s}
@@ -242,3 +242,12 @@ html{scroll-padding-top:84px}
 .bl-text li{margin:0 0 .45em}
 .bl-page .section-cta{margin-top:0}
 .bl-page .bl-hero{padding-top:64px}
+
+/* ===== Карточка автора: тёмный блок на светлом листе =====
+   На широких экранах — третьей колонкой (липкая), на узких — в потоке после статьи. */
+.bl-author{position:sticky;top:100px;align-self:start}
+@media (max-width:1100px){
+  .bl-author{position:static;margin-top:40px}
+  .author-card{max-width:520px}
+}
+@media print{.bl-author{display:none}}

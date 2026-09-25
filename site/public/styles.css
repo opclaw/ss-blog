@@ -3190,77 +3190,27 @@ p.format-note.text-secondary {
   }
 }
 @media (max-width: 1179px) {
-  .article-aside-left, .article-aside-right { display: none !important; }
+  /* Содержание на узких экранах скрыто (есть мобильный <details>), а карточка автора — нет:
+     раньше она пропадала вместе с ним, и читатель с телефона не видел, кто написал статью. */
+  .article-aside-left { display: none !important; }
+  .article-aside-right {
+    display: flex !important;
+    position: static !important;
+    margin: 32px auto 0;
+    max-width: 520px;
+  }
 }
-/* ===== Правая колонка статьи: компактные контакты ===== */
+/* ===== Правая колонка статьи: карточка автора ===== */
+/* Рамку и фон рисует сам компонент AuthorCard (один вид на всех макетах),
+   здесь — только место в сетке и «липкость». */
 .article-aside-right {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 18px 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
   position: sticky;
   top: 24px;
   align-self: start;
 }
-.sticky-label {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.18em;
-  color: var(--accent);
-  margin: 0;
-  text-transform: uppercase;
-}
-.sticky-author {
-  font-family: 'Manrope', sans-serif;
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--fg);
-  margin: 0;
-  letter-spacing: -0.01em;
-}
-.sticky-author-desc {
-  font-family: 'Manrope', sans-serif;
-  font-size: 0.8rem;
-  color: var(--secondary);
-  line-height: 1.45;
-  margin: 0 0 4px;
-}
-.contact-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  border-radius: 8px;
-  text-decoration: none;
-  color: inherit;
-  transition: background 0.15s;
-}
-.contact-row:hover { background: rgba(255,255,255,0.04); }
-.contact-row.primary { background: rgba(0, 200, 220, 0.08); border: 1px solid rgba(0,200,220,0.2); }
-.contact-row.primary:hover { background: rgba(0,200,220,0.14); }
-.contact-row svg {
-  flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  color: var(--accent);
-}
-.contact-row .label {
-  display: block;
-  font-size: 0.7rem;
-  color: var(--secondary);
-  letter-spacing: 0.04em;
-  margin-bottom: 2px;
-}
-.contact-row .value {
-  display: block;
-  font-weight: 600;
-  font-size: 0.88rem;
-  word-break: break-all;
-}
-.contact-row > div { flex: 1; min-width: 0; }
+
 /* ===== Активный пункт TOC ===== */
 .article-aside-left a.active {
   color: var(--accent);

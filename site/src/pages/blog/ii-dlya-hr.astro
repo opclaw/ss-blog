@@ -2,6 +2,7 @@
 // Сгенерировано из legacy/version-4/blog/ii-dlya-hr.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
+import AuthorCard from '../../components/blog/AuthorCard.astro';
 const jsonLd = [
   "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ для HR: как ускорить найм и адаптацию без потери человеческого решения\", \"description\": \"Как ИИ помогает HR-отделу скринить резюме, проводить первичный скрининг и поддерживать адаптацию. Измеримый эффект в часах и рублях для бизнеса 10–200 сотрудников.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-23\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"ИИ заменит HR-специалиста?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Нет. ИИ заменяет рутинные операции: фильтрацию, первичные вопросы, FAQ. Сложные решения, интервью, удержание, развитие культуры — остаются за человеком.\"}}, {\"@type\": \"Question\", \"name\": \"Сколько стоит внедрение?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Зависит от масштаба. Пилот на 2–4 недели может стоить от 50 000 до 150 000 ₽ с учётом настройки и интеграции. Месячная поддержка — от 10 000 ₽. Конкретная цифра зависит от количества вакансий, источников резюме и каналов общения.\"}}, {\"@type\": \"Question\", \"name\": \"Какие данные нужны для запуска?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Для скрининга — резюме и критерии отбора. Для диалогов — сценарии вопросов и оценки. Для внутреннего HR-ассистента — база знаний, регламенты, FAQ. Чем лучше подготовлены данные, тем точнее работает ИИ.\"}}, {\"@type\": \"Question\", \"name\": \"ИИ может ошибаться?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Да. Особенно на нестандартных резюме или вопросах вне базы знаний. Поэтому важны человеческая проверка и механизм эскалации. ИИ — ассистент, а не истина в последней инстанции.\"}}, {\"@type\": \"Question\", \"name\": \"Подойдёт ли это малому бизнесу?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Если компания до 15 человек и найм редкий, внедрение может не окупиться. Если регулярно закрываете 3–5 вакансий в месяц или HR один на 50+ сотрудников — ИИ скорее всего сэкономит время и деньги.\"}}]}",
@@ -227,15 +228,9 @@ const jsonLd = [
       </div>
       </div>
     </div>
-    <aside class="article-aside-right">
-    <p class="sticky-label">Автор</p>
-    <p class="sticky-author">Олег Кречетов</p>
-    <p class="sticky-author-desc">Основатель Smart Solutions. Запускаю ИИ в бизнес-процессы с замером эффекта.</p>
-    <a href="https://t.me/olegkrechetov" class="contact-row primary" target="_blank" rel="noopener">
-      <svg width="20" height="20" class="contact-icon"><use href="/icons.svg#icon-telegram"/></svg>
-      <div><span class="label">Telegram</span><span class="value">@olegkrechetov</span></div>
-    </a>
-  </aside>
+    <div class="article-aside-right">
+      <AuthorCard />
+    </div>
   </div>
   </div>
 </article>

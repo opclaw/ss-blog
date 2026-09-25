@@ -2,6 +2,7 @@
 // Сгенерировано из legacy/version-4/blog/ii-dlya-restorana.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
+import AuthorCard from '../../components/blog/AuthorCard.astro';
 const jsonLd = [
   "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ для ресторана: как привлекать гостей и возвращать их без постоянного роста рекламы\", \"description\": \"Как ресторану использовать ИИ для отзывов, возврата гостей, контента и бронирований. Честно о цифрах, пилоте и случаях, когда ИИ не окупится.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-23\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"Сколько стоит внедрение ИИ для ресторана?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Зависит от количества точек, площадок отзывов, каналов коммуникации и объёма базы. Пилот обычно начинается от небольшой суммы в месяц и растёт только при подтверждённом эффекте. Не платите за год вперёд без теста.\"}}, {\"@type\": \"Question\", \"name\": \"Может ли ИИ писать ответы на негативные отзывы?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Может готовить черновики, но публикацию должен проверять человек. Особенно на острые случаи: конфликт, болезнь, претензия. ИИ не чувствует контекст, он помогает быстро найти формулировку.\"}}, {\"@type\": \"Question\", \"name\": \"Будет ли ассистент звонить гостям?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Текущие решения в основном работают в тексте: мессенджеры, чат на сайте, комментарии. Голосовые звонки — отдельный и более сложный уровень, который нужен не всем.\"}}, {\"@type\": \"Question\", \"name\": \"Нужно ли менять CRM или сайт?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Не всегда. Многие инструменты подключаются поверх существующих систем: Telegram, Яндекс Карты, email-рассыльщики. Интеграция зависит от того, что уже используете.\"}}, {\"@type\": \"Question\", \"name\": \"Что измерять через месяц после запуска?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Время на ответы и контент, процент отвеченных отзывов, количество возвращённых гостей, конверсия рассылок, доля обращений, закрытых ассистентом, рост бронирований. Если показатели не выросли — отключаем или меняем подход.\"}}]}",
@@ -219,15 +220,9 @@ const jsonLd = [
       </div>
       </div>
     </div>
-    <aside class="article-aside-right">
-    <p class="sticky-label">Автор</p>
-    <p class="sticky-author">Олег Кречетов</p>
-    <p class="sticky-author-desc">Основатель Smart Solutions. Запускаю ИИ в бизнес-процессы с замером эффекта.</p>
-    <a href="https://t.me/olegkrechetov" class="contact-row primary" target="_blank" rel="noopener">
-      <svg width="20" height="20" class="contact-icon"><use href="/icons.svg#icon-telegram"/></svg>
-      <div><span class="label">Telegram</span><span class="value">@olegkrechetov</span></div>
-    </a>
-  </aside>
+    <div class="article-aside-right">
+      <AuthorCard />
+    </div>
   </div>
   </div>
 </article>

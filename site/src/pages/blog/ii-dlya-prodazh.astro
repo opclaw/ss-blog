@@ -2,6 +2,7 @@
 // Сгенерировано из legacy/version-4/blog/ii-dlya-prodazh.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
+import AuthorCard from '../../components/blog/AuthorCard.astro';
 const jsonLd = [
   "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ для продаж: как обрабатывать заявки в 5 раз быстрее и не терять клиентов\", \"description\": \"Как внедрить ИИ в отдел продаж среднего бизнеса: скорость ответа, скоринг лидов, расчет эффекта в рублях до старта. Честные ограничения и пилот за 2–4 недели.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-23\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"Чем ИИ для продаж отличается от обычного автоответчика?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Автоответчик шлет одинаковый текст по триггеру. ИИ анализирует содержание заявки, извлекает данные, определяет тип и генерирует ответ под конкретный запрос. Это персональная реакция, а не шаблон.\"}}, {\"@type\": \"Question\", \"name\": \"Сколько стоит внедрение ИИ?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Зависит от сложности интеграции и числа сценариев. Пилот на одном процессе для среднего бизнеса обычно обходится в сумму, сопоставимую с месячной зарплатой одного менеджера. Но перед стартом мы считаем окупаемость — если цифры не сходятся, советуем не тратить деньги.\"}}, {\"@type\": \"Question\", \"name\": \"ИИ заменит менеджеров по продажам?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Нет. Он заберет рутину: перенос данных, первичный ответ, follow-up. Продажи — это переговоры, эмпатия, работа с возражениями. Это делает человек. ИИ высвобождает ему время на то, что реально приносит деньги.\"}}, {\"@type\": \"Question\", \"name\": \"Что если ИИ ошибется в ответе клиенту?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"На старте ИИ не отправляет ответы без проверки менеджером. Система работает в форматe «черновик + подтверждение». Человек всегда видит текст перед отправкой. Постепенно простые сценарии автоматизируются, но коммерчески значимые — под контролем.\"}}, {\"@type\": \"Question\", \"name\": \"Через сколько будет результат?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Первые измеримые изменения в скорости обработки видны уже на 2–3 неделе пилота. Экономию в рублях считаем через месяц-полтора, когда накопится статистика. Если говорить о росте конверсии от скорости — там эффект накапливается в течение 2–3 месяцев.\"}}]}",
@@ -217,15 +218,9 @@ const jsonLd = [
       </div>
       </div>
     </div>
-    <aside class="article-aside-right">
-    <p class="sticky-label">Автор</p>
-    <p class="sticky-author">Олег Кречетов</p>
-    <p class="sticky-author-desc">Основатель Smart Solutions. Запускаю ИИ в бизнес-процессы с замером эффекта.</p>
-    <a href="https://t.me/olegkrechetov" class="contact-row primary" target="_blank" rel="noopener">
-      <svg width="20" height="20" class="contact-icon"><use href="/icons.svg#icon-telegram"/></svg>
-      <div><span class="label">Telegram</span><span class="value">@olegkrechetov</span></div>
-    </a>
-  </aside>
+    <div class="article-aside-right">
+      <AuthorCard />
+    </div>
   </div>
   </div>
 </article>

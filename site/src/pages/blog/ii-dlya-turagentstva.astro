@@ -2,6 +2,7 @@
 // Сгенерировано из legacy/version-4/blog/ii-dlya-turagentstva.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
+import AuthorCard from '../../components/blog/AuthorCard.astro';
 const jsonLd = [
   "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ для турагентства: подбор туров и оформление за минуты\", \"description\": \"Как турфирме 5–30 сотрудников автоматизировать ответы, подбор туров и документы, пересчитать экономику и запустить пилот за 2–4 недели.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-23\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"Заменит ли ИИ менеджеров турагентства?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Нет. ИИ берёт рутину: первичный ответ, подбор вариантов, документы. Продажа, сложные вопросы и забота о клиенте остаются за человеком. Нейросеть — это усиление менеджера, а не его замена.\"}}, {\"@type\": \"Question\", \"name\": \"Сколько стоит внедрение для агентства на 10 человек?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Типовой пилот обходится в 150 000–350 000 ₽ в зависимости от каналов и интеграций. Ежемесячная поддержка — 30 000–70 000 ₽. При экономии 300 000–500 000 ₽ в месяц окупаемость составляет 1–2 месяца после запуска.\"}}, {\"@type\": \"Question\", \"name\": \"Какие данные нужны для запуска?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"История диалогов, прайсы или API операторов, шаблоны документов, база клиентов с сегментами. Чем полнее данные, тем меньше ручной корректировки нужно после каждого ответа ассистента.\"}}, {\"@type\": \"Question\", \"name\": \"Можно ли начать с одного канала?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Да. Лучший вариант — канал, откуда приходит больше всего заявок: Telegram, сайт, Instagram или телефония. После пилота масштабируете на остальные каналы по очерёдности, а не всё сразу.\"}}, {\"@type\": \"Question\", \"name\": \"Как понять, что ИИ работает?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Измеряете время первого ответа, долю заявок, обработанных без человека до стадии подбора, конверсию в продажу и средний чек. Рост хотя бы по двум показателям из четырёх — сигнал, что стоит развивать внедрение.\"}}]}",
@@ -202,15 +203,9 @@ const jsonLd = [
       </div>
       </div>
     </div>
-    <aside class="article-aside-right">
-    <p class="sticky-label">Автор</p>
-    <p class="sticky-author">Олег Кречетов</p>
-    <p class="sticky-author-desc">Основатель Smart Solutions. Запускаю ИИ в бизнес-процессы с замером эффекта.</p>
-    <a href="https://t.me/olegkrechetov" class="contact-row primary" target="_blank" rel="noopener">
-      <svg width="20" height="20" class="contact-icon"><use href="/icons.svg#icon-telegram"/></svg>
-      <div><span class="label">Telegram</span><span class="value">@olegkrechetov</span></div>
-    </a>
-  </aside>
+    <div class="article-aside-right">
+      <AuthorCard />
+    </div>
   </div>
   </div>
 </article>
