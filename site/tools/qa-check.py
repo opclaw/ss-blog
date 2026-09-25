@@ -35,6 +35,7 @@ OPTIONAL_CLOSE = {'p', 'li', 'td', 'th', 'tr', 'option', 'dt', 'dd'}
 
 errors: list[str] = []
 warns: list[str] = []
+notes: list[str] = []
 
 
 def url_to_file(path: str) -> Path | None:
@@ -237,6 +238,32 @@ def main() -> None:
     if typo_total:
         warns.append(f'всего типографских замечаний: {typo_total}')
 
+    # --- карточка автора: у каждой статьи блога, из одного источника (AUTHOR/CONTACTS в site.ts)
+    bio = re.search(r"bio:\s*'([^']+)'", (ROOT / 'src/data/site.ts').read_text(encoding='utf-8'))
+    bio = bio.group(1) if bio else None
+    blog_articles = [x for x in pages if x.parent.name == 'blog' and x.name != 'index.html']
+    for p in blog_articles:
+        rel = str(p.relative_to(DIST))
+        html = p.read_text(encoding='utf-8')
+        if 'author-card-bio' not in html:
+            errors.append(f'{rel}: нет карточки автора (класс author-card-bio)')
+            continue
+        if bio and bio not in html:
+            errors.append(f'{rel}: текст автора в карточке не совпадает с site.ts (AUTHOR.bio)')
+        if 't.me/' not in html:
+            errors.append(f'{rel}: в карточке автора нет ссылки на Telegram')
+        if 'class="author-card-name"' not in html:
+            errors.append(f'{rel}: в карточке автора нет имени')
+        if html.count('class="author-card"') != 1:
+            errors.append(f'{rel}: карточка автора встречается {html.count(chr(34) + "author-card" + chr(34))} раз(а), ожидается одна')
+    # чистота: старой разметки карточки (sticky-*) быть не должно ни в одной статье
+    for p in pages:
+        if p.parent.name != 'blog':
+            continue
+        if 'sticky-author' in p.read_text(encoding='utf-8'):
+            errors.append(f'{p.relative_to(DIST)}: осталась старая разметка карточки (sticky-author)')
+    notes.append('карточка автора: одна на статью, из site.ts — проверено у ' + str(len(blog_articles)) + ' статей')
+
     # --- контакты: сверка со справочником сайта
     site_ts = (ROOT / 'src' / 'data' / 'site.ts').read_text(encoding='utf-8')
     tel = re.search(r"tel:\s*'([^']+)'", site_ts)
@@ -266,6 +293,10 @@ def main() -> None:
             print(f'  ✗ {e}')
     else:
         print('Ошибок нет')
+    if notes:
+        print('\nК сведению:')
+        for n in notes:
+            print(f'  · {n}')
     if warns:
         print(f'\nПредупреждения ({len(warns)}):')
         for w in warns[:40]:
