@@ -268,6 +268,20 @@ def main() -> None:
         if light_card and not light_sheet:
             errors.append(f'{rel}: тёмная статья, но карточка автора светлая')
 
+    # --- воронка: из каждой статьи есть контекстная ссылка на денежную страницу.
+    # Зона контента — от <h1> до блока контактов: так не считаются шапка (в т.ч. мобильное меню
+    # вне <nav>), хлебные крошки, подвал и CTA. Ссылки оттуда воронкой не являются.
+    money = re.compile(r'href="/(?:ai|services|cases)/?[^"]*"')
+    for p in blog_articles:
+        rel = str(p.relative_to(DIST))
+        html = p.read_text(encoding='utf-8')
+        start = html.find('<h1')
+        end = html.find('id="contacts"', start)
+        body = html[start:end] if start != -1 and end != -1 else html
+        body = re.sub(r'<aside class="author-card.*?</aside>', ' ', body, flags=re.S)
+        if not money.search(body):
+            errors.append(f'{rel}: нет контекстной ссылки на денежную страницу (/ai.html, /services.html или кейс)')
+
     # чистота: старой разметки карточки (sticky-*) быть не должно ни в одной статье
     for p in pages:
         if p.parent.name != 'blog':
