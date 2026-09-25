@@ -175,6 +175,37 @@
 .kit-table td:last-child{color:var(--fg, #101014);font-weight:500;background:var(--acc-soft, rgba(10,126,164,.08))}
 .kit-cap-tbl{margin:0 0 -20px;font:500 12px/1.4 var(--f-m, ui-monospace, monospace);letter-spacing:.06em;text-transform:uppercase;color:var(--dim, rgba(16,16,20,.65))}
 .kit-cap-tbl b{margin-right:10px;color:var(--acc-t, #0A7EA4);font-weight:500}
+
+/* ---------- Timeline: путь процесса по этапам ---------- */
+.kit-tl{list-style:none;margin:0;padding:10px 20px 18px}
+.kit-tl li{position:relative;margin-left:9px;padding-left:26px;border-left:1px solid var(--line)}
+.kit-tl li:last-child{border-left-color:transparent}
+.kit-tl-btn{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:none;border:0;padding:12px 4px;cursor:pointer;font:600 15px/1.35 var(--f-t);color:var(--text)}
+.kit-tl-n{position:absolute;left:-11px;top:11px;width:22px;height:22px;border-radius:50%;background:var(--line2);color:var(--fg);font:500 12px/22px var(--f-m);text-align:center;transition:background .2s,color .2s}
+.kit-tl-btn:hover .kit-tl-lbl{color:var(--fg)}
+.kit-tl-who{margin-left:auto;font:500 11px/1.4 var(--f-m);letter-spacing:.06em;text-transform:uppercase;color:var(--acc-t);white-space:nowrap}
+.kit-tl-body{padding:0 4px 14px;font-size:15px;line-height:1.6;color:var(--dim)}
+.kit-tl li.on .kit-tl-n{background:var(--acc-t);color:#0A0A0F}
+.kit-tl li.on .kit-tl-lbl{color:var(--fg)}
+.kit-timeline.kit-js .kit-tl-body{display:none}
+.kit-timeline.kit-js .kit-tl li.on .kit-tl-body{display:block}
+@media (max-width:640px){.kit-tl-who{margin-left:0;flex-basis:100%}}
+
+/* ---------- Sources: как собран ответ нейросети ---------- */
+.kit-src-q{margin:16px 20px 0;padding:12px 16px;border:1px solid var(--line2);border-radius:12px;font:500 15px/1.5 var(--f-t);color:var(--fg)}
+.kit-src-answer{margin:12px 20px 18px;padding:14px 16px;border-left:2px solid var(--acc-t);background:var(--paper2);border-radius:0 12px 12px 0;font:400 16px/1.8 var(--f-t);color:var(--text)}
+.kit-src-f sup{font:600 10px var(--f-m);color:var(--acc-t);margin-left:1px}
+.kit-src-f{transition:opacity .2s}
+.kit-srcs{display:flex;flex-wrap:wrap;gap:8px;padding:14px 20px 18px;border-top:1px solid var(--line)}
+.kit-src-btn{display:inline-flex;gap:6px;align-items:baseline;font:500 13px/1 var(--f-t);padding:9px 12px;border-radius:999px;border:1px solid var(--line2);background:transparent;color:var(--text);cursor:pointer}
+.kit-src-btn b{font:600 11px var(--f-m);color:var(--acc-t)}
+.kit-src-btn:hover{border-color:var(--acc-t)}
+.kit-src-btn.on{background:var(--acc-soft);border-color:var(--acc-t);color:var(--fg)}
+.kit-src-kind{margin-left:6px;font:400 11px var(--f-m);color:var(--dim)}
+.kit-sources.kit-js .kit-srcs.on ~ * .kit-src-f,.kit-sources.kit-js .kit-srcs.on + *{}
+.kit-sources.hl .kit-src-f{opacity:.32}
+.kit-sources.hl .kit-src-f.hl{opacity:1}
+@media (prefers-reduced-motion:reduce){.kit-tl-n,.kit-src-f{transition:none}}
 /* ---------- Факт-таблица с датой проверки ---------- */
 .kit-src{font:400 13px/1.5 var(--f-t);color:var(--mute);margin:-24px 0 32px}
 .kit-src a{color:var(--acc-t)}

@@ -1,0 +1,26 @@
+---
+// Как нейросеть собирает ответ: источник за источником.
+// Читатель нажимает на источник и видит, какие фразы ответа пришли именно оттуда,
+// а какие модель добавила сама. Без JS видно всё: у каждой фразы стоит номер источника.
+interface Source { name: string; kind: string }
+interface Part { t: string; from: number | 'own' }
+interface Props { fig?: number; title: string; q: string; sources: Source[]; parts: Part[]; note?: string }
+const { fig, title, q, sources, parts, note } = Astro.props;
+const num = (n: number) => (n === 'own' ? 'своё' : String(n + 1));
+---
+<figure class="kit kit-sources" data-kit="sources">
+  <figcaption class="kit-cap">{fig && <b>Рис. {fig}</b>}{title}<em>нажмите на источник</em></figcaption>
+  <p class="kit-src-q">{q}</p>
+  <p class="kit-src-answer">
+    {parts.map((p) => <span class="kit-src-f" data-from={String(p.from)}>{p.t}<sup>{num(p.from)}</sup> </span>)}
+  </p>
+  <div class="kit-srcs">
+    {sources.map((s, i) => (
+      <button type="button" class="kit-src-btn" data-src={String(i)} aria-pressed="false">
+        <b>{i + 1}</b> {s.name}<span class="kit-src-kind">{s.kind}</span>
+      </button>
+    ))}
+    <button type="button" class="kit-src-btn" data-src="own" aria-pressed="false"><b>своё</b> догадка модели<span class="kit-src-kind">не подтверждено</span></button>
+  </div>
+  {note && <p class="kit-foot">{note}</p>}
+</figure>

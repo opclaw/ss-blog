@@ -181,6 +181,45 @@
     upd();
   });
 
+
+  /* ---------- Timeline: этапы процесса ---------- */
+  $$('[data-kit="timeline"]').forEach(function (root) {
+    root.classList.add('kit-js');
+    var items = $$('.kit-tl li', root);
+    function show(i) {
+      items.forEach(function (li, k) {
+        var on = k === i;
+        li.classList.toggle('on', on);
+        var btn = $('.kit-tl-btn', li);
+        if (btn) btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+      });
+    }
+    items.forEach(function (li, i) {
+      var btn = $('.kit-tl-btn', li);
+      if (btn) btn.addEventListener('click', function () { show(i); });
+    });
+    show(0);
+  });
+
+  /* ---------- Sources: как собран ответ модели ---------- */
+  $$('[data-kit="sources"]').forEach(function (root) {
+    root.classList.add('kit-js');
+    var btns = $$('.kit-src-btn', root), parts = $$('.kit-src-f', root);
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        var on = !b.classList.contains('on');
+        btns.forEach(function (x) { x.classList.remove('on'); x.setAttribute('aria-pressed', 'false'); });
+        parts.forEach(function (p) { p.classList.remove('hl'); });
+        root.classList.toggle('hl', on);
+        if (on) {
+          b.classList.add('on'); b.setAttribute('aria-pressed', 'true');
+          var key = b.dataset.src;
+          parts.forEach(function (p) { if (p.dataset.from === key) p.classList.add('hl'); });
+        }
+      });
+    });
+  });
+
   /* ---------- Funnel: заявки → диалог → сделка ---------- */
   $$('[data-kit="funnel"]').forEach(function (root) {
     root.classList.add('kit-js');

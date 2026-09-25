@@ -90,6 +90,38 @@ for (const f of files.sort()) {
     if (out.textContent === before) errs.push('calc: итог не меняется от ползунка');
     ok.push(`calc ${before}→${out.textContent}`);
   }
+  for (const root of d.querySelectorAll('[data-kit="timeline"]')) {
+    const items = [...root.querySelectorAll('.kit-tl li')], btns = items.map((li) => li.querySelector('.kit-tl-btn'));
+    if (!items.length) { errs.push('timeline: нет этапов'); continue; }
+    if (items.filter((li) => li.classList.contains('on')).length !== 1) errs.push('timeline: открыт не один этап');
+    btns.at(-1).click();
+    if (!items.at(-1).classList.contains('on') || items[0].classList.contains('on')) errs.push('timeline: клик по этапу не переключает');
+    if (btns.at(-1).getAttribute('aria-expanded') !== 'true') errs.push('timeline: aria-expanded не обновляется');
+    if (!root.classList.contains('kit-js')) errs.push('timeline: нет класса kit-js — CSS не скроет неактивные этапы');
+    if (items.filter((li) => li.classList.contains('on')).length !== 1) errs.push('timeline: активных этапов не один после клика');
+    if (items.some((li) => !li.querySelector('.kit-tl-body') || !li.querySelector('.kit-tl-body').textContent.trim()))
+      errs.push('timeline: у этапа пустое описание');
+    ok.push(`timeline ${items.length} этапов`);
+  }
+  for (const root of d.querySelectorAll('[data-kit="sources"]')) {
+    const btns = [...root.querySelectorAll('.kit-src-btn')], parts = [...root.querySelectorAll('.kit-src-f')];
+    if (!btns.length || !parts.length) { errs.push('sources: нет источников или фраз'); continue; }
+    if (parts.some((p) => !p.querySelector('sup'))) errs.push('sources: у фразы нет номера источника');
+    const counts = {};
+    parts.forEach((p) => { counts[p.dataset.from] = (counts[p.dataset.from] || 0) + 1; });
+    const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
+    const b = btns.find((x) => x.dataset.src === top[0]);
+    b.click();
+    if (!root.classList.contains('hl')) errs.push('sources: подсветка не включилась');
+    if (b.getAttribute('aria-pressed') !== 'true') errs.push('sources: aria-pressed не выставлен');
+    const hl = parts.filter((p) => p.classList.contains('hl')).length;
+    if (hl !== top[1]) errs.push(`sources: подсвечено ${hl} фраз, у источника ${top[1]}`);
+    const noSrc = parts.filter((p) => p.dataset.from === 'own').length;
+    if (!noSrc) errs.push('sources: нет фразы без источника (догадка модели)');
+    b.click();
+    if (root.classList.contains('hl')) errs.push('sources: подсветка не снимается повторным кликом');
+    ok.push(`sources ${btns.length - 1} источников · ${hl} фраз у одного`);
+  }
   for (const root of d.querySelectorAll('[data-kit="check"]')) {
     const boxes = [...root.querySelectorAll('input[data-c]')], verdict = root.querySelector('[data-cverdict]');
     if (!boxes.length || !verdict) { errs.push('check: нет пунктов или вердикта'); continue; }
