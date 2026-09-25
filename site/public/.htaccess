@@ -33,7 +33,9 @@ RewriteRule ^author(/.*)?$ - [G]
 RewriteRule ^tag(/.*)?$ - [G]
 RewriteRule ^page/\d+ - [G]
 RewriteRule ^comments(/.*)?$ - [G]
-RewriteRule ^\?p=\d+ - [G]
+# Старые адреса вида /?p=123 (проверяем QUERY_STRING: RewriteRule путь не видит)
+RewriteCond %{QUERY_STRING} (^|&)p=\d+(&|$)
+RewriteRule ^ - [G]
 
 # Кеширование статики
 <IfModule mod_expires.c>
@@ -55,11 +57,12 @@ RewriteRule ^\?p=\d+ - [G]
 Options -Indexes
 
 # Безопасность: запрет доступа к служебным файлам
-<FilesMatch "\.(md|json|jsonl)$">
+# manifest.json — исключение: его запрашивает браузер (иконка сайта на Android)
+<FilesMatch "^(?!manifest\.json$).+\.(md|json|jsonl)$">
     Require all denied
 </FilesMatch>
 
-# Запрет доступа к send.php напрямую (только POST)
+# Запрет доступа к send.php напрямую (только POST); в сборке файла нет — правило на случай ручной выгрузки
 <Files "send.php">
     <RequireAll>
         Require method POST OPTIONS

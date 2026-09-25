@@ -27,6 +27,7 @@
   </url>
   <url>
     <loc>https://smartsolutions.today/ai.html</loc>
+    <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -36,88 +37,129 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://smartsolutions.today/blog/vnedrenie-ii-v-biznes.html</loc>
+    <loc>https://smartsolutions.today/blog/ii-dlya-yuristov.html</loc>
+    <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://smartsolutions.today/blog/chto-takoe-ii-agent.html</loc>
+    <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://smartsolutions.today/blog/ii-dlya-prodazh.html</loc>
+    <loc>https://smartsolutions.today/blog/kak-poschitat-effekt-ot-ii-do-pilota.html</loc>
+    <lastmod>2026-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://smartsolutions.today/blog/ii-dlya-marketinga.html</loc>
+    <loc>https://smartsolutions.today/blog/skolko-stoit-vnedrenie-ii.html</loc>
+    <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://smartsolutions.today/blog/ii-dlya-hr.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://smartsolutions.today/blog/ii-dlya-buhgalterii.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://smartsolutions.today/blog/ii-dlya-restorana.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://smartsolutions.today/blog/ii-dlya-nedvizhimosti.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://smartsolutions.today/blog/ii-dlya-onlain-shkoly.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://smartsolutions.today/blog/ii-dlya-medcentra.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://smartsolutions.today/blog/ii-dlya-yuristov.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://smartsolutions.today/blog/ii-dlya-salona-krasoty.html</loc>
+    <loc>https://smartsolutions.today/blog/ii-v-crm.html</loc>
+    <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://smartsolutions.today/blog/ii-dlya-turagentstva.html</loc>
+    <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://smartsolutions.today/blog/ii-dlya-stroitelstva.html</loc>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://smartsolutions.today/blog/ii-dlya-salona-krasoty.html</loc>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://smartsolutions.today/blog/ii-dlya-restorana.html</loc>
+    <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://smartsolutions.today/blog/ii-dlya-proizvodstva.html</loc>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://smartsolutions.today/blog/ii-dlya-prodazh.html</loc>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://smartsolutions.today/blog/ii-dlya-onlain-shkoly.html</loc>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://smartsolutions.today/blog/ii-dlya-nedvizhimosti.html</loc>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://smartsolutions.today/blog/ii-dlya-medcentra.html</loc>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://smartsolutions.today/blog/ii-dlya-marketinga.html</loc>
+    <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://smartsolutions.today/blog/ii-dlya-logistiki.html</loc>
+    <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  <url><loc>https://smartsolutions.today/blog/skolko-stoit-vnedrenie-ii.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://smartsolutions.today/blog/ii-dlya-internet-magazina.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://smartsolutions.today/blog/geo-optimizaciya.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://smartsolutions.today/blog/ii-v-crm.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://smartsolutions.today/blog/kak-poschitat-effekt-ot-ii-do-pilota.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url>
+    <loc>https://smartsolutions.today/blog/ii-dlya-internet-magazina.html</loc>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://smartsolutions.today/blog/ii-dlya-hr.html</loc>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://smartsolutions.today/blog/ii-dlya-buhgalterii.html</loc>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://smartsolutions.today/blog/geo-optimizaciya.html</loc>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://smartsolutions.today/blog/vnedrenie-ii-v-biznes.html</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
