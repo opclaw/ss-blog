@@ -3,8 +3,9 @@
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
 import AuthorCard from '../../components/blog/AuthorCard.astro';
+import Calc from '../../components/blog/Calc.astro';
 const jsonLd = [
-  "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ для маркетинга: контент, заявки и аналитика без расширения штата\", \"description\": \"Как бизнесу внедрить ИИ в маркетинг без расширения штата. Честный разбор: где окупается, как считать эффект в часах и рублях, какие риски. Кейсы и чек-лист.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-23\"}",
+  "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ для маркетинга: контент, заявки и аналитика без расширения штата\", \"description\": \"Как бизнесу внедрить ИИ в маркетинг без расширения штата. Честный разбор: где окупается, как считать эффект в часах и рублях, какие риски. Кейсы и чек-лист.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-09-25\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"Сколько стоит внедрение ИИ для маркетинга?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Базовый пилот — от 150 000 до 350 000 руб. разово. Плюс ежемесячные подписки на сервисы — 5 000–30 000 руб. Окупаемость — 2–5 месяцев только на экономии времени.\"}}, {\"@type\": \"Question\", \"name\": \"Заменит ли ИИ маркетолога?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Нет. ИИ забирает рутину: черновики, сбор данных, транскрибацию, мониторинг. Маркетолог остаётся за стратегию, смыслы, контроль, работу с клиентами и каналами.\"}}, {\"@type\": \"Question\", \"name\": \"Какой ИИ-инструмент лучше для контента?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Универсального нет. Для текстов — GPT-класс моделей с правильными промптами и вашей базой знаний. Для картинок — Midjourney или DALL-E. Для транскрибации — Whisper. Для автоматизации — Make, n8n, Zapier. Подбирается под задачи.\"}}, {\"@type\": \"Question\", \"name\": \"Что если у нас нет времени на пилот?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Пилот требует 3–5 часов в неделю от одного сотрудника. Если этого нет — эффекта от ИИ не будет. Технология не работает без участия человека на этапе внедрения.\"}}, {\"@type\": \"Question\", \"name\": \"Можно ли доверять ИИ-отчётам?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"ИИ-отчёт — это черновик. Он собирает данные быстрее человека и подсвечивает аномалии, но решения принимает человек. Цифры нужно проверять, особенно на старте.\"}}]}",
   "{\n    \"@context\": \"https://schema.org\",\n    \"@type\": \"BreadcrumbList\",\n    \"itemListElement\": [\n      {\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Главная\", \"item\": \"https://smartsolutions.today/\"},\n      {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Блог\", \"item\": \"https://smartsolutions.today/blog/\"},\n      {\"@type\": \"ListItem\", \"position\": 3, \"name\": \"ИИ для маркетинга: контент, заявки, аналитика\", \"item\": \"https://smartsolutions.today/blog/ii-dlya-marketinga.html\"}\n    ]\n  }"
 ];
@@ -19,6 +20,7 @@ const jsonLd = [
   skipTo="#article"
   readProgress
 >
+<link slot="head" rel="stylesheet" href="/blog-assets/kit.css">
   <article class="article" id="article">
     <div class="container container-narrow">
       <nav class="article-crumbs" aria-label="Хлебные крошки">
@@ -207,7 +209,23 @@ const jsonLd = [
         </div>
             <p>Смежный пример с цифрами — <a href="/cases/cnd-store.html">кейс CND-Store</a>; формат работы с ИИ — страница «<a href="/ai.html">внедрение ИИ в процессы компании</a>».</p>
 
-<div class="article-related">
+  <div class="kit-dark">
+  <Calc fig={3} title="Часы на черновики контента и отчёты"
+    inputs={[
+      { id: 'n', label: 'Материалов и отчётов в месяц', min: 5, max: 200, step: 5, value: 20 },
+      { id: 'h', label: 'Часов на один вручную', min: 0.5, max: 12, step: 0.5, value: 2.5 },
+      { id: 'p', label: 'Какую часть черновика снимает ИИ, %', min: 10, max: 70, step: 5, value: 35, unit: ' %' },
+      { id: 'r', label: 'Стоимость часа, ₽', min: 500, max: 4000, step: 100, value: 1200 },
+    ]}
+    main={{    label: 'освобождается в месяц', expr: 'n*h*p/100', unit: 'ч', dig: 1 }}
+    rows={[
+      {     label: 'в деньгах', expr: 'n*h*p/100*r', unit: '₽' },
+      {     label: 'в рабочих днях', expr: 'n*h*p/100/8', unit: 'дн.', dig: 1 },
+    ]}
+    note="Пример, а не наши данные: подставьте свои. Считаем только черновики: редактура и факт-чек остаются за человеком." />
+  </div>
+
+      <div class="article-related">
         <h2 class="article-faq-title">Читать дальше</h2>
         <div class="related-grid">
           <a class="related-card" href="/blog/vnedrenie-ii-v-biznes.html">
@@ -250,6 +268,7 @@ const jsonLd = [
   </div>
 </section>
 <Fragment slot="tail">
+<script is:inline src="/blog-assets/kit.js"></script>
 <script is:inline>
     (function () {
       var bar = document.getElementById('readProgress');

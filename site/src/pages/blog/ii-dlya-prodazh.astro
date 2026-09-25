@@ -3,8 +3,10 @@
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
 import AuthorCard from '../../components/blog/AuthorCard.astro';
+import Calc from '../../components/blog/Calc.astro';
+import Funnel from '../../components/blog/Funnel.astro';
 const jsonLd = [
-  "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ для продаж: как обрабатывать заявки в 5 раз быстрее и не терять клиентов\", \"description\": \"Как внедрить ИИ в отдел продаж среднего бизнеса: скорость ответа, скоринг лидов, расчет эффекта в рублях до старта. Честные ограничения и пилот за 2–4 недели.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-23\"}",
+  "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ для продаж: как обрабатывать заявки в 5 раз быстрее и не терять клиентов\", \"description\": \"Как внедрить ИИ в отдел продаж среднего бизнеса: скорость ответа, скоринг лидов, расчет эффекта в рублях до старта. Честные ограничения и пилот за 2–4 недели.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-09-25\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"Чем ИИ для продаж отличается от обычного автоответчика?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Автоответчик шлет одинаковый текст по триггеру. ИИ анализирует содержание заявки, извлекает данные, определяет тип и генерирует ответ под конкретный запрос. Это персональная реакция, а не шаблон.\"}}, {\"@type\": \"Question\", \"name\": \"Сколько стоит внедрение ИИ?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Зависит от сложности интеграции и числа сценариев. Пилот на одном процессе для среднего бизнеса обычно обходится в сумму, сопоставимую с месячной зарплатой одного менеджера. Но перед стартом мы считаем окупаемость — если цифры не сходятся, советуем не тратить деньги.\"}}, {\"@type\": \"Question\", \"name\": \"ИИ заменит менеджеров по продажам?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Нет. Он заберет рутину: перенос данных, первичный ответ, follow-up. Продажи — это переговоры, эмпатия, работа с возражениями. Это делает человек. ИИ высвобождает ему время на то, что реально приносит деньги.\"}}, {\"@type\": \"Question\", \"name\": \"Что если ИИ ошибется в ответе клиенту?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"На старте ИИ не отправляет ответы без проверки менеджером. Система работает в форматe «черновик + подтверждение». Человек всегда видит текст перед отправкой. Постепенно простые сценарии автоматизируются, но коммерчески значимые — под контролем.\"}}, {\"@type\": \"Question\", \"name\": \"Через сколько будет результат?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Первые измеримые изменения в скорости обработки видны уже на 2–3 неделе пилота. Экономию в рублях считаем через месяц-полтора, когда накопится статистика. Если говорить о росте конверсии от скорости — там эффект накапливается в течение 2–3 месяцев.\"}}]}",
   "{\n    \"@context\": \"https://schema.org\",\n    \"@type\": \"BreadcrumbList\",\n    \"itemListElement\": [\n      {\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Главная\", \"item\": \"https://smartsolutions.today/\"},\n      {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Блог\", \"item\": \"https://smartsolutions.today/blog/\"},\n      {\"@type\": \"ListItem\", \"position\": 3, \"name\": \"ИИ для продаж: обработка заявок быстрее и без потерь\", \"item\": \"https://smartsolutions.today/blog/ii-dlya-prodazh.html\"}\n    ]\n  }"
 ];
@@ -19,6 +21,7 @@ const jsonLd = [
   skipTo="#article"
   readProgress
 >
+<link slot="head" rel="stylesheet" href="/blog-assets/kit.css">
   <article class="article" id="article">
     <div class="container container-narrow">
       <nav class="article-crumbs" aria-label="Хлебные крошки">
@@ -71,7 +74,13 @@ const jsonLd = [
           <text x="110" y="153" class="f-mono">60+ мин · «холодный» след</text>
         </svg>
       </figure>
-<h2 id="sec-2">Что ИИ делает с заявкой: классификация, извлечение данных, черновик ответа</h2>
+<div class="kit-dark">
+  <Funnel fig={2} title="Сколько заявок доходит до сделки"
+    n={400} t={60} half={60} k={20} c={60000}
+    note="Модель на ваших допущениях, а не наша статистика: считаем, что интерес к заявке остывает вдвое за указанное вами время, дальше — простая арифметика. Проверьте допущение на своих данных: сколько заявок из месячного потока доходит до диалога при текущей скорости ответа." />
+  </div>
+
+    <h2 id="sec-2">Что ИИ делает с заявкой: классификация, извлечение данных, черновик ответа</h2>
 <p>Когда заявка падает в почту, мессенджер или CRM, ИИ запускает цепочку действий. Опишем её по шагам.</p>
 <p><strong>1. Извлечение данных.</strong> ИИ вытаскивает из текста имя, компанию, телефон, город, суть запроса, бюджетные маркеры и сроки. Это исключает ручной перенос данных.</p>
 <p><strong>2. Классификация.</strong> Система определяет тип обращения: «нужна цена», «нужна консультация», «жалоба», «нецелевой запрос». Каждый тип уходит по своему маршруту.</p>
@@ -99,7 +108,7 @@ const jsonLd = [
 <p><strong>Расчет:</strong></p>
 <ul><li>Время на обработку заявок вручную: 90 × 12 мин = 1080 минут = 18 часов/мес.</li><li>Время с ИИ: 90 × 3 мин = 270 минут = 4,5 часа/мес.</li><li>Экономия на заявках: 18 − 4,5 = 13,5 часов/мес.</li><li>Экономия на follow-up: 8 часов → 2 часа = 6 часов/мес.</li><li>Общая экономия: 19,5 часов/мес.</li></ul>
 <figure class="fig">
-        <figcaption><span>Рис. 2</span><span>Экономия времени менеджера, ч/мес<span class="fig-hint">листайте →</span></span></figcaption>
+        <figcaption><span>Рис. 3</span><span>Экономия времени менеджера, ч/мес<span class="fig-hint">листайте →</span></span></figcaption>
         <svg viewBox="0 0 720 190" class="fig-svg" role="img">
           <text x="10" y="26" class="f-label">ЗАЯВКИ</text>
           <rect x="10" y="40" width="560" height="24" fill="rgba(234,240,255,0.14)"/>
@@ -193,7 +202,23 @@ const jsonLd = [
         </div>
             <p>Как это устроено в проектах — <a href="/ai.html">внедрения ИИ в процессы</a>: замер до старта, пилот 2–4 недели, повторный замер после. Если агенту нужно самому работать в CRM и готовить ответы, это уже <a href="/ai-agenty.html">ИИ-агенты для бизнеса</a>.</p>
 
-<div class="article-related">
+  <div class="kit-dark">
+  <Calc fig={4} title="Часы на обработку входящих заявок"
+    inputs={[
+      { id: 'n', label: 'Заявок в месяц', min: 20, max: 3000, step: 20, value: 400 },
+      { id: 'm', label: 'Минут на первый ответ вручную', min: 1, max: 30, step: 1, value: 6 },
+      { id: 'p', label: 'Какую часть ответов ИИ готовит черновиком, %', min: 10, max: 70, step: 5, value: 40, unit: ' %' },
+      { id: 'r', label: 'Стоимость часа менеджера, ₽', min: 300, max: 3000, step: 100, value: 600 },
+    ]}
+    main={{    label: 'освобождается в месяц', expr: 'n*m*p/100/60', unit: 'ч', dig: 1 }}
+    rows={[
+      {     label: 'в деньгах', expr: 'n*m*p/100/60*r', unit: '₽' },
+      {     label: 'в рабочих днях', expr: 'n*m*p/100/60/8', unit: 'дн.', dig: 1 },
+    ]}
+    note="Пример, а не наши данные: подставьте свои. Время финальной проверки менеджером не вычитаем — оно остаётся." />
+  </div>
+
+      <div class="article-related">
         <h2 class="article-faq-title">Читать дальше</h2>
         <div class="related-grid">
           <a class="related-card" href="/blog/vnedrenie-ii-v-biznes.html">
@@ -241,6 +266,7 @@ const jsonLd = [
   </div>
 </section>
 <Fragment slot="tail">
+<script is:inline src="/blog-assets/kit.js"></script>
 <script is:inline>
     (function () {
       var bar = document.getElementById('readProgress');

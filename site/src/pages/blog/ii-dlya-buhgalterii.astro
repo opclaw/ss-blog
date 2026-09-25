@@ -3,8 +3,9 @@
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
 import AuthorCard from '../../components/blog/AuthorCard.astro';
+import Calc from '../../components/blog/Calc.astro';
 const jsonLd = [
-  "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ для бухгалтерии: первичка и сверки в 6 раз быстрее\", \"description\": \"Разбираем, где ИИ реально ускоряет бухгалтерию малого бизнеса: первичка, сверки, отчётность, запросы сотрудников. Считаем эффект в часах и рублях. Пилот 2–4 недели.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-23\"}",
+  "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ для бухгалтерии: первичка и сверки в 6 раз быстрее\", \"description\": \"Разбираем, где ИИ реально ускоряет бухгалтерию малого бизнеса: первичка, сверки, отчётность, запросы сотрудников. Считаем эффект в часах и рублях. Пилот 2–4 недели.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-09-25\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"Заменит ли ИИ бухгалтера?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Нет. ИИ ускоряет рутину: распознаёт документы, ищет расхождения, готовит черновики ответов. Решения, проверки и подпись остаются за человеком. Бухгалтер остаётся контролёром и аналитиком.\"}}, {\"@type\": \"Question\", \"name\": \"Сколько стоит внедрение?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Стоимость зависит от источников данных, системы учёта и количества процессов. Пилот обычно занимает 2–4 недели и стоит существенно меньше годовой лицензии. После пилота у вас есть конкретная цифра экономии — и вы решаете, окупается ли масштабирование.\"}}, {\"@type\": \"Question\", \"name\": \"Безопасно ли передавать документы ИИ?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Документы обрабатываются в защищённых контурах. Мы используем решения с российской инфраструктурой и соблюдаем требования 152-ФЗ. Важно: вы сами выбираете, какие данные участвуют в пилоте.\"}}, {\"@type\": \"Question\", \"name\": \"С какими системами работаете?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Основная интеграция — с 1С. Также подключаем облачные хранилища, Telegram, корпоративную почту, системы ЭДО и банковские сервисы. Если у вас нестандартная система — обсудим варианты.\"}}, {\"@type\": \"Question\", \"name\": \"Как быстро увидеть эффект?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Обычно первые результаты появляются через 1–2 недели пилота. Окончательная экономия и ROI фиксируются через 2–4 недели — после сравнения времени до и после.\"}}, {\"@type\": \"Question\", \"name\": \"Какие гарантии, что ИИ не ошибётся?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Гарантии даёт не ИИ, а процесс: человек всё проверяет, а ИИ только готовит и подсвечивает. Мы не включаем автоматическое разнесение без подтверждения до тех пор, пока точность не стабилизируется на высоком уровне по вашим документам.\"}}, {\"@type\": \"Question\", \"name\": \"Подойдёт ли ИИ, если у нас мало документов?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Если первичных документов меньше 50 в месяц и нет массовых сверок — эффект может быть меньше стоимости внедрения. На этапе замера мы это проверим и скажем честно.\"}}, {\"@type\": \"Question\", \"name\": \"Нужно ли менять 1С?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Обычно нет. Большинство решений интегрируются с 1С через стандартные API или обмен файлами. Если у вас сильно переписанная или устаревшая конфигурация — обсудим отдельно.\"}}]}",
   "{\n    \"@context\": \"https://schema.org\",\n    \"@type\": \"BreadcrumbList\",\n    \"itemListElement\": [\n      {\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Главная\", \"item\": \"https://smartsolutions.today/\"},\n      {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Блог\", \"item\": \"https://smartsolutions.today/blog/\"},\n      {\"@type\": \"ListItem\", \"position\": 3, \"name\": \"ИИ для бухгалтерии: первичка, сверки, отчёты без рутины\", \"item\": \"https://smartsolutions.today/blog/ii-dlya-buhgalterii.html\"}\n    ]\n  }"
 ];
@@ -19,6 +20,7 @@ const jsonLd = [
   skipTo="#article"
   readProgress
 >
+<link slot="head" rel="stylesheet" href="/blog-assets/kit.css">
   <article class="article" id="article">
     <div class="container container-narrow">
       <nav class="article-crumbs" aria-label="Хлебные крошки">
@@ -231,7 +233,23 @@ const jsonLd = [
         </div>
             <p>Как это выглядит на практике: <a href="/ai.html">внедрения ИИ в процессы</a> — сначала замер часов, потом пилот, решение по цифрам.</p>
 
-<div class="article-related">
+  <div class="kit-dark">
+  <Calc fig={3} title="Часы на первичку и сверки"
+    inputs={[
+      { id: 'n', label: 'Документов в месяц', min: 50, max: 5000, step: 50, value: 500 },
+      { id: 'm', label: 'Минут на документ вручную', min: 1, max: 20, step: 1, value: 4 },
+      { id: 'p', label: 'Какую часть рутины снимает ИИ, %', min: 10, max: 70, step: 5, value: 40, unit: ' %' },
+      { id: 'r', label: 'Стоимость часа бухгалтера, ₽', min: 400, max: 3000, step: 100, value: 900 },
+    ]}
+    main={{    label: 'освобождается в месяц', expr: 'n*m*p/100/60', unit: 'ч', dig: 1 }}
+    rows={[
+      {     label: 'в деньгах', expr: 'n*m*p/100/60*r', unit: '₽' },
+      {     label: 'в рабочих днях', expr: 'n*m*p/100/60/8', unit: 'дн.', dig: 1 },
+    ]}
+    note="Пример, а не наши данные: подставьте свои. Проверку и подпись ИИ не заменяет — ответственность на бухгалтере." />
+  </div>
+
+      <div class="article-related">
         <h2 class="article-faq-title">Читать дальше</h2>
         <div class="related-grid">
           <a class="related-card" href="/blog/vnedrenie-ii-v-biznes.html">
@@ -274,6 +292,7 @@ const jsonLd = [
   </div>
 </section>
 <Fragment slot="tail">
+<script is:inline src="/blog-assets/kit.js"></script>
 <script is:inline>
     (function () {
       var bar = document.getElementById('readProgress');

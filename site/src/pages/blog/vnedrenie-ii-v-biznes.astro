@@ -3,8 +3,9 @@
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
 import AuthorCard from '../../components/blog/AuthorCard.astro';
+import Calc from '../../components/blog/Calc.astro';
 const jsonLd = [
-  "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"Внедрение ИИ в бизнес: с чего начать и как довести пилот до рабочей системы\", \"description\": \"Как внедрить ИИ в бизнес-процессы без хайпа: выбор процесса, расчёт эффекта в часах и рублях до старта, пилот за 2–4 недели. Честные ограничения и чек-лист.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-22\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-22\"}",
+  "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"Внедрение ИИ в бизнес: с чего начать и как довести пилот до рабочей системы\", \"description\": \"Как внедрить ИИ в бизнес-процессы без хайпа: выбор процесса, расчёт эффекта в часах и рублях до старта, пилот за 2–4 недели. Честные ограничения и чек-лист.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-22\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-09-25\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"Сколько стоит внедрение ИИ в бизнес?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Минимальный бюджет пилота — от 50 000 до 150 000 ₽: подписка на LLM или API, настройка интеграции, 2–3 недели работы специалиста. Полноценное внедрение под ключ для среднего бизнеса стоит от 200 000 до 1 000 000 ₽ в зависимости от сложности интеграций и количества процессов. Если вам называют цену ниже 50 000 ₽ за «полное внедрение» — это, скорее всего, просто доступ к инструменту без настройки и замеров.\"}}, {\"@type\": \"Question\", \"name\": \"Сколько времени занимает внедрение?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Первый пилот — 2–4 недели до получения данных. Далее — 1–2 недели на доработку и принятие решения. Полноценное внедрение одного процесса с интеграцией в CRM и обучением команды — 1,5–3 месяца. Внедрение ИИ как системы из 3–5 процессов занимает 6–12 месяцев.\"}}, {\"@type\": \"Question\", \"name\": \"Какие российские аналоги ChatGPT можно использовать?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Для текстовых задач: YandexGPT (API и интерфейс), GigaChat от Сбера. Для задач с открытым кодом: Llama 3, Qwen 2.5 — разворачиваются на своём сервере или в российском облаке. Для специфических задач: Yandex SpeechKit для распознавания речи, Yandex Vision для OCR документации. Выбор зависит от требований безопасности и сложности задач.\"}}, {\"@type\": \"Question\", \"name\": \"Можно ли внедрить ИИ без программистов?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Да, если процесс простой и нет жёстких требований к интеграции. Готовые сервисы (например, встроенные ИИ-ассистенты в CRM типа Битрикс24, amoCRM) позволяют настроить базовую автоматизацию без кода. Но для кастомной обработки документов, интеграции с нестандартными системами и тонкой настройки качества понадобится разработчик или подрядчик.\"}}, {\"@type\": \"Question\", \"name\": \"Что делать, если сотрудники боятся, что ИИ их заменит?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Не убеждать словами, а показывать на практике. Запустите пилот, где сотрудник контролирует ИИ и освобождается от рутины. Когда человек видит, что вместо 3 часов обработки заявок он тратит 30 минут на контроль и может заниматься продажами (и зарабатывать больше), страх сменяется интересом. Если же сотрудник продолжает сопротивляться даже после успешного пилота — это вопрос управления персоналом, а не технологий.\"}}]}",
   "{\n    \"@context\": \"https://schema.org\",\n    \"@type\": \"BreadcrumbList\",\n    \"itemListElement\": [\n      {\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Главная\", \"item\": \"https://smartsolutions.today/\"},\n      {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Блог\", \"item\": \"https://smartsolutions.today/blog/\"},\n      {\"@type\": \"ListItem\", \"position\": 3, \"name\": \"Внедрение ИИ в бизнес: с чего начать пилот\", \"item\": \"https://smartsolutions.today/blog/vnedrenie-ii-v-biznes.html\"}\n    ]\n  }"
 ];
@@ -19,6 +20,7 @@ const jsonLd = [
   skipTo="#article"
   readProgress
 >
+<link slot="head" rel="stylesheet" href="/blog-assets/kit.css">
   <article class="article" id="article">
     <div class="container container-narrow">
       <nav class="article-crumbs" aria-label="Хлебные крошки">
@@ -363,7 +365,23 @@ const jsonLd = [
         </div>
             <p>Как мы применяем этот порядок у клиентов — <a href="/ai.html">внедрение ИИ в процессы компании</a>. Отдельно разобрано, где в этом порядке появляется агент: <a href="/ai-agenty.html">что такое ИИ-агент и когда его стоит разрабатывать</a>.</p>
 
-<div class="article-related">
+  <div class="kit-dark">
+  <Calc fig={8} title="Часы команды на один рутинный процесс"
+    inputs={[
+      { id: 'k', label: 'Человек занято в процессе', min: 1, max: 50, step: 1, value: 6 },
+      { id: 'h', label: 'Часов в неделю у каждого', min: 1, max: 20, step: 1, value: 5 },
+      { id: 'p', label: 'Какую часть рутины снимает ИИ, %', min: 10, max: 70, step: 5, value: 40, unit: ' %' },
+      { id: 'r', label: 'Стоимость часа команды, ₽', min: 300, max: 5000, step: 100, value: 1000 },
+    ]}
+    main={{    label: 'возвращается команде в месяц', expr: 'k*h*p/100*4.33', unit: 'ч', dig: 1 }}
+    rows={[
+      {     label: 'в деньгах', expr: 'k*h*p/100*4.33*r', unit: '₽' },
+      {     label: 'в неделях одного сотрудника', expr: 'k*h*p/100*4.33/40', unit: 'нед.', dig: 1 },
+    ]}
+    note="Пример, а не наши данные: подставьте свои. Считаем по 4,33 недели в месяце и не вычитаем время на проверку результата." />
+  </div>
+
+      <div class="article-related">
         <h2 class="article-faq-title">Читать дальше</h2>
         <div class="related-grid">
           <a class="related-card" href="/blog/skolko-stoit-vnedrenie-ii.html">
@@ -411,6 +429,7 @@ const jsonLd = [
   </div>
 </section>
 <Fragment slot="tail">
+<script is:inline src="/blog-assets/kit.js"></script>
 <script is:inline>
     (function () {
       var bar = document.getElementById('readProgress');

@@ -152,6 +152,35 @@
     upd();
   });
 
+
+  /* ---------- Funnel: заявки → диалог → сделка ---------- */
+  $$('[data-kit="funnel"]').forEach(function (root) {
+    root.classList.add('kit-js');
+    var inputs = $$('input[data-fn]', root);
+    function alive(min, half) { return Math.pow(0.5, min / half); }
+    function fmt(x, dig) { return Number(x).toLocaleString('ru-RU', { maximumFractionDigits: dig || 0, minimumFractionDigits: 0 }); }
+    function upd() {
+      var v = {};
+      inputs.forEach(function (i) {
+        v[i.dataset.fn] = +i.value;
+        var o = $('output[data-fo="' + i.dataset.fn + '"]', root);
+        if (o) o.textContent = fmt(+i.value);
+      });
+      var now = v.n * alive(v.t, v.half) * v.k / 100;
+      var fast = v.n * alive(1, v.half) * v.k / 100;
+      var diff = fast - now, money = diff * v.c;
+      var put = function (k, val, dig) { var el = $('[data-fr="' + k + '"]', root); if (el) el.textContent = val; };
+      put('now', fmt(now, 1)); put('fast', fmt(fast, 1));
+      put('diff', '+' + fmt(diff, 1)); put('money', '+' + fmt(money));
+      var lbl = $('[data-flbl]', root); if (lbl) lbl.textContent = fmt(v.t);
+      var b1 = $('[data-fbar="now"]', root), b2 = $('[data-fbar="fast"]', root);
+      if (b1) b1.style.width = Math.max(1, Math.round(alive(v.t, v.half) * 100)) + '%';
+      if (b2) b2.style.width = Math.max(1, Math.round(alive(1, v.half) * 100)) + '%';
+    }
+    inputs.forEach(function (i) { i.addEventListener('input', upd); });
+    upd();
+  });
+
   /* ---------- Prompt ---------- */
   $$('[data-kit="prompt"]').forEach(function (root) {
     root.classList.add('kit-js');

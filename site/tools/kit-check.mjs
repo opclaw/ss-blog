@@ -90,6 +90,18 @@ for (const f of files.sort()) {
     if (out.textContent === before) errs.push('calc: итог не меняется от ползунка');
     ok.push(`calc ${before}→${out.textContent}`);
   }
+  for (const root of d.querySelectorAll('[data-kit="funnel"]')) {
+    const now = root.querySelector('[data-fr="now"]'), fast = root.querySelector('[data-fr="fast"]'), lbl = root.querySelector('[data-flbl]');
+    if (!now || !fast || !lbl) { errs.push('funnel: нет строк результата'); continue; }
+    const before = { now: now.textContent, fast: fast.textContent, lbl: lbl.textContent };
+    const inp = root.querySelector('input[data-fn="t"]');
+    inp.value = inp.max; inp.dispatchEvent(new w.Event('input'));
+    if (now.textContent === before.now) errs.push('funnel: итог не меняется от ползунка скорости ответа');
+    if (lbl.textContent === before.lbl) errs.push('funnel: подпись скорости ответа не обновляется');
+    if (parseFloat(fast.textContent.replace(/\s/g, '').replace(',', '.')) <= parseFloat(now.textContent.replace(/\s/g, '').replace(',', '.')))
+      errs.push('funnel: «за 1 минуту» не больше текущего результата');
+    ok.push(`funnel ${before.now}→${now.textContent}`);
+  }
   for (const root of d.querySelectorAll('[data-kit="prompt"]')) {
     root.querySelector('button').click(); await sleep(5);
     if (root.querySelector('button').textContent !== 'скопировано') errs.push('prompt: копирование не сработало');

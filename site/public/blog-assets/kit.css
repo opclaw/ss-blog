@@ -4,14 +4,14 @@
 
 /* ---------- общее ---------- */
 .kit{margin:36px 0 44px;border:1px solid var(--line);border-radius:18px;background:var(--card);overflow:hidden}
-.kit-cap{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;padding:16px 20px;border-bottom:1px solid var(--line);font:500 12px/1.4 var(--f-m);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.kit-cap{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;padding:16px 20px;border-bottom:1px solid var(--line);font:500 12px/1.4 var(--f-m);letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
 .kit-cap b{color:var(--acc-t);font-weight:500}
 .kit-cap em{font-style:normal;margin-left:auto;text-transform:none;letter-spacing:0}
 .kit-btn{font:600 14px/1 var(--f-t);padding:12px 18px;border-radius:999px;border:1px solid var(--fg);background:var(--fg);color:#fff;cursor:pointer;transition:transform .15s,background .15s}
 .kit-btn:hover{transform:translateY(-1px)}
 .kit-btn.ghost{background:transparent;color:var(--fg);border-color:var(--line2)}
 .kit-btn:focus-visible,.kit button:focus-visible,.kit [tabindex]:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
-.kit-foot{padding:12px 20px;border-top:1px solid var(--line);font:400 13px/1.5 var(--f-t);color:var(--mute);background:var(--paper2)}
+.kit-foot{padding:12px 20px;border-top:1px solid var(--line);font:400 13px/1.5 var(--f-t);color:var(--dim);background:var(--paper2)}
 
 /* ---------- DocScan: вычитка документа ---------- */
 .kit-scan-grid{display:grid;grid-template-columns:1.35fr 1fr}
@@ -114,7 +114,11 @@
 .kit-calc-in{padding:22px 24px;display:flex;flex-direction:column;gap:18px;border-right:1px solid var(--line)}
 .kit-calc-in label{display:grid;grid-template-columns:1fr auto;gap:8px 12px;align-items:baseline;font-size:15px;color:var(--text)}
 .kit-calc-in output{font:600 15px var(--f-m);color:var(--fg)}
-.kit-calc-in input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--acc-t)}
+.kit-calc-in input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--acc-t);-webkit-appearance:none;appearance:none;height:22px;background:transparent}
+.kit-calc-in input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:999px;background:var(--line2)}
+.kit-calc-in input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;margin-top:-7px;border-radius:50%;background:var(--acc-t);border:2px solid var(--card);box-shadow:0 2px 8px rgba(0,0,0,.35)}
+.kit-calc-in input[type=range]::-moz-range-track{height:6px;border-radius:999px;background:var(--line2)}
+.kit-calc-in input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--acc-t);border:2px solid var(--card)}
 .kit-calc-out{padding:22px 24px;display:flex;flex-direction:column;justify-content:center;gap:8px;background:
   radial-gradient(circle at 100% 0,rgba(0,217,255,.12),transparent 60%),var(--paper)}
 .kit-calc-k{font:500 12px var(--f-m);letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin:0}
@@ -135,6 +139,14 @@
 .kit-prompt pre{margin:0;padding:18px 20px;font:400 14px/1.7 var(--f-m);white-space:pre-wrap;word-break:break-word}
 .kit-prompt:not(.kit-js) .kit-prompt-bar button{display:none}
 
+
+/* ---------- Funnel: воронка от заявок до сделки ---------- */
+.kit-funnel-bars{display:flex;flex-direction:column;gap:10px;margin:2px 0 4px}
+.kit-funnel-lbl{display:block;font:500 12px var(--f-m);letter-spacing:.04em;color:var(--dim);margin-bottom:4px}
+.kit-funnel-bar i{display:block;height:10px;border-radius:999px;background:var(--line2);transition:width .25s}
+.kit-dark .kit-funnel-bar i{background:rgba(245,245,247,.3)}
+.kit-funnel-bar:last-child i{background:var(--acc-t)}
+@media (prefers-reduced-motion:reduce){.kit-funnel-bar i{transition:none}}
 /* ---------- Факт-таблица с датой проверки ---------- */
 .kit-src{font:400 13px/1.5 var(--f-t);color:var(--mute);margin:-24px 0 32px}
 .kit-src a{color:var(--acc-t)}
@@ -142,6 +154,29 @@
 @media (prefers-reduced-motion:reduce){
   .bl-sheet .kit *{animation:none!important;transition:none!important}
 }
+
+/* ---------- Тёмные страницы старого макета ---------- */
+/* kit рассчитан на светлый лист (.bl-sheet, переменные из article.css).
+   Статьи старого макета тёмные: они подключают kit.css и оборачивают интерактив в .kit-dark,
+   где те же переменные переопределены тёмными значениями — блок выглядит родным на тёмном фоне. */
+.kit-dark{
+  --paper:#0E0E14; --paper2:rgba(255,255,255,.03); --card:#0E0E14;
+  --fg:#F5F5F7; --text:rgba(245,245,247,.78); --dim:rgba(245,245,247,.7); --mute:rgba(245,245,247,.55);
+  --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+  --acc:#00D9FF; --acc-t:#00D9FF; --acc-soft:rgba(0,217,255,.1);
+  --f-d:'Manrope',system-ui,sans-serif; --f-t:'Inter',system-ui,sans-serif; --f-m:'JetBrains Mono',ui-monospace,monospace;
+}
+.kit-dark .kit-calc-out{background:radial-gradient(circle at 100% 0,rgba(0,217,255,.14),transparent 60%),var(--paper)}
+.kit-dark .kit-calc-in input[type=range]{background:transparent}
+.kit-dark .kit-foot{background:var(--paper2)}
+.kit-dark .kit-btn{background:var(--fg);color:#08080D;border-color:var(--fg)}
+.kit-dark .kit-btn.ghost{background:transparent;color:var(--fg);border-color:var(--line2)}
+.kit-dark .kit-btn:hover{opacity:.92}
+
+@media (prefers-reduced-motion:reduce){
+  .kit-dark .kit *{animation:none!important;transition:none!important}
+}
+
 
 /* герой «документ под сканером» */
 .kit-hero-scan{animation:kit-hero-scan 4.5s cubic-bezier(.45,0,.2,1) infinite;filter:drop-shadow(0 0 6px rgba(0,217,255,.8))}

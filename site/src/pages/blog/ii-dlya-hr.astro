@@ -3,8 +3,9 @@
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
 import AuthorCard from '../../components/blog/AuthorCard.astro';
+import Calc from '../../components/blog/Calc.astro';
 const jsonLd = [
-  "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ для HR: как ускорить найм и адаптацию без потери человеческого решения\", \"description\": \"Как ИИ помогает HR-отделу скринить резюме, проводить первичный скрининг и поддерживать адаптацию. Измеримый эффект в часах и рублях для бизнеса 10–200 сотрудников.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-08-23\"}",
+  "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"ИИ для HR: как ускорить найм и адаптацию без потери человеческого решения\", \"description\": \"Как ИИ помогает HR-отделу скринить резюме, проводить первичный скрининг и поддерживать адаптацию. Измеримый эффект в часах и рублях для бизнеса 10–200 сотрудников.\", \"author\": {\"@type\": \"Person\", \"name\": \"Олег Кречетов\", \"jobTitle\": \"Основатель Smart Solutions\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\"}, \"datePublished\": \"2026-08-23\", \"inLanguage\": \"ru\", \"dateModified\": \"2026-09-25\"}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"ИИ заменит HR-специалиста?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Нет. ИИ заменяет рутинные операции: фильтрацию, первичные вопросы, FAQ. Сложные решения, интервью, удержание, развитие культуры — остаются за человеком.\"}}, {\"@type\": \"Question\", \"name\": \"Сколько стоит внедрение?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Зависит от масштаба. Пилот на 2–4 недели может стоить от 50 000 до 150 000 ₽ с учётом настройки и интеграции. Месячная поддержка — от 10 000 ₽. Конкретная цифра зависит от количества вакансий, источников резюме и каналов общения.\"}}, {\"@type\": \"Question\", \"name\": \"Какие данные нужны для запуска?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Для скрининга — резюме и критерии отбора. Для диалогов — сценарии вопросов и оценки. Для внутреннего HR-ассистента — база знаний, регламенты, FAQ. Чем лучше подготовлены данные, тем точнее работает ИИ.\"}}, {\"@type\": \"Question\", \"name\": \"ИИ может ошибаться?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Да. Особенно на нестандартных резюме или вопросах вне базы знаний. Поэтому важны человеческая проверка и механизм эскалации. ИИ — ассистент, а не истина в последней инстанции.\"}}, {\"@type\": \"Question\", \"name\": \"Подойдёт ли это малому бизнесу?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Если компания до 15 человек и найм редкий, внедрение может не окупиться. Если регулярно закрываете 3–5 вакансий в месяц или HR один на 50+ сотрудников — ИИ скорее всего сэкономит время и деньги.\"}}]}",
   "{\n    \"@context\": \"https://schema.org\",\n    \"@type\": \"BreadcrumbList\",\n    \"itemListElement\": [\n      {\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Главная\", \"item\": \"https://smartsolutions.today/\"},\n      {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Блог\", \"item\": \"https://smartsolutions.today/blog/\"},\n      {\"@type\": \"ListItem\", \"position\": 3, \"name\": \"ИИ для HR: ускорить найм и адаптацию без потери человечности\", \"item\": \"https://smartsolutions.today/blog/ii-dlya-hr.html\"}\n    ]\n  }"
 ];
@@ -19,6 +20,7 @@ const jsonLd = [
   skipTo="#article"
   readProgress
 >
+<link slot="head" rel="stylesheet" href="/blog-assets/kit.css">
   <article class="article" id="article">
     <div class="container container-narrow">
       <nav class="article-crumbs" aria-label="Хлебные крошки">
@@ -208,7 +210,23 @@ const jsonLd = [
         </div>
             <p>С чего мы начинаем такие проекты и как считаем эффект — <a href="/ai.html">внедрения ИИ в процессы</a>.</p>
 
-<div class="article-related">
+  <div class="kit-dark">
+  <Calc fig={4} title="Часы на первичный скрининг резюме"
+    inputs={[
+      { id: 'n', label: 'Резюме в месяц', min: 20, max: 3000, step: 20, value: 300 },
+      { id: 'm', label: 'Минут на просмотр одного', min: 1, max: 15, step: 1, value: 3 },
+      { id: 'p', label: 'Какую часть просмотра снимает ИИ, %', min: 10, max: 70, step: 5, value: 40, unit: ' %' },
+      { id: 'r', label: 'Стоимость часа HR, ₽', min: 300, max: 3000, step: 100, value: 800 },
+    ]}
+    main={{    label: 'освобождается в месяц', expr: 'n*m*p/100/60', unit: 'ч', dig: 1 }}
+    rows={[
+      {     label: 'в деньгах', expr: 'n*m*p/100/60*r', unit: '₽' },
+      {     label: 'в рабочих днях', expr: 'n*m*p/100/60/8', unit: 'дн.', dig: 1 },
+    ]}
+    note="Пример, а не наши данные: подставьте свои. Решение по кандидату ИИ не принимает — это остаётся человеку." />
+  </div>
+
+      <div class="article-related">
         <h2 class="article-faq-title">Читать дальше</h2>
         <div class="related-grid">
           <a class="related-card" href="/blog/vnedrenie-ii-v-biznes.html">
@@ -251,6 +269,7 @@ const jsonLd = [
   </div>
 </section>
 <Fragment slot="tail">
+<script is:inline src="/blog-assets/kit.js"></script>
 <script is:inline>
     (function () {
       var bar = document.getElementById('readProgress');
