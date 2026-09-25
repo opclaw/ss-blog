@@ -243,8 +243,9 @@ html{scroll-padding-top:84px}
 .bl-page .section-cta{margin-top:0}
 .bl-page .bl-hero{padding-top:64px}
 
-/* ===== Карточка автора: тёмный блок на светлом листе =====
-   На широких экранах — третьей колонкой (липкая), на узких — в потоке после статьи. */
+/* ===== Карточка автора на светлом листе =====
+   На широких экранах — третьей колонкой (липкая), на узких — в потоке после статьи.
+   Тема карточки задаётся пропом компонента: здесь <AuthorCard theme="light" /> — светлая. */
 .bl-author{position:sticky;top:100px;align-self:start}
 @media (max-width:1100px){
   .bl-author{position:static;margin-top:40px}

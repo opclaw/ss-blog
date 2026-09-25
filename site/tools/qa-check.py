@@ -254,8 +254,20 @@ def main() -> None:
             errors.append(f'{rel}: в карточке автора нет ссылки на Telegram')
         if 'class="author-card-name"' not in html:
             errors.append(f'{rel}: в карточке автора нет имени')
-        if html.count('class="author-card"') != 1:
-            errors.append(f'{rel}: карточка автора встречается {html.count(chr(34) + "author-card" + chr(34))} раз(а), ожидается одна')
+        cards = html.count('<aside class="author-card')
+        if cards != 1:
+            errors.append(f'{rel}: карточка автора встречается {cards} раз(а), ожидается одна')
+    # --- тема карточки: на светлом «листе» — светлая, в тёмных статьях — тёмная
+    for p in blog_articles:
+        rel = str(p.relative_to(DIST))
+        html = p.read_text(encoding='utf-8')
+        light_sheet = 'bl-sheet' in html          # светлый лист статьи (Article.astro / свой макет)
+        light_card = 'author-card--light' in html
+        if light_sheet and not light_card:
+            errors.append(f'{rel}: светлый лист, но карточка автора тёмная (нужен theme="light")')
+        if light_card and not light_sheet:
+            errors.append(f'{rel}: тёмная статья, но карточка автора светлая')
+
     # чистота: старой разметки карточки (sticky-*) быть не должно ни в одной статье
     for p in pages:
         if p.parent.name != 'blog':

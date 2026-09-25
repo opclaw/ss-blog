@@ -3,9 +3,9 @@
 // Одна точка правды — имя, роль и описание в src/data/site.ts (AUTHOR), Telegram в CONTACTS.
 // Отсюда же берут текст все 21 статья блога — и «старый» макет (styles.css), и «лист» (article.css).
 // Видна на всех экранах: на широких — отдельной колонкой справа, на узких — в потоке после статьи.
-// Тёмный блок на светлом листе — так же, как блок с промптом: акцент, а не «ещё один серый блок».
-// Стили внутри компонента и на явных значениях: карточка выглядит одинаково в обоих макетах,
-// не завися от токенов темы конкретной страницы.
+// Карточка умеет обе темы через переменные --ac-*: на светлом «листе» подставляются светлые
+// значения (правило .bl-author в article.css), в тёмных статьях работает тёмная по умолчанию.
+// Так один компонент не спорит ни с бумагой, ни с тёмным фоном.
 import { AUTHOR, CONTACTS } from '../../data/site';
 
 interface Props {
@@ -13,10 +13,12 @@ interface Props {
   label?: string;
   /** необязательная строка-пояснение под карточкой */
   note?: string;
+  /** тема: dark (по умолчанию, тёмные статьи) или light (светлый «лист») */
+  theme?: 'dark' | 'light';
 }
-const { label = 'Автор', note } = Astro.props;
+const { label = 'Автор', note, theme = 'dark' } = Astro.props;
 ---
-<aside class="author-card" aria-label={label}>
+<aside class:list={['author-card', theme === 'light' && 'author-card--light']} aria-label={label}>
   <p class="author-card-label">{label}</p>
   <p class="author-card-name">{AUTHOR.name}</p>
   <p class="author-card-bio">{AUTHOR.bio}</p>
@@ -32,13 +34,44 @@ const { label = 'Автор', note } = Astro.props;
 
 <style>
   .author-card {
-    background: #08080d;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    /* Тёмная тема — по умолчанию; светлая подставляется через --ac-* на светлом листе. */
+    --ac-bg: #0e0e14;
+    --ac-line: rgba(255, 255, 255, 0.08);
+    --ac-label: #00d9ff;
+    --ac-name: #f5f5f7;
+    --ac-bio: rgba(245, 245, 247, 0.6);
+    --ac-tg-bg: rgba(0, 217, 255, 0.08);
+    --ac-tg-line: rgba(0, 217, 255, 0.22);
+    --ac-tg-bg-hover: rgba(0, 217, 255, 0.15);
+    --ac-tg-line-hover: rgba(0, 217, 255, 0.4);
+    --ac-icon: #00d9ff;
+    --ac-tg-label: rgba(245, 245, 247, 0.6);
+    --ac-tg-value: #f5f5f7;
+    --ac-focus: #00d9ff;
+    background: var(--ac-bg);
+    border: 1px solid var(--ac-line);
     border-radius: 18px;
     padding: 24px 22px;
     display: flex;
     flex-direction: column;
     gap: 10px;
+  }
+  /* Светлая тема для светлого «листа»: белая поверхность с тонкой линией — как остальные блоки листа.
+     Контрасты проверены: подпись 4.63:1, био 6.41:1, текст в кнопке 17.2:1 (WCAG AA и выше). */
+  .author-card--light {
+    --ac-bg: #ffffff;
+    --ac-line: #e4e4de;
+    --ac-label: #0a7ea4;
+    --ac-name: #101014;
+    --ac-bio: #5e5e68;
+    --ac-tg-bg: #e3f7fc;
+    --ac-tg-line: rgba(10, 126, 164, 0.28);
+    --ac-tg-bg-hover: #d6f1fa;
+    --ac-tg-line-hover: rgba(10, 126, 164, 0.55);
+    --ac-icon: #0a7ea4;
+    --ac-tg-label: #5e5e68;
+    --ac-tg-value: #101014;
+    --ac-focus: #0a7ea4;
   }
   .author-card-label {
     font-family: 'JetBrains Mono', ui-monospace, monospace;
@@ -47,7 +80,7 @@ const { label = 'Автор', note } = Astro.props;
     line-height: 1;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: #00d9ff;
+    color: var(--ac-label);
     margin: 0;
   }
   .author-card-name {
@@ -56,7 +89,7 @@ const { label = 'Автор', note } = Astro.props;
     font-size: 22px;
     line-height: 1.2;
     letter-spacing: -0.02em;
-    color: #f5f5f7;
+    color: var(--ac-name);
     margin: 0;
   }
   .author-card-bio {
@@ -64,7 +97,7 @@ const { label = 'Автор', note } = Astro.props;
     font-weight: 400;
     font-size: 15px;
     line-height: 1.55;
-    color: rgba(245, 245, 247, 0.6);
+    color: var(--ac-bio);
     margin: 0;
   }
   .author-card-tg {
@@ -74,22 +107,22 @@ const { label = 'Автор', note } = Astro.props;
     gap: 12px;
     padding: 12px 14px;
     border-radius: 12px;
-    background: rgba(0, 217, 255, 0.08);
-    border: 1px solid rgba(0, 217, 255, 0.22);
+    background: var(--ac-tg-bg);
+    border: 1px solid var(--ac-tg-line);
     text-decoration: none;
     transition: background 0.15s, border-color 0.15s;
   }
   .author-card-tg:hover {
-    background: rgba(0, 217, 255, 0.15);
-    border-color: rgba(0, 217, 255, 0.4);
+    background: var(--ac-tg-bg-hover);
+    border-color: var(--ac-tg-line-hover);
   }
   .author-card-tg:focus-visible {
-    outline: 2px solid #00d9ff;
+    outline: 2px solid var(--ac-focus);
     outline-offset: 2px;
   }
   .author-card-tg svg {
     flex: none;
-    color: #00d9ff;
+    color: var(--ac-icon);
   }
   .author-card-tg-txt {
     min-width: 0;
@@ -102,7 +135,7 @@ const { label = 'Автор', note } = Astro.props;
     line-height: 1;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: rgba(245, 245, 247, 0.6);
+    color: var(--ac-tg-label);
   }
   .author-card-tg-value {
     display: block;
@@ -110,7 +143,7 @@ const { label = 'Автор', note } = Astro.props;
     font-weight: 600;
     font-size: 15px;
     line-height: 1.3;
-    color: #f5f5f7;
+    color: var(--ac-tg-value);
     margin-top: 5px;
   }
   .author-card-note {
@@ -118,7 +151,7 @@ const { label = 'Автор', note } = Astro.props;
     font-weight: 400;
     font-size: 13px;
     line-height: 1.5;
-    color: rgba(245, 245, 247, 0.6);
+    color: var(--ac-bio);
     margin: 4px 0 0;
   }
 </style>
