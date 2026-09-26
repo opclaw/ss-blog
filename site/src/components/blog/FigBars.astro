@@ -1,0 +1,100 @@
+---
+// Столбики: сравнение 2–4 величин (до/после, вручную/с ИИ, по каналам).
+// Принципы графики блога (deliverables/GRAPHICS-STYLE.md):
+//   • только вектор: ни одного растрового файла, ни одного filter: blur/glow;
+//   • цвета — токены светлого листа, заливки сплошные, обводки 1–1.5px;
+//   • цифры — моноширинным, подписи — короткие, всё выровнено по пиксельной сетке;
+//   • значения приходят из текста статьи: компонент никогда не придумывает числа.
+interface Bar {
+  label: string;         // подпись под столбиком
+  value: number;         // значение (в единицах unit)
+  note?: string;         // что это за число, мелким шрифтом под подписью
+  tone?: 'ink' | 'acc' | 'green' | 'muted';
+}
+interface Props {
+  fig?: number;
+  title: string;
+  bars: Bar[];
+  unit?: string;
+  note?: string;         // сноска под рисунком
+  fmt?: 'int' | 'one';   // как печатать значение: целое или с одним знаком
+}
+const { fig, title, bars, unit = '', note, fmt = 'int' } = Astro.props;
+
+// «Красивая» шкала: шаг 1 / 2 / 5 × 10^n, чтобы подписи были целыми, а не 1,75 и 3,5
+const niceTicks = (maxVal: number, count = 4) => {
+  const raw = maxVal / count;
+  const pow = Math.pow(10, Math.floor(Math.log10(raw)));
+  const step = [1, 2, 5, 10].map((k) => k * pow).find((s) => s >= raw) ?? pow * 10;
+  const top = Math.ceil(maxVal / step) * step;
+  const out: number[] = [];
+  for (let v = step; v <= top + 1e-9; v += step) out.push(+v.toFixed(6));
+  return { step, top, ticks: out };
+};
+
+const INK = '#101014', LINE = '#E4E4DE', MUTE = '#8C8C96', ACC = '#0A7EA4', GREEN = '#0E9F6E';
+const F = 'JetBrains Mono, ui-monospace, monospace';
+
+const W = 720, PAD = 10, BASE = 236, MAXH = 168;
+const slot = (W - PAD * 2) / Math.max(bars.length, 1);
+const barW = Math.min(96, Math.round(slot * 0.5));
+const maxVal = Math.max(...bars.map((b) => b.value), 1);
+const scale = niceTicks(maxVal);
+const y = (v: number) => BASE - Math.round((v / scale.top) * MAXH);
+
+const show = (v: number) => {
+  const s = fmt === 'one' ? v.toFixed(1).replace('.', ',') : String(Math.round(v));
+  const [int, frac] = s.split(',');
+  return int.replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0') + (frac ? ',' + frac : '');
+};
+const toneFill = (t?: Bar['tone']) => (t === 'acc' ? ACC : t === 'green' ? GREEN : t === 'muted' ? '#D2D2CA' : INK);
+const toneText = (t?: Bar['tone']) => (t === 'acc' ? ACC : t === 'green' ? GREEN : INK);
+
+// подпись под столбиком: переносим по словам максимум на две строки
+const wrap = (s: string, max2 = 15) => {
+  const words = (s || '').trim().split(' ');
+  const lines: string[] = [];
+  let cur = '';
+  for (const w of words) {
+    if (!cur) cur = w;
+    else if ((cur + ' ' + w).length <= max2) cur += ' ' + w;
+    else { lines.push(cur); cur = w; }
+  }
+  if (cur) lines.push(cur);
+  return lines.length > 2 ? [lines[0], lines.slice(1).join(' ')] : lines;
+};
+
+
+const summary = bars.map((b) => `${b.label}: ${show(b.value)}${unit ? ' ' + unit : ''}`).join('; ');
+const gridLines = scale.ticks.map((v) => ({ y: y(v), label: show(v) }));
+---
+<figure class="fig bl-fig fig-bars">
+  <figcaption>{fig && <b>Рис. {fig}</b>}<span>{title}</span></figcaption>
+  <svg viewBox={`0 0 ${W} 300`} class="fig-svg" role="img" aria-label={`${title}. ${summary}`}>
+    <g stroke={LINE} stroke-width="1">
+      {gridLines.map((g) => <line x1={PAD} y1={g.y} x2={W - PAD} y2={g.y} />)}
+      <line x1={PAD} y1={BASE} x2={W - PAD} y2={BASE} stroke="#D2D2CA" />
+    </g>
+    <g font-family={F} font-size="10" fill={MUTE}>
+      {gridLines.map((g) => <text x={W - PAD} y={g.y - 4} text-anchor="end">{g.label}</text>)}
+    </g>
+    {bars.map((b, i) => {
+      const cx = PAD + slot * i + slot / 2;
+      const h = Math.max(2, Math.round((b.value / scale.top) * MAXH));
+      const y = BASE - h;
+      const lines = wrap(b.label);
+      return (
+        <g>
+          <rect x={Math.round(cx - barW / 2)} y={y} width={barW} height={h} fill={toneFill(b.tone)} />
+          <text x={cx} y={y - 10} text-anchor="middle" font-family={F} font-size="15" fill={toneText(b.tone)} font-weight="500">{show(b.value)}</text>
+          <text x={cx} y={BASE + 20} text-anchor="middle" font-family={F} font-size="11" fill={INK}>
+            {lines.map((t, j) => <tspan x={cx} dy={j === 0 ? 0 : 13}>{t}</tspan>)}
+          </text>
+          {b.note && <text x={cx} y={BASE + 20 + (lines.length - 1) * 13 + 15} text-anchor="middle" font-family={F} font-size="10" fill={MUTE}>{b.note}</text>}
+        </g>
+      );
+    })}
+    {unit && <text x={PAD} y={BASE + 74} font-family={F} font-size="10" fill={MUTE}>единица: {unit}</text>}
+  </svg>
+  {note && <p class="bl-fig-note">{note}</p>}
+</figure>

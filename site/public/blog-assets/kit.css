@@ -23,7 +23,7 @@
 .kit-doc .n{font:500 12px var(--f-m);color:var(--mute);margin-right:6px}
 .kit-risk{border-radius:4px;padding:1px 2px;transition:background .35s,box-shadow .35s;cursor:default}
 .kit-risk sup{font:600 10px var(--f-m);color:var(--acc-t);margin-left:2px}
-.kit-scan-line{position:absolute;left:0;right:0;top:0;height:2px;background:var(--acc);box-shadow:0 0 14px rgba(0,217,255,.8);opacity:0;pointer-events:none}
+.kit-scan-line{position:absolute;left:0;right:0;top:0;height:2px;background:var(--acc);opacity:0;pointer-events:none}
 .kit-scan.scanning .kit-scan-line{opacity:1;animation:kit-scan 2.4s cubic-bezier(.4,0,.2,1) forwards}
 @keyframes kit-scan{from{top:0}to{top:100%}}
 .kit-risk.on{cursor:pointer}
@@ -116,11 +116,11 @@
 .kit-calc-in output{font:600 15px var(--f-m);color:var(--fg)}
 .kit-calc-in input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--acc-t);-webkit-appearance:none;appearance:none;height:22px;background:transparent}
 .kit-calc-in input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:999px;background:var(--line2)}
-.kit-calc-in input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;margin-top:-7px;border-radius:50%;background:var(--acc-t);border:2px solid var(--card);box-shadow:0 2px 8px rgba(0,0,0,.35)}
+.kit-calc-in input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;margin-top:-7px;border-radius:50%;background:var(--acc-t);border:2px solid var(--card);box-shadow:0 2px 0 0 rgba(16,16,20,.25)}
 .kit-calc-in input[type=range]::-moz-range-track{height:6px;border-radius:999px;background:var(--line2)}
 .kit-calc-in input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--acc-t);border:2px solid var(--card)}
 .kit-calc-out{padding:22px 24px;display:flex;flex-direction:column;justify-content:center;gap:8px;background:
-  radial-gradient(circle at 100% 0,rgba(0,217,255,.12),transparent 60%),var(--paper)}
+  repeating-linear-gradient(135deg,rgba(10,126,164,.12) 0 1px,transparent 1px 9px),var(--paper)}
 .kit-calc-k{font:500 12px var(--f-m);letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin:0}
 .kit-calc-big{font:800 56px/1 var(--f-d);letter-spacing:-.04em;color:var(--fg);margin:0}
 .kit-calc-big small{font-size:22px;font-weight:700;margin-left:4px;color:var(--dim)}
@@ -225,7 +225,7 @@
   --acc:#00D9FF; --acc-t:#00D9FF; --acc-soft:rgba(0,217,255,.1);
   --f-d:'Manrope',system-ui,sans-serif; --f-t:'Inter',system-ui,sans-serif; --f-m:'JetBrains Mono',ui-monospace,monospace;
 }
-.kit-dark .kit-calc-out{background:radial-gradient(circle at 100% 0,rgba(0,217,255,.14),transparent 60%),var(--paper)}
+.kit-dark .kit-calc-out{background:repeating-linear-gradient(135deg,rgba(10,126,164,.16) 0 1px,transparent 1px 9px),var(--paper)}
 .kit-dark .kit-calc-in input[type=range]{background:transparent}
 .kit-dark .kit-foot{background:var(--paper2)}
 .kit-dark .kit-btn{background:var(--fg);color:#08080D;border-color:var(--fg)}
@@ -238,6 +238,6 @@
 
 
 /* герой «документ под сканером» */
-.kit-hero-scan{animation:kit-hero-scan 4.5s cubic-bezier(.45,0,.2,1) infinite;filter:drop-shadow(0 0 6px rgba(0,217,255,.8))}
+.kit-hero-scan{animation:kit-hero-scan 4.5s cubic-bezier(.45,0,.2,1) infinite}
 @keyframes kit-hero-scan{0%{transform:translateY(0);opacity:0}8%{opacity:1}85%{opacity:1}100%{transform:translateY(256px);opacity:0}}
 @media (prefers-reduced-motion:reduce){.kit-hero-scan{animation:none;opacity:0}}

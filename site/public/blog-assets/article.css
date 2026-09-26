@@ -34,7 +34,7 @@ html{scroll-padding-top:84px}
 .ha-h circle{stroke:var(--green);stroke-dasharray:4 3}
 .ha-t rect{fill:var(--card);stroke:var(--line2)}
 .ha-t text{font-size:11px;fill:var(--dim)}
-.ha-dot{fill:var(--acc);filter:drop-shadow(0 0 6px rgba(0,217,255,.8))}
+.ha-dot{fill:var(--acc);stroke:var(--paper);stroke-width:2}
 @media (max-width:860px){.bl-hero-in{grid-template-columns:1fr;padding:48px 20px 40px;gap:24px}.bl-hero-art{max-width:360px}}
 
 /* ТЕЛО */
@@ -74,7 +74,7 @@ html{scroll-padding-top:84px}
 .bl-note p{margin:0;font-size:16px;color:var(--text)}
 
 /* общие рисунки */
-.bl-fig{margin:40px 0 44px;padding:24px;border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:0 1px 0 rgba(16,16,20,.03),0 12px 32px -18px rgba(16,16,20,.18)}
+.bl-fig{margin:40px 0 44px;padding:24px;border:1px solid var(--line);border-radius:14px;background:var(--card);box-shadow:3px 3px 0 0 var(--paper2)}
 .bl-fig figcaption{display:flex;align-items:baseline;gap:12px;font:500 13px/1.4 var(--f-m);color:var(--fg);margin-bottom:20px}
 .bl-fig figcaption span{color:var(--acc-t)}
 .bl-fig figcaption em{margin-left:auto;font-style:normal;color:var(--mute);font-weight:400}
@@ -147,7 +147,7 @@ html{scroll-padding-top:84px}
 .bl-prompt pre{margin:0;padding:18px 18px 22px;font:400 14px/1.7 var(--f-m);color:rgba(245,245,247,.88);white-space:pre-wrap;overflow-wrap:anywhere}
 
 /* калькулятор */
-.bl-calc{display:grid;grid-template-columns:1.1fr .9fr;margin:32px 0 40px;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:var(--card);box-shadow:0 14px 40px -22px rgba(16,16,20,.25)}
+.bl-calc{display:grid;grid-template-columns:1.1fr .9fr;margin:32px 0 40px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--card);box-shadow:3px 3px 0 0 var(--paper2)}
 .bl-calc-in{padding:26px 26px 12px;display:flex;flex-direction:column;gap:18px}
 .bl-calc-in label{display:grid;grid-template-columns:1fr auto;gap:8px 12px;align-items:baseline}
 .bl-calc-in span{font-size:14px;color:var(--dim)}

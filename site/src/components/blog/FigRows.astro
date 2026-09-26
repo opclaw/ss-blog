@@ -1,0 +1,82 @@
+---
+// Горизонтальные полосы: сколько времени/денег уходит на шаг процесса.
+// Полосы читаются лучше столбиков, когда подписи длинные («сверка реквизитов», «подтверждение записи»).
+// Правила те же: вектор, сплошные заливки, 1px сетка, числа моноширинным, значения задаёт автор статьи.
+interface Row {
+  label: string;
+  value: number;
+  before?: number;   // «было»: рисуем контуром позади полосы — сразу видно, сколько снимает ИИ
+  note?: string;
+  tone?: 'ink' | 'acc' | 'green' | 'muted';
+}
+interface Props {
+  fig?: number;
+  title: string;
+  rows: Row[];
+  unit?: string;
+  note?: string;
+  fmt?: 'int' | 'one';
+  // ширина колонки подписей: длинные подписи → 260
+  labelW?: number;
+}
+const { fig, title, rows, unit = '', note, fmt = 'int', labelW = 240 } = Astro.props;
+
+// «Красивая» шкала: шаг 1 / 2 / 5 × 10^n, чтобы подписи были целыми, а не 1,75 и 3,5
+const niceTicks = (maxVal: number, count = 4) => {
+  const raw = maxVal / count;
+  const pow = Math.pow(10, Math.floor(Math.log10(raw)));
+  const step = [1, 2, 5, 10].map((k) => k * pow).find((s) => s >= raw) ?? pow * 10;
+  const top = Math.ceil(maxVal / step) * step;
+  const out: number[] = [];
+  for (let v = step; v <= top + 1e-9; v += step) out.push(+v.toFixed(6));
+  return { step, top, ticks: out };
+};
+
+const INK = '#101014', LINE = '#E4E4DE', MUTE = '#8C8C96', ACC = '#0A7EA4', GREEN = '#0E9F6E';
+const F = 'JetBrains Mono, ui-monospace, monospace';
+
+const W = 720, RIGHT = 84;                       // правый отступ под число
+const X0 = labelW + 12;                          // начало полосы
+const ROW_H = 40, BAR_H = 14, TOP = 22;
+const trackW = W - X0 - RIGHT;
+const maxVal = Math.max(...rows.map((r) => Math.max(r.value, r.before ?? 0)), 1);
+const scale = niceTicks(maxVal);
+const barW = (v: number) => Math.max(2, Math.round((v / scale.top) * trackW));
+const H = TOP + rows.length * ROW_H + 16;
+
+const show = (v: number) => {
+  const s = fmt === 'one' ? v.toFixed(1).replace('.', ',') : String(Math.round(v));
+  const [int, frac] = s.split(',');
+  return int.replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0') + (frac ? ',' + frac : '');
+};
+const toneFill = (t?: Row['tone']) => (t === 'acc' ? ACC : t === 'green' ? GREEN : t === 'muted' ? '#D2D2CA' : INK);
+const toneText = (t?: Row['tone']) => (t === 'acc' ? ACC : t === 'green' ? GREEN : INK);
+const cut = (s: string, n = Math.floor(labelW / 7.4)) => (s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s);
+
+const summary = rows.map((r) => `${r.label}: ${show(r.value)}${unit ? ' ' + unit : ''}${r.before != null ? ` (было ${show(r.before)})` : ''}`).join('; ');
+---
+<figure class="fig bl-fig fig-rows">
+  <figcaption>{fig && <b>Рис. {fig}</b>}<span>{title}</span></figcaption>
+  <svg viewBox={`0 0 ${W} ${H}`} class="fig-svg" role="img" aria-label={`${title}. ${summary}`}>
+    <line x1={X0} y1={TOP - 8} x2={X0} y2={H - 14} stroke="#D2D2CA" stroke-width="1" />
+    {rows.map((r, i) => {
+      const y = TOP + i * ROW_H;
+      const w = barW(r.value);
+      return (
+        <g>
+          <text x={labelW} y={y + 13} text-anchor="end" font-family={F} font-size="12" fill={INK}>{cut(r.label)}</text>
+          {r.note && <text x={labelW} y={y + 28} text-anchor="end" font-family={F} font-size="10" fill={MUTE}>{cut(r.note, Math.floor(labelW / 6.2))}</text>}
+          <line x1={X0} y1={y + 8} x2={W - RIGHT + 40} y2={y + 8} stroke={LINE} stroke-width="1" />
+          {r.before != null && (
+            <rect x={X0} y={y - 6} width={barW(r.before)} height={BAR_H + 12}
+                  fill="none" stroke={MUTE} stroke-width="1" stroke-dasharray="3 3" />
+          )}
+          <rect x={X0} y={y + 1} width={w} height={BAR_H} fill={toneFill(r.tone)} />
+          <text x={W - 2} y={y + 13} text-anchor="end" font-family={F} font-size="13" fill={toneText(r.tone)} font-weight="500">{show(r.value)}</text>
+        </g>
+      );
+    })}
+    {unit && <text x={X0} y={H - 2} font-family={F} font-size="10" fill={MUTE}>единица: {unit}{rows.some((r) => r.before != null) ? ' · пунктир — как было' : ''}</text>}
+  </svg>
+  {note && <p class="bl-fig-note">{note}</p>}
+</figure>
