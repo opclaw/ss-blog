@@ -8,6 +8,10 @@
   --acc:#00D9FF; --acc-t:#0A7EA4; --acc-soft:#E3F7FC; --green:#0E9F6E; --green-soft:#E3F5EE; --red:#C2410C;
   --f-d:'Manrope',system-ui,sans-serif; --f-t:'Inter',system-ui,sans-serif; --f-m:'JetBrains Mono',ui-monospace,monospace;
   --col:700px;
+  /* Алиасы переменных старой тёмной темы сайта: внутри светлого листа блоки legacy-разметки
+     (fig, weeks-grid, err-card, pull-quote, formula-card) берут светлую палитру, а не инверсную. */
+  --bg:#FAFAF7; --bg-elevated:#FFFFFF; --card-bg:#FFFFFF; --border:#E4E4DE; --border-strong:#D2D2CA;
+  --muted:#8C8C96; --secondary:#5E5E68; --accent:#0A7EA4; --accent-soft:#E3F7FC;
 }
 html{scroll-padding-top:84px}
 .bl-sheet{background:var(--paper);color:var(--text);font:400 18px/1.72 var(--f-t);-webkit-font-smoothing:antialiased}
@@ -76,6 +80,19 @@ html{scroll-padding-top:84px}
 .bl-fig figcaption em{margin-left:auto;font-style:normal;color:var(--mute);font-weight:400}
 .bl-fig-note{margin:18px 0 0!important;font:400 13px/1.5 var(--f-m);color:var(--dim)}
 .bl-fig-note b{color:var(--green)}
+/* Инлайновые схемы статей (классы подписей из старого макета): на светлом листе
+   читаются тёмным — переменные листа, а не тёмной темы сайта. */
+.bl-sheet .f-label{fill:var(--fg)}
+.bl-sheet .f-mono{fill:var(--mute)}
+.bl-sheet .f-label-acc,.bl-sheet .f-acc{fill:var(--acc-t)}
+.bl-sheet .f-value{fill:var(--fg)}
+.bl-sheet .f-neg{fill:var(--red)}
+.bl-sheet .f-warn{fill:#B45309}
+.bl-sheet .no-card{border-left-color:var(--red)}
+.bl-sheet .pull-quote{border-left-color:var(--acc-t)}
+.bl-sheet .kit-prompt,.bl-sheet .bl-prompt{color:var(--on-ink)}
+/* Схему можно приблизить: класс fig (зум из script.js) живёт рядом с оформлением bl-fig */
+.bl-fig{cursor:zoom-in}
 
 /* Рис.1 — чат-бот vs агент */
 .bl-tabs{display:inline-flex;padding:4px;border-radius:999px;background:var(--paper2);margin-bottom:16px}

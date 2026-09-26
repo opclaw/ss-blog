@@ -16,6 +16,7 @@ interface Props {
   datePublished: string; dateModified: string;
   toc: Toc[]; brief: string[]; faq: Faq[]; more: More[];
   breadcrumb: string;
+  ogTitle?: string; ogDescription?: string;
 }
 const p = Astro.props;
 const url = new URL(p.path, SITE.url).href;
@@ -33,6 +34,7 @@ const jsonLd = [
 ].map((o) => JSON.stringify(o));
 ---
 <Base mainWrap={false} title={p.title} description={p.description} path={p.path} ogType="article" jsonLd={jsonLd}
+      ogTitle={p.ogTitle} ogDescription={p.ogDescription}
       active="ai" skipTo="#article" readProgress bodyClass="bl-page">
 <Fragment slot="head">
   <link rel="stylesheet" href="/blog-assets/article.css">
