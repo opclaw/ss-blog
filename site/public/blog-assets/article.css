@@ -269,3 +269,16 @@ html{scroll-padding-top:84px}
   .author-card{max-width:520px}
 }
 @media print{.bl-author{display:none}}
+
+/* Диаграммы-компоненты (FigBars/FigRows): на узких экранах шрифт внутри SVG уменьшался вместе
+   с картинкой — поэтому даём горизонтальную прокрутку вместо нечитаемых 5px подписей. */
+.fig-scroll{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+.fig-scroll::-webkit-scrollbar{height:6px}
+.fig-scroll::-webkit-scrollbar-thumb{background:var(--line2);border-radius:3px}
+@media (max-width:640px){
+  .fig-bars .fig-scroll>svg,.fig-rows .fig-scroll>svg{min-width:560px}
+  .fig-bars,.fig-rows{padding-left:18px;padding-right:12px}
+}
+
+.fig-swipe{display:none;margin:10px 0 0!important;font:400 12px/1.4 var(--f-m);color:var(--mute)}
+@media (max-width:640px){.fig-swipe{display:block}}
