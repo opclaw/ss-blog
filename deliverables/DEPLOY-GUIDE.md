@@ -77,7 +77,7 @@ IndexNow (Яндекс и Bing; Google — только sitemap и Search Consol
 | Что | Адрес |
 |---|---|
 | Превью ветки (всегда последний коммит ветки) | https://ss-blog-git-arena-01a0d848-ss-blog-opclaws-projects-1b852b6a.vercel.app |
-| Превью конкретного деплоя (коммит `80caf7f`) | https://ss-blog-eodgwodc8-opclaws-projects-1b852b6a.vercel.app |
+| Превью конкретного деплоя (коммит `4c30458`, последний на 2026-09-26) | https://ss-blog-dxrlmpjro-opclaws-projects-1b852b6a.vercel.app |
 | Прод (то, что сейчас в `main`) | посмотрите в Deployments → строка с меткой **Production** |
 
 **Почему вас просит залогиниться.** У проекта включена защита деплоев (Vercel Authentication):
