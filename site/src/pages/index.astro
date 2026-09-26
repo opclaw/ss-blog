@@ -2,8 +2,14 @@
 // Сгенерировано из legacy/version-4/index.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../layouts/Base.astro';
 import ContactCards from '../components/ContactCards.astro';
+const jsonLd = [
+  "{\"@context\": \"https://schema.org\", \"@type\": \"Organization\", \"name\": \"Smart Solutions\", \"url\": \"https://smartsolutions.today/\", \"logo\": \"https://smartsolutions.today/images/og-cover.jpg\", \"description\": \"Системы привлечения клиентов на основе исследований: сайты, реклама, аналитика и внедрение ИИ с замером эффекта.\", \"foundingDate\": \"2017\", \"telephone\": \"+7 (925) 090-95-00\", \"email\": \"ok@smartsolutions.today\", \"address\": {\"@type\": \"PostalAddress\", \"addressCountry\": \"RU\", \"addressLocality\": \"Москва\", \"streetAddress\": \"ул. Воронцовская, д. 35-Б\"}, \"contactPoint\": [{\"@type\": \"ContactPoint\", \"contactType\": \"customer service\", \"telephone\": \"+7 (925) 090-95-00\", \"email\": \"ok@smartsolutions.today\", \"availableLanguage\": \"ru\"}]}",
+  "{\"@context\": \"https://schema.org\", \"@type\": \"WebSite\", \"name\": \"Smart Solutions\", \"url\": \"https://smartsolutions.today/\", \"inLanguage\": \"ru\", \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\", \"url\": \"https://smartsolutions.today/\"}}",
+];
 ---
+
 <Base
+  jsonLd={jsonLd}
   title={"Smart Solutions — Системы привлечения клиентов для бизнеса"}
   description={"Изучаем ваш рынок, конкурентов и клиентов. Выстраиваем систему, которая стабильно приводит заявки. Москва."}
   path="/"

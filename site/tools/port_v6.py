@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Перенос статьи v6 (site-preview/blog/*.html) в Astro.
+"""Перенос статьи v6 (deliverables/archive/design-preview/blog/*.html) в Astro.
+
+Прототип v6 переехал в архив: deliverables/archive/design-preview/ (боевой код — site/src).
 
 Шапка, мобильное меню, прогресс, «наверх» и контакты берутся из общих компонентов сайта.
 Из v6 остаются светлый лист статьи (<main class="bl-sheet">), его стили и интерактив.
@@ -10,7 +12,7 @@ import json, re
 from pathlib import Path
 
 SITE = Path(__file__).resolve().parent.parent
-PREV = SITE.parent / 'site-preview' / 'blog'
+PREV = SITE.parent / 'deliverables' / 'archive' / 'design-preview' / 'blog'
 ASSETS_OUT = SITE / 'public' / 'blog-assets'
 
 # ---------- CSS ----------
@@ -121,7 +123,7 @@ for src in sorted(PREV.glob('*.html')):
     main = main.replace('{', '&#123;').replace('}', '&#125;')
     slug = src.stem
     page = f'''---
-// Статья блога (дизайн v6). Сгенерировано tools/port_v6.py из site-preview/blog/{src.name}; дальше правим здесь.
+// Статья блога (дизайн v6). Сгенерировано tools/port_v6.py из deliverables/archive/design-preview/blog/{src.name}; дальше правим здесь.
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
 const jsonLd = {json.dumps(lds, ensure_ascii=False, indent=2)};

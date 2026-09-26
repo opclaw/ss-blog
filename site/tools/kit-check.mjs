@@ -37,10 +37,37 @@ for (const f of files.sort()) {
     const on = machine.filter((x) => x.classList.contains('on')).length;
     const lit = root.querySelectorAll('.kit-risk.on').length;
     if (on !== machine.length || lit !== machine.length) errs.push(`scan: подсвечено ${lit}, находок ${on} из ${machine.length}`);
-    const hb = root.querySelector('[data-scan-human]');
-    if (hb) { if (hb.hidden) errs.push('scan: кнопка «что ИИ не увидел» не появилась'); hb.click(); if (!finds.some((x) => x.classList.contains('human') && x.classList.contains('on'))) errs.push('scan: находка человека не открылась'); }
+    // реестр: открыто максимум одно объяснение, итоговая строка появилась
+    if (finds.filter((x) => x.classList.contains('open')).length > 1) errs.push('scan: открыто больше одной находки');
+    if (!root.querySelector('.kit-scan-sum')) errs.push('scan: нет строки-итога');
+    if (!root.classList.contains('scanned')) errs.push('scan: после прогона нет отметки scanned');
+    // клик по находке раскрывает объяснение и переключает aria-expanded
+    const closed = finds.filter((x) => !x.classList.contains('open'))[0];
+    const closedHead = closed.querySelector('.kit-find-head');
+    if (!closedHead) errs.push('scan: у находки нет кнопки-заголовка');
+    else {
+      if (closedHead.getAttribute('aria-expanded') !== 'false') errs.push('scan: у закрытой находки aria-expanded не false');
+      closedHead.click();
+      if (!closed.classList.contains('open')) errs.push('scan: клик по находке не раскрывает объяснение');
+      if (closedHead.getAttribute('aria-expanded') !== 'true') errs.push('scan: aria-expanded не переключается');
+      if (finds.filter((x) => x.classList.contains('open')).length !== 1) errs.push('scan: одновременно открыто несколько объяснений');
+      const note = closed.querySelector('.kit-find-note');
+      if (!note || !note.textContent.trim()) errs.push('scan: у находки пустое объяснение');
+    }
+    // клик по подсвеченному пункту в договоре выделяет и раскрывает соответствующую находку
     const r = root.querySelector('.kit-risk.on'); r.click();
-    if (!root.querySelector('.kit-finds li.active')) errs.push('scan: клик по пункту не выделяет находку');
+    const active = root.querySelector('.kit-finds li.active');
+    if (!active) errs.push('scan: клик по пункту не выделяет находку');
+    else if (!active.classList.contains('open')) errs.push('scan: клик по пункту не раскрывает объяснение');
+    // «что ИИ не увидел» — отдельная находка человека
+    const hb = root.querySelector('[data-scan-human]');
+    if (hb) {
+      if (hb.hidden) errs.push('scan: кнопка «что ИИ не увидел» не появилась');
+      hb.click();
+      const h = finds.filter((x) => x.classList.contains('human'))[0];
+      if (!h || !h.classList.contains('on')) errs.push('scan: находка человека не открылась');
+      else if (!h.classList.contains('open')) errs.push('scan: находка человека не раскрыта');
+    }
     ok.push(`scan ${machine.length}+${finds.length - machine.length}`);
   }
   for (const root of d.querySelectorAll('[data-kit="tabs"]')) {
@@ -62,6 +89,60 @@ for (const f of files.sort()) {
     inp.value = inp.max; inp.dispatchEvent(new w.Event('input'));
     if (out.textContent === before) errs.push('calc: итог не меняется от ползунка');
     ok.push(`calc ${before}→${out.textContent}`);
+  }
+  for (const root of d.querySelectorAll('[data-kit="timeline"]')) {
+    const items = [...root.querySelectorAll('.kit-tl li')], btns = items.map((li) => li.querySelector('.kit-tl-btn'));
+    if (!items.length) { errs.push('timeline: нет этапов'); continue; }
+    if (items.filter((li) => li.classList.contains('on')).length !== 1) errs.push('timeline: открыт не один этап');
+    btns.at(-1).click();
+    if (!items.at(-1).classList.contains('on') || items[0].classList.contains('on')) errs.push('timeline: клик по этапу не переключает');
+    if (btns.at(-1).getAttribute('aria-expanded') !== 'true') errs.push('timeline: aria-expanded не обновляется');
+    if (!root.classList.contains('kit-js')) errs.push('timeline: нет класса kit-js — CSS не скроет неактивные этапы');
+    if (items.filter((li) => li.classList.contains('on')).length !== 1) errs.push('timeline: активных этапов не один после клика');
+    if (items.some((li) => !li.querySelector('.kit-tl-body') || !li.querySelector('.kit-tl-body').textContent.trim()))
+      errs.push('timeline: у этапа пустое описание');
+    ok.push(`timeline ${items.length} этапов`);
+  }
+  for (const root of d.querySelectorAll('[data-kit="sources"]')) {
+    const btns = [...root.querySelectorAll('.kit-src-btn')], parts = [...root.querySelectorAll('.kit-src-f')];
+    if (!btns.length || !parts.length) { errs.push('sources: нет источников или фраз'); continue; }
+    if (parts.some((p) => !p.querySelector('sup'))) errs.push('sources: у фразы нет номера источника');
+    const counts = {};
+    parts.forEach((p) => { counts[p.dataset.from] = (counts[p.dataset.from] || 0) + 1; });
+    const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
+    const b = btns.find((x) => x.dataset.src === top[0]);
+    b.click();
+    if (!root.classList.contains('hl')) errs.push('sources: подсветка не включилась');
+    if (b.getAttribute('aria-pressed') !== 'true') errs.push('sources: aria-pressed не выставлен');
+    const hl = parts.filter((p) => p.classList.contains('hl')).length;
+    if (hl !== top[1]) errs.push(`sources: подсвечено ${hl} фраз, у источника ${top[1]}`);
+    const noSrc = parts.filter((p) => p.dataset.from === 'own').length;
+    if (!noSrc) errs.push('sources: нет фразы без источника (догадка модели)');
+    b.click();
+    if (root.classList.contains('hl')) errs.push('sources: подсветка не снимается повторным кликом');
+    ok.push(`sources ${btns.length - 1} источников · ${hl} фраз у одного`);
+  }
+  for (const root of d.querySelectorAll('[data-kit="check"]')) {
+    const boxes = [...root.querySelectorAll('input[data-c]')], verdict = root.querySelector('[data-cverdict]');
+    if (!boxes.length || !verdict) { errs.push('check: нет пунктов или вердикта'); continue; }
+    const before = verdict.textContent.trim();
+    boxes.forEach((b) => { b.checked = true; b.dispatchEvent(new w.Event('change')); });
+    if (verdict.textContent.trim() === before) errs.push('check: вердикт не меняется от отметок');
+    const bar = root.querySelector('[data-cbar]');
+    if (bar && bar.style.width !== '100%') errs.push(`check: шкала не заполнилась (${bar.style.width || 'пусто'})`);
+    ok.push(`check 0→${boxes.length}`);
+  }
+  for (const root of d.querySelectorAll('[data-kit="funnel"]')) {
+    const now = root.querySelector('[data-fr="now"]'), fast = root.querySelector('[data-fr="fast"]'), lbl = root.querySelector('[data-flbl]');
+    if (!now || !fast || !lbl) { errs.push('funnel: нет строк результата'); continue; }
+    const before = { now: now.textContent, fast: fast.textContent, lbl: lbl.textContent };
+    const inp = root.querySelector('input[data-fn="t"]');
+    inp.value = inp.max; inp.dispatchEvent(new w.Event('input'));
+    if (now.textContent === before.now) errs.push('funnel: итог не меняется от ползунка скорости ответа');
+    if (lbl.textContent === before.lbl) errs.push('funnel: подпись скорости ответа не обновляется');
+    if (parseFloat(fast.textContent.replace(/\s/g, '').replace(',', '.')) <= parseFloat(now.textContent.replace(/\s/g, '').replace(',', '.')))
+      errs.push('funnel: «за 1 минуту» не больше текущего результата');
+    ok.push(`funnel ${before.now}→${now.textContent}`);
   }
   for (const root of d.querySelectorAll('[data-kit="prompt"]')) {
     root.querySelector('button').click(); await sleep(5);

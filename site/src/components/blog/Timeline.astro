@@ -1,0 +1,22 @@
+---
+// Путь процесса по этапам: читатель выбирает шаг и видит, что происходит и кто за него отвечает.
+// Без JS видны все шаги с описаниями — смысл не теряется.
+interface Stage { label: string; text: string; who?: string }
+interface Props { fig?: number; title: string; stages: Stage[]; note?: string }
+const { fig, title, stages, note } = Astro.props;
+---
+<figure class="kit kit-timeline" data-kit="timeline">
+  <figcaption class="kit-cap">{fig && <b>Рис. {fig}</b>}{title}<em>выберите этап</em></figcaption>
+  <ol class="kit-tl">
+    {stages.map((s, i) => (
+      <li class={i === 0 ? 'on' : undefined}>
+        <button type="button" class="kit-tl-btn" data-tl={String(i)} aria-expanded={i === 0 ? 'true' : 'false'} aria-controls={`tl-b-${i}`}>
+          <span class="kit-tl-n">{i + 1}</span><span class="kit-tl-lbl">{s.label}</span>
+          {s.who && <span class="kit-tl-who">{s.who}</span>}
+        </button>
+        <div class="kit-tl-body" id={`tl-b-${i}`} data-tlb={String(i)}>{s.text}</div>
+      </li>
+    ))}
+  </ol>
+  {note && <p class="kit-foot">{note}</p>}
+</figure>

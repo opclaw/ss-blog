@@ -1,13 +1,18 @@
 ---
-// Вычитка документа: сканер подсвечивает рискованные пункты, справа — находки.
-// Последняя находка с human:true — то, что видит только человек с контекстом сделки.
+// Вычитка документа: сканер подсвечивает рискованные пункты, справа — реестр находок.
+// Компактно: в реестре видно только уровень риска и короткий заголовок, объяснение раскрывается
+// по клику (одно за раз). Раньше все пояснения шли подряд — правая колонка была в 1,7 раза
+// тяжелее самого документа, и важное замечание «чего ИИ не увидел» терялось в конце списка.
+// Без JS видно всё: пояснения раскрыты, реестр работает как обычный список.
 interface Clause { text: string; n?: string }            // в text риск помечается [[...]]
 interface Find { n: string; level: 'high' | 'mid' | 'human'; title: string; note: string }
 interface Props { fig: number; title: string; docTitle: string; clauses: Clause[]; finds: Find[]; note?: string; autorun?: boolean }
 const { fig, title, docTitle, clauses, finds, note, autorun = false } = Astro.props;
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
-const lv = { high: 'высокий риск', mid: 'проверить', human: 'видит человек' };
-const machine = finds.filter((f) => f.level !== 'human').length;
+const lv = { high: 'высокий риск', mid: 'проверить', human: 'вне текста' };
+const machine = finds.filter((f) => f.level !== 'human');
+const high = machine.filter((f) => f.level === 'high').length;
+const summary = `${machine.length} находок: ${high} высокий риск · ${machine.length - high} проверить`;
 const render = (c: Clause) => esc(c.text).replace(/\[\[(.+?)\]\]/g, (_m, t) => `<span class="kit-risk ${finds.find((f) => f.n === c.n)?.level ?? 'mid'}" data-n="${c.n}">${t}<sup>${c.n}</sup></span>`);
 ---
 <figure class="kit kit-scan" data-kit="scan" data-autorun={autorun ? '' : undefined}>
@@ -21,11 +26,23 @@ const render = (c: Clause) => esc(c.text).replace(/\[\[(.+?)\]\]/g, (_m, t) => `
     <div class="kit-side">
       <div class="kit-side-top">
         <button type="button" class="kit-btn" data-scan-run>Проверить договор</button>
-        <span class="kit-count" aria-live="polite"><b data-scan-count>0</b>из {machine} находок</span>
+        <span class="kit-count" aria-live="polite"><b data-scan-count>0</b>из {machine.length} находок</span>
       </div>
-      <p class="kit-scan-hint">Нажмите — модель пройдёт по тексту. Нажмите на подсвеченный пункт, чтобы увидеть объяснение.</p>
+      <p class="kit-scan-sum" data-scan-sum>{summary}</p>
+      <p class="kit-scan-hint">Нажмите на находку — раскроем, чем она опасна. Или на подсвеченный пункт в договоре.</p>
       <ol class="kit-finds">
-        {finds.map((f) => <li class={f.level} data-n={f.n}><span class="lv">{f.level === 'human' ? '' : `№${f.n} · `}{lv[f.level]}</span><b>{f.title}</b>{f.note}</li>)}
+        {finds.map((f) => (
+          <li class={f.level} data-n={f.n}>
+            <button type="button" class="kit-find-head" aria-controls={`find-note-${f.n}`}>
+              <span class="kit-find-txt">
+                <span class="lv">{f.level === 'human' ? lv.human : `№${f.n} · ${lv[f.level]}`}</span>
+                <b class="kit-find-t">{f.title}</b>
+              </span>
+              <span class="kit-chev" aria-hidden="true"></span>
+            </button>
+            <div class="kit-find-note" id={`find-note-${f.n}`}>{f.note}</div>
+          </li>
+        ))}
       </ol>
       <button type="button" class="kit-btn ghost" data-scan-human hidden>А что ИИ не увидел?</button>
     </div>

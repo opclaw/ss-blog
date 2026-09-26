@@ -6,7 +6,8 @@ const { active = null, isHome = false, hasContacts = true } = Astro.props;
 ---
 <nav class="nav" id="nav">
     <div class="nav-inner">
-      <a href={isHome ? '#' : '/'} class="nav-logo">{SITE.name}</a>
+      {/* логотип всегда ведёт на главную: href="#" на главной портит URL и историю переходов */}
+      <a href="/" class="nav-logo" aria-label={`${SITE.name} — на главную`}>{SITE.name}</a>
       <div class="nav-menu" id="navMenu">
         {NAV.map((i) => (
         <a href={navHref(i, { isHome, hasContacts })} class={i.key === active ? 'nav-link nav-link-active' : 'nav-link'}>{i.label}</a>

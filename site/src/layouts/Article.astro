@@ -4,6 +4,7 @@
 // JSON-LD (Article, FAQPage, BreadcrumbList) строится из этих же данных — FAQ на странице и в разметке не расходятся.
 import Base from './Base.astro';
 import ContactCards from '../components/ContactCards.astro';
+import AuthorCard from '../components/blog/AuthorCard.astro';
 import { SITE } from '../data/site';
 
 interface Toc { id: string; label: string }
@@ -15,6 +16,7 @@ interface Props {
   datePublished: string; dateModified: string;
   toc: Toc[]; brief: string[]; faq: Faq[]; more: More[];
   breadcrumb: string;
+  ogTitle?: string; ogDescription?: string;
 }
 const p = Astro.props;
 const url = new URL(p.path, SITE.url).href;
@@ -31,7 +33,8 @@ const jsonLd = [
     { '@type': 'ListItem', position: 3, name: p.breadcrumb, item: url } ] },
 ].map((o) => JSON.stringify(o));
 ---
-<Base title={p.title} description={p.description} path={p.path} ogType="article" jsonLd={jsonLd}
+<Base mainWrap={false} title={p.title} description={p.description} path={p.path} ogType="article" jsonLd={jsonLd}
+      ogTitle={p.ogTitle} ogDescription={p.ogDescription}
       active="ai" skipTo="#article" readProgress bodyClass="bl-page">
 <Fragment slot="head">
   <link rel="stylesheet" href="/blog-assets/article.css">
@@ -75,6 +78,11 @@ const jsonLd = [
         <h2 class="no-num">Читать дальше</h2>
         {p.more.map((m) => <a href={m.href}><span>{m.meta}</span><b>{m.title}</b><i>→</i></a>)}
       </section>
+    </div>
+
+    <!-- третья колонка на широких экранах; на узких — в потоке после статьи -->
+    <div class="bl-author">
+      <AuthorCard theme="light" />
     </div>
   </div>
 </main>

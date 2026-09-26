@@ -4,14 +4,25 @@
 На выходе — чистые статичные `.html` **с теми же адресами** (`/services.html`, `/blog/ii-dlya-hr.html`),
 поэтому для поисковиков и хостинга ничего не меняется.
 
+Состав сборки: 28 страниц — главная, услуги, AI-хаб, 3 кейса, 21 статья блога и оглавление блога.
+
 ## Быстрый старт
 
 ```bash
 cd site
 npm install
 npm run dev        # http://localhost:4321 — живая перезагрузка
-npm run check      # сборка + сверка с оригиналом + проверка JS (перед каждым деплоем)
+npm run check      # сборка + все проверки (перед каждым деплоем)
+npm run audit      # SEO-аудит: мета, схемы, вес, robots/sitemap/.htaccess
+npm run qa         # доступность и целостность разметки: якоря, дубли id, alt, контакты, типографика
+npm run content    # контент-аудит статей: объём, время чтения, структура, повторы, цифры
+npm run sitemap    # пересобрать sitemap.xml из готовых страниц
 ```
+
+`npm run check` по шагам: сборка → сверка каждой страницы с эталоном `legacy/version-4` →
+актуален ли `sitemap.xml` → JS на всех страницах (меню, бургер, FAQ) → интерактив kit →
+QA-проверка (доступность, якоря, контакты, типографика) → SEO-аудит. Ошибки любого шага останавливают
+сборку; то же самое запускается в GitHub Actions на каждый push.
 
 Готовый сайт — в `site/dist/`. Его и заливаем на хостинг.
 
@@ -34,26 +45,49 @@ site/
 │       ├── cases/*.astro
 │       └── blog/*.astro
 ├── public/                   без изменений копируется в корень сайта:
-│                             styles.css, script.js, icons.svg, images/, logos/, иконки,
-│                             robots.txt, sitemap.xml, .htaccess, верификации Google/Яндекса
+│                             styles.css, script.js, blog-assets/, icons.svg, images/, logos/, иконки,
+│                             robots.txt, sitemap.xml, .htaccess, manifest.json, верификации Google/Яндекса
 └── tools/
+    ├── verify.py             сверка сборки с оригиналом (эталон legacy/version-4)
+    ├── make-sitemap.py       сборка sitemap.xml из dist (lastmod — из схем статей)
+    ├── seo-audit.py          SEO-аудит сборки: мета, схемы, ссылки, вес, robots/sitemap
+    ├── qa-check.py           доступность и разметка: якоря, дубли id, alt, контакты, типографика
+    ├── content-audit.py      контент-аудит статей (отчёт — tools/content-report.json)
+    ├── js-check.mjs          прогон script.js на всех страницах (меню, бургер, FAQ)
+    ├── kit-check.mjs         прогон интерактива статей нового образца (scan/tabs/matrix/calc/prompt)
+    ├── content-edits.json    журнал намеренных правок контента (для verify.py)
     ├── import_legacy.py      перенос из legacy/version-4 (уже выполнен, повторно не нужен)
-    ├── verify.py             сверка сборки с оригиналом
-    └── js-check.mjs          прогон script.js на всех страницах (меню, бургер, FAQ)
+    └── port_v6.py            перенос статьи на макет Article.astro (вспомогательный)
 ```
 
 ## Типовые задачи
 
 **Поменять телефон / почту / Telegram / адрес** — `src/data/site.ts`. Меняется в шапке, мобильном
-меню, подвале и карточках контактов на всех 27 страницах.
+меню, подвале и карточках контактов на всех 28 страницах.
 
 **Поменять пункт меню** — `NAV` (шапка и мобильное меню) и `FOOTER_NAV` (подвал) в `src/data/site.ts`.
 Меню главной менять только по согласованию (CLAUDE.md).
 
 **Отключить Метрику** — `metrikaId: null` в `src/data/site.ts`.
 
-**Новая статья блога** — скопировать любую `src/pages/blog/*.astro`, поменять `title`, `description`,
-`path`, `jsonLd` и текст. Добавить карточку в `src/pages/blog/index.astro` и адрес в `public/sitemap.xml`.
+**Страница 404** — `src/pages/404.astro`, закрыта `noindex` и не входит в `sitemap.xml`;
+на хостинге работает через `ErrorDocument 404 /404.html` в `public/.htaccess`.
+
+**Микроразметка** — `jsonLd` передаётся в `Base` массивом строк: на главной `Organization` + `WebSite`,
+на услугах, AI-хабе и кейсах — `BreadcrumbList`, в статьях нового макета схема собирается из данных.
+
+**Новая статья блога** — взять за основу статью нового образца (`blog/ii-dlya-yuristov.astro` или
+`blog/chto-takoe-ii-agent.astro`): макет `Article.astro` сам собирает оглавление, «Коротко», вопросы и JSON-LD.
+Поменять `title`, `description`, `path`, `datePublished`/`dateModified`, текст, затем:
+1. добавить карточку в `src/pages/blog/index.astro` и в блок «Из блога» на `ai.astro`;
+2. `npm run sitemap` — адрес попадёт в карту автоматически, `lastmod` возьмётся из схемы статьи;
+3. `npm run check`.
+
+Если текст старой статьи правится (а не переписывается) — записать правку в `tools/content-edits.json`,
+иначе сверка с эталоном покажет расхождение как ошибку.
+
+**Правка robots.txt / .htaccess / manifest** — файлы лежат в `public/`, попадают в сборку как есть;
+после правки `npm run check` проверит, что правила не закрывают нужные файлы.
 
 **Стили и скрипты** — `public/styles.css`, `public/script.js` (те же файлы, что на сайте).
 

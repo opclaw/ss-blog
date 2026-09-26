@@ -1,22 +1,33 @@
 User-agent: *
 Allow: /
-
-# Служебные страницы — не индексировать
-Disallow: /consent.html
-Disallow: /consent-cookies.html
-
-# Файлы
-Disallow: /*.json$
+# Внутренние документы (в сборке их нет — правило на случай ручной выгрузки)
 Disallow: /*.md$
+Disallow: /send.php
 
-# Старые WordPress-пути
+# Старые пути WordPress: отдаются 410, но пусть боты не тратят на них краулинг
 Disallow: /wp-admin/
 Disallow: /wp-includes/
 Disallow: /wp-content/
 Disallow: /feed/
 Disallow: /xmlrpc.php
-Disallow: /?p=
 Disallow: /trackback/
+Disallow: /category/
 
-Host: https://smartsolutions.today
+# Яндекс: не считать дублями страницы с рекламными метками
+User-agent: Yandex
+Allow: /
+Disallow: /*.md$
+Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&gclid&fbclid&_openstat
+
+# ИИ-поисковики: разрешаем явно, чтобы ответы ссылались на нас (GEO)
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: PerplexityBot
+User-agent: Google-Extended
+Allow: /
+Disallow: /*.md$
+
 Sitemap: https://smartsolutions.today/sitemap.xml

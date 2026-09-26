@@ -8,6 +8,10 @@
   --acc:#00D9FF; --acc-t:#0A7EA4; --acc-soft:#E3F7FC; --green:#0E9F6E; --green-soft:#E3F5EE; --red:#C2410C;
   --f-d:'Manrope',system-ui,sans-serif; --f-t:'Inter',system-ui,sans-serif; --f-m:'JetBrains Mono',ui-monospace,monospace;
   --col:700px;
+  /* Алиасы переменных старой тёмной темы сайта: внутри светлого листа блоки legacy-разметки
+     (fig, weeks-grid, err-card, pull-quote, formula-card) берут светлую палитру, а не инверсную. */
+  --bg:#FAFAF7; --bg-elevated:#FFFFFF; --card-bg:#FFFFFF; --border:#E4E4DE; --border-strong:#D2D2CA;
+  --muted:#8C8C96; --secondary:#5E5E68; --accent:#0A7EA4; --accent-soft:#E3F7FC;
 }
 html{scroll-padding-top:84px}
 .bl-sheet{background:var(--paper);color:var(--text);font:400 18px/1.72 var(--f-t);-webkit-font-smoothing:antialiased}
@@ -30,11 +34,11 @@ html{scroll-padding-top:84px}
 .ha-h circle{stroke:var(--green);stroke-dasharray:4 3}
 .ha-t rect{fill:var(--card);stroke:var(--line2)}
 .ha-t text{font-size:11px;fill:var(--dim)}
-.ha-dot{fill:var(--acc);filter:drop-shadow(0 0 6px rgba(0,217,255,.8))}
+.ha-dot{fill:var(--acc);stroke:var(--paper);stroke-width:2}
 @media (max-width:860px){.bl-hero-in{grid-template-columns:1fr;padding:48px 20px 40px;gap:24px}.bl-hero-art{max-width:360px}}
 
 /* ТЕЛО */
-.bl-body{max-width:1240px;margin:0 auto;padding:64px 24px 40px;display:grid;grid-template-columns:220px minmax(0,var(--col)) 1fr;gap:56px}
+.bl-body{max-width:1240px;margin:0 auto;padding:64px 24px 40px;display:grid;grid-template-columns:200px minmax(0,var(--col)) 240px;gap:40px}
 .bl-toc{position:sticky;top:100px;align-self:start;font-size:13px}
 .bl-toc p{font:500 11px/1 var(--f-m);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin:0 0 12px}
 .bl-toc a{display:block;padding:7px 0 7px 14px;border-left:2px solid var(--line);color:var(--dim);text-decoration:none;line-height:1.35;transition:.15s}
@@ -70,12 +74,25 @@ html{scroll-padding-top:84px}
 .bl-note p{margin:0;font-size:16px;color:var(--text)}
 
 /* общие рисунки */
-.bl-fig{margin:40px 0 44px;padding:24px;border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:0 1px 0 rgba(16,16,20,.03),0 12px 32px -18px rgba(16,16,20,.18)}
+.bl-fig{margin:40px 0 44px;padding:24px;border:1px solid var(--line);border-radius:14px;background:var(--card);box-shadow:3px 3px 0 0 var(--paper2)}
 .bl-fig figcaption{display:flex;align-items:baseline;gap:12px;font:500 13px/1.4 var(--f-m);color:var(--fg);margin-bottom:20px}
 .bl-fig figcaption span{color:var(--acc-t)}
 .bl-fig figcaption em{margin-left:auto;font-style:normal;color:var(--mute);font-weight:400}
 .bl-fig-note{margin:18px 0 0!important;font:400 13px/1.5 var(--f-m);color:var(--dim)}
 .bl-fig-note b{color:var(--green)}
+/* Инлайновые схемы статей (классы подписей из старого макета): на светлом листе
+   читаются тёмным — переменные листа, а не тёмной темы сайта. */
+.bl-sheet .f-label{fill:var(--fg)}
+.bl-sheet .f-mono{fill:var(--mute)}
+.bl-sheet .f-label-acc,.bl-sheet .f-acc{fill:var(--acc-t)}
+.bl-sheet .f-value{fill:var(--fg)}
+.bl-sheet .f-neg{fill:var(--red)}
+.bl-sheet .f-warn{fill:#B45309}
+.bl-sheet .no-card{border-left-color:var(--red)}
+.bl-sheet .pull-quote{border-left-color:var(--acc-t)}
+.bl-sheet .kit-prompt,.bl-sheet .bl-prompt{color:var(--on-ink)}
+/* Схему можно приблизить: класс fig (зум из script.js) живёт рядом с оформлением bl-fig */
+.bl-fig{cursor:zoom-in}
 
 /* Рис.1 — чат-бот vs агент */
 .bl-tabs{display:inline-flex;padding:4px;border-radius:999px;background:var(--paper2);margin-bottom:16px}
@@ -130,7 +147,7 @@ html{scroll-padding-top:84px}
 .bl-prompt pre{margin:0;padding:18px 18px 22px;font:400 14px/1.7 var(--f-m);color:rgba(245,245,247,.88);white-space:pre-wrap;overflow-wrap:anywhere}
 
 /* калькулятор */
-.bl-calc{display:grid;grid-template-columns:1.1fr .9fr;margin:32px 0 40px;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:var(--card);box-shadow:0 14px 40px -22px rgba(16,16,20,.25)}
+.bl-calc{display:grid;grid-template-columns:1.1fr .9fr;margin:32px 0 40px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--card);box-shadow:3px 3px 0 0 var(--paper2)}
 .bl-calc-in{padding:26px 26px 12px;display:flex;flex-direction:column;gap:18px}
 .bl-calc-in label{display:grid;grid-template-columns:1fr auto;gap:8px 12px;align-items:baseline}
 .bl-calc-in span{font-size:14px;color:var(--dim)}
@@ -242,3 +259,26 @@ html{scroll-padding-top:84px}
 .bl-text li{margin:0 0 .45em}
 .bl-page .section-cta{margin-top:0}
 .bl-page .bl-hero{padding-top:64px}
+
+/* ===== Карточка автора на светлом листе =====
+   На широких экранах — третьей колонкой (липкая), на узких — в потоке после статьи.
+   Тема карточки задаётся пропом компонента: здесь <AuthorCard theme="light" /> — светлая. */
+.bl-author{position:sticky;top:100px;align-self:start}
+@media (max-width:1100px){
+  .bl-author{position:static;margin-top:40px}
+  .author-card{max-width:520px}
+}
+@media print{.bl-author{display:none}}
+
+/* Диаграммы-компоненты (FigBars/FigRows): на узких экранах шрифт внутри SVG уменьшался вместе
+   с картинкой — поэтому даём горизонтальную прокрутку вместо нечитаемых 5px подписей. */
+.fig-scroll{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+.fig-scroll::-webkit-scrollbar{height:6px}
+.fig-scroll::-webkit-scrollbar-thumb{background:var(--line2);border-radius:3px}
+@media (max-width:640px){
+  .fig-bars .fig-scroll>svg,.fig-rows .fig-scroll>svg{min-width:560px}
+  .fig-bars,.fig-rows{padding-left:18px;padding-right:12px}
+}
+
+.fig-swipe{display:none;margin:10px 0 0!important;font:400 12px/1.4 var(--f-m);color:var(--mute)}
+@media (max-width:640px){.fig-swipe{display:block}}

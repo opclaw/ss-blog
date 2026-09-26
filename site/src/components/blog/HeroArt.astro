@@ -1,0 +1,144 @@
+---
+// Арт в «шапке» статьи: схема по теме материала. Декоративный (aria-hidden),
+// смысл несёт H1 и текст — поэтому подписи короткие и служат подсказкой, а не объяснением.
+// Варианты: flow (заявка → ИИ → человек), doc (документ и проверка), calc (цифры и рубли),
+// nodes (агент и системы), chat (диалог), steps (этапы процесса).
+// Палитра — токены светлого листа из article.css, поэтому арт одинаково выглядит на всех статьях.
+interface Props {
+  variant?: 'flow' | 'doc' | 'calc' | 'nodes' | 'chat' | 'steps';
+  labels?: string[];
+}
+const { variant = 'flow', labels = [] } = Astro.props;
+const l = (i: number) => labels[i] ?? '';
+// Подписи короткие, но если автор дал длинную — переносим на две строки, чтобы не лезли за рамку
+const wrap = (s: string, max = 13) => {
+  const t = (s || '').trim();
+  if (t.length <= max) return [t];
+  const lines: string[] = [];
+  let cur = '';
+  for (const w of t.split(' ')) {
+    if (!cur) cur = w;
+    else if ((cur + ' ' + w).length <= max) cur += ' ' + w;
+    else { lines.push(cur); cur = w; }
+  }
+  if (cur) lines.push(cur);
+  return lines.length > 2 ? [lines[0], lines.slice(1).join(' ')] : lines;
+};
+const dy = (n: number, i: number) => (i - (n - 1) / 2) * 12;
+const F = 'JetBrains Mono, ui-monospace, monospace';
+const INK = '#101014', DIM = '#5E5E68', MUTE = '#8C8C96', LINE = '#E4E4DE', LINE2 = '#D2D2CA';
+const ACC = '#00D9FF', ACCT = '#0A7EA4', GREEN = '#0E9F6E', GREEN_BG = '#E3F5EE', RED = '#C2410C', AMBER = '#B45309';
+---
+<svg class="bl-hero-art" viewBox="0 0 420 300" aria-hidden="true">
+  {variant === 'flow' && (
+    <g>
+      <rect x="18" y="118" width="104" height="64" rx="10" fill="#fff" stroke={LINE2} />
+      <text x="70" y="150" text-anchor="middle" font-family={F} font-size="10" fill={INK}>{wrap(l(0), 12).map((t, i, a) => <tspan x="70" dy={i === 0 ? dy(a.length, i) : 12}>{t}</tspan>)}</text>
+      <text x="70" y="176" text-anchor="middle" font-family={F} font-size="10" fill={MUTE}>вход</text>
+      <path d="M122 150h40" stroke={LINE2} stroke-width="1.5" />
+      <path d="M158 146l6 4-6 4" fill="none" stroke={LINE2} stroke-width="1.5" />
+      <rect x="164" y="106" width="118" height="88" rx="12" fill="#fff" stroke={ACC} stroke-width="1.5" />
+      <text x="223" y="150" text-anchor="middle" font-family={F} font-size="10" fill={ACCT}>{wrap(l(1), 13).map((t, i, a) => <tspan x="223" dy={i === 0 ? dy(a.length, i) : 12}>{t}</tspan>)}</text>
+      <g stroke={LINE} stroke-width="4" stroke-linecap="round">
+        <path d="M186 156h74M186 170h54M186 182h64" />
+      </g>
+      <rect class="kit-hero-scan" x="176" y="108" width="94" height="3" rx="1.5" fill={ACC} />
+      <path d="M282 150h40" stroke={LINE2} stroke-width="1.5" />
+      <path d="M318 146l6 4-6 4" fill="none" stroke={LINE2} stroke-width="1.5" />
+      <rect x="316" y="112" width="92" height="76" rx="10" fill={GREEN_BG} stroke={GREEN} />
+      <text x="362" y="150" text-anchor="middle" font-family={F} font-size="10" fill={GREEN}>{wrap(l(2), 12).map((t, i, a) => <tspan x="362" dy={i === 0 ? dy(a.length, i) : 12}>{t}</tspan>)}</text>
+      <text x="362" y="176" text-anchor="middle" font-family={F} font-size="10" fill={GREEN}>решение</text>
+      <circle r="4" fill={ACC}><animateMotion dur="4s" repeatCount="indefinite" path="M70 150h292" /></circle>
+    </g>
+  )}
+
+  {variant === 'doc' && (
+    <g>
+      <rect x="110" y="16" width="200" height="228" rx="10" fill="#fff" stroke={LINE2} />
+      <g stroke={LINE} stroke-width="6" stroke-linecap="round">
+        <path d="M140 60h140M140 84h120M140 108h140M140 132h100M140 156h140M140 180h130M140 204h90M140 228h140" />
+      </g>
+      <path d="M140 108h140" stroke={RED} stroke-opacity=".35" stroke-width="10" stroke-linecap="round" />
+      <path d="M140 180h130" stroke={AMBER} stroke-opacity=".35" stroke-width="10" stroke-linecap="round" />
+      <g font-family={F} font-size="11" fill={DIM}>
+        <path d="M296 108h34" stroke={RED} stroke-width="1.5" />
+        <circle cx="336" cy="108" r="11" fill="#fff" stroke={RED} stroke-width="1.5" />
+        <text x="336" y="112" text-anchor="middle" fill={RED} font-size="12">!</text>
+        <path d="M286 180h44" stroke={AMBER} stroke-width="1.5" />
+        <circle cx="336" cy="180" r="11" fill="#fff" stroke={AMBER} stroke-width="1.5" />
+        <text x="336" y="184" text-anchor="middle" fill={AMBER} font-size="12">?</text>
+        <circle cx="80" cy="222" r="16" fill={GREEN_BG} stroke={GREEN} stroke-width="1.5" />
+        <text x="80" y="227" text-anchor="middle" fill={GREEN} font-size="12">✓</text>
+        <path d="M96 222h36" stroke={GREEN} stroke-width="1.5" stroke-dasharray="3 3" />
+      </g>
+      <g font-family={F} font-size="10">
+        {[[20, RED, l(0)], [150, AMBER, l(1)], [286, GREEN, l(2)]].map(([x, c, label]) => (
+          <g>
+            <circle cx={+x + 4} cy="268" r="4" fill={c as string} />
+            <text x={+x + 14} y="272" fill={DIM}>{wrap(String(label), 14).join(' ')}</text>
+          </g>
+        ))}
+      </g>
+      <rect class="kit-hero-scan" x="104" y="16" width="212" height="3" rx="1.5" fill={ACC} />
+    </g>
+  )}
+
+  {variant === 'calc' && (
+    <g>
+      <line x1="60" y1="230" x2="360" y2="230" stroke={LINE2} stroke-width="1.5" />
+      <rect x="86" y="120" width="58" height="110" rx="6" fill="#F1F1EC" stroke={LINE} />
+      <text x="115" y="108" text-anchor="middle" font-family={F} font-size="11" fill={DIM}>{l(0)}</text>
+      <rect x="182" y="176" width="58" height="54" rx="6" fill={GREEN_BG} stroke={GREEN} />
+      <text x="211" y="164" text-anchor="middle" font-family={F} font-size="11" fill={GREEN}>{l(1)}</text>
+      <path d="M244 150h44" stroke={LINE2} stroke-width="1.5" stroke-dasharray="4 4" />
+      <rect x="278" y="64" width="96" height="60" rx="10" fill="#fff" stroke={ACC} stroke-width="1.5" />
+      <text x="326" y="90" text-anchor="middle" font-family={F} font-size="16" fill={ACCT}>{l(2)}</text>
+      <text x="326" y="110" text-anchor="middle" font-family={F} font-size="10" fill={MUTE}>экономия / мес</text>
+      <circle cx="326" cy="150" r="18" fill="#fff" stroke={ACC} />
+      <text x="326" y="156" text-anchor="middle" font-family={F} font-size="14" fill={ACCT}>₽</text>
+    </g>
+  )}
+
+  {variant === 'nodes' && (
+    <g>
+      <circle cx="210" cy="150" r="44" fill="#fff" stroke={ACC} stroke-width="1.5" />
+      <text x="210" y="147" text-anchor="middle" font-family={F} font-size="11" fill={ACCT}>{l(0)}</text>
+      <text x="210" y="164" text-anchor="middle" font-family={F} font-size="10" fill={MUTE}>агент</text>
+      {[[74, 66], [346, 66], [74, 234], [346, 234]].map(([x, y], i) => (
+        <g>
+          <path d={`M${x + (x < 210 ? 46 : -46)} ${y + (y < 150 ? 18 : -18)}L${210 + (x < 210 ? -30 : 30)} ${150 + (y < 150 ? -22 : 22)}`}
+                stroke={LINE2} stroke-width="1.2" stroke-dasharray="4 4" fill="none" />
+          <rect x={x - 46} y={y - 22} width="92" height="44" rx="9" fill="#fff" stroke={LINE} />
+          <text x={x} y={y + 5} text-anchor="middle" font-family={F} font-size="10" fill={INK}>{wrap(l(i + 1), 13).map((t, j, a) => <tspan x={x} dy={j === 0 ? dy(a.length, j) : 12}>{t}</tspan>)}</text>
+        </g>
+      ))}
+      <circle class="kit-hero-scan" cx="210" cy="150" r="52" fill="none" stroke={ACC} stroke-opacity=".5" />
+    </g>
+  )}
+
+  {variant === 'chat' && (
+    <g>
+      <rect x="52" y="52" width="196" height="58" rx="14" fill="#fff" stroke={LINE} />
+      <text x="72" y="86" font-family={F} font-size="10" fill={INK}>{wrap(l(0), 26).join(' ')}</text>
+      <rect x="172" y="126" width="196" height="58" rx="14" fill={GREEN_BG} stroke={GREEN} />
+      <text x="192" y="160" font-family={F} font-size="10" fill={GREEN}>{wrap(l(1), 26).join(' ')}</text>
+      <rect x="52" y="200" width="196" height="58" rx="14" fill="#fff" stroke={ACC} />
+      <text x="72" y="234" font-family={F} font-size="10" fill={ACCT}>{wrap(l(2), 26).join(' ')}</text>
+      <circle cx="352" cy="236" r="4" fill={ACC}><animateMotion dur="3.5s" repeatCount="indefinite" path="M0 0h-40" /></circle>
+    </g>
+  )}
+
+  {variant === 'steps' && (
+    <g>
+      <path d="M60 168h300" stroke={LINE} stroke-width="2" />
+      {[0, 1, 2, 3].map((i) => (
+        <g>
+          <circle cx={60 + i * 100} cy="168" r="17" fill="#fff" stroke={i === 0 ? ACC : LINE2} stroke-width="1.5" />
+          <text x={60 + i * 100} y="173" text-anchor="middle" font-family={F} font-size="12" fill={i === 0 ? ACCT : DIM}>{i + 1}</text>
+          <text x={60 + i * 100} y="206" text-anchor="middle" font-family={F} font-size="10" fill={DIM}>{wrap(l(i), 13).map((t, j, a) => <tspan x={60 + i * 100} dy={j === 0 ? dy(a.length, j) : 12}>{t}</tspan>)}</text>
+        </g>
+      ))}
+      <circle class="kit-hero-scan" cx="60" cy="168" r="26" fill="none" stroke={ACC} stroke-opacity=".5" />
+    </g>
+  )}
+</svg>

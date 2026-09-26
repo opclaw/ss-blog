@@ -2,8 +2,13 @@
 // Сгенерировано из legacy/version-4/ai.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../layouts/Base.astro';
 import ContactCards from '../components/ContactCards.astro';
+const jsonLd = [
+  "{\"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Главная\", \"item\": \"https://smartsolutions.today/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"AI-направление\", \"item\": \"https://smartsolutions.today/ai.html\"}]}",
+];
 ---
+
 <Base
+  jsonLd={jsonLd}
   title={"Внедрение ИИ в процессы компании — Smart Solutions"}
   description={"Внедряем искусственный интеллект в ежедневные процессы: заявки, документы, база знаний, отчёты. Сначала считаем эффект в часах и рублях — потом внедряем."}
   path="/ai.html"
@@ -657,6 +662,11 @@ import ContactCards from '../components/ContactCards.astro';
           <p class="ai-service-meta">вся команда · закрепление результата</p>
         </div>
       </div>
+
+      <p class="text-secondary" style="margin-top:30px;max-width:760px;">
+        Если задача именно в агенте — который сам ищет данные, работает в CRM и готовит документы, —
+        этому посвящена отдельная страница: <a href="/ai-agenty.html">разработка и внедрение ИИ-агентов</a>.
+      </p>
     </div>
   </section>
 
@@ -849,6 +859,7 @@ import ContactCards from '../components/ContactCards.astro';
           <a class="blog-card" href="/blog/skolko-stoit-vnedrenie-ii.html"><span class="blog-card-title">Сколько стоит внедрение ИИ в бизнес: честная вилка цен</span><span class="blog-card-meta">стоимость · 9 мин</span></a>
           <a class="blog-card" href="/blog/kak-poschitat-effekt-ot-ii-do-pilota.html"><span class="blog-card-title">Как посчитать эффект от ИИ до пилота: формула и пример</span><span class="blog-card-meta">расчёт · 11 мин</span></a>
           <a class="blog-card" href="/blog/geo-optimizaciya.html"><span class="blog-card-title">GEO-оптимизация: как попадать в ответы ChatGPT, Нейро и Алисы</span><span class="blog-card-meta">GEO · 9 мин</span></a>
+          <a class="blog-card" href="/blog/chto-takoe-ii-agent.html"><span class="blog-card-title">Что такое ИИ-агент простыми словами: как работает и чем полезен бизнесу</span><span class="blog-card-meta">база · 9 мин</span></a>
         </div>
         <div class="blog-col">
           <p class="blog-col-label">По задачам</p>
@@ -862,7 +873,7 @@ import ContactCards from '../components/ContactCards.astro';
       <div class="ai-blog-toggle-wrap" style="margin-top: 24px;">
         <button class="ai-blog-toggle" type="button" aria-label="Показать все отрасли">
           <span class="ai-blog-toggle-text">Показать все отрасли</span>
-          <span class="ai-blog-toggle-count">(11)</span>
+          <span class="ai-blog-toggle-count">(12)</span>
         </button>
       </div>
 

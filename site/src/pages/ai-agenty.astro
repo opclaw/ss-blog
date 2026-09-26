@@ -1,0 +1,644 @@
+---
+// Посадочная под коммерческий спрос кластера «ИИ-агенты» (Wordstat: «ии агент» 72 294 показов/мес,
+// «ai агент» 11 385, «создание ии агентов» 3 660, «разработка ии агентов» 1 522, «ии агент для 1с» 526).
+// Обещания и цены — только те, что уже согласованы владельцем на /ai.html: бесплатный аудит,
+// пилот 2–4 недели, «точную цифру называем после аудита». Ничего нового про сроки и деньги не выдумываем.
+// FAQ — один источник: из массива faq строятся и видимый блок, и разметка FAQPage.
+import Base from '../layouts/Base.astro';
+import ContactCards from '../components/ContactCards.astro';
+
+const faq = [
+  {
+    q: 'Чем ИИ-агент отличается от чат-бота?',
+    a: 'Чат-бот идёт по заранее написанному сценарию: нажали кнопку — получили заготовку. Агент понимает текст, сам решает, какой шаг сделать следующим, и вызывает инструменты: ищет в вашей базе знаний, смотрит заявку в CRM, готовит черновик документа. Разница видна на нестандартном запросе: бот отвечает «я вас не понял», агент — разбирает задачу по частям.',
+  },
+  {
+    q: 'Сколько стоит разработка ИИ-агента?',
+    a: 'Зависит от процесса: какие данные нужны, сколько интеграций, сколько сценариев и какова цена ошибки. Аудит бесплатный — после него называем точную цифру и прогноз окупаемости. Если окупаемости нет, так и скажем: внедрять не стоит.',
+  },
+  {
+    q: 'Можно ли сделать агента для 1С?',
+    a: 'Да, если у вашей конфигурации есть API, веб-сервисы или доступ к базе на чтение — через них агент получает данные и создаёт документы. Конкретный способ фиксируем на аудите: у 1С вариантов интеграции несколько, и не все одинаково безопасны. Обещать «подключим к любой 1С» заранее не будем.',
+  },
+  {
+    q: 'Работает ли агент на российских моделях: GigaChat, YandexGPT?',
+    a: 'Да. Мы не привязываемся к одному поставщику: если ваши правила безопасности требуют, чтобы данные не покидали контур, собираем решение на российских или локальных моделях. Выбор модели — вопрос требований и стоимости, а не идеологии, и решается на аудите.',
+  },
+  {
+    q: 'Что будет, если агент ошибётся?',
+    a: 'На старте агент не отправляет ничего клиенту и не проводит документы сам: он готовит черновик, человек проверяет и подтверждает. Коммерчески значимые шаги остаются под контролем до тех пор, пока на статистике не станет видно, что качество стабильно. Ошибки разбираем по логам: видно, какой шаг и на каких данных дал сбой.',
+  },
+  {
+    q: 'Можно ли поставить агента на сайт, чтобы он отвечал клиентам?',
+    a: 'Да, это частый первый проект: агент отвечает на вопросы по вашим материалам — услугам, ценам, срокам, доставке — и передаёт человеку то, что не должен решать сам. Обязательное условие — база знаний: если её нет, сначала собираем, иначе агент будет уверенно придумывать ответы.',
+  },
+  {
+    q: 'Сколько времени занимает внедрение?',
+    a: 'Пилот на одном процессе — 2–4 недели: замер, сбор данных, работа в бою на реальных задачах, повторный замер. Дальше решение по цифрам: масштабировать или остановиться. Мы не берём «внедрение ИИ во всю компанию» одним проектом — так не работает.',
+  },
+  {
+    q: 'У нас нет базы знаний. Агент не заработает?',
+    a: 'Заработает, но не сразу. Сначала собираем минимальную базу: регламенты, ответы на частые вопросы, шаблоны, историю переписки. Это часть пилота, а не отдельный проект на полгода. Если данных объективно нет — честно скажем, что сначала нужно навести порядок в процессе.',
+  },
+];
+
+const jsonLd = [
+  JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Разработка и внедрение ИИ-агентов для бизнеса',
+    serviceType: 'Внедрение ИИ-агентов в бизнес-процессы',
+    url: 'https://smartsolutions.today/ai-agenty.html',
+    description:
+      'ИИ-агенты под конкретный процесс: обработка заявок, ассистент по базе знаний, документы, поддержка на сайте. Интеграции с CRM, 1С и мессенджерами, пилот 2–4 недели, замер эффекта до старта.',
+    areaServed: { '@type': 'Country', name: 'Россия' },
+    provider: {
+      '@type': 'Organization',
+      name: 'Smart Solutions',
+      url: 'https://smartsolutions.today/',
+    },
+  }),
+  JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  }),
+  JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Главная', item: 'https://smartsolutions.today/' },
+      { '@type': 'ListItem', position: 2, name: 'AI-направление', item: 'https://smartsolutions.today/ai.html' },
+      { '@type': 'ListItem', position: 3, name: 'ИИ-агенты для бизнеса', item: 'https://smartsolutions.today/ai-agenty.html' },
+    ],
+  }),
+];
+
+const scenarios = [
+  {
+    n: '01',
+    t: 'Обработка входящих заявок',
+    d: 'Агент читает обращение из формы, почты или мессенджера, вытаскивает данные, задаёт человеку уточняющие вопросы и готовит черновик ответа.',
+    human: 'менеджер проверяет и отправляет',
+  },
+  {
+    n: '02',
+    t: 'Ассистент по базе знаний',
+    d: 'Отвечает сотрудникам и клиентам по вашим регламентам, ценам и инструкциям — со ссылкой на источник, а не «из интернета».',
+    human: 'владелец базы следит за актуальностью',
+  },
+  {
+    n: '03',
+    t: 'Документы и коммерческие предложения',
+    d: 'Первые версии КП, договоров, актов и отчётов по вашим шаблонам и с вашими данными — за минуты вместо часа.',
+    human: 'юрист или руководитель утверждает',
+  },
+  {
+    n: '04',
+    t: 'Работа с CRM',
+    d: 'Заполняет карточки, обновляет статусы, ставит задачи и напоминания, готовит сводку по сделкам к планёрке.',
+    human: 'руководитель принимает решения по сводке',
+  },
+  {
+    n: '05',
+    t: 'Агент на сайте',
+    d: 'Отвечает посетителю по вашим материалам и передаёт человеку всё, что требует решения: скидку, сроки, нестандарт.',
+    human: 'менеджер подхватывает диалог',
+  },
+  {
+    n: '06',
+    t: 'Внутренняя рутина команды',
+    d: 'Собирает выжимки из переписок и документов, готовит ответы на типовые вопросы, ведёт чек-листы регламентов.',
+    human: 'сотрудник проверяет перед использованием',
+  },
+];
+
+const layers = [
+  { t: 'Данные', d: 'База знаний, регламенты, шаблоны, история обращений. Слабое место большинства проектов — не модель, а данные.' },
+  { t: 'Доступы', d: 'Что агент видит, что может менять, что запрещено. Права настраиваются на уровне действий, а не «на всё сразу».' },
+  { t: 'Модель', d: 'Российская, локальная или внешняя — по вашим требованиям к данным. Можно менять, не переписывая процесс.' },
+  { t: 'Инструменты', d: 'Поиск по базе, CRM, 1С, почта, мессенджеры, генерация документов. Агент не «разговаривает», а выполняет шаги.' },
+  { t: 'Контроль', d: 'Человек подтверждает значимые действия. Логи показывают, что агент сделал и на каких данных основал ответ.' },
+];
+---
+
+<Base
+  jsonLd={jsonLd}
+  title={'ИИ-агенты для бизнеса: разработка и внедрение'}
+  description={'ИИ-агенты под ваш процесс: заявки, документы, база знаний, поддержка на сайте. Интеграции с CRM и 1С, пилот 2–4 недели, эффект считаем до старта.'}
+  ogDescription={'ИИ-агент не «отвечает красиво», а выполняет шаги в вашем процессе: ищет в базе знаний, обновляет CRM, готовит документы. Человек подтверждает — эффект замеряем.'}
+  path="/ai-agenty.html"
+  active="ai"
+>
+<style is:inline slot="head">
+    /* Страница «ИИ-агенты»: локальные стили с префиксом ag-, общие классы — из styles.css. */
+    .ag-hero { padding-top: clamp(140px, 18vh, 200px); padding-bottom: clamp(72px, 9vh, 120px); }
+    .ag-hero-layout { display: grid; grid-template-columns: minmax(0, 7fr) minmax(320px, 5fr); gap: clamp(32px, 5vw, 72px); align-items: center; }
+    .ag-title { font-family: 'Manrope', sans-serif; font-size: clamp(2.4rem, 5.2vw, 4.3rem); font-weight: 800; letter-spacing: -0.032em; line-height: 1.05; margin: 22px 0 26px; }
+    .ag-lead { max-width: 600px; }
+    .ag-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
+    .ag-h2 { font-family: 'Manrope', sans-serif; font-size: clamp(1.7rem, 3.4vw, 2.6rem); font-weight: 800; letter-spacing: -0.026em; line-height: 1.12; margin: 0 0 18px; }
+    .ag-h2 em { font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 400; }
+    .ag-sec-label { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .ag-sec-num { font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); border: 1px solid var(--border-hover); border-radius: 6px; padding: 3px 7px; }
+    .ag-sub { max-width: 720px; margin-bottom: 34px; }
+
+    /* hero: карточка агента */
+    .ag-agent { background: var(--bg-elevated); border: 1px solid var(--border-hover); border-radius: var(--radius); overflow: hidden; }
+    .ag-agent-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px dashed var(--border); font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .ag-agent-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px var(--green-glow); display: inline-block; margin-right: 8px; }
+    .ag-agent-body { padding: 18px; display: grid; gap: 12px; }
+    .ag-step { display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: start; }
+    .ag-step-n { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); padding-top: 3px; }
+    .ag-step-t { font-size: 0.92rem; color: var(--fg); }
+    .ag-step-d { font-size: 0.8rem; color: var(--secondary); margin-top: 3px; }
+    .ag-agent-foot { padding: 13px 18px; border-top: 1px dashed var(--border); font-size: 0.78rem; color: var(--muted); }
+
+    /* таблица сравнения */
+    .ag-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+    .ag-table { width: 100%; border-collapse: collapse; min-width: 640px; font-size: 0.92rem; }
+    .ag-table th, .ag-table td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .ag-table thead th { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); background: var(--bg-elevated); }
+    .ag-table tbody tr:last-child td { border-bottom: 0; }
+    .ag-table td:first-child { color: var(--secondary); white-space: nowrap; }
+    .ag-table .ag-yes { color: var(--green); }
+    .ag-table .ag-no { color: var(--muted); }
+
+    /* сценарии */
+    .ag-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+    .ag-card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; display: flex; flex-direction: column; gap: 10px; transition: border-color var(--transition), transform var(--transition); }
+    .ag-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+    .ag-card-n { font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); }
+    .ag-card-t { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 1.08rem; letter-spacing: -0.01em; }
+    .ag-card-d { font-size: 0.92rem; color: var(--secondary); }
+    .ag-card-h { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--muted); }
+    .ag-card-h b { color: var(--fg); font-weight: 600; }
+
+    /* слои агента */
+    .ag-layers { display: grid; gap: 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .ag-layer { display: grid; grid-template-columns: 160px 1fr; gap: 20px; padding: 18px 20px; border-bottom: 1px solid var(--border); background: var(--bg-elevated); }
+    .ag-layer:last-child { border-bottom: 0; }
+    .ag-layer-t { font-family: 'Manrope', sans-serif; font-weight: 700; color: var(--fg); }
+    .ag-layer-d { color: var(--secondary); font-size: 0.94rem; }
+
+    /* интеграции */
+    .ag-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+    .ag-chip { font-family: var(--font-mono); font-size: 0.82rem; color: var(--fg); background: var(--bg-elevated); border: 1px solid var(--border-hover); border-radius: 999px; padding: 9px 15px; }
+    .ag-note { border-left: 3px solid var(--accent); padding: 4px 0 4px 16px; color: var(--secondary); font-size: 0.95rem; }
+    .ag-stop { display: grid; gap: 14px; }
+    .ag-stop-item { display: grid; grid-template-columns: 22px 1fr; gap: 12px; align-items: start; }
+    .ag-stop-item svg { color: var(--muted); margin-top: 4px; }
+    .ag-stop-item b { color: var(--fg); }
+
+    /* шаги */
+    .ag-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; counter-reset: agstep; }
+    .ag-step-card { position: relative; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+    .ag-step-card::before { counter-increment: agstep; content: '0' counter(agstep); font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); display: block; margin-bottom: 12px; }
+    .ag-step-card h3 { font-family: 'Manrope', sans-serif; font-size: 1.05rem; font-weight: 700; margin: 0 0 8px; }
+    .ag-step-card p { color: var(--secondary); font-size: 0.92rem; margin: 0; }
+
+    /* цена */
+    .ag-price { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+    .ag-price-card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+    .ag-price-card--main { border-color: var(--border-hover); }
+    .ag-price-t { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    .ag-price-v { font-family: 'Manrope', sans-serif; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 10px; }
+    .ag-price-d { color: var(--secondary); font-size: 0.92rem; }
+
+    /* читать */
+    .ag-read { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+    .ag-read a { display: grid; gap: 6px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none; transition: border-color var(--transition); }
+    .ag-read a:hover { border-color: var(--border-hover); }
+    .ag-read span { font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; }
+    .ag-read b { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: -0.01em; }
+    .ag-read i { font-style: normal; color: var(--secondary); font-size: 0.88rem; }
+
+    @media (max-width: 900px) {
+      .ag-hero-layout { grid-template-columns: 1fr; }
+      .ag-agent { max-width: 520px; }
+      .ag-layer { grid-template-columns: 1fr; gap: 6px; }
+    }
+</style>
+
+  <!-- ===== ГЕРОЙ ===== -->
+  <section class="section ag-hero" id="main-content">
+    <div class="container">
+      <div class="ag-hero-layout">
+        <div>
+          <p class="label fade-in">AI-направление · ИИ-агенты</p>
+          <h1 class="ag-title fade-in fade-in-d1">
+            ИИ-агенты для бизнеса:<br>
+            <span class="text-accent">разработка и внедрение</span>
+          </h1>
+          <p class="text-secondary ag-lead fade-in fade-in-d2">
+            Агент — это не чат, который «красиво отвечает». Это исполнитель в вашем процессе:
+            находит данные, обновляет CRM, готовит документ, а человек подтверждает результат.
+            Собираем под конкретный процесс, а не «внедряем ИИ вообще».
+          </p>
+          <div class="ag-actions fade-in fade-in-d3">
+            <a href="#contacts" class="btn btn-primary btn-shimmer">
+              Обсудить задачу
+              <svg width="18" height="18"><use href="/icons.svg#icon-arrow-right"/></svg>
+            </a>
+            <a href="/blog/chto-takoe-ii-agent.html" class="btn btn-outline">Что такое ИИ-агент</a>
+          </div>
+        </div>
+
+        <aside class="ag-agent fade-in fade-in-d3" aria-label="Как проходит один цикл работы агента">
+          <div class="ag-agent-head">
+            <span><span class="ag-agent-dot"></span>агент · обработка заявки</span>
+            <span>цикл ~2 мин</span>
+          </div>
+          <div class="ag-agent-body">
+            <div class="ag-step">
+              <span class="ag-step-n">01</span>
+              <div>
+                <p class="ag-step-t">Заявка из формы, почты или мессенджера</p>
+                <p class="ag-step-d">Агент читает текст, определяет тип и срочность</p>
+              </div>
+            </div>
+            <div class="ag-step">
+              <span class="ag-step-n">02</span>
+              <div>
+                <p class="ag-step-t">Ищет ответ в вашей базе знаний и CRM</p>
+                <p class="ag-step-d">Со ссылкой на источник и историей клиента</p>
+              </div>
+            </div>
+            <div class="ag-step">
+              <span class="ag-step-n">03</span>
+              <div>
+                <p class="ag-step-t">Готовит черновик ответа и карточку сделки</p>
+                <p class="ag-step-d">Часть шагов — в CRM: статус, задача, напоминание</p>
+              </div>
+            </div>
+            <div class="ag-step">
+              <span class="ag-step-n">04</span>
+              <div>
+                <p class="ag-step-t">Менеджер проверяет и отправляет</p>
+                <p class="ag-step-d">Решение остаётся за человеком</p>
+              </div>
+            </div>
+          </div>
+          <div class="ag-agent-foot">Схема одного цикла. Что именно делает агент у вас — определяем на аудите процесса.</div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 01: ЧЕМ ОТЛИЧАЕТСЯ ===== -->
+  <section class="section section-alt section-border-top" id="chem-otlichaetsya">
+    <div class="container container-narrow">
+      <p class="label ag-sec-label"><span class="ag-sec-num">01</span>Разница</p>
+      <h2 class="ag-h2">Что такое ИИ-агент и чем он <em>отличается</em> от чат-бота</h2>
+      <p class="text-secondary ag-sub">
+        Три инструмента решают разные задачи, и путаница между ними стоит денег:
+        за чат-бота платят как за агента, а ждут от кнопочного сценария поведения специалиста.
+      </p>
+
+      <div class="ag-table-wrap">
+        <table class="ag-table">
+          <thead>
+            <tr>
+              <th scope="col">Критерий</th>
+              <th scope="col">Кнопочный бот</th>
+              <th scope="col">Чат с нейросетью</th>
+              <th scope="col">ИИ-агент</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Нестандартный запрос</td>
+              <td class="ag-no">«Я вас не понял»</td>
+              <td class="ag-yes">Отвечает текстом</td>
+              <td class="ag-yes">Разбирает задачу и делает шаги</td>
+            </tr>
+            <tr>
+              <td>Доступ к данным</td>
+              <td class="ag-no">Нет</td>
+              <td class="ag-no">Только то, что вставили в диалог</td>
+              <td class="ag-yes">База знаний, CRM, 1С, документы</td>
+            </tr>
+            <tr>
+              <td>Действия в системах</td>
+              <td class="ag-no">Нет</td>
+              <td class="ag-no">Нет</td>
+              <td class="ag-yes">Создаёт карточки, задачи, черновики</td>
+            </tr>
+            <tr>
+              <td>Контроль человеком</td>
+              <td class="ag-no">Не требуется</td>
+              <td class="ag-no">Нет</td>
+              <td class="ag-yes">Подтверждение значимых шагов</td>
+            </tr>
+            <tr>
+              <td>Что можно измерить</td>
+              <td>Клики и переходы</td>
+              <td>Ничего, кроме самого факта ответа</td>
+              <td class="ag-yes">Часы и деньги: до и после</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="text-secondary" style="margin-top:22px;">
+        Подробный разбор с примерами — в статье
+        <a href="/blog/chto-takoe-ii-agent.html">«Что такое ИИ-агент простыми словами»</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== 02: СЦЕНАРИИ ===== -->
+  <section class="section section-border-top" id="scenarii">
+    <div class="container">
+      <p class="label ag-sec-label"><span class="ag-sec-num">02</span>Сценарии</p>
+      <h2 class="ag-h2">Где агент реально работает: <em>шесть</em> процессов</h2>
+      <p class="text-secondary ag-sub">
+        Начинаем с одного процесса, где видно часы и есть данные. У каждого сценария рядом —
+        что именно остаётся за человеком: это не «на будущее», а часть схемы работы.
+      </p>
+
+      <div class="ag-grid">
+        {scenarios.map((s) => (
+          <article class="ag-card">
+            <span class="ag-card-n">{s.n}</span>
+            <h3 class="ag-card-t">{s.t}</h3>
+            <p class="ag-card-d">{s.d}</p>
+            <p class="ag-card-h">Человек: <b>{s.human}</b></p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 03: УСТРОЙСТВО ===== -->
+  <section class="section section-alt section-border-top" id="ustrojstvo">
+    <div class="container container-narrow">
+      <p class="label ag-sec-label"><span class="ag-sec-num">03</span>Устройство</p>
+      <h2 class="ag-h2">Из чего состоит агент: <em>пять</em> слоёв</h2>
+      <p class="text-secondary ag-sub">
+        Агент — это не «подключённая нейросеть». Работает он или нет — решают данные, доступы и контроль,
+        а модель можно поменять, не переделывая процесс.
+      </p>
+
+      <div class="ag-layers">
+        {layers.map((l) => (
+          <div class="ag-layer">
+            <p class="ag-layer-t">{l.t}</p>
+            <p class="ag-layer-d">{l.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 04: ИНТЕГРАЦИИ ===== -->
+  <section class="section section-border-top" id="integracii">
+    <div class="container container-narrow">
+      <p class="label ag-sec-label"><span class="ag-sec-num">04</span>Интеграции</p>
+      <h2 class="ag-h2">Куда подключаем: <em>к тому, что у вас уже есть</em></h2>
+      <p class="text-secondary ag-sub">
+        Агент бесполезен в вакууме: он должен видеть данные и уметь действовать в ваших системах.
+        Вот с чем работаем чаще всего:
+      </p>
+
+      <div class="ag-chips">
+        <span class="ag-chip">1С</span>
+        <span class="ag-chip">amoCRM</span>
+        <span class="ag-chip">Битрикс24</span>
+        <span class="ag-chip">Telegram</span>
+        <span class="ag-chip">WhatsApp</span>
+        <span class="ag-chip">почта</span>
+        <span class="ag-chip">телефония</span>
+        <span class="ag-chip">сайт</span>
+        <span class="ag-chip">Google Sheets / Excel</span>
+        <span class="ag-chip">самописные системы по API</span>
+      </div>
+
+      <p class="ag-note">
+        Честная оговорка: «подключим к любой системе» не обещаем. Одни конфигурации 1С отдают данные через API,
+        другие — только через веб-сервисы или выгрузку; у части самописных систем документированного API нет вовсе.
+        На аудите смотрим, как устроен доступ именно у вас, и говорим прямо, что возможно, а что нет.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== 05: ГРАНИЦЫ ===== -->
+  <section class="section section-alt section-border-top" id="granicy">
+    <div class="container container-narrow">
+      <p class="label ag-sec-label"><span class="ag-sec-num">05</span>Границы</p>
+      <h2 class="ag-h2">Где ИИ-агент <em>не нужен</em></h2>
+      <p class="text-secondary ag-sub">
+        Это не скромность, а экономика: в части случаев дешевле навести порядок в процессе,
+        чем строить агента. Мы говорим об этом до подписания, а не после.
+      </p>
+
+      <div class="ag-stop">
+        <div class="ag-stop-item">
+          <svg width="18" height="18" aria-hidden="true"><use href="/icons.svg#icon-arrow-right"/></svg>
+          <p><b>Процесс не описан и повторяется редко.</b> Если каждый случай уникален, автоматизировать нечего: сначала регламент, потом агент.</p>
+        </div>
+        <div class="ag-stop-item">
+          <svg width="18" height="18" aria-hidden="true"><use href="/icons.svg#icon-arrow-right"/></svg>
+          <p><b>Нужна гарантия 100% и юридическая ответственность.</b> Это работа человека. Агент готовит черновик, решение принимает специалист.</p>
+        </div>
+        <div class="ag-stop-item">
+          <svg width="18" height="18" aria-hidden="true"><use href="/icons.svg#icon-arrow-right"/></svg>
+          <p><b>Данных нет и собрать их негде.</b> Без базы знаний агент будет уверенно выдумывать ответы — это хуже, чем не отвечать вовсе.</p>
+        </div>
+        <div class="ag-stop-item">
+          <svg width="18" height="18" aria-hidden="true"><use href="/icons.svg#icon-arrow-right"/></svg>
+          <p><b>Нужна промышленная автоматизация производства.</b> АСУ ТП, станки, линии — не наш профиль: мы про тексты, заявки, документы и данные.</p>
+        </div>
+        <div class="ag-stop-item">
+          <svg width="18" height="18" aria-hidden="true"><use href="/icons.svg#icon-arrow-right"/></svg>
+          <p><b>Нужен «результат к понедельнику» без аудита.</b> Так не работает: агент без данных и правил — это дорогая игрушка.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 06: КАК РАБОТАЕМ ===== -->
+  <section class="section section-border-top" id="process">
+    <div class="container">
+      <p class="label ag-sec-label"><span class="ag-sec-num">06</span>Процесс</p>
+      <h2 class="ag-h2">Как мы работаем: <em>пилот за 2–4 недели</em></h2>
+      <p class="text-secondary ag-sub">
+        Один процесс, замер до и после, решение по цифрам. Дальше — либо масштабируем то, что сработало,
+        либо останавливаемся, и вы ничего не теряете.
+      </p>
+
+      <div class="ag-steps">
+        <article class="ag-step-card">
+          <h3>Аудит процесса</h3>
+          <p>30 минут разговора и разбор: сколько часов команда тратит сейчас, какие есть данные, что можно измерить. Бесплатно, без обязательств.</p>
+        </article>
+        <article class="ag-step-card">
+          <h3>Расчёт эффекта</h3>
+          <p>Формула простая: часы × ставка − стоимость внедрения. Если число не сходится — мы откажемся от проекта, а не продадим его.</p>
+        </article>
+        <article class="ag-step-card">
+          <h3>Данные и контур</h3>
+          <p>Собираем базу знаний и шаблоны, настраиваем доступы и правила: что агент видит, что может менять, что запрещено.</p>
+        </article>
+        <article class="ag-step-card">
+          <h3>Пилот в бою</h3>
+          <p>Агент работает на реальных заявках и документах, человек подтверждает значимые шаги. Не демо и не презентация.</p>
+        </article>
+        <article class="ag-step-card">
+          <h3>Повторный замер</h3>
+          <p>Считаем дельту в часах и рублях. Масштабируем или честно останавливаемся — решаете вы, на цифрах.</p>
+        </article>
+        <article class="ag-step-card">
+          <h3>Передача команде</h3>
+          <p>Сценарии по ролям, инструкции на одну страницу, правила проверки результатов ИИ. Без этого внедрение умирает через месяц.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 07: БЕЗОПАСНОСТЬ ===== -->
+  <section class="section section-alt section-border-top" id="bezopasnost">
+    <div class="container container-narrow">
+      <p class="label ag-sec-label"><span class="ag-sec-num">07</span>Данные</p>
+      <h2 class="ag-h2">Безопасность: данные <em>не уходят на сторону</em></h2>
+      <p class="text-secondary ag-sub">
+        Первый вопрос на любом директорском разговоре — «а куда утекут наши данные». Отвечаем делом:
+        контур проектируется под ваши требования, а не «как удобно разработчику».
+      </p>
+
+      <div class="ag-layers">
+        <div class="ag-layer">
+          <p class="ag-layer-t">Модели</p>
+          <p class="ag-layer-d">Российские (GigaChat, YandexGPT) или локальные модели на вашей инфраструктуре. Внешние — только если вы это разрешите.</p>
+        </div>
+        <div class="ag-layer">
+          <p class="ag-layer-t">Доступы</p>
+          <p class="ag-layer-d">Разграничение по ролям и действиям: агент видит только то, что нужно для его процесса.</p>
+        </div>
+        <div class="ag-layer">
+          <p class="ag-layer-t">Правила</p>
+          <p class="ag-layer-d">Письменный список: что можно отправлять в модель, что остаётся внутри периметра, что запрещено всегда.</p>
+        </div>
+        <div class="ag-layer">
+          <p class="ag-layer-t">Логи</p>
+          <p class="ag-layer-d">Видно каждый шаг: какие данные запросил агент, что предложил, кто подтвердил. Разбор ошибок — по фактам, а не по догадкам.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 08: ЦЕНА ===== -->
+  <section class="section section-border-top" id="cena">
+    <div class="container container-narrow">
+      <p class="label ag-sec-label"><span class="ag-sec-num">08</span>Стоимость</p>
+      <h2 class="ag-h2">Сколько стоит <em>разработка агента</em></h2>
+      <p class="text-secondary ag-sub">
+        Вилку «от …» здесь писать бессмысленно: два агента с одинаковым названием могут отличаться в цене
+        в разы — из-за данных, интеграций и цены ошибки. Поэтому честно о том, как формируется цена.
+      </p>
+
+      <div class="ag-price">
+        <div class="ag-price-card ag-price-card--main">
+          <p class="ag-price-t">Шаг 1</p>
+          <p class="ag-price-v">Аудит — бесплатно</p>
+          <p class="ag-price-d">Разбираем процесс, смотрим данные и интеграции, считаем эффект в часах и рублях. Без обязательств.</p>
+        </div>
+        <div class="ag-price-card">
+          <p class="ag-price-t">Шаг 2</p>
+          <p class="ag-price-v">Точная цифра</p>
+          <p class="ag-price-d">После аудита называем стоимость и прогноз окупаемости. Если окупаемости нет — так и говорим.</p>
+        </div>
+        <div class="ag-price-card">
+          <p class="ag-price-t">Что влияет</p>
+          <p class="ag-price-v">Четыре фактора</p>
+          <p class="ag-price-d">Состояние данных, число интеграций, количество сценариев и цена ошибки в вашем процессе.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 09: FAQ ===== -->
+  <section class="section section-alt section-border-top" id="faq">
+    <div class="container container-narrow">
+      <p class="label ag-sec-label"><span class="ag-sec-num">09</span>Вопросы</p>
+      <h2 class="ag-h2">Частые вопросы <em>про ИИ-агентов</em></h2>
+
+      <div class="faq-list" id="faqList">
+        {faq.map((f, i) => (
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false" aria-controls={`ag-faq-${i}`}>
+              <span>{f.q}</span>
+              <svg class="faq-icon" width="20" height="20"><use href="/icons.svg#icon-chevron-down"/></svg>
+            </button>
+            <div class="faq-answer" id={`ag-faq-${i}`} role="region">
+              <p>{f.a}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 10: ЧИТАТЬ ===== -->
+  <section class="section section-border-top" id="read">
+    <div class="container">
+      <p class="label ag-sec-label"><span class="ag-sec-num">10</span>Разобраться глубже</p>
+      <h2 class="ag-h2">Что почитать <em>по теме</em></h2>
+      <div class="ag-read">
+        <a href="/blog/chto-takoe-ii-agent.html">
+          <span>основы</span>
+          <b>Что такое ИИ-агент простыми словами</b>
+          <i>Чем агент отличается от бота, из чего состоит, где границы</i>
+        </a>
+        <a href="/blog/vnedrenie-ii-v-biznes.html">
+          <span>pillar</span>
+          <b>Внедрение ИИ в бизнес: с чего начать</b>
+          <i>Выбор процесса, формула эффекта, пилот и честные ограничения</i>
+        </a>
+        <a href="/blog/kak-poschitat-effekt-ot-ii-do-pilota.html">
+          <span>расчёт</span>
+          <b>Как посчитать эффект до пилота</b>
+          <i>«Часы × ставка = рубли» на рабочем примере</i>
+        </a>
+        <a href="/blog/ii-dlya-prodazh.html">
+          <span>продажи</span>
+          <b>ИИ для продаж: заявки и скоринг</b>
+          <i>Скорость ответа, обработка заявок, follow-up</i>
+        </a>
+        <a href="/blog/ii-v-crm.html">
+          <span>CRM</span>
+          <b>ИИ в CRM без потери качества</b>
+          <i>Карточки, задачи, подсказки менеджеру</i>
+        </a>
+        <a href="/blog/skolko-stoit-vnedrenie-ii.html">
+          <span>деньги</span>
+          <b>Сколько стоит внедрение ИИ</b>
+          <i>Из чего складывается цена и как считается окупаемость</i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section id="contacts" class="section section-cta">
+    <div class="container">
+      <div class="cta-content">
+        <h2 class="cta-title">Разберём ваш процесс?</h2>
+        <p class="text-secondary cta-subtitle">
+          Покажите один процесс, где команда тратит больше всего времени, — и мы честно скажем,
+          нужен ли там ИИ-агент и окупится ли он. Аудит бесплатный.
+        </p>
+
+        <ContactCards />
+
+        <p class="cta-urgency text-muted">
+          Берём ограниченное число внедрений одновременно — каждый пилот требует полного погружения.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
