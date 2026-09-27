@@ -313,3 +313,10 @@ html{scroll-padding-top:84px}
 .bl-sheet .fig-svg text[fill="#8c8c96"],.bl-sheet .fig-svg tspan[fill="#8c8c96"]{fill:var(--mute)}
 .bl-sheet .fig-svg text[fill="#0E9F6E"],.bl-sheet .fig-svg tspan[fill="#0E9F6E"],
 .bl-sheet .fig-svg text[fill="#0e9f6e"],.bl-sheet .fig-svg tspan[fill="#0e9f6e"]{fill:var(--green-t)}
+
+/* Светлый лист — принудительно светлый: color-scheme снимает авто-затемнение форм и скроллбаров,
+   forced-color-adjust не даёт системе перекрашивать наши цвета в режиме высокой контрастности.
+   Тогда увеличенная схема остаётся «бумажной» в любом режиме браузера. */
+html{color-scheme:light}
+.bl-sheet,.fig-overlay,.fig-overlay--paper{color-scheme:light}
+.bl-sheet .fig-svg,.fig-overlay .fig-svg,.bl-sheet .fig,.fig-overlay-canvas{forced-color-adjust:none}

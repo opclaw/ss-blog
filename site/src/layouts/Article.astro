@@ -6,6 +6,7 @@ import Base from './Base.astro';
 import ContactCards from '../components/ContactCards.astro';
 import AuthorCard from '../components/blog/AuthorCard.astro';
 import { SITE } from '../data/site';
+import { assetV } from '../data/asset-version';
 
 interface Toc { id: string; label: string }
 interface Faq { q: string; a: string }
@@ -37,8 +38,8 @@ const jsonLd = [
       ogTitle={p.ogTitle} ogDescription={p.ogDescription}
       active="ai" skipTo="#article" readProgress bodyClass="bl-page">
 <Fragment slot="head">
-  <link rel="stylesheet" href="/blog-assets/article.css">
-  <link rel="stylesheet" href="/blog-assets/kit.css">
+  <link rel="stylesheet" href={`/blog-assets/article.css?v=${assetV('/blog-assets/article.css')}`}>
+  <link rel="stylesheet" href={`/blog-assets/kit.css?v=${assetV('/blog-assets/kit.css')}`}>
 </Fragment>
 
 <main class="bl-sheet" id="article">
@@ -109,6 +110,6 @@ const jsonLd = [
   })();
 </script>
 <script is:inline src="/blog-assets/article.js"></script>
-<script is:inline src="/blog-assets/kit.js"></script>
+<script is:inline src={`/blog-assets/kit.js?v=${assetV('/blog-assets/kit.js')}`}></script>
 </Fragment>
 </Base>

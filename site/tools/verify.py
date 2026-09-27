@@ -223,7 +223,8 @@ def main():
 
         # --- подключения: ровно по одному разу
         raw = b_path.read_text(encoding='utf-8')
-        for what, pat in (('Метрика', r'mc\.yandex\.ru/metrika/tag\.js'), ('styles.css', r'href="/styles\.css"'), ('script.js', r'src="/script\.js"')):
+        # ?v=<hash> — кэш-бастинг ассетов: версия не влияет на «подключён ровно раз»
+        for what, pat in (('Метрика', r'mc\.yandex\.ru/metrika/tag\.js'), ('styles.css', r'href="/styles\.css(?:\?v=[0-9a-f]+)?"'), ('script.js', r'src="/script\.js(?:\?v=[0-9a-f]+)?"')):
             n = len(re.findall(pat, raw))
             if n != 1: diffs.append(f'{what} подключён {n} раз')
         # --- chrome: все страницы собраны из одних компонентов → сравниваем с эталоном структуры
@@ -272,7 +273,8 @@ def main():
                     if f'id="{u.fragment}"' not in f.read_text(encoding='utf-8'): broken[f'{rel} → {path}#{u.fragment} (нет якоря)'] += 1
         # ресурсы из <link>/<script> head
         for m in re.finditer(r'<(?:link|script)[^>]+(?:href|src)="(/[^"]+)"', p.read_text(encoding='utf-8')):
-            if not (DIST / m.group(1).lstrip('/')).exists(): broken[f'{rel} → {m.group(1)} (ресурс)'] += 1
+            res = m.group(1).split('?')[0].split('#')[0]   # отбрасываем ?v= и якорь
+            if not (DIST / res.lstrip('/')).exists(): broken[f'{rel} → {m.group(1)} (ресурс)'] += 1
     # fixes summary
     print('\nНамеренные исправления (FIX):')
     for k, v in fixes.most_common(): print(f'  {v:3} стр. — {k}')
