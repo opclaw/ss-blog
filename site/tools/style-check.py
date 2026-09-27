@@ -7,6 +7,9 @@
   3. Ни одного растрового изображения в статьях: только вектор (inline SVG), который не мылится при зуме.
   4. Внутри SVG нет градиентных заливок и фильтров.
   5. Каждая содержательная фигура статьи — с классом fig (иначе не работает зум и не видно подписи).
+  6. Инлайновые «чернила» текста в схемах должны читаться на светлом листе: контраст ≥4.5:1.
+     Светлые тона (--mute #8C8C96 = 3.33:1, --green #0E9F6E = 3.39:1) допустимы только для
+     заливок и линий; для текста — --mute #6C6C78, --green-t #0B7A57, --acc-t #0A7392.
 
 Код выхода 1, если есть нарушения.
 """
@@ -37,6 +40,21 @@ SVG_FORBIDDEN = {
     'SVG-фильтр (размытие)': r'<(filter|feGaussianBlur|feDropShadow)\b',
     'SVG-маска прозрачности': r'<mask\b',
 }
+# светлые тона: на белом/листе дают <4.5:1 — как инлайновые чернила текста запрещены
+LIGHT_INK = {
+    '#8C8C96': '3.33:1',
+    '#8c8c96': '3.33:1',
+    '#0E9F6E': '3.39:1',
+    '#0e9f6e': '3.39:1',
+    '#00D9FF': '1.32:1',
+    '#00d9ff': '1.32:1',
+    '#F5F5F7': '1.05:1',
+    '#f5f5f7': '1.05:1',
+}
+TOKEN_GUARD = {
+    r'--mute\s*:\s*#8C8C96': '--mute #8C8C96 даёт 3.33:1 — для текста нужен тёмный тон #6C6C78',
+    r'--acc-t\s*:\s*#0A7EA4': '--acc-t #0A7EA4 даёт 4.43:1 на листе — нужен #0A7392',
+}
 RASTER = {
     'тег <img>': r'<img\b',
     'тег <picture>': r'<picture\b',
@@ -48,6 +66,10 @@ RASTER = {
 def check_css(path: Path) -> None:
     text = path.read_text(encoding='utf-8')
     rel = path.relative_to(ROOT)
+    for pat, msg in TOKEN_GUARD.items():
+        if re.search(pat, text):
+            line = text[: re.search(pat, text).start()].count('\n') + 1
+            errors.append(f'{rel}:{line}: {msg}')
     for name, pat in CSS_FORBIDDEN.items():
         for m in re.finditer(pat, text):
             line = text[:m.start()].count('\n') + 1
@@ -77,6 +99,13 @@ def check_markup(path: Path) -> None:
     for m in re.finditer(r'style="[^"]*?(filter\s*:[^";]*blur|drop-shadow)[^"]*"', text):
         line = text[:m.start()].count('\n') + 1
         errors.append(f'{rel}:{line}: инлайновый filter/blur')
+    # 6. светлые чернила текста в схемах
+    for m in re.finditer(r'<(text|tspan)\b[^>]*>', text):
+        tag = m.group(0)
+        for hexv, ratio in LIGHT_INK.items():
+            if f'fill="{hexv}"' in tag or f'fill:{hexv}' in tag:
+                line = text[:m.start()].count('\n') + 1
+                errors.append(f'{rel}:{line}: текст {hexv} — контраст {ratio} < 4.5:1 (заливки — можно, текст — нет)')
 
 
 def main() -> int:

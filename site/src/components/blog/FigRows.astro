@@ -32,7 +32,8 @@ const niceTicks = (maxVal: number, count = 4) => {
   return { step, top, ticks: out };
 };
 
-const INK = '#101014', LINE = '#E4E4DE', MUTE = '#8C8C96', ACC = '#0A7EA4', GREEN = '#0E9F6E';
+// MUTE/GREEN_INK — тона для ТЕКСТА (≥4.5:1 на светлом листе); GREEN/ACC остаются для заливок и линий.
+const INK = '#101014', LINE = '#E4E4DE', MUTE = '#6C6C78', ACC = '#0A7392', ACC_FILL = '#0A7EA4', GREEN = '#0E9F6E', GREEN_INK = '#0B7A57';
 const F = 'JetBrains Mono, ui-monospace, monospace';
 
 const W = 720, RIGHT = 84;                       // правый отступ под число
@@ -49,8 +50,8 @@ const show = (v: number) => {
   const [int, frac] = s.split(',');
   return int.replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0') + (frac ? ',' + frac : '');
 };
-const toneFill = (t?: Row['tone']) => (t === 'acc' ? ACC : t === 'green' ? GREEN : t === 'muted' ? '#D2D2CA' : INK);
-const toneText = (t?: Row['tone']) => (t === 'acc' ? ACC : t === 'green' ? GREEN : INK);
+const toneFill = (t?: Row['tone']) => (t === 'acc' ? ACC_FILL : t === 'green' ? GREEN : t === 'muted' ? '#D2D2CA' : INK);
+const toneText = (t?: Row['tone']) => (t === 'acc' ? ACC : t === 'green' ? GREEN_INK : INK);
 const cut = (s: string, n = Math.floor(labelW / 7.4)) => (s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s);
 
 const summary = rows.map((r) => `${r.label}: ${show(r.value)}${unit ? ' ' + unit : ''}${r.before != null ? ` (было ${show(r.before)})` : ''}`).join('; ');
@@ -77,7 +78,7 @@ const summary = rows.map((r) => `${r.label}: ${show(r.value)}${unit ? ' ' + unit
         </g>
       );
     })}
-    {unit && <text x={X0} y={H - 2} font-family={F} font-size="11" fill={MUTE}>единица: {unit}{rows.some((r) => r.before != null) ? ' · пунктир — как было' : ''}</text>}
+    {unit && <text x={X0} y={H - 7} font-family={F} font-size="11" fill={MUTE}>единица: {unit}{rows.some((r) => r.before != null) ? ' · пунктир — как было' : ''}</text>}
   </svg>
   </div>
   <p class="fig-swipe">схема прокручивается вбок →</p>

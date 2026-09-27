@@ -3575,7 +3575,8 @@ p.format-note.text-secondary {
   left: 0;
   right: 0;
   padding: 14px 20px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+  background: rgba(8, 8, 13, 0.92);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   color: rgba(255, 255, 255, 0.85);
   font-family: var(--font-mono);
   font-size: 0.72rem;

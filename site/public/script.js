@@ -308,6 +308,7 @@
       if (contentAtReadable <= cw) {
         // влезает → обрезаем пустые поля, без увеличения
         svg.setAttribute('viewBox', '0 0 ' + (maxRight + 16) + ' ' + viewH);
+        svg.dataset.fitW = String(maxRight + 16);
         svg.style.minWidth = '';
         fig.classList.remove('fig-clip');
         if (badge) badge.remove();
@@ -329,21 +330,34 @@
   window.addEventListener('resize', updateFigureFits);
 
   // ===== ТАП-УВЕЛИЧЕНИЕ ФИГУР =====
+  // Фигура клонируется вместе со своим контекстом. Иначе схема, нарисованная для светлого листа
+  // статьи, попадает в тёмный оверлей без правил .bl-sheet: тёмные чернила оказываются на чёрном
+  // фоне, светлые заливки — инверсными. Поэтому светлый лист переносим целиком (обёртка .bl-sheet),
+  // а сам оверлей для статей делаем «печатным» — светлым, как лист.
   function openFigOverlay(svg) {
     const existing = document.querySelector('.fig-overlay');
     if (existing) existing.remove();
+    const fromSheet = !!svg.closest('.bl-sheet');
     const overlay = document.createElement('div');
-    overlay.className = 'fig-overlay';
+    overlay.className = 'fig-overlay' + (fromSheet ? ' fig-overlay--paper bl-sheet' : '');
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-label', 'Увеличенная схема');
     const close = document.createElement('button');
     close.className = 'fig-overlay-close';
     close.textContent = '✕';
     close.setAttribute('aria-label', 'Закрыть');
+    const canvas = document.createElement('div');
+    canvas.className = 'fig-overlay-canvas';
     const clone = svg.cloneNode(true);
     clone.classList.add('fig-svg');
     clone.removeAttribute('style');
-    if (svg.dataset.origW) {
-      clone.setAttribute('viewBox', '0 0 ' + svg.dataset.origW + ' ' + svg.viewBox.baseVal.height);
+    const vb = svg.viewBox && svg.viewBox.baseVal ? svg.viewBox.baseVal : null;
+    if (vb) {
+      const w = svg.dataset.origW || svg.dataset.fitW || vb.width;
+      clone.setAttribute('viewBox', '0 0 ' + w + ' ' + vb.height);
     }
+    canvas.appendChild(clone);
     // Подпись снизу (берём из figcaption, если есть)
     const caption = document.createElement('div');
     caption.className = 'fig-overlay-caption';
@@ -351,17 +365,27 @@
     if (srcFig) {
       const cap = srcFig.querySelector('figcaption');
       if (cap) {
-        const parts = Array.from(cap.querySelectorAll('span')).map(s => s.textContent.trim()).filter(Boolean);
-        caption.textContent = parts.join(' · ');
+        const parts = Array.from(cap.querySelectorAll('span, b')).map((x) => x.textContent.trim()).filter(Boolean);
+        caption.textContent = parts.length ? parts.join(' · ') : cap.textContent.trim();
       }
+      if (!caption.textContent) caption.remove();
     }
-    overlay.appendChild(clone);
+    overlay.appendChild(canvas);
     overlay.appendChild(caption);
     overlay.appendChild(close);
     document.body.appendChild(overlay);
     document.body.style.overflow = 'hidden';
-    const closeFn = () => { overlay.remove(); document.body.style.overflow = ''; };
-    overlay.addEventListener('click', (e) => { if (e.target === overlay || e.target === close) closeFn(); });
+    close.focus();
+    const onKey = (e) => { if (e.key === 'Escape') closeFn(); };
+    const closeFn = () => {
+      overlay.remove();
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', onKey);
+    };
+    document.addEventListener('keydown', onKey);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay || e.target === close || e.target === canvas) closeFn();
+    });
 
     // Drag-to-pan увеличенной картинки
     let isDragging = false, startX = 0, startY = 0, scrollL = 0, scrollT = 0;
@@ -391,10 +415,6 @@
       const dy = e.changedTouches[0].clientY - touchStartY;
       if (dy > 80 && overlay.scrollTop <= 0) closeFn();
     }, { passive: true });
-
-    document.addEventListener('keydown', function esc(e) {
-      if (e.key === 'Escape') { closeFn(); document.removeEventListener('keydown', esc); }
-    });
   }
   document.querySelectorAll('.fig').forEach((fig) => {
     fig.addEventListener('click', (e) => {

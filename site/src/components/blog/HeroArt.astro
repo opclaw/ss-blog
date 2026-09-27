@@ -26,8 +26,8 @@ const wrap = (s: string, max = 13) => {
 };
 const dy = (n: number, i: number) => (i - (n - 1) / 2) * 12;
 const F = 'JetBrains Mono, ui-monospace, monospace';
-const INK = '#101014', DIM = '#5E5E68', MUTE = '#8C8C96', LINE = '#E4E4DE', LINE2 = '#D2D2CA';
-const ACC = '#00D9FF', ACCT = '#0A7EA4', GREEN = '#0E9F6E', GREEN_BG = '#E3F5EE', RED = '#C2410C', AMBER = '#B45309';
+const INK = '#101014', DIM = '#5E5E68', MUTE = '#6C6C78', LINE = '#E4E4DE', LINE2 = '#D2D2CA';
+const ACC = '#00D9FF', ACCT = '#0A7392', GREEN = '#0E9F6E', GREEN_INK = '#0B7A57', GREEN_BG = '#E3F5EE', RED = '#C2410C', AMBER = '#B45309';
 ---
 <svg class="bl-hero-art" viewBox="0 0 420 300" aria-hidden="true">
   {variant === 'flow' && (
@@ -46,8 +46,8 @@ const ACC = '#00D9FF', ACCT = '#0A7EA4', GREEN = '#0E9F6E', GREEN_BG = '#E3F5EE'
       <path d="M282 150h40" stroke={LINE2} stroke-width="1.5" />
       <path d="M318 146l6 4-6 4" fill="none" stroke={LINE2} stroke-width="1.5" />
       <rect x="316" y="112" width="92" height="76" rx="10" fill={GREEN_BG} stroke={GREEN} />
-      <text x="362" y="150" text-anchor="middle" font-family={F} font-size="10" fill={GREEN}>{wrap(l(2), 12).map((t, i, a) => <tspan x="362" dy={i === 0 ? dy(a.length, i) : 12}>{t}</tspan>)}</text>
-      <text x="362" y="176" text-anchor="middle" font-family={F} font-size="10" fill={GREEN}>решение</text>
+      <text x="362" y="150" text-anchor="middle" font-family={F} font-size="10" fill={GREEN_INK}>{wrap(l(2), 12).map((t, i, a) => <tspan x="362" dy={i === 0 ? dy(a.length, i) : 12}>{t}</tspan>)}</text>
+      <text x="362" y="176" text-anchor="middle" font-family={F} font-size="10" fill={GREEN_INK}>решение</text>
       <circle r="4" fill={ACC}><animateMotion dur="4s" repeatCount="indefinite" path="M70 150h292" /></circle>
     </g>
   )}
@@ -68,7 +68,7 @@ const ACC = '#00D9FF', ACCT = '#0A7EA4', GREEN = '#0E9F6E', GREEN_BG = '#E3F5EE'
         <circle cx="336" cy="180" r="11" fill="#fff" stroke={AMBER} stroke-width="1.5" />
         <text x="336" y="184" text-anchor="middle" fill={AMBER} font-size="12">?</text>
         <circle cx="80" cy="222" r="16" fill={GREEN_BG} stroke={GREEN} stroke-width="1.5" />
-        <text x="80" y="227" text-anchor="middle" fill={GREEN} font-size="12">✓</text>
+        <text x="80" y="227" text-anchor="middle" fill={GREEN_INK} font-size="12">✓</text>
         <path d="M96 222h36" stroke={GREEN} stroke-width="1.5" stroke-dasharray="3 3" />
       </g>
       <g font-family={F} font-size="10">
@@ -89,7 +89,7 @@ const ACC = '#00D9FF', ACCT = '#0A7EA4', GREEN = '#0E9F6E', GREEN_BG = '#E3F5EE'
       <rect x="86" y="120" width="58" height="110" rx="6" fill="#F1F1EC" stroke={LINE} />
       <text x="115" y="108" text-anchor="middle" font-family={F} font-size="11" fill={DIM}>{l(0)}</text>
       <rect x="182" y="176" width="58" height="54" rx="6" fill={GREEN_BG} stroke={GREEN} />
-      <text x="211" y="164" text-anchor="middle" font-family={F} font-size="11" fill={GREEN}>{l(1)}</text>
+      <text x="211" y="164" text-anchor="middle" font-family={F} font-size="11" fill={GREEN_INK}>{l(1)}</text>
       <path d="M244 150h44" stroke={LINE2} stroke-width="1.5" stroke-dasharray="4 4" />
       <rect x="278" y="64" width="96" height="60" rx="10" fill="#fff" stroke={ACC} stroke-width="1.5" />
       <text x="326" y="90" text-anchor="middle" font-family={F} font-size="16" fill={ACCT}>{l(2)}</text>
@@ -121,7 +121,7 @@ const ACC = '#00D9FF', ACCT = '#0A7EA4', GREEN = '#0E9F6E', GREEN_BG = '#E3F5EE'
       <rect x="52" y="52" width="196" height="58" rx="14" fill="#fff" stroke={LINE} />
       <text x="72" y="86" font-family={F} font-size="10" fill={INK}>{wrap(l(0), 26).join(' ')}</text>
       <rect x="172" y="126" width="196" height="58" rx="14" fill={GREEN_BG} stroke={GREEN} />
-      <text x="192" y="160" font-family={F} font-size="10" fill={GREEN}>{wrap(l(1), 26).join(' ')}</text>
+      <text x="192" y="160" font-family={F} font-size="10" fill={GREEN_INK}>{wrap(l(1), 26).join(' ')}</text>
       <rect x="52" y="200" width="196" height="58" rx="14" fill="#fff" stroke={ACC} />
       <text x="72" y="234" font-family={F} font-size="10" fill={ACCT}>{wrap(l(2), 26).join(' ')}</text>
       <circle cx="352" cy="236" r="4" fill={ACC}><animateMotion dur="3.5s" repeatCount="indefinite" path="M0 0h-40" /></circle>

@@ -32,7 +32,8 @@ const niceTicks = (maxVal: number, count = 4) => {
   return { step, top, ticks: out };
 };
 
-const INK = '#101014', LINE = '#E4E4DE', MUTE = '#8C8C96', ACC = '#0A7EA4', GREEN = '#0E9F6E';
+// MUTE/GREEN_INK — тона для ТЕКСТА (≥4.5:1 на светлом листе); GREEN/ACC остаются для заливок и линий.
+const INK = '#101014', LINE = '#E4E4DE', MUTE = '#6C6C78', ACC = '#0A7392', ACC_FILL = '#0A7EA4', GREEN = '#0E9F6E', GREEN_INK = '#0B7A57';
 const F = 'JetBrains Mono, ui-monospace, monospace';
 
 const W = 720, PAD = 10, BASE = 236, MAXH = 168;
@@ -47,8 +48,8 @@ const show = (v: number) => {
   const [int, frac] = s.split(',');
   return int.replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0') + (frac ? ',' + frac : '');
 };
-const toneFill = (t?: Bar['tone']) => (t === 'acc' ? ACC : t === 'green' ? GREEN : t === 'muted' ? '#D2D2CA' : INK);
-const toneText = (t?: Bar['tone']) => (t === 'acc' ? ACC : t === 'green' ? GREEN : INK);
+const toneFill = (t?: Bar['tone']) => (t === 'acc' ? ACC_FILL : t === 'green' ? GREEN : t === 'muted' ? '#D2D2CA' : INK);
+const toneText = (t?: Bar['tone']) => (t === 'acc' ? ACC : t === 'green' ? GREEN_INK : INK);
 
 // подпись под столбиком: переносим по словам максимум на две строки
 const wrap = (s: string, max2 = 15) => {
@@ -71,7 +72,7 @@ const gridLines = scale.ticks.map((v) => ({ y: y(v), label: show(v) }));
 <figure class="fig bl-fig fig-bars">
   <figcaption>{fig && <b>Рис. {fig}</b>}<span>{title}</span></figcaption>
   <div class="fig-scroll">
-  <svg viewBox={`0 0 ${W} 300`} class="fig-svg" role="img" aria-label={`${title}. ${summary}`}>
+  <svg viewBox={`0 0 ${W} 320`} class="fig-svg" role="img" aria-label={`${title}. ${summary}`}>
     <g stroke={LINE} stroke-width="1">
       {gridLines.map((g) => <line x1={PAD} y1={g.y} x2={W - PAD} y2={g.y} />)}
       <line x1={PAD} y1={BASE} x2={W - PAD} y2={BASE} stroke="#D2D2CA" />

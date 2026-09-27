@@ -43,7 +43,7 @@
 .kit-finds li .lv{display:block;font:500 11px var(--f-m);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
 .kit-finds li.high .lv{color:#C2410C}.kit-finds li.mid .lv{color:#B45309}
 .kit-finds li.human{border-style:dashed;border-color:var(--green);background:var(--green-soft);border-left-width:1px}
-.kit-finds li.human .lv{color:var(--green)}
+.kit-finds li.human .lv{color:var(--green-t)}
 .kit-find-head{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;padding:10px 12px;font:inherit;color:inherit;cursor:pointer;border-radius:12px}
 .kit-find-head:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
 .kit-find-txt{flex:1;min-width:0}
