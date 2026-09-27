@@ -38,9 +38,9 @@ const ACC = '#00D9FF', ACCT = '#0A7392', GREEN = '#0E9F6E', GREEN_INK = '#0B7A57
       <path d="M122 150h40" stroke={LINE2} stroke-width="1.5" />
       <path d="M158 146l6 4-6 4" fill="none" stroke={LINE2} stroke-width="1.5" />
       <rect x="164" y="106" width="118" height="88" rx="12" fill="#fff" stroke={ACC} stroke-width="1.5" />
-      <text x="223" y="150" text-anchor="middle" font-family={F} font-size="10" fill={ACCT}>{wrap(l(1), 13).map((t, i, a) => <tspan x="223" dy={i === 0 ? dy(a.length, i) : 12}>{t}</tspan>)}</text>
+      <text x="223" y="128" text-anchor="middle" font-family={F} font-size="10" fill={ACCT}>{wrap(l(1), 13).map((t, i) => <tspan x="223" dy={i === 0 ? 0 : 12}>{t}</tspan>)}</text>
       <g stroke={LINE} stroke-width="4" stroke-linecap="round">
-        <path d="M186 156h74M186 170h54M186 182h64" />
+        <path d="M186 158h74M186 170h54M186 182h64" />
       </g>
       <rect class="kit-hero-scan" x="176" y="108" width="94" height="3" rx="1.5" fill={ACC} />
       <path d="M282 150h40" stroke={LINE2} stroke-width="1.5" />
