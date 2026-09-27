@@ -3086,7 +3086,6 @@ p.format-note.text-secondary {
 /* ===== Статья: мобильная читабельность ===== */
 /* Фигуры: на мобильных — горизонтальный свайп, текст не мельчит */
 /* ===== Статья: фигуры на мобильных — тап-увеличение вместо свайпа ===== */
-.fig-hint { display: none; }
 /* Лупа — только на самой схеме: клик открывает увеличение именно по .fig-svg (script.js).
    Курсор на всей плашке обещал зум по подписи и пустым полям, где клик ничего не делал. */
 .fig .fig-svg { cursor: zoom-in; }
@@ -3119,35 +3118,6 @@ p.format-note.text-secondary {
 }
 
 /* TL;DR-блок в конце статьи */
-.tldr {
-  margin-top: clamp(44px, 6vw, 64px);
-  background: var(--bg-elevated); border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  padding: clamp(20px, 3vw, 30px);
-  max-width: 720px;
-}
-.tldr-title {
-  font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
-}
-.tldr ul { list-style: none; margin: 0; padding: 0; }
-.tldr li {
-  font-size: 0.95rem; line-height: 1.6; color: var(--secondary);
-  padding: 8px 0 8px 22px; position: relative;
-  border-bottom: 1px dashed var(--border);
-}
-.tldr li:last-child { border-bottom: none; }
-.tldr li::before {
-  content: "—"; position: absolute; left: 0; color: var(--accent);
-  font-family: var(--font-mono);
-}
-
-/* Фикс: подсказка «листайте» прилипала к подписи */
-.fig-hint { margin-left: 10px; }
-.fig-hint::before { content: "· "; }
-@media (max-width: 640px) {
-}
 
 /* ===== Фикс читабельности (ревизия) ===== */
 /* h2 в статьях наследовали приглушённый secondary — были серыми */
