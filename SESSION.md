@@ -895,3 +895,10 @@ P3 (верх воронки, внешние сигналы, хабы). У каж
 - Проверка добавлена в `tools/audit-figures.mjs` (мобильный зум: фон, панорама, старт, подсказка).
 - Скриншоты: `deliverables/screenshots/zoom-mobile-buhgalterii.png`, `zoom-desktop-vnedrenie.png`,
   `section-step3-okupaemost.png`, `section-pilot-crm.png`.
+
+### Шаг 16б. Пожизненный страж нумерации и финальные замеры (2026-09-27)
+
+- `site/tools/audit-numbering.mjs` — проверяет «Рис. 1…N» по порядку и без повторов (регресс после переносов);
+- финально: `audit-figures` 21/21 — 0 проблем (включая мобильный зум), `audit-articles` 21/21 — 0 проблем
+  (57 китов, 11 таблиц), `audit-numbering` — 0 нарушений, `npm run check` — 8 стадий OK;
+- отчёт `deliverables/TEAM-RUN-11.md` дополнен разделами 5а/5б.
