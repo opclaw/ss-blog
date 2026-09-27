@@ -92,8 +92,16 @@ html{scroll-padding-top:84px}
 .bl-sheet .no-card{border-left-color:var(--red)}
 .bl-sheet .pull-quote{border-left-color:var(--acc-t)}
 .bl-sheet .kit-prompt,.bl-sheet .bl-prompt{color:var(--on-ink)}
-/* Схему можно приблизить: класс fig (зум из script.js) живёт рядом с оформлением bl-fig */
-.bl-fig{cursor:zoom-in}
+/* Курсор-лупа — только на самой схеме (.fig-svg), а не на подписи и полях плашки:
+   клик по подписи ничего не открывал, а лупа обещала увеличение. Правило — в styles.css. */
+/* Узкая колонка (телефон): схема шире контента — её листают пальцем.
+   Без overflow-x контент молча обрезался (overflow:hidden у .fig) — «текст не помещается». */
+.fig-clip{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+@media (max-width:640px){
+  .fig-clip .fig-zoom-badge{display:none}
+  .fig-clip::after{content:"листайте схему → · нажмите, чтобы увеличить";display:block;position:sticky;left:0;
+    margin-top:12px;font:500 11px/1.4 var(--f-m);letter-spacing:.06em;text-transform:uppercase;color:var(--acc-t)}
+}
 
 /* Рис.1 — чат-бот vs агент */
 .bl-tabs{display:inline-flex;padding:4px;border-radius:999px;background:var(--paper2);margin-bottom:16px}
@@ -130,9 +138,11 @@ html{scroll-padding-top:84px}
 /* Рис.3 — конвейер с бегущей заявкой */
 .bl-swipe{display:none}
 .bl-pipe-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -8px;padding:4px 8px 8px}
-.bl-pipe-row{position:relative;display:grid;grid-template-columns:repeat(5,minmax(118px,1fr));gap:28px;list-style:none;margin:0!important;padding:18px 0 0!important;min-width:660px}
+.bl-pipe-row{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:22px;list-style:none;margin:0!important;padding:18px 0 0!important;min-width:0}
+/* Узкая колонка: пайп не сжимается в кашу — уходит в свайп со подсказкой «листайте →» */
+@media (max-width:760px){.bl-pipe-row{grid-template-columns:repeat(5,minmax(112px,1fr));min-width:604px}}
 .bl-pipe-row li{position:relative;margin:0!important;padding:14px;border:1px solid var(--line2);border-radius:12px;background:var(--paper)}
-.bl-pipe-row li+li::before{content:"→";position:absolute;left:-22px;top:50%;transform:translateY(-50%);color:var(--acc-t);font:400 15px var(--f-m)}
+.bl-pipe-row li+li::before{content:"→";position:absolute;left:-15px;top:50%;transform:translateY(-50%);color:var(--acc-t);font:400 15px var(--f-m)}
 .bl-pipe-row b{display:block;font:700 15px/1.2 var(--f-d);color:var(--fg);margin-bottom:6px}
 .bl-pipe-row span{display:block;font-size:13px;line-height:1.4;color:var(--dim)}
 .bl-pipe-row li.h{border:1.5px dashed var(--green);background:var(--green-soft)}.bl-pipe-row li.h b{color:var(--green-t)}
@@ -247,12 +257,17 @@ html{scroll-padding-top:84px}
 /* таблица */
 .bl-table-wrap{margin:28px 0 36px;overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--card)}
 .bl-table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.5;min-width:560px}
-.bl-table th{font:500 12px/1.3 var(--f-m);letter-spacing:.06em;text-transform:uppercase;color:var(--acc-t);text-align:left;padding:14px 16px;border-bottom:1px solid var(--line);background:var(--paper2)}
+.bl-table th{position:sticky;top:0;z-index:1;font:500 12px/1.3 var(--f-m);letter-spacing:.06em;text-transform:uppercase;color:var(--acc-t);text-align:left;padding:14px 16px;border-bottom:1px solid var(--line);background:var(--paper2)}
+.bl-table th+th,.bl-table td+td{border-left:1px solid var(--line)}
 .bl-table th:last-child{background:var(--acc-soft)}
 .bl-table td{padding:13px 16px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--dim)}
 .bl-table tr:last-child td{border-bottom:0}
-.bl-table td:first-child{font:500 12px/1.6 var(--f-m);color:var(--mute);white-space:nowrap}
+.bl-table td:first-child{font:600 13px/1.6 var(--f-m);color:var(--fg);white-space:nowrap}
 .bl-table td:last-child{color:var(--fg);font-weight:500;background:rgba(227,247,252,.45)}
+@media (max-width:640px){
+  .bl-table-wrap::after{content:"листайте таблицу →";display:block;position:sticky;left:0;padding:12px 16px 14px;
+    font:500 11px/1.4 var(--f-m);letter-spacing:.06em;text-transform:uppercase;color:var(--acc-t)}
+}
 
 /* стыковка с каркасом сайта */
 .bl-page .nav{background:rgba(8,8,13,.92);border-bottom-color:var(--border)}

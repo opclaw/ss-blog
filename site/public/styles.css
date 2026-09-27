@@ -3087,15 +3087,12 @@ p.format-note.text-secondary {
 /* Фигуры: на мобильных — горизонтальный свайп, текст не мельчит */
 /* ===== Статья: фигуры на мобильных — тап-увеличение вместо свайпа ===== */
 .fig-hint { display: none; }
-.fig { cursor: zoom-in; }
+/* Лупа — только на самой схеме: клик открывает увеличение именно по .fig-svg (script.js).
+   Курсор на всей плашке обещал зум по подписи и пустым полям, где клик ничего не делал. */
+.fig .fig-svg { cursor: zoom-in; }
 .fig-overlay .fig-zoom-badge { display: none; }
 @media (max-width: 640px) {
-.fig-clip::after {
-    content: ""; position: absolute; top: 0; right: 0; bottom: 0; width: 48px;
-    background: linear-gradient(to left, var(--bg-elevated), transparent);
-    pointer-events: none;
-  }
-  .fig figcaption { flex-wrap: wrap; }
+.fig figcaption { flex-wrap: wrap; }
 
   /* TOC свёрнут — компактная кнопка */
   .article-toc { padding: 14px 18px; }
@@ -3635,8 +3632,6 @@ p.format-note.text-secondary {
   border-color: rgba(0, 217, 255, 0.6);
   transform: scale(1.05);
 }
-.fig { cursor: zoom-in; }
-
 /* ===== AI-мостик в конце главной ===== */
 .section-ai-bridge { padding: clamp(56px, 7vw, 96px) 0; text-align: center; }
 .section-ai-bridge .label { margin-bottom: 16px; }
