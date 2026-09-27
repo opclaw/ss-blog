@@ -94,6 +94,22 @@ const CONTRAST_JS = `(() => {
   return { texts: rows, overflow, minRatio: rows.length ? Math.min(...rows.map((r) => r.ratio)) : null, count: rows.length };
 })()`;
 
+const MOBILE_ZOOM_JS = `(() => {
+  const ov = document.querySelector('.fig-overlay--paper');
+  if (!ov) return { err: 'нет оверлея' };
+  const svg = ov.querySelector('.fig-svg');
+  const hint = getComputedStyle(ov, '::after').content || '';
+  return {
+    overlayBg: getComputedStyle(ov).backgroundColor,
+    svgW: Math.round(svg.getBoundingClientRect().width),
+    viewportW: window.innerWidth,
+    pannable: ov.scrollWidth > ov.clientWidth + 2,
+    startAtLeft: ov.scrollLeft < 8,
+    hint: hint.replace(/["']/g, '').slice(0, 40),
+    caption: (ov.querySelector('.fig-overlay-caption') || {}).textContent || '',
+  };
+})()`;
+
 const MOBILE_JS = `(() => {
   const out = [];
   document.querySelectorAll('.fig').forEach((fig, i) => {
@@ -191,6 +207,24 @@ for (const slug of slugs) {
       }
       await page.setViewportSize({ width: 390, height: 844 });
       await page.waitForTimeout(500);
+      // мобильное увеличение последней схемы: крупнее экрана + панорама + старт с начала
+      const hasFig = await page.evaluate(() => document.querySelectorAll('.fig-svg').length > 0);
+      if (hasFig) {
+      await page.evaluate(() => {
+        const el = document.querySelectorAll('.fig-svg');
+        el[el.length - 1].dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+      });
+      await page.waitForTimeout(500);
+      const mz = await page.evaluate(MOBILE_ZOOM_JS);
+      entry.mobileZoom = mz;
+      if (mz && !mz.err) {
+        if (mz.overlayBg !== 'rgb(250, 250, 247)') entry.problems.push(`мобильный зум: фон ${mz.overlayBg}`);
+        if (!mz.pannable) entry.problems.push(`мобильный зум: схема не крупнее экрана (${mz.svgW} ≤ ${mz.viewportW})`);
+        if (!mz.startAtLeft) entry.problems.push('мобильный зум: открывается не с начала схемы');
+        if (!mz.hint) entry.problems.push('мобильный зум: нет подсказки о панораме');
+      } else entry.problems.push('мобильный зум: оверлей не открылся');
+      await page.evaluate(() => { const ov = document.querySelector('.fig-overlay'); if (ov) ov.remove(); });
+      }
       const mob = await page.evaluate(MOBILE_JS);
       entry.mobile = mob.figures;
       entry.mobilePage = mob.page;

@@ -302,8 +302,13 @@ html{scroll-padding-top:84px}
 .fig-overlay--paper .fig-overlay-close{background:var(--card);border:1px solid var(--line);color:var(--fg)}
 .fig-overlay--paper .fig-overlay-close:hover{border-color:var(--acc-t);color:var(--acc-t)}
 @media (max-width:640px){
-  .fig-overlay--paper .fig-overlay-canvas{padding:24px 12px 72px}
+  /* на телефоне увеличение = крупнее экрана + панорамирование: текст читаем, а не сжат */
+  .fig-overlay--paper .fig-overlay-canvas{padding:20px 12px 96px;align-items:flex-start;justify-content:flex-start}
+  .fig-overlay--paper .fig-overlay-canvas .fig-svg{width:min(150vw,760px)}
   .fig-overlay--paper .fig-overlay-caption{font-size:11px;letter-spacing:.04em;text-transform:none}
+  .fig-overlay--paper::after{content:"двигайте схему пальцем";position:fixed;left:0;right:0;bottom:58px;
+    text-align:center;font:500 11px/1.4 var(--f-m);letter-spacing:.06em;text-transform:uppercase;
+    color:var(--dim);pointer-events:none}
 }
 
 /* legacy-ink-fix: в перенесённых статьях часть схем несёт инлайновые светлые чернила

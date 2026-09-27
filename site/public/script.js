@@ -375,6 +375,8 @@
     overlay.appendChild(close);
     document.body.appendChild(overlay);
     document.body.style.overflow = 'hidden';
+    overlay.scrollLeft = 0;   // схема открывается с начала: верхний левый угол, а не «обрезанной» с середины
+    overlay.scrollTop = 0;
     close.focus();
     const onKey = (e) => { if (e.key === 'Escape') closeFn(); };
     const closeFn = () => {
