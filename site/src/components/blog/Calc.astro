@@ -1,7 +1,14 @@
 ---
 // Калькулятор. expr — выражение от id полей (пишем сами, не пользовательский ввод).
 interface Input { id: string; label: string; min: number; max: number; step: number; value: number; unit?: string }
-interface Out { expr: string; label?: string; unit?: string; dig?: number }
+interface Out {
+  expr: string;
+  label?: string;
+  unit?: string;
+  dig?: number;
+  /** Порог, после которого число теряет смысл: показываем «—» вместо 999 месяцев окупаемости. */
+  cap?: number;
+}
 interface Level { max: number; text: string; tone?: 'go' | 'check' | 'stop' }
 interface Props {
   fig?: number;
@@ -11,8 +18,7 @@ interface Props {
   main: Out & { label: string };
   rows?: (Out & { label: string })[];
   note: string;
-  // вердикт по вычисленному значению: пороги идут по возрастанию max, выбирается первый подходящий.
-  // Считается и на сервере (по значениям по умолчанию), и в kit.js — правила одни и те же.
+  /** Вердикт по вычисленному значению: пороги по возрастанию max, выбирается первый подходящий. */
   verdict?: { expr: string; levels: Level[] };
 }
 const { fig, id, title, inputs, main, rows = [], note, verdict } = Astro.props;
@@ -23,14 +29,21 @@ const defs = inputs.map((i) => i.value);
 const calc = (expr: string): number => {
   // eslint-disable-next-line no-new-func
   const fn = new Function(...names, 'return (' + expr + ');');
-  return Math.max(0, Number(fn(...defs)) || 0);
+  const v = Number(fn(...defs));
+  return Number.isFinite(v) ? v : 0;
 };
 const num = (n: number, dig = 0) =>
   new Intl.NumberFormat('ru-RU', { maximumFractionDigits: dig, minimumFractionDigits: 0 }).format(n);
+// значения не подменяем нулём: если расходы больше экономии, читатель должен видеть минус
+const shown = (expr: string, dig = 0, cap?: number) => {
+  const v = calc(expr);
+  return cap !== undefined && v > cap ? '—' : num(v, dig);
+};
 
 const levelFor = (v: number) =>
   verdict?.levels.find((l) => v <= l.max) ?? verdict?.levels[verdict.levels.length - 1];
-const vLevel = verdict ? levelFor(calc(verdict.expr)) : null;---
+const vLevel = verdict ? levelFor(calc(verdict.expr)) : null;
+---
 <figure class="kit kit-calc" data-kit="calc" id={id}>
   <figcaption class="kit-cap">{fig && <b>Рис. {fig}</b>}{title}<em>подставьте свои цифры</em></figcaption>
   <div class="kit-calc-grid">
@@ -39,8 +52,8 @@ const vLevel = verdict ? levelFor(calc(verdict.expr)) : null;---
     </div>
     <div class="kit-calc-out" aria-live="polite">
       <p class="kit-calc-k">{main.label}</p>
-      <p class="kit-calc-big"><span data-r data-expr={main.expr} data-dig={main.dig}>{num(calc(main.expr), main.dig ?? 0)}</span><small>{main.unit}</small></p>
-      <ul class="kit-calc-rows">{rows.map((r) => <li><span>{r.label}</span><b><span data-r data-expr={r.expr} data-dig={r.dig}>{num(calc(r.expr), r.dig ?? 0)}</span> {r.unit}</b></li>)}</ul>
+      <p class="kit-calc-big"><span data-r data-expr={main.expr} data-dig={main.dig} data-cap={main.cap}>{shown(main.expr, main.dig ?? 0, main.cap)}</span><small>{main.unit}</small></p>
+      <ul class="kit-calc-rows">{rows.map((r) => <li><span>{r.label}</span><b><span data-r data-expr={r.expr} data-dig={r.dig} data-cap={r.cap}>{shown(r.expr, r.dig ?? 0, r.cap)}</span> {r.unit}</b></li>)}</ul>
       {verdict && vLevel && (
         <p class:list={['kit-calc-verdict', vLevel.tone && 'is-' + vLevel.tone]}
           data-calc-verdict data-expr={verdict.expr} data-levels={JSON.stringify(verdict.levels)}>{vLevel.text}</p>

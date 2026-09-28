@@ -106,6 +106,19 @@ for (const f of files.sort()) {
     if (!/[1-9]/.test(before)) errs.push('calc: итог нулевой при значениях по умолчанию');
     inp.value = inp.max; inp.dispatchEvent(new w.Event('input'));
     if (out.textContent === before) errs.push('calc: итог не меняется от ползунка');
+    // строки результата: сервер и скрипт обязаны показывать одно и то же, включая «—» по cap
+    for (const row of root.querySelectorAll('.kit-calc-rows li > b > span[data-r]')) {
+      const names = inputs.map((i) => i.dataset.i);
+      const fn = new Function(names.join(','), 'return (' + row.dataset.expr + ');');
+      const val = fn.apply(null, names.map((nm) => +root.querySelector(`input[data-i="${nm}"]`).value));
+      const cap = row.hasAttribute('data-cap') ? +row.getAttribute('data-cap') : null;
+      const dig = +(row.dataset.dig || 0);
+      const want = cap !== null && val > cap ? '—'
+        : Number(val).toLocaleString('ru-RU', { maximumFractionDigits: dig, minimumFractionDigits: 0 });
+      if (row.textContent.trim() !== want)
+        errs.push(`calc: строка «${row.parentElement.parentElement.firstElementChild.textContent.trim()}» `
+          + `показывает ${row.textContent.trim()}, по расчёту ${want}`);
+    }
     // вердикт: пороги лежат в data-levels, а текст серверного рендера должен соответствовать
     // значениям по умолчанию — иначе блок показывает один вывод, а скрипт посчитает другой
     const vd = root.querySelector('[data-calc-verdict]');

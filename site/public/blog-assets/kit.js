@@ -149,9 +149,18 @@
     function fmt(n, dig) { return Number(n).toLocaleString('ru-RU', { maximumFractionDigits: dig || 0, minimumFractionDigits: 0 }); }
     function upd() {
       var v = inputs.map(function (i) { var o = $('output[data-o="' + i.dataset.i + '"]', root); if (o) o.textContent = fmt(+i.value) + (i.dataset.unit || ''); return +i.value; });
-      outs.forEach(function (o, k) { var x = Math.max(0, fns[k].apply(null, v)); o.textContent = fmt(x, +(o.dataset.dig || 0)); });
+      outs.forEach(function (o, k) {
+        var x = fns[k].apply(null, v);
+        if (!isFinite(x)) x = 0;
+        // cap: порог, после которого число теряет смысл (окупаемость в сотни месяцев) — показываем «—».
+        // Значения минусом не подменяем нулём: если расходы больше экономии, читатель видит минус.
+        var cap = o.getAttribute('data-cap');
+        o.textContent = (cap !== null && x > +cap) ? '—' : fmt(x, +(o.dataset.dig || 0));
+      });
       if (verdict && levels.length) {
-        var val = Math.max(0, vfn.apply(null, v)), lv = null;
+        var val = vfn.apply(null, v);
+        if (!isFinite(val)) val = 0;
+        var lv = null;
         levels.forEach(function (l) { if (lv === null && val <= l.max) lv = l; });
         if (!lv) lv = levels[levels.length - 1];
         verdict.textContent = lv.text;
