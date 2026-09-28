@@ -18,10 +18,12 @@ interface Props {
   main: Out & { label: string };
   rows?: (Out & { label: string })[];
   note: string;
+  /** Раскладывает ползунки в две колонки: для калькуляторов, где вводных больше шести. */
+  cols?: 1 | 2;
   /** Вердикт по вычисленному значению: пороги по возрастанию max, выбирается первый подходящий. */
   verdict?: { expr: string; levels: Level[] };
 }
-const { fig, id, title, inputs, main, rows = [], note, verdict } = Astro.props;
+const { fig, id, title, inputs, main, rows = [], note, verdict, cols = 1 } = Astro.props;
 
 // вычисление выражений на сервере — тот же приём, что в kit.js: выражения пишет автор статьи
 const names = inputs.map((i) => i.id);
@@ -46,7 +48,7 @@ const vLevel = verdict ? levelFor(calc(verdict.expr)) : null;
 ---
 <figure class="kit kit-calc" data-kit="calc" id={id}>
   <figcaption class="kit-cap">{fig && <b>Рис. {fig}</b>}{title}<em>подставьте свои цифры</em></figcaption>
-  <div class="kit-calc-grid">
+  <div class:list={['kit-calc-grid', cols === 2 && 'is-stacked']}>
     <div class="kit-calc-in">
       {inputs.map((i) => <label><span>{i.label}</span><output data-o={i.id}>{i.value}{i.unit}</output><input type="range" min={i.min} max={i.max} step={i.step} value={i.value} data-i={i.id} data-unit={i.unit} aria-label={i.label} /></label>)}
     </div>

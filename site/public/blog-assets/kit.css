@@ -137,6 +137,10 @@
 .kit-calc-verdict.is-go{border-left-color:var(--green);background:var(--green-soft)}
 .kit-calc-verdict.is-check{border-left-color:#D97706;background:#FFF7E6}
 .kit-calc-verdict.is-stop{border-left-color:#C2410C;background:#FDECE4}
+/* калькулятор с большим числом вводных: ползунки в две колонки на всю ширину, результат под ними */
+@media (min-width:900px){.kit-calc-grid.is-stacked{grid-template-columns:1fr}
+  .kit-calc-grid.is-stacked .kit-calc-in{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 26px;border-right:0;border-bottom:1px solid var(--line)}
+  .kit-calc-grid.is-stacked .kit-calc-rows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:26px;margin-top:2px}}
 .kit-calc:not(.kit-js) .kit-calc-out{display:none}
 .kit-calc:not(.kit-js) .kit-calc-in{border-right:0}
 @media (max-width:760px){.kit-calc-grid{grid-template-columns:1fr}.kit-calc-in{border-right:0;border-bottom:1px solid var(--line)}.kit-calc-big{font-size:46px}}
