@@ -196,6 +196,67 @@
     upd();
   });
 
+  /* ---------- ROI: окупаемость, эффект за год и график по месяцам ---------- */
+  $$('[data-kit="roi"]').forEach(function (root) {
+    root.classList.add('kit-js');
+    var inputs = $$('input[data-i]', root), bars = $$('[data-roi-bar]', root);
+    var paybackEl = $('[data-roi-payback]', root), rankEl = $('[data-roi-rank]', root);
+    var capEl = $('[data-roi-cap]', root), fromEl = $('[data-roi-from]', root), toEl = $('[data-roi-to]', root);
+    var zeroLine = $('.kit-roi-zero', root);
+    var CH = { x0: 30, x1: 308, yt: 12, yb: 108, w: 13 };
+    function money(n, dig) { return Number(n).toLocaleString('ru-RU', { maximumFractionDigits: dig || 0, minimumFractionDigits: 0 }); }
+    /* порядок правил тот же, что в Roi.astro — иначе вердикт до и после первого клика разойдётся */
+    function rankFor(net, payback) {
+      if (net <= 0) return ['Экономия не покрывает сопровождение: при таких вводных проект не окупается.', 'is-none'];
+      if (payback <= 4) return ['До 4 месяцев — делать: пилот возвращает вложения с запасом.', 'is-go'];
+      if (payback <= 9) return ['4–9 месяцев — обсуждаемо: усиливаем сценарий или масштаб.', 'is-check'];
+      return ['Больше 9 месяцев — не делаем: ищем другой процесс или другой масштаб.', 'is-stop'];
+    }
+    function upd() {
+      var v = {};
+      inputs.forEach(function (i) {
+        v[i.dataset.i] = +i.value;
+        var o = $('output[data-o="' + i.dataset.i + '"]', root);
+        if (o) o.textContent = money(+i.value) + (i.dataset.unit || '');
+      });
+      var hours = v.tasks * v.min / 60, proc = hours * v.rate, save = proc * v.p / 100;
+      var net = save - v.sup, payback = net > 0 ? v.cost / net : null;
+      var year = net * 12 - v.cost, roi = (year / v.cost) * 100;
+      var put = function (k, val) { var el = $('[data-roi-row="' + k + '"]', root); if (el) el.textContent = val; };
+      put('hours', money(hours, 1)); put('proc', money(proc)); put('save', money(save));
+      put('sup', money(v.sup)); put('year', money(year)); put('roi', money(roi, 1));
+      if (paybackEl) paybackEl.textContent = payback !== null ? money(payback, 1) : '—';
+      root.classList.toggle('is-none', net <= 0);
+      if (rankEl) { var r = rankFor(net, payback === null ? 99 : payback); rankEl.textContent = r[0]; rankEl.className = 'kit-roi-rank ' + r[1]; }
+      /* график: 13 столбиков — месяц 0 это вложения, дальше накопительный эффект */
+      var vals = [], m;
+      for (m = 0; m <= 12; m++) vals.push(m * net - v.cost);
+      var lo = Math.min.apply(null, vals.concat([0])), hi = Math.max.apply(null, vals.concat([0]));
+      var yOf = function (x) { return CH.yb - (CH.yb - CH.yt) * (x - lo) / ((hi - lo) || 1); };
+      var xOf = function (i) { return CH.x0 + (CH.x1 - CH.x0) * i / 12; };
+      bars.forEach(function (b) {
+        var i = +b.dataset.roiBar, val = vals[i] || 0;
+        b.setAttribute('x', (xOf(i) - CH.w / 2).toFixed(1));
+        b.setAttribute('y', (val >= 0 ? yOf(0) : yOf(val)).toFixed(1));
+        b.setAttribute('height', Math.max(1, yOf(0) - yOf(val)).toFixed(1));
+        b.setAttribute('class', 'kit-roi-bar ' + (val >= 0 ? 'is-pos' : 'is-neg'));
+      });
+      if (zeroLine) { var zy = yOf(0).toFixed(1); zeroLine.setAttribute('y1', zy); zeroLine.setAttribute('y2', zy); }
+      if (capEl) capEl.textContent = payback !== null && payback <= 12 ? 'окупаемость ≈ ' + money(payback, 1) + ' мес'
+        : net > 0 ? 'за 12 месяцев пилот не окупается' : 'проект не окупается: экономия меньше сопровождения';
+      if (fromEl) fromEl.textContent = 'вложения на старте: ' + money(v.cost) + ' ₽';
+      if (toEl) toEl.textContent = 'через 12 месяцев: ' + (year >= 0 ? '+' : '−') + money(Math.abs(year)) + ' ₽';
+    }
+    inputs.forEach(function (i) { i.addEventListener('input', upd); });
+    upd();
+  });
+
+  /* ---------- Замер «до и после»: полосы растут, когда блок видно ---------- */
+  $$('[data-kit="aba"]').forEach(function (root) {
+    root.classList.add('kit-js');
+    onView(root, function () { root.classList.add('in'); });
+  });
+
   /* ---------- Checklist: отметки → шкала и вердикт ---------- */
   $$('[data-kit="check"]').forEach(function (root) {
     root.classList.add('kit-js');

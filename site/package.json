@@ -6,10 +6,11 @@
   "scripts": {
     "dev": "astro dev --host 0.0.0.0",
     "build": "astro build",
+    "minutes": "node tools/fix-minutes.mjs dist",
     "preview": "astro preview --host 0.0.0.0",
     "import:legacy": "python3 tools/import_legacy.py",
     "verify": "python3 tools/verify.py",
-    "check": "astro build && python3 tools/verify.py && python3 tools/make-sitemap.py --check && node tools/js-check.mjs dist && node tools/kit-check.mjs dist && python3 tools/style-check.py && python3 tools/qa-check.py && python3 tools/seo-audit.py",
+    "check": "astro build && python3 tools/verify.py && python3 tools/make-sitemap.py --check && node tools/js-check.mjs dist && node tools/kit-check.mjs dist && node tools/fix-minutes.mjs dist --check && python3 tools/style-check.py && python3 tools/qa-check.py && python3 tools/seo-audit.py",
     "test:js": "node tools/js-check.mjs dist",
     "test:kit": "node tools/kit-check.mjs dist",
     "sitemap": "python3 tools/make-sitemap.py",

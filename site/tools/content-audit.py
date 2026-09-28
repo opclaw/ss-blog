@@ -81,6 +81,50 @@ SOURCE_HINT = re.compile(r'оценк|пример|расчёт|расчет|п�
 NUMBER = re.compile(r'\b\d+[\d\s,.]*\s?(%|процент|раз|часов|час|минут|минуты|руб|₽|тыс|млн)')
 
 
+class BlText(HTMLParser):
+    """Текст внутри .bl-text — тот же объём, по которому article.js считает время чтения.
+
+    article.js берёт textContent .bl-text и делит число слов на 180. Считать «слова по всему
+    HTML» нельзя: в счёт попадают меню, подвал и служебные блоки, и заявленное в шапке число
+    расходится с тем, что показывает скрипт (такое расхождение было на 19 статьях из 21).
+    """
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.depth = 0
+        self.buf = []
+
+    def handle_starttag(self, tag, attrs):
+        if self.depth:
+            self.depth += 1
+            return
+        cls = dict(attrs).get('class', '') or ''
+        if tag in ('div', 'section', 'article') and 'bl-text' in cls.split():
+            self.depth = 1
+
+    def handle_endtag(self, tag):
+        if self.depth:
+            self.depth -= 1
+
+    def handle_data(self, data):
+        if self.depth:
+            self.buf.append(data)
+
+
+def bl_words(html: str) -> int:
+    # склейка без разделителей — это и есть textContent: между <b>жирным</b> и соседним
+    # словом в разметке нет пробела, и в браузере они считаются одним словом
+    p = BlText()
+    p.feed(html)
+    text = ''.join(p.buf).strip()
+    return len(re.split(r'\s+', text)) if text else 0
+
+
+def minutes_of(words_count: int) -> int:
+    # та же формула, что в article.js: Math.max(1, Math.round(words / 180))
+    return max(1, round(words_count / WPM))
+
+
 def words(t: str) -> int:
     return len(re.findall(r'[\w-]+', t))
 
@@ -91,6 +135,11 @@ def jaccard(a: set, b: set) -> float:
 
 def main() -> None:
     pages = sorted(p for p in BLOG.glob('*.html') if p.name != 'index.html')
+    # время чтения считает article.js по тексту .bl-text; тот же расчёт делает
+    # tools/fix-minutes.mjs и складывает в dist/minutes.json — берём его, а не свою прикидку
+    report = BLOG.parent / 'minutes.json'
+    global MINUTES
+    MINUTES = json.loads(report.read_text(encoding='utf-8')) if report.exists() else {}
     if not pages:
         print('Нет site/dist/blog — сначала npm run build')
         sys.exit(1)
@@ -108,6 +157,8 @@ def main() -> None:
             'h2': t.h2,
             'paras': t.paras,
             'words': t.all_words,
+            'bl_words': bl_words(html),
+            'bl_minutes': minutes_of(bl_words(html)),
             'claim': int(claim.group(1)) if claim else None,
             'has_tldr': 'tldr-title' in html or 'bl-brief-t' in html,
             'faq_visible': len(re.findall(r'<details\b|faq-answer', html)),
@@ -126,17 +177,21 @@ def main() -> None:
     print('Время чтения: заявлено против фактического (180 слов/мин)')
     time_issues = []
     for name, d in data.items():
-        real = round(d['words'] / WPM)
+        real = MINUTES.get('blog/' + name, {}).get('minutes') if MINUTES else None
+        if real is None:
+            print('  ! нет dist/minutes.json — сначала node tools/fix-minutes.mjs dist')
+            break
         if d['claim'] is None:
-            print(f'  ? {name}: время чтения не указано ({d["words"]} слов)')
+            print(f'  ? {name}: время чтения не указано ({d["bl_words"]} слов в тексте)')
             continue
         delta = abs(d['claim'] - real)
-        mark = '✓' if delta <= TIME_TOLERANCE else '⚠'
-        if delta > TIME_TOLERANCE:
+        mark = '✓' if delta == 0 else '⚠'
+        if delta:
             time_issues.append((name, d['claim'], real))
-            print(f'  {mark} {name}: заявлено {d["claim"]} мин, по тексту {real} мин ({d["words"]} слов)')
+            print(f'  {mark} {name}: заявлено {d["claim"]} мин, article.js покажет {real} '
+                  f'мин ({d["bl_words"]} слов) — поправьте minutes={{{real}}}')
     if not time_issues:
-        print('  расхождений больше допуска нет')
+        print('  заявленное время чтения совпадает с расчётом article.js во всех статьях')
 
     # --- структура и схожесть
     print('\nСхожесть статей (пересечение разделов H2; выше 0.5 — кандидаты в шаблон)')

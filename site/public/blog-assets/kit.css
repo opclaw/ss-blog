@@ -162,6 +162,43 @@
 
 @media (max-width:760px){.kit-budget-grid{grid-template-columns:1fr}.kit-budget-in{border-right:0;border-bottom:1px solid var(--line)}}
 
+/* ---------- ROI: окупаемость, эффект за год и график ---------- */
+.kit-roi-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+.kit-roi-in{border-right:1px solid var(--line)}
+.kit-roi-rank{margin:6px 0 0;padding:10px 12px;border-left:2px solid var(--line2);background:var(--paper2);font:400 14px/1.5 var(--f-t);color:var(--text)}
+.kit-roi-rank.is-go{border-left-color:var(--green);background:var(--green-soft)}
+.kit-roi-rank.is-check{border-left-color:#D97706;background:#FFF7E6}
+.kit-roi-rank.is-stop{border-left-color:#C2410C;background:#FDECE4}
+.kit-roi-chartwrap{padding:16px 20px 14px;border-top:1px solid var(--line);background:var(--paper)}
+.kit-roi-chartcap{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin:0 0 10px;font:500 11px/1.4 var(--f-m);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.kit-roi-chartcap b{font:600 12px/1.4 var(--f-m);letter-spacing:0;text-transform:none;color:var(--fg)}
+.kit-roi-chart{display:block;width:100%;height:auto}
+.kit-roi-zero{stroke:var(--line2);stroke-width:1.5;stroke-dasharray:4 4}
+.kit-roi-bar.is-neg{fill:var(--line2)}
+.kit-roi-bar.is-pos{fill:var(--green)}
+.kit-roi-tick{font:500 9px var(--f-m);fill:var(--mute)}
+.kit-roi-chartfoot{display:flex;justify-content:space-between;gap:12px;margin:8px 0 0;font:400 12px/1.4 var(--f-m);color:var(--dim)}
+.kit-roi.is-none .kit-calc-big small{display:none}
+@media (max-width:760px){.kit-roi-grid{grid-template-columns:1fr}.kit-roi-in{border-right:0;border-bottom:1px solid var(--line)}.kit-roi-chartfoot{flex-direction:column;gap:4px}}
+
+/* ---------- Замер «до и после» ---------- */
+.kit-aba-list{list-style:none;margin:0;padding:8px 20px 6px}
+.kit-aba-list li{padding:14px 0;border-bottom:1px solid var(--line)}
+.kit-aba-list li:last-child{border-bottom:0}
+.kit-aba-l{margin:0 0 10px;font:600 15px/1.35 var(--f-d);color:var(--fg)}
+.kit-aba-l em{display:block;margin-top:4px;font:400 12px/1.4 var(--f-m);font-style:normal;color:var(--dim)}
+.kit-aba-pair{display:grid;gap:8px}
+.kit-aba-bar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center}
+.kit-aba-bar i{display:block;height:12px;border-radius:6px;width:var(--w,100%);transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.kit-aba-bar.is-before i{background:var(--line2)}
+.kit-aba-bar.is-after i{background:var(--green)}
+.kit-aba-bar b{font:600 14px var(--f-m);color:var(--fg);white-space:nowrap}
+.kit-aba.kit-js .kit-aba-bar i{width:0}
+.kit-aba.kit-js.in .kit-aba-bar i{width:var(--w,100%)}
+.kit-aba-verdict{margin:0;padding:14px 20px;border-top:1px solid var(--line);background:var(--green-soft);font:400 14px/1.55 var(--f-t);color:var(--text)}
+@media (prefers-reduced-motion:reduce){.kit-aba-bar i{transition:none}}
+@media (max-width:560px){.kit-aba-bar{grid-template-columns:minmax(0,1fr)}.kit-aba-bar b{grid-row:1}}
+
 /* ---------- Prompt ---------- */
 .kit-prompt{margin:28px 0 36px;border-radius:16px;overflow:hidden;background:#0E0E14;color:#E6E6EA;border:1px solid #1C1C24}
 .kit-prompt-bar{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid #1C1C24;font:500 12px var(--f-m);letter-spacing:.06em;text-transform:uppercase;color:rgba(230,230,234,.6)}

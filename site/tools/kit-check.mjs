@@ -21,6 +21,13 @@ for (const f of files.sort()) {
   if (!raw.includes('blog-assets/kit.css')) missing.push('kit.css');
   if (missing.length) { bad++; console.log(`✗ ${path.relative(dist, f).padEnd(44)} не подключены: ${missing.join(', ')} — интерактив мёртв`); continue; }
   pages++;
+  // без JS калькулятор обязан показывать посчитанные цифры, а не нули и не пустоту
+  if (raw.includes('data-kit="roi"')) {
+    const m = raw.match(/data-roi-payback[^>]*>([^<]*)</);
+    if (!m || !/[\d—]/.test(m[1])) errs.push('roi: в разметке без JS окупаемость пустая');
+    if (!/data-roi-rank[^>]*>[^<]{20,}/.test(raw)) errs.push('roi: в разметке без JS нет вердикта');
+    if (!/kit-roi-bar/.test(raw)) errs.push('roi: в разметке без JS нет графика');
+  }
   const rel = path.relative(dist, f);
   const errs = [], ok = [];
   const html = raw.replace(/<script[^>]*mc\.yandex[\s\S]*?<\/script>/, '').replace(/<script[^>]*src="\/[^"]+"[^>]*><\/script>/g, '');
@@ -140,6 +147,73 @@ for (const f of files.sort()) {
     else if (link.getAttribute('href').startsWith('#') && !d.getElementById(link.getAttribute('href').slice(1)))
       errs.push('budget: ссылка на расчёт ведёт в никуда');
     ok.push(`budget ${groups.length} группы · ${total.textContent.trim()}`);
+  }
+  for (const root of d.querySelectorAll('[data-kit="roi"]')) {
+    const inputs = [...root.querySelectorAll('input[data-i]')];
+    const payback = root.querySelector('[data-roi-payback]');
+    const rank = root.querySelector('[data-roi-rank]');
+    const bars = [...root.querySelectorAll('[data-roi-bar]')];
+    if (inputs.length < 4 || !payback || !rank) { errs.push('roi: нет ползунков или результата'); continue; }
+    if (bars.length !== 13) errs.push(`roi: столбиков ${bars.length}, должно быть 13 (месяц 0 + 12 месяцев)`);
+    const numOf = (el) => parseFloat(el.textContent.replace(/[^\d,-]/g, '').replace(',', '.'));
+    const row = (k) => root.querySelector(`[data-roi-row="${k}"]`);
+    /* ключевая страховка: цифры серверного рендера и расчёт после первого движения ползунка
+       обязаны совпадать — иначе читатель видит две разные экономики одного проекта */
+    const shown0 = { payback: payback.textContent.trim(), rank: rank.textContent.trim() };
+    const val = (id) => +root.querySelector(`input[data-i="${id}"]`).value;
+    const recalc = () => {
+      const hours = val('tasks') * val('min') / 60, proc = hours * val('rate');
+      const save = proc * val('p') / 100, net = save - val('sup');
+      return { hours, proc, save, net, payback: net > 0 ? val('cost') / net : null, year: net * 12 - val('cost') };
+    };
+    const expect = recalc();
+    if (Math.abs(numOf(row('hours')) - expect.hours) > 0.1) errs.push(`roi: часы ${row('hours').textContent} ≠ ${expect.hours.toFixed(1)}`);
+    if (Math.abs(numOf(row('proc')) - expect.proc) > 2) errs.push(`roi: стоимость процесса ${row('proc').textContent} ≠ ${Math.round(expect.proc)}`);
+    if (Math.abs(numOf(row('save')) - expect.save) > 2) errs.push(`roi: экономия ${row('save').textContent} ≠ ${Math.round(expect.save)}`);
+    if (Math.abs(numOf(row('year')) - expect.year) > 2) errs.push(`roi: эффект за год ${row('year').textContent} ≠ ${Math.round(expect.year)}`);
+    const payTxt = payback.textContent.trim();
+    if (expect.net <= 0) {
+      if (payTxt !== '—') errs.push(`roi: при нулевой чистой экономии окупаемость «${payTxt}», а должна быть «—»`);
+      if (!root.classList.contains('is-none')) errs.push('roi: нет отметки is-none при неокупаемом расчёте');
+      if (!/не покрывает сопровождение/.test(rank.textContent)) errs.push('roi: вердикт не про неокупаемость');
+    } else if (Math.abs(numOf(payback) - expect.payback) > 0.15) {
+      errs.push(`roi: окупаемость ${payTxt} ≠ ${expect.payback.toFixed(1)}`);
+    }
+    // вердикт обязан соответствовать порогам статьи: 4 / 9 месяцев
+    const p0 = expect.payback;
+    const want = expect.net <= 0 ? 'is-none' : p0 <= 4 ? 'is-go' : p0 <= 9 ? 'is-check' : 'is-stop';
+    if (!rank.className.includes(want)) errs.push(`roi: класс вердикта ${rank.className} ≠ ${want}`);
+    // движение ползунка пересчитывает и окупаемость, и вердикт, и график
+    const setAll = (v) => inputs.forEach((i) => { i.value = v[i.dataset.i] ?? i.max; i.dispatchEvent(new w.Event('input')); });
+    const barsBefore = bars.map((b) => b.getAttribute('y') + ':' + b.getAttribute('height')).join('|');
+    setAll({ tasks: 400, min: 120, p: 60, rate: 2000, cost: 40000, sup: 0 });
+    const after = recalc();
+    if (Math.abs(numOf(payback) - after.payback) > 0.15) errs.push(`roi: после движения ползунка окупаемость ${payback.textContent} ≠ ${after.payback.toFixed(1)}`);
+    if (!rank.className.includes('is-go')) errs.push('roi: при быстрой окупаемости вердикт не «делать»');
+    if (bars.map((b) => b.getAttribute('y') + ':' + b.getAttribute('height')).join('|') === barsBefore) errs.push('roi: график не перерисовался');
+    // сопровождение больше экономии → проект не окупается, и это видно
+    setAll({ tasks: 2, min: 5, p: 10, rate: 200, cost: 600000, sup: 60000 });
+    if (payback.textContent.trim() !== '—' || !root.classList.contains('is-none')) errs.push('roi: сопровождение больше экономии, но блок показывает окупаемость');
+    // подписи ползунков не пустые
+    inputs.forEach((i) => { const o = root.querySelector(`output[data-o="${i.dataset.i}"]`); if (!o || !o.textContent.trim()) errs.push(`roi: пустая подпись ползунка ${i.dataset.i}`); });
+    if (!root.classList.contains('kit-js')) errs.push('roi: нет класса kit-js');
+    // ссылка из конфигуратора бюджета ведёт именно сюда (id="payback")
+    if (!root.id) errs.push('roi: нет id — ссылка из конфигуратора бюджета не найдёт блок');
+    ok.push(`roi ${inputs.length} ползунков · ${shown0.payback} мес · «${shown0.rank.slice(0, 28)}…»`);
+  }
+  for (const root of d.querySelectorAll('[data-kit="aba"]')) {
+    const rows = [...root.querySelectorAll('.kit-aba-list li')];
+    if (!rows.length) { errs.push('aba: нет строк замера'); continue; }
+    if (rows.some((li) => li.querySelectorAll('.kit-aba-bar').length !== 2)) errs.push('aba: не у каждой строки две полосы (до и после)');
+    if (rows.some((li) => !li.querySelector('.kit-aba-l').textContent.trim())) errs.push('aba: пустая подпись строки');
+    // ширина полос задана на сервере: без JS блок выглядит дорисованным, а не пустым
+    if (rows.some((li) => [...li.querySelectorAll('.kit-aba-bar')].some((b) => !/--w:/.test(b.getAttribute('style') || '')))) errs.push('aba: у полосы не задана ширина');
+    // после появления в кадре полосы получают класс роста (считает audit-layout, здесь — сам факт)
+    if (!root.classList.contains('kit-js')) errs.push('aba: нет класса kit-js');
+    if (!root.classList.contains('in')) errs.push('aba: полосы не запустили рост при появлении в кадре');
+    const v = root.querySelector('.kit-aba-verdict');
+    if (!v || !v.textContent.trim()) errs.push('aba: нет строки-вывода под замером');
+    ok.push(`aba ${rows.length} строки · ${rows.length * 2} полосы`);
   }
   for (const root of d.querySelectorAll('[data-kit="timeline"]')) {
     const items = [...root.querySelectorAll('.kit-tl li')], btns = items.map((li) => li.querySelector('.kit-tl-btn'));

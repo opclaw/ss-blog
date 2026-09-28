@@ -1,0 +1,46 @@
+---
+// Замер «до и после»: одна и та же задача до пилота и после, полосами.
+// Вёрстка — HTML, а не SVG: подписи не могут вылезти за фигуру, а на телефоне
+// пары полос просто складываются в столбик (на SVG это стоило бы отдельной раскладки).
+// Числа приходят из статьи: компонент никогда не придумывает значения сам.
+interface Row {
+  label: string;      // что меряем
+  before: number;     // значение до пилота
+  after: number;      // значение после пилота
+  unit: string;       // единица: мин, ₽, ₽/мес
+  note: string;       // пояснение под подписью
+  w0?: number;        // ширина левой полосы, % (по умолчанию 100)
+  w1?: number;        // ширина правой полосы, % (по умолчанию отношение after/before)
+}
+interface Props {
+  fig?: number;
+  title: string;
+  rows: Row[];
+  verdict?: string;   // строка-вывод под списком
+  note?: string;      // сноска под фигурой
+  caption?: string;   // подпись справа в шапке фигуры
+}
+const { fig, title, rows, verdict, note, caption = 'замер на одних задачах' } = Astro.props;
+const num = (n: number) => new Intl.NumberFormat('ru-RU').format(n);
+const width1 = (r: Row) => Math.round(((r.w1 ?? (r.before ? (r.after / r.before) * 100 : 100))) * 10) / 10;
+---
+<figure class="kit kit-aba" data-kit="aba">
+  <figcaption class="kit-cap">{fig && <b>Рис. {fig}</b>}{title}<em>{caption}</em></figcaption>
+  <ul class="kit-aba-list">
+    {rows.map((r) => (
+      <li>
+        <p class="kit-aba-l">{r.label}<em>{r.note}</em></p>
+        <div class="kit-aba-pair">
+          <span class="kit-aba-bar is-before" style={`--w:${r.w0 ?? 100}%`}>
+            <i></i><b>{num(r.before)} {r.unit}</b>
+          </span>
+          <span class="kit-aba-bar is-after" style={`--w:${width1(r)}%`}>
+            <i></i><b>{num(r.after)} {r.unit}</b>
+          </span>
+        </div>
+      </li>
+    ))}
+  </ul>
+  {verdict && <p class="kit-aba-verdict">{verdict}</p>}
+  {note && <p class="kit-foot">{note}</p>}
+</figure>
