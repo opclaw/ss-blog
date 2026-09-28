@@ -1100,3 +1100,13 @@ bbox текста с `polygon`/`rect`/`circle` и падает, если тек�
 `audit-visual` — 0 по 10 детекторам; `audit-text` 21 — 0/0; `audit-figures` 21 — 0;
 `audit-numbering` — 0; `audit-layout` 29 стр. — только горизонтальная прокрутка на широких
 служебных таблицах (`services`, `moya-planeta`), замечаний по вёрстке статьи нет.
+
+**Деплой:** коммит `342fe54`, ветка `arena/01a0d848-ss-blog`, Vercel Preview success —
+https://ss-blog-nb2cag4mm-opclaws-projects-1b852b6a.vercel.app
+Проверка по блогу в полном прогоне: `audit-layout` 29 стр. — по всем 21 статье 0 замечаний
+(`overlaps/clipped/brokenKit/heroProblems` — 0); горизонтальная прокрутка осталась только на
+служебных страницах (index, services, cases), где её дают широкие таблицы за пределами контента статьи.
+Одна страница (`kak-poschitat-effekt-ot-ii-do-pilota`) в общем прогоне не снялась из-за сбоя запуска
+браузера — прогнана отдельно: 0 замечаний.
+Деплой закрыт Vercel Protection: из чужого браузера ссылка открывается только у залогиненного
+владельца проекта (иначе Settings → Deployment Protection → Disabled).
