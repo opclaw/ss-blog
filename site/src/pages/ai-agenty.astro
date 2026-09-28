@@ -142,7 +142,7 @@ const layers = [
     .ag-lead { max-width: 600px; }
     .ag-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
     .ag-h2 { font-family: 'Manrope', sans-serif; font-size: clamp(1.7rem, 3.4vw, 2.6rem); font-weight: 800; letter-spacing: -0.026em; line-height: 1.12; margin: 0 0 18px; }
-    .ag-h2 em { font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 400; }
+    .ag-h2 em { font-style: normal; font-weight: 400; color: var(--accent); }  /* акцент цветом, а не третьим шрифтом */
     .ag-sec-label { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
     .ag-sec-num { font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); border: 1px solid var(--border-hover); border-radius: 6px; padding: 3px 7px; }
     .ag-sub { max-width: 720px; margin-bottom: 34px; }
@@ -230,6 +230,7 @@ const layers = [
       .ag-agent { max-width: 520px; }
       .ag-layer { grid-template-columns: 1fr; gap: 6px; }
     }
+    .text-secondary.ag-note-top { margin-top: 22px; }
 </style>
 
   <!-- ===== ГЕРОЙ ===== -->
@@ -352,7 +353,7 @@ const layers = [
         </table>
       </div>
 
-      <p class="text-secondary" style="margin-top:22px;">
+      <p class="text-secondary ag-note-top">
         Подробный разбор с примерами — в статье
         <a href="/blog/chto-takoe-ii-agent.html">«Что такое ИИ-агент простыми словами»</a>.
       </p>

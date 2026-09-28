@@ -158,23 +158,23 @@
   $$('[data-kit="check"]').forEach(function (root) {
     root.classList.add('kit-js');
     var boxes = $$('input[data-c]', root), bar = $('[data-cbar]', root), verdict = $('[data-cverdict]', root);
-    var levels = [];
-    var legend = $('.kit-check-legend', root);
-    if (legend) {
-      // пороги берём из легенды, чтобы текст вердикта жил в одном месте — в компоненте
-      legend.textContent.split(' · ').forEach(function (part, i) {
-        var m = part.match(/^(\d+)\+/);
-        if (m) levels.push({ from: +m[1], text: part.replace(/^\d+\+\s*—\s*/, '') });
-      });
-    }
+    var count = $('[data-ccount]', root);
+    // пороги читаем из data-атрибутов элементов легенды: раньше текст разбирался парсингом
+    // textContent, и любое изменение вёрстки (например, перенос строк) ломало вердикт —
+    // он залипал на первом уровне и не менялся при отметках.
+    var levels = $$('[data-cl]', root).map(function (el) {
+      return { from: +el.dataset.cl, text: el.dataset.verdict || ('уровень ' + el.dataset.cl), el: el };
+    }).sort(function (a, b) { return a.from - b.from; });
     function upd() {
       var n = boxes.filter(function (b) { return b.checked; }).length;
       if (bar) bar.style.width = Math.round(n / boxes.length * 100) + '%';
+      if (count) count.innerHTML = 'Отмечено <b>' + n + '</b> из ' + boxes.length;
       if (verdict && levels.length) {
         var cur = levels[0];
         levels.forEach(function (l) { if (n >= l.from) cur = l; });
         verdict.textContent = n === 0 ? 'Отметьте пункты — покажем вердикт' : cur.text;
-        $$('[data-cl]', root).forEach(function (el) { el.classList.toggle('on', n > 0 && +el.dataset.cl === cur.from); });
+        levels.forEach(function (l) { l.el.classList.toggle('on', n > 0 && l === cur); });
+        root.classList.toggle('is-ready', n >= (levels[levels.length - 1] && levels[levels.length - 1].from || 99));
       }
     }
     boxes.forEach(function (b) { b.addEventListener('change', upd); });

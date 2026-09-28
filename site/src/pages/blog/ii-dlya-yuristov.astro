@@ -1,7 +1,8 @@
 ---
 // ИИ для юристов — переписана 2026-09-25 (интент «сервисы и проверка договоров»).
 // Работа команд и источники фактов: deliverables/articles/ii-dlya-yuristov/REVIEW.md
-import Article from '../../layouts/Article.astro';
+import Article from '../../layouts/Article.astro'
+import HeroArt from '../../components/blog/HeroArt.astro';
 import DocScan from '../../components/blog/DocScan.astro';
 import Tabs from '../../components/blog/Tabs.astro';
 import Matrix from '../../components/blog/Matrix.astro';
@@ -107,26 +108,17 @@ const more = [
   path="/blog/ii-dlya-yuristov.html"
   kicker="Обзор · AI-направление"
   h1="ИИ для юристов: какие нейросети работают с российским правом и где им нельзя доверять"
-  monthYear="сентябрь 2026" minutes={11}
+  monthYear="сентябрь 2026" minutes={10}
   datePublished="2026-08-23" dateModified="2026-09-25"
   breadcrumb="ИИ для юристов"
   toc={toc} brief={brief} faq={faq} more={more}
 >
-  <svg slot="hero" class="bl-hero-art kit-hero-doc" viewBox="0 0 420 300" aria-hidden="true">
-    <rect x="110" y="20" width="200" height="260" rx="10" fill="#fff" stroke="#D2D2CA"/>
-    <g stroke="#E4E4DE" stroke-width="6" stroke-linecap="round">
-      <path d="M140 60h140M140 84h120M140 108h140M140 132h100M140 156h140M140 180h130M140 204h90M140 228h140"/>
-    </g>
-    <path d="M140 108h140" stroke="#C2410C" stroke-opacity=".35" stroke-width="10" stroke-linecap="round"/>
-    <path d="M140 180h130" stroke="#D97706" stroke-opacity=".35" stroke-width="10" stroke-linecap="round"/>
-    <g font-family="JetBrains Mono,monospace" font-size="11" fill="#5E5E68">
-      <path d="M296 108h34" stroke="#C2410C" stroke-width="1.5"/><circle cx="336" cy="108" r="11" fill="#fff" stroke="#C2410C" stroke-width="1.5"/><text x="336" y="112" text-anchor="middle" fill="#C2410C">1</text>
-      <path d="M286 180h44" stroke="#D97706" stroke-width="1.5"/><circle cx="336" cy="180" r="11" fill="#fff" stroke="#D97706" stroke-width="1.5"/><text x="336" y="184" text-anchor="middle" fill="#B45309">2</text>
-      <circle cx="80" cy="228" r="16" fill="#E3F5EE" stroke="#0E9F6E" stroke-width="1.5"/><text class="f-green" x="80" y="232" text-anchor="middle">юр</text>
-      <path d="M96 228h36" stroke="#0E9F6E" stroke-width="1.5" stroke-dasharray="3 3"/>
-    </g>
-    <rect class="kit-hero-scan" x="104" y="20" width="212" height="3" rx="1.5" fill="#00D9FF"/>
-  </svg>
+  <HeroArt slot="hero" variant="doc" labels={['договор контрагента', 'риски и расхождения', 'юрист решает']}
+    notes={[
+      'Чужая редакция договора: PDF, Word или скан — ИИ читает любой формат',
+      'Типовые риски подсвечены: штрафы, оплата, ответственность, подсудность',
+      'Юрист проверяет помеченное и решает — ИИ ускоряет первый проход, не заменяет решение',
+    ]} />
 
   <p class="bl-intro">Под запросом «ИИ для юристов» прячутся три разные вещи: правовые ассистенты, которые ищут по базе законов и практики, платформы для работы с договорами и универсальные модели вроде GigaChat или Алисы AI. Они по-разному ошибаются — и выбирать их нужно под задачу, а не по рейтингу.</p>
   <p>Ниже — что умеет каждый класс, какие сервисы работают с российским правом, как проверить договор с помощью нейросети и где ей нельзя доверять ни при каких условиях. Оценок сервисам мы не ставим: только то, что можно проверить на их сайтах.</p>

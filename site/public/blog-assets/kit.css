@@ -17,6 +17,7 @@
 .kit-scan-grid{display:grid;grid-template-columns:1.35fr 1fr}
 .kit-doc{position:relative;padding:26px 26px 30px;background:
   repeating-linear-gradient(0deg,transparent 0 29px,rgba(16,16,20,.035) 29px 30px),#FFFEFB;
+  /* осознанный сериф: этот блок изображает бумажный документ (договор), а не текст статьи */
   font:400 15px/1.75 'Georgia','Times New Roman',serif;color:#2B2B33;border-right:1px solid var(--line)}
 .kit-doc-h{font:700 13px/1.4 var(--f-m);letter-spacing:.08em;text-transform:uppercase;text-align:center;margin:0 0 16px;color:var(--fg)}
 .kit-doc p{margin:0 0 10px}
@@ -115,6 +116,7 @@
 .kit-calc-in label{display:grid;grid-template-columns:1fr auto;gap:8px 12px;align-items:baseline;font-size:15px;color:var(--text)}
 .kit-calc-in output{font:600 15px var(--f-m);color:var(--fg)}
 .kit-calc-in input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--acc-t);-webkit-appearance:none;appearance:none;height:22px;background:transparent}
+.kit-calc input,.kit-calc-in input{font-family:inherit}
 .kit-calc-in input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:999px;background:var(--line2)}
 .kit-calc-in input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;margin-top:-7px;border-radius:50%;background:var(--acc-t);border:2px solid var(--card);box-shadow:0 2px 0 0 rgba(16,16,20,.25)}
 .kit-calc-in input[type=range]::-moz-range-track{height:6px;border-radius:999px;background:var(--line2)}
@@ -143,7 +145,7 @@
 /* ---------- Funnel: воронка от заявок до сделки ---------- */
 .kit-funnel-bars{display:flex;flex-direction:column;gap:10px;margin:2px 0 4px}
 .kit-funnel-lbl{display:block;font:500 12px var(--f-m);letter-spacing:.04em;color:var(--dim);margin-bottom:4px}
-.kit-funnel-bar i{display:block;height:10px;border-radius:999px;background:var(--line2);transition:width .25s}
+.kit-funnel-bar i{display:block;height:10px;border-radius:999px;background:var(--line2);width:var(--w,0);transition:width .25s}
 .kit-dark .kit-funnel-bar i{background:rgba(245,245,247,.3)}
 .kit-funnel-bar:last-child i{background:var(--acc-t)}
 @media (prefers-reduced-motion:reduce){.kit-funnel-bar i{transition:none}}
@@ -152,13 +154,17 @@
 .kit-check-list{list-style:none;margin:0;padding:8px 20px 4px}
 .kit-check-list li{border-bottom:1px solid var(--line)}
 .kit-check-list li:last-child{border-bottom:0}
-.kit-check-list label{display:flex;gap:12px;align-items:flex-start;padding:12px 0;cursor:pointer;font-size:15px;line-height:1.55;color:var(--text)}
-.kit-check-list input{flex:0 0 auto;width:20px;height:20px;margin:2px 0 0;accent-color:var(--acc-t);cursor:pointer}
+.kit-check-list label{font-family:var(--f-t);display:flex;gap:12px;align-items:flex-start;padding:12px 0;cursor:pointer;font-size:15px;line-height:1.55;color:var(--text)}
+.kit-check-list input{flex:0 0 auto;width:20px;height:20px;margin:2px 0 0;accent-color:var(--acc-t);cursor:pointer;font-family:var(--f-t),sans-serif}
 .kit-check-list input:checked + span{color:var(--fg)}
 .kit-check-out{padding:16px 20px 18px;border-top:1px solid var(--line);background:var(--paper2)}
 .kit-check-bar{height:8px;border-radius:999px;background:var(--line2);overflow:hidden}
-.kit-check-bar i{display:block;height:100%;border-radius:999px;background:var(--acc-t);transition:width .25s}
-.kit-check-verdict{margin:12px 0 0;font:600 16px/1.35 var(--f-d);color:var(--fg)}
+.kit-check-bar i{display:block;height:100%;width:0;border-radius:999px;background:var(--acc-t);transition:width .25s}
+.kit-check-count{margin:10px 0 0;font:500 12px/1.4 var(--f-m);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.kit-check-count b{color:var(--acc-t);font-weight:600}
+.kit-check-verdict{margin:12px 0 0;font:600 16px/1.35 var(--f-d);color:var(--fg);transition:color .2s}
+.kit-check.is-ready .kit-check-verdict{color:var(--green-t,#0B7A57)}
+.kit-check.is-ready .kit-check-bar i{background:var(--green,#0E9F6E)}
 .kit-check-legend{margin:8px 0 0;font:400 13px/1.5 var(--f-t);color:var(--dim)}
 .kit-check-legend span{display:block;opacity:.5}
 .kit-check-legend span+span{margin-top:2px}

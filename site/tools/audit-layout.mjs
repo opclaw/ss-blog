@@ -30,7 +30,7 @@ const JSON_OUT = getArg('--json', '/tmp/audit-layout.json');
 const ONLY = getArg('--only', '');
 
 const SCAN = `(() => {
-  const out = { overflow: [], clipped: [], overlaps: [], zoomAffordance: [], outsideCard: [], contrast: [], tableLook: [] };
+  const out = { overflow: [], clipped: [], overlaps: [], zoomAffordance: [], outsideCard: [], contrast: [], tableLook: [], brokenKit: [] };
   const vw = window.innerWidth;
   // элемент реально виден: не в закрытом details, не скрыт стилями и не срезан прокруткой/клипом предка
   const visible = (el) => {
@@ -176,6 +176,51 @@ const SCAN = `(() => {
       && (Math.abs(thL - tdL) > 0.02 || thBorder > 0);
     if (!ok) out.tableLook.push({ text: describe(t), thBg: getComputedStyle(th).backgroundColor, tdBg: getComputedStyle(td).backgroundColor, borders, thL, tdL, diff: (thL !== null && tdL !== null) ? +(Math.abs(thL - tdL)).toFixed(3) : null });
   });
+  // интерактив: у каждого кита с кнопками кнопка должна что-то менять
+  document.querySelectorAll('[data-kit]').forEach((root) => {
+    const btns = [...root.querySelectorAll('button')];
+    if (!btns.length) return;
+    // подпись состояния: классы, aria-expanded, скрытость — так видно реакцию на клик
+    // в снимок входят и aria-pressed/aria-selected, значения полей и текст: иначе рабочие
+    // киты (например .kit-matrix, где клик меняет aria-pressed и подпись) выглядят «сломанными»
+    const snap = () => [...root.querySelectorAll('*')].map((el) => el.className + '|' + (el.getAttribute('aria-expanded') || '') + '|' + (el.getAttribute('aria-pressed') || '') + '|' + (el.getAttribute('aria-selected') || '') + '|' + getComputedStyle(el).display + '|' + getComputedStyle(el).opacity + '|' + (el.value === undefined ? '' : el.value) + '|' + (el.textContent || '').trim().slice(0, 120)).join(';');
+    const b0 = snap();
+    let changed = false;
+    for (const b of btns.slice(0, 3)) {
+      b.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      if (snap() !== b0) { changed = true; break; }
+    }
+    if (!changed && btns.length > 1) out.brokenKit.push({ kit: root.className.split(' ').slice(0, 2).join(' '), buttons: btns.length });
+  });
+
+  // живой арт в шапке: шаги, подписи, точки, реакция на нажатие
+  const hero = document.querySelector('[data-hero]');
+  if (hero) {
+    const steps = [...hero.querySelectorAll('.h-step')];
+    const hsAll = [...hero.querySelectorAll('[data-hs]')];
+    const uniq = new Set(hsAll.map((x) => x.dataset.hs));
+    const dots = [...hero.querySelectorAll('.bl-hero-dot')];
+    if (uniq.size !== dots.length) out.hero = { steps: steps.length, dots: dots.length, uniqueSteps: uniq.size, problem: 'steps ' + uniq.size + ' vs dots ' + dots.length };
+    const cap = hero.querySelector('[data-hero-cap]');
+    const r0 = { steps: steps.length, dots: dots.length };
+    if (!steps.length || !dots.length || !cap) out.hero = { ...r0, problem: 'нет шагов/точек/подписи' };
+    else {
+      const before = cap.textContent.trim();
+      const onBefore = steps.findIndex((x) => x.classList.contains('h-on'));
+      // кликаем по НЕактивному шагу: клик по уже активному ничего не меняет и даёт
+      // ложное «подпись не меняется» (автопрокрутка могла уже перевести арт на последний шаг)
+      const target = steps.find((x) => !x.classList.contains('h-on')) || steps[0];
+      target.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      const after = cap.textContent.trim();
+      const on = steps.filter((x) => x.classList.contains('h-on')).length;
+      const onAfter = steps.findIndex((x) => x.classList.contains('h-on'));
+      out.hero = { ...r0, подписьМеняется: (before !== after || onBefore !== onAfter) && after.length > 10, активных: on,
+        точкиСинхронны: dots.filter((d) => d.classList.contains('on')).length === on };
+    }
+    // каждый шаг должен нести свою подпись
+    const emptyNotes = steps.filter((x) => !(x.dataset.note || '').trim()).length;
+    if (emptyNotes) out.hero.emptyNotes = emptyNotes;
+  }
   return out;
 })()`;
 
@@ -227,7 +272,16 @@ for (const page of list) {
         await p.close();
         return data;
       });
-      const counts = Object.fromEntries(Object.entries(res).map(([k, v]) => [k, v.length]));
+      const counts = Object.fromEntries(Object.entries(res).filter(([, v]) => Array.isArray(v)).map(([k, v]) => [k, v.length]));
+      if (res.hero) {
+        const hp = [];
+        if (res.hero.problem) hp.push(res.hero.problem);
+        if (!res.hero.подписьМеняется) hp.push('подпись не меняется при нажатии');
+        if (!res.hero.точкиСинхронны) hp.push('точки не синхронны со шагами');
+        if (res.hero.emptyNotes) hp.push(`шагов без подписи: ${res.hero.emptyNotes}`);
+        if (hp.length) { counts.heroProblems = hp.length; res.hero.problems = hp; }
+        else counts.heroProblems = 0;
+      }
       entry.viewports[vp.name] = { counts, details: res };
       const bad = Object.values(counts).reduce((a, b) => a + b, 0) + (res.pageScrollX > 2 ? 1 : 0);
       if (bad) console.log(`${page} @${vp.name}: ${JSON.stringify(counts)}${res.pageScrollX > 2 ? ` ГОРИЗОНТАЛЬНАЯ_ПРОКРУТКА:${res.pageScrollX}px` : ''}`);

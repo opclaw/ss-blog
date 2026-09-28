@@ -344,7 +344,11 @@ const jsonLd = [
       font-weight: 700;
       font-family: var(--font-mono);
     }
-  </style>
+      .ai-note-wide { margin-top: 30px; max-width: 760px; }
+    .ai-note-mid { max-width: 560px; }
+    .ai-toggle-top { margin-top: 24px; }
+    .ai-payback-svg { max-width: 360px; width: 100%; height: 200px; }
+</style>
   <section class="section ai-hero" id="main-content">
     <div class="container">
       <div class="ai-hero-layout">
@@ -356,7 +360,7 @@ const jsonLd = [
             <span class="text-accent">Вам нужны 20 часов команды в неделю.</span>
           </h1>
 
-          <p class="text-secondary fade-in fade-in-d2" style="max-width:560px;">
+          <p class="text-secondary fade-in fade-in-d2 ai-note-mid">
             Внедряем искусственный интеллект в ежедневную работу компании:
             заявки, документы, база знаний, отчёты. Сначала считаем эффект
             в часах и рублях. Потом — и только потом — внедряем.
@@ -520,7 +524,7 @@ const jsonLd = [
             <span class="ai-payback-label">// окупаемость на реальном примере</span>
             <span class="ai-payback-meta">HR, 40 ч/нед, ставка 800 ₽</span>
           </div>
-          <svg class="ai-payback-svg" viewBox="0 0 360 200" role="img" preserveAspectRatio="xMidYMid meet" style="max-width:360px;width:100%;height:200px;">
+          <svg class="ai-payback-svg" viewBox="0 0 360 200" role="img" preserveAspectRatio="xMidYMid meet">
             <!-- оси -->
             <line x1="40" y1="20" x2="40" y2="170" stroke="rgba(255,255,255,0.18)"/>
             <line x1="40" y1="170" x2="340" y2="170" stroke="rgba(255,255,255,0.18)"/>
@@ -663,7 +667,7 @@ const jsonLd = [
         </div>
       </div>
 
-      <p class="text-secondary" style="margin-top:30px;max-width:760px;">
+      <p class="text-secondary ai-note-wide">
         Если задача именно в агенте — который сам ищет данные, работает в CRM и готовит документы, —
         этому посвящена отдельная страница: <a href="/ai-agenty.html">разработка и внедрение ИИ-агентов</a>.
       </p>
@@ -870,7 +874,7 @@ const jsonLd = [
           </div>
       </div>
 
-      <div class="ai-blog-toggle-wrap" style="margin-top: 24px;">
+      <div class="ai-blog-toggle-wrap ai-toggle-top">
         <button class="ai-blog-toggle" type="button" aria-label="Показать все отрасли">
           <span class="ai-blog-toggle-text">Показать все отрасли</span>
           <span class="ai-blog-toggle-count">(12)</span>

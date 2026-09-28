@@ -18,9 +18,10 @@ const id = 'kc' + Math.abs([...title].reduce((a, c) => (a * 31 + c.charCodeAt(0)
     ))}
   </ul>
   <div class="kit-check-out" aria-live="polite">
-    <div class="kit-check-bar"><i data-cbar style="width:0%"></i></div>
+    <div class="kit-check-bar"><i data-cbar></i></div>
+    <p class="kit-check-count" data-ccount>Отмечено <b>0</b> из {items.length}</p>
     <p class="kit-check-verdict" data-cverdict>Отметьте пункты — покажем вердикт</p>
-    <p class="kit-check-legend">{levels.map((l) => <span data-cl={l.from}>{l.from}+ — {l.text}</span>)}</p>
+    <p class="kit-check-legend">{levels.map((l) => <span data-cl={l.from} data-verdict={l.text}>{l.from}+ — {l.text}</span>)}</p>
   </div>
   {note && <p class="kit-foot">{note}</p>}
 </figure>
