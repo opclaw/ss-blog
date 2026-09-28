@@ -1,6 +1,7 @@
 ---
 // Статья блога (дизайн v6). Сгенерировано tools/port_v6.py из site-preview/blog/chto-takoe-ii-agent.html; дальше правим здесь.
 import Base from '../../layouts/Base.astro';
+import { assetV } from '../../data/asset-version';
 import AuthorCard from '../../components/blog/AuthorCard.astro';
 import ContactCards from '../../components/ContactCards.astro';
 import Checklist from '../../components/blog/Checklist.astro';
@@ -20,7 +21,8 @@ const jsonLd = [
   readProgress
   bodyClass="bl-page"
 >
-<link slot="head" rel="stylesheet" href="/blog-assets/article.css">
+<link slot="head" rel="stylesheet" href={`/blog-assets/article.css?v=${assetV('/blog-assets/article.css')}`}>
+<link slot="head" rel="stylesheet" href={`/blog-assets/kit.css?v=${assetV('/blog-assets/kit.css')}`}>
 <main class="bl-sheet" id="article">
   <header class="bl-hero">
     <div class="bl-hero-in">
@@ -267,6 +269,7 @@ const jsonLd = [
     }, { passive: true });
   })();
 </script>
-<script is:inline src="/blog-assets/article.js"></script>
+<script is:inline src={`/blog-assets/article.js?v=${assetV('/blog-assets/article.js')}`}></script>
+<script is:inline src={`/blog-assets/kit.js?v=${assetV('/blog-assets/kit.js')}`}></script>
 </Fragment>
 </Base>

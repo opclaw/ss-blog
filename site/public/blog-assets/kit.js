@@ -154,6 +154,50 @@
 
 
 
+  /* ---------- Budget: конфигуратор бюджета ---------- */
+  $$('[data-kit="budget"]').forEach(function (root) {
+    root.classList.add('kit-js');
+    var groups = $$('[data-bg]', root), total = $('[data-btotal]', root);
+    var verdict = $('[data-bverdict]', root), extra = $('[data-bextra]', root), extraRow = $('[data-bextra-row]', root);
+    function money(n) { return Number(n).toLocaleString('ru-RU'); }
+    function pick(gr) {
+      var b = $('[data-bopt][aria-pressed="true"]', gr);
+      return b ? { id: b.dataset.bopt, min: +b.dataset.min, max: +b.dataset.max } : { id: '', min: 0, max: 0 };
+    }
+    // порядок правил должен совпадать с серверным рендером в Budget.astro,
+    // иначе цифры по умолчанию и после первого клика разойдутся
+    function verdictFor(p, i) {
+      if (p === 'p-hard') return 'Даже многосистемную задачу начинаем с одного участка: пилот покажет эффект до больших вложений.';
+      if (i === 'i-all') return 'Масштабирование идёт этапами: каждый следующий процесс — после доказанного эффекта предыдущего.';
+      if (i === 'i-multi') return 'Сначала пилот на одном процессе, потом тиражирование по отделам.';
+      return 'Типовой путь: бесплатный аудит, пилот 2–4 недели, решение по цифрам замера.';
+    }
+    function upd() {
+      var v = {};
+      groups.forEach(function (gr) { v[gr.dataset.bg] = pick(gr); });
+      var put = function (k, val) { var el = $('[data-brow="' + k + '"]', root); if (el) el.textContent = val; };
+      put('pilot', money(v.pilot.min) + ' – ' + money(v.pilot.max) + ' ₽');
+      put('impl', money(v.impl.min) + ' – ' + money(v.impl.max) + ' ₽');
+      put('support', money(v.support.min) + ' – ' + money(v.support.max) + ' ₽/мес');
+      if (total) total.textContent = money(v.pilot.min + v.impl.min);
+      var bmax = $('[data-bmax]', root);
+      if (bmax) bmax.textContent = money(v.pilot.max + v.impl.max);
+      if (verdict) verdict.textContent = verdictFor(v.pilot.id, v.impl.id);
+      if (extraRow) extraRow.hidden = !(extra && extra.checked);
+    }
+    groups.forEach(function (gr) {
+      $$('[data-bopt]', gr).forEach(function (b) {
+        b.addEventListener('click', function () {
+          $$('[data-bopt]', gr).forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+          b.setAttribute('aria-pressed', 'true');
+          upd();
+        });
+      });
+    });
+    if (extra) extra.addEventListener('change', upd);
+    upd();
+  });
+
   /* ---------- Checklist: отметки → шкала и вердикт ---------- */
   $$('[data-kit="check"]').forEach(function (root) {
     root.classList.add('kit-js');

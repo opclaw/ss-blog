@@ -2,10 +2,10 @@
 // Калькулятор. expr — выражение от id полей (пишем сами, не пользовательский ввод).
 interface Input { id: string; label: string; min: number; max: number; step: number; value: number; unit?: string }
 interface Out { expr: string; label?: string; unit?: string; dig?: number }
-interface Props { fig?: number; title: string; inputs: Input[]; main: Out & { label: string }; rows?: (Out & { label: string })[]; note: string }
-const { fig, title, inputs, main, rows = [], note } = Astro.props;
+interface Props { fig?: number; id?: string; title: string; inputs: Input[]; main: Out & { label: string }; rows?: (Out & { label: string })[]; note: string }
+const { fig, id, title, inputs, main, rows = [], note } = Astro.props;
 ---
-<figure class="kit kit-calc" data-kit="calc">
+<figure class="kit kit-calc" data-kit="calc" id={id}>
   <figcaption class="kit-cap">{fig && <b>Рис. {fig}</b>}{title}<em>подставьте свои цифры</em></figcaption>
   <div class="kit-calc-grid">
     <div class="kit-calc-in">

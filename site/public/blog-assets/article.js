@@ -109,15 +109,6 @@
   /* столбики */
   var bars=$('[data-bars]');onView(bars,function(){bars.classList.add('in')});
 
-  /* чек-лист */
-  var ch=$('[data-check]');
-  if(ch){
-    var boxes=$$('input',ch),m=$('[data-meter]',ch),vd=$('[data-verdict]',ch);
-    var V=['Отметьте пункты — покажем, с чего начать.','Рано для агента: начните с описания процесса и замера времени.','Рано для агента: начните с описания процесса и замера времени.','Почти готово: закройте недостающие пункты — это 1–2 недели подготовки.','Можно начинать пилот на 2–4 недели.','Процесс готов. Можно начинать пилот на 2–4 недели.'];
-    function u(){var n=boxes.filter(function(b){return b.checked}).length;m.style.width=n*20+'%';m.style.background=n>=4?'var(--green)':n>=3?'#D97706':'var(--red)';vd.textContent=(n?n+' из 5 — ':'')+V[n]}
-    boxes.forEach(function(b){b.addEventListener('change',u)});
-  }
-
   /* копирование промпта */
   $$('.bl-prompt button').forEach(function(b){b.onclick=function(){navigator.clipboard.writeText($('pre',b.closest('.bl-prompt')).innerText).then(function(){b.textContent='скопировано';setTimeout(function(){b.textContent='копировать'},1600)})}});
 })();

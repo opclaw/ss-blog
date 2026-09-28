@@ -1,0 +1,103 @@
+---
+// Конфигуратор бюджета: читатель выбирает масштаб пилота, внедрения и сопровождения и сразу
+// видит ориентир бюджета. Никаких новых цен: все вилки лежат внутри уже опубликованных
+// диапазонов — пилот 50 000–150 000 ₽ (статья и pillar), внедрение 200 000–1 000 000 ₽
+// (FAQ pillar «Внедрение ИИ в бизнес»), сопровождение «от нескольких тысяч до десятков
+// тысяч ₽/мес» (раздел «Сопровождение» этой же статьи).
+interface Opt { id: string; label: string; hint: string; min: number; max: number }
+interface Group { id: string; q: string; options: Opt[] }
+interface Props { fig?: number; title?: string; note?: string; calcHref?: string }
+const {
+  fig,
+  title = 'Конфигуратор бюджета',
+  note = 'Вилки — ориентир внутри опубликованных диапазонов: пилот 50 000–150 000 ₽, внедрение 200 000–1 000 000 ₽. Точную цифру называем после бесплатного аудита.',
+  calcHref = '#payback',
+} = Astro.props;
+
+const groups: Group[] = [
+  {
+    id: 'pilot',
+    q: 'Пилот: какой процесс проверяем',
+    options: [
+      { id: 'p-lite', label: 'Типовой', hint: 'заявки, письма, документы по шаблону', min: 50000, max: 80000 },
+      { id: 'p-mid', label: 'С настройкой шагов', hint: 'КП, разбор переписки, несколько промптов', min: 80000, max: 120000 },
+      { id: 'p-hard', label: 'Многосистемный', hint: 'CRM, склад, документы, требования к точности', min: 120000, max: 150000 },
+    ],
+  },
+  {
+    id: 'impl',
+    q: 'Внедрение: какой масштаб после пилота',
+    options: [
+      { id: 'i-one', label: 'Один отдел', hint: 'один процесс, одна команда', min: 200000, max: 300000 },
+      { id: 'i-multi', label: 'Несколько отделов', hint: 'роли, права, обучение, исключения', min: 300000, max: 600000 },
+      { id: 'i-all', label: 'Вся компания', hint: 'много процессов и систем', min: 600000, max: 1000000 },
+    ],
+  },
+  {
+    id: 'support',
+    q: 'Сопровождение: какой объём поддержки',
+    options: [
+      { id: 's-base', label: 'Базовое', hint: 'один помощник, мониторинг качества', min: 5000, max: 10000 },
+      { id: 's-mid', label: 'Расширенное', hint: 'несколько сценариев, дообучение', min: 10000, max: 25000 },
+      { id: 's-max', label: 'Многосистемное', hint: 'интеграции и рост сценариев', min: 25000, max: 50000 },
+    ],
+  },
+];
+
+const num = (n: number) => new Intl.NumberFormat('ru-RU').format(n);
+const range = (o: Opt) => `${num(o.min)} – ${num(o.max)}`;
+const first = (g: Group) => g.options[0];
+const pilot0 = first(groups[0]), impl0 = first(groups[1]), support0 = first(groups[2]);
+
+// Тот же порядок правил, что в kit.js — иначе цифры по умолчанию и после клика разойдутся.
+const verdictFor = (p: string, i: string) =>
+  p === 'p-hard'
+    ? 'Даже многосистемную задачу начинаем с одного участка: пилот покажет эффект до больших вложений.'
+    : i === 'i-all'
+      ? 'Масштабирование идёт этапами: каждый следующий процесс — после доказанного эффекта предыдущего.'
+      : i === 'i-multi'
+        ? 'Сначала пилот на одном процессе, потом тиражирование по отделам.'
+        : 'Типовой путь: бесплатный аудит, пилот 2–4 недели, решение по цифрам замера.';
+const verdict0 = verdictFor(pilot0.id, impl0.id);
+const total0 = [pilot0.min + impl0.min, pilot0.max + impl0.max];
+---
+
+<figure class="kit kit-budget" data-kit="budget">
+  <figcaption class="kit-cap">{fig && <b>Рис. {fig}</b>}{title}<em>выберите свои варианты</em></figcaption>
+  <div class="kit-budget-grid">
+    <div class="kit-budget-in">
+      {groups.map((g) => (
+        <div class="kit-budget-group" data-bg={g.id} role="group" aria-label={g.q}>
+          <p class="kit-budget-q">{g.q}</p>
+          <div class="kit-budget-chips">
+            {g.options.map((o) => (
+              <button type="button" class="kit-chip" data-bopt={o.id} data-min={o.min} data-max={o.max}
+                aria-pressed={o.id === first(g).id ? 'true' : 'false'}>
+                {o.label}<small>{o.hint}</small>
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
+      <label class="kit-budget-extra">
+        <input type="checkbox" data-bextra />
+        <span>Заложить часы команды на чистку данных и тесты — это время, отдельных денег подрядчику они не требуют</span>
+      </label>
+    </div>
+    <div class="kit-budget-out kit-calc-out" aria-live="polite">
+      <p class="kit-calc-k">Ориентир бюджета на старте</p>
+      <p class="kit-calc-big">от <span data-btotal>{num(total0[0])}</span><small>₽</small></p>
+      <p class="kit-budget-max">до <span data-bmax>{num(total0[1])}</span> ₽ при полном объёме</p>
+      <ul class="kit-calc-rows">
+        <li><span>Аудит процесса</span><b><span data-brow="audit">0 ₽</span></b></li>
+        <li><span>Пилот 2–4 недели</span><b><span data-brow="pilot">{range(pilot0)} ₽</span></b></li>
+        <li><span>Полноценное внедрение</span><b><span data-brow="impl">{range(impl0)} ₽</span></b></li>
+        <li><span>Сопровождение</span><b><span data-brow="support">{range(support0)} ₽/мес</span></b></li>
+        <li data-bextra-row hidden><span>Время команды и чистка данных</span><b>часы, не рубли</b></li>
+      </ul>
+      <p class="kit-budget-verdict" data-bverdict>{verdict0}</p>
+      <p class="kit-budget-next"><a href={calcHref}>Посчитать окупаемость этого бюджета →</a></p>
+    </div>
+  </div>
+  <p class="kit-foot">{note}</p>
+</figure>

@@ -14,6 +14,12 @@ let bad = 0, pages = 0;
 for (const f of files.sort()) {
   const raw = fs.readFileSync(f, 'utf8');
   if (!raw.includes('data-kit=')) continue;
+  // страховка: кит в разметке без подключённых ассетов молча не работает (так был мёртв
+  // чек-лист в статье «Что такое ИИ-агент» — скрипт просто не подключался к странице)
+  const missing = [];
+  if (!raw.includes('blog-assets/kit.js')) missing.push('kit.js');
+  if (!raw.includes('blog-assets/kit.css')) missing.push('kit.css');
+  if (missing.length) { bad++; console.log(`✗ ${path.relative(dist, f).padEnd(44)} не подключены: ${missing.join(', ')} — интерактив мёртв`); continue; }
   pages++;
   const rel = path.relative(dist, f);
   const errs = [], ok = [];
@@ -89,6 +95,47 @@ for (const f of files.sort()) {
     inp.value = inp.max; inp.dispatchEvent(new w.Event('input'));
     if (out.textContent === before) errs.push('calc: итог не меняется от ползунка');
     ok.push(`calc ${before}→${out.textContent}`);
+  }
+  for (const root of d.querySelectorAll('[data-kit="budget"]')) {
+    const groups = [...root.querySelectorAll('[data-bg]')];
+    const total = root.querySelector('[data-btotal]');
+    if (!groups.length || !total) { errs.push('budget: нет групп или итога'); continue; }
+    const toNum = (v) => parseInt(String(v).replace(/[^\d]/g, ''), 10);
+    if (!/\d/.test(total.textContent)) errs.push('budget: итог пустой при выборе по умолчанию');
+    // в каждой группе выбор ровно один, а итог обязан пересчитаться
+    const seen = new Set();
+    for (const gr of groups) {
+      const chips = [...gr.querySelectorAll('[data-bopt]')];
+      chips.at(-1).click();
+      if (chips.at(-1).getAttribute('aria-pressed') !== 'true') errs.push('budget: aria-pressed не встал на выбранный вариант');
+      if (chips.filter((c) => c.getAttribute('aria-pressed') === 'true').length !== 1) errs.push('budget: в группе выбрано не одно значение');
+      seen.add(total.textContent);
+    }
+    if (seen.size < 2) errs.push('budget: итог не меняется от выбора вариантов');
+    // итог = пилот + внедрение, строка сопровождения = выбранной вилке
+    const pickOf = (id) => root.querySelector('[data-bg="' + id + '"] [data-bopt][aria-pressed="true"]');
+    const p = pickOf('pilot'), i = pickOf('impl'), sup = pickOf('support');
+    const expect = +p.dataset.min + +i.dataset.min;
+    if (toNum(total.textContent) !== expect) errs.push(`budget: итог не равен сумме пилота и внедрения (${total.textContent} против ${expect})`);
+    const bmax = root.querySelector('[data-bmax]');
+    if (!bmax) errs.push('budget: нет верхней границы бюджета');
+    else if (toNum(bmax.textContent) !== +p.dataset.max + +i.dataset.max) errs.push('budget: верхняя граница не равна сумме максимумов пилота и внедрения');
+    const supRow = root.querySelector('[data-brow="support"]');
+    if (!supRow || toNum(supRow.textContent.split('–')[0]) !== +sup.dataset.min) errs.push(`budget: строка сопровождения не соответствует выбору (${supRow ? supRow.textContent.trim() : 'нет строки'} против ${sup.dataset.min})`);
+    // галочка про время команды добавляет строку в план и снимается обратно
+    const extra = root.querySelector('[data-bextra]'), row = root.querySelector('[data-bextra-row]');
+    if (extra && row) {
+      extra.checked = true; extra.dispatchEvent(new w.Event('change'));
+      if (row.hidden) errs.push('budget: строка про время команды не появляется');
+      extra.checked = false; extra.dispatchEvent(new w.Event('change'));
+      if (!row.hidden) errs.push('budget: строка про время команды не скрывается');
+    } else errs.push('budget: нет галочки про время команды');
+    // ссылка на расчёт окупаемости ведёт к существующему блоку этой же статьи
+    const link = root.querySelector('.kit-budget-next a');
+    if (!link) errs.push('budget: нет ссылки на расчёт окупаемости');
+    else if (link.getAttribute('href').startsWith('#') && !d.getElementById(link.getAttribute('href').slice(1)))
+      errs.push('budget: ссылка на расчёт ведёт в никуда');
+    ok.push(`budget ${groups.length} группы · ${total.textContent.trim()}`);
   }
   for (const root of d.querySelectorAll('[data-kit="timeline"]')) {
     const items = [...root.querySelectorAll('.kit-tl li')], btns = items.map((li) => li.querySelector('.kit-tl-btn'));
