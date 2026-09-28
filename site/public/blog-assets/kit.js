@@ -17,7 +17,7 @@
   $$('[data-kit="scan"]').forEach(function (root) {
     root.classList.add('kit-js');
     var risks = $$('.kit-risk', root), finds = $$('.kit-finds li', root);
-    var btn = $('[data-scan-run]', root), human = $('[data-scan-human]', root);
+    var btn = $('[data-scan-run]', root);
     var count = $('[data-scan-count]', root);
     var timers = [], done = false;
 
@@ -46,7 +46,9 @@
       finds.forEach(function (f) { var h = headOf(f); if (h) h.setAttribute('aria-expanded', 'false'); });
       root.classList.remove('scanning', 'scanned');
       risks.forEach(function (r) { r.classList.remove('on', 'active'); r.removeAttribute('tabindex'); });
-      finds.forEach(function (f) { f.classList.remove('on', 'active'); open(f, false); });
+      /* «вспышка» прогона снимается, но карточки остаются в реестре (on) — иначе правая
+         колонка выглядит пустой и незаконченной, на что и жаловался владелец */
+      finds.forEach(function (f) { f.classList.remove('active'); open(f, false); });
       if (count) count.textContent = '0';
     }
     function run() {
@@ -63,19 +65,15 @@
       timers.push(setTimeout(function () {
         done = true; root.classList.add('scanned');
         if (btn) btn.textContent = 'Проверить ещё раз';
-        if (human) human.hidden = false;
         /* главную находку показываем сразу — читателю не нужно угадывать, куда нажимать */
         var first = machine.filter(function (f) { return f.classList.contains('high'); })[0] || machine[0];
         if (first) { activate(first.dataset.n); open(first, true); }
       }, reduce ? 0 : 400 + machine.length * 420));
     }
-    if (human) human.hidden = true;
     if (btn) btn.addEventListener('click', run);
-    if (human) human.addEventListener('click', function () {
-      var h = finds.filter(function (f) { return f.classList.contains('human'); })[0];
-      if (h) { h.classList.add('on'); activate(h.dataset.n); open(h, true); }
-      human.hidden = true;
-    });
+    /* Реестр полный с самого начала: читатель видит все находки, включая ту,
+       которую ИИ не нашёл (её добавил человек). Кнопка лишь перезапускает подсветку. */
+    finds.forEach(function (f) { f.classList.add('on'); });
     finds.forEach(function (li) {
       var head = headOf(li);
       if (head) head.addEventListener('click', function () {

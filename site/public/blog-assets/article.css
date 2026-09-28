@@ -246,8 +246,10 @@ html{scroll-padding-top:84px}
 .bl-faq details{border-bottom:1px solid var(--line)}
 .bl-faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px;padding:20px 0;font:700 18px/1.4 var(--f-d);color:var(--fg)}
 .bl-faq summary::-webkit-details-marker{display:none}
-.bl-faq summary::after{content:"+";flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--paper2);color:var(--fg);font:400 18px/1 var(--f-t);transition:.2s}
-.bl-faq details[open] summary::after{transform:rotate(45deg);background:var(--ink);color:#fff}
+.bl-faq summary::after{content:"";flex:none;width:28px;height:28px;border-radius:50%;background:var(--paper2);transition:.2s;
+  background-image:linear-gradient(var(--fg),var(--fg)),linear-gradient(var(--fg),var(--fg));
+  background-size:12px 1.5px,1.5px 12px;background-position:center;background-repeat:no-repeat}
+.bl-faq details[open] summary::after{transform:rotate(135deg);background-color:var(--ink);background-image:linear-gradient(#fff,#fff),linear-gradient(#fff,#fff)}
 .bl-faq details p{margin:-4px 0 22px;color:var(--text)}
 
 /* читать дальше */

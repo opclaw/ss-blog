@@ -55,11 +55,15 @@
 .kit-js .kit-find-note{display:none}
 .kit-js .kit-finds li.open .kit-find-note{display:block}
 .kit-finds li.active{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-soft)}
-.kit-js .kit-finds li{opacity:0;transform:translateY(6px);transition:opacity .35s,transform .35s,border-color .2s,box-shadow .2s}
-.kit-js .kit-finds li.on{opacity:1;transform:none}
-.kit-js .kit-finds li.human{display:none}
-.kit-js .kit-finds li.human.on{display:block}
+/* Реестр находок виден целиком с первой секунды (включая «вне текста») — блок не выглядит
+   недорисованным. Прогон «Проверить договор» даёт вспышку: сначала карточки притушены,
+   затем проявляются одна за другой по мере подсветки в тексте. */
+.kit-js .kit-scanning .kit-finds li{opacity:.35}
+.kit-js .kit-finds li{transition:opacity .35s,transform .35s,border-color .2s,box-shadow .2s}
+.kit-js .kit-scanning .kit-finds li.on{opacity:1}
+.kit-js .kit-finds li.human{opacity:1}
 .kit-scan-sum{font:500 13px var(--f-m);color:var(--dim);margin:0}
+.kit-scan-human-line{margin:0;padding:9px 12px;border:1px dashed var(--green);border-radius:10px;background:var(--green-soft);font:500 13px var(--f-m);color:var(--green-t)}
 .kit-scan.kit-js .kit-scan-sum{opacity:0;transition:opacity .4s}
 .kit-scan.kit-js.scanned .kit-scan-sum{opacity:1}
 /* без JS — статичный список: кнопка не притворяется кликабельной */
@@ -230,7 +234,7 @@
 @media (max-width:640px){.kit-tl-who{margin-left:0;flex-basis:100%}}
 
 /* ---------- Sources: как собран ответ нейросети ---------- */
-.kit-src-q{margin:16px 20px 0;padding:12px 16px;border:1px solid var(--line2);border-radius:12px;font:500 15px/1.5 var(--f-t);color:var(--fg)}
+.kit .kit-src-q{margin:16px 20px 0;padding:12px 16px;border:1px solid var(--line2);border-radius:12px;font:500 15px/1.5 var(--f-t);color:var(--fg)}
 .kit-src-answer{margin:12px 20px 18px;padding:14px 16px;border-left:2px solid var(--acc-t);background:var(--paper2);border-radius:0 12px 12px 0;font:400 16px/1.8 var(--f-t);color:var(--text)}
 .kit-src-f sup{font:600 10px var(--f-m);color:var(--acc-t);margin-left:1px}
 .kit-src-f{transition:opacity .2s}
@@ -276,6 +280,11 @@
 
 
 /* герой «документ под сканером» */
-.kit-hero-scan{animation:kit-hero-scan 4.5s cubic-bezier(.45,0,.2,1) infinite}
+/* «Луч» сверху вниз нужен только варианту с документом: в остальных артах
+   сканирующий элемент стоит на месте, и уводить его на 256px вниз нельзя —
+   раньше он уползал из своей фигуры и выглядел смещённым. */
+.kit-hero-scan{animation:kit-hero-pulse 2.6s ease-in-out infinite}
+@keyframes kit-hero-pulse{0%,100%{opacity:.35}50%{opacity:1}}
+[data-hero="doc"] .kit-hero-scan{animation:kit-hero-scan 4.5s cubic-bezier(.45,0,.2,1) infinite}
 @keyframes kit-hero-scan{0%{transform:translateY(0);opacity:0}8%{opacity:1}85%{opacity:1}100%{transform:translateY(256px);opacity:0}}
 @media (prefers-reduced-motion:reduce){.kit-hero-scan{animation:none;opacity:0}}

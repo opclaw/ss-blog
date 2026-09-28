@@ -193,6 +193,15 @@ const SCAN = `(() => {
     if (!changed && btns.length > 1) out.brokenKit.push({ kit: root.className.split(' ').slice(0, 2).join(' '), buttons: btns.length });
   });
 
+  // реестр находок в блоке вычитки документа: полный с первой секунды, включая «вне текста»
+  document.querySelectorAll('[data-kit="scan"]').forEach((root) => {
+    const finds = [...root.querySelectorAll('.kit-finds li')];
+    const shown = finds.filter((li) => { const cs = getComputedStyle(li); return cs.display !== 'none' && parseFloat(cs.opacity) > 0.05; }).length;
+    if (shown !== finds.length) out.brokenKit.push({ kit: 'kit-scan', buttons: 0, problem: 'реестр неполный: видно ' + shown + ' из ' + finds.length });
+    const human = finds.filter((li) => li.classList.contains('human'));
+    if (human.length && !root.querySelector('[data-human-line]')) out.brokenKit.push({ kit: 'kit-scan', buttons: 0, problem: 'нет строки про риск вне текста' });
+  });
+
   // живой арт в шапке: шаги, подписи, точки, реакция на нажатие
   const hero = document.querySelector('[data-hero]');
   if (hero) {

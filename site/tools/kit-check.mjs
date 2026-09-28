@@ -38,6 +38,10 @@ for (const f of files.sort()) {
 
   for (const root of d.querySelectorAll('[data-kit="scan"]')) {
     const finds = [...root.querySelectorAll('.kit-finds li')], machine = finds.filter((x) => !x.classList.contains('human'));
+    // реестр должен быть полным сразу (видимость считает audit-layout в реальном браузере)
+    if (root.querySelector('[data-scan-human]')) errs.push('scan: осталась скрытая кнопка «что ИИ не увидел»');
+    if (!root.querySelector('[data-human-line]') && finds.some((x) => x.classList.contains('human')))
+      errs.push('scan: есть находка «вне текста», но нет строки, объясняющей её роль');
     root.querySelector('[data-scan-run]').click();
     await sleep(400 + machine.length * 420 + 100);
     const on = machine.filter((x) => x.classList.contains('on')).length;
@@ -65,14 +69,14 @@ for (const f of files.sort()) {
     const active = root.querySelector('.kit-finds li.active');
     if (!active) errs.push('scan: клик по пункту не выделяет находку');
     else if (!active.classList.contains('open')) errs.push('scan: клик по пункту не раскрывает объяснение');
-    // «что ИИ не увидел» — отдельная находка человека
-    const hb = root.querySelector('[data-scan-human]');
-    if (hb) {
-      if (hb.hidden) errs.push('scan: кнопка «что ИИ не увидел» не появилась');
-      hb.click();
-      const h = finds.filter((x) => x.classList.contains('human'))[0];
-      if (!h || !h.classList.contains('on')) errs.push('scan: находка человека не открылась');
-      else if (!h.classList.contains('open')) errs.push('scan: находка человека не раскрыта');
+    // находка человека в реестре с самого начала; клик по ней раскрывает объяснение
+    const h = finds.filter((x) => x.classList.contains('human'))[0];
+    if (h) {
+      if (h.classList.contains('open')) errs.push('scan: объяснение человека раскрыто до клика');
+      h.querySelector('.kit-find-head').click();
+      if (!h.classList.contains('open')) errs.push('scan: клик по находке человека не раскрывает объяснение');
+      const note = h.querySelector('.kit-find-note');
+      if (!note || !note.textContent.trim()) errs.push('scan: у находки человека пустое объяснение');
     }
     ok.push(`scan ${machine.length}+${finds.length - machine.length}`);
   }
