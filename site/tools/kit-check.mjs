@@ -101,10 +101,46 @@ for (const f of files.sort()) {
     ok.push(`matrix ${chips.length}`);
   }
   for (const root of d.querySelectorAll('[data-kit="calc"]')) {
-    const out = root.querySelector('[data-r]'), before = out.textContent, inp = root.querySelector('input[data-i]');
+    const inputs = [...root.querySelectorAll('input[data-i]')];
+    const out = root.querySelector('[data-r]'), before = out.textContent, inp = inputs[0];
     if (!/[1-9]/.test(before)) errs.push('calc: итог нулевой при значениях по умолчанию');
     inp.value = inp.max; inp.dispatchEvent(new w.Event('input'));
     if (out.textContent === before) errs.push('calc: итог не меняется от ползунка');
+    // вердикт: пороги лежат в data-levels, а текст серверного рендера должен соответствовать
+    // значениям по умолчанию — иначе блок показывает один вывод, а скрипт посчитает другой
+    const vd = root.querySelector('[data-calc-verdict]');
+    if (vd) {
+      const levels = JSON.parse(vd.dataset.levels || '[]');
+      const texts = levels.map((l) => l.text);
+      if (!levels.length) errs.push('calc: у вердикта нет порогов');
+      if (!vd.textContent.trim()) errs.push('calc: вердикт пустой');
+      const val = (o) => {
+        const names = inputs.map((i) => i.dataset.i);
+        const fn = new Function(names.join(','), 'return (' + vd.dataset.expr + ');');
+        return Math.max(0, fn.apply(null, names.map((n) => +root.querySelector(`input[data-i="${n}"]`).value)));
+      };
+      const pick = (v) => (levels.find((l) => v <= l.max) || levels[levels.length - 1]);
+      if (vd.textContent.trim() !== pick(val()).text)
+        errs.push(`calc: вердикт «${vd.textContent.trim().slice(0, 30)}…» не соответствует расчёту`);
+      if (!texts.includes(vd.textContent.trim())) errs.push('calc: текст вердикта не из списка порогов');
+      // ползунки в «лучшую» и «худшую» сторону: вердикт обязан дойти до другого порога.
+      // Просто двинуть все ползунки в максимум нельзя — расчёт останется в той же зоне,
+      // и проверка молча пройдёт при сломанном вердикте.
+      const setRange = (which) => inputs.forEach((i) => {
+        i.value = which === 'best' ? (i.dataset.i === 'cost' ? i.min : i.max) : (i.dataset.i === 'cost' ? i.max : i.min);
+        i.dispatchEvent(new w.Event('input'));
+      });
+      const v0 = vd.textContent.trim();
+      const vTexts = [v0];
+      for (const mode of ['best', 'worst']) {
+        setRange(mode);
+        const want = pick(val()).text;
+        if (vd.textContent.trim() !== want) errs.push(`calc: вердикт (${mode}) «${vd.textContent.trim().slice(0, 28)}…» не совпадает с расчётом`);
+        vTexts.push(vd.textContent.trim());
+      }
+      if (new Set(vTexts).size < 2) errs.push('calc: вердикт не переключается между порогами — проверьте levels');
+      ok.push(`вердикт ${vTexts.map((t) => t.split(/[—:]/)[0].slice(0, 12)).join(' → ')}`);
+    }
     ok.push(`calc ${before}→${out.textContent}`);
   }
   for (const root of d.querySelectorAll('[data-kit="budget"]')) {

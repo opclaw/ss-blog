@@ -139,12 +139,24 @@
   $$('[data-kit="calc"]').forEach(function (root) {
     root.classList.add('kit-js');
     var inputs = $$('input[data-i]', root), outs = $$('[data-r]', root);
+    var verdict = $('[data-calc-verdict]', root);
     var names = inputs.map(function (i) { return i.dataset.i; });
     var fns = outs.map(function (o) { return new Function(names.join(','), 'return (' + o.dataset.expr + ');'); });
+    /* вердикт: пороги лежат в data-levels, правила те же, что при серверном рендере в Calc.astro,
+       иначе число в блоке и вывод под ним разъедутся */
+    var vfn = verdict ? new Function(names.join(','), 'return (' + verdict.dataset.expr + ');') : null;
+    var levels = verdict ? JSON.parse(verdict.dataset.levels) : [];
     function fmt(n, dig) { return Number(n).toLocaleString('ru-RU', { maximumFractionDigits: dig || 0, minimumFractionDigits: 0 }); }
     function upd() {
       var v = inputs.map(function (i) { var o = $('output[data-o="' + i.dataset.i + '"]', root); if (o) o.textContent = fmt(+i.value) + (i.dataset.unit || ''); return +i.value; });
       outs.forEach(function (o, k) { var x = Math.max(0, fns[k].apply(null, v)); o.textContent = fmt(x, +(o.dataset.dig || 0)); });
+      if (verdict && levels.length) {
+        var val = Math.max(0, vfn.apply(null, v)), lv = null;
+        levels.forEach(function (l) { if (lv === null && val <= l.max) lv = l; });
+        if (!lv) lv = levels[levels.length - 1];
+        verdict.textContent = lv.text;
+        verdict.className = 'kit-calc-verdict' + (lv.tone ? ' is-' + lv.tone : '');
+      }
     }
     inputs.forEach(function (i) { i.addEventListener('input', upd); });
     upd();

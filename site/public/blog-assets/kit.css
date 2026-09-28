@@ -133,6 +133,10 @@
 .kit-calc-rows{margin:6px 0 0;padding:0;list-style:none;font-size:15px;color:var(--dim)}
 .kit-calc-rows li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px dashed var(--line2)}
 .kit-calc-rows b{font:600 15px var(--f-m);color:var(--fg)}
+.kit-calc-verdict{margin:10px 0 0;padding:10px 12px;border-left:2px solid var(--line2);background:var(--paper2);font:400 14px/1.5 var(--f-t);color:var(--text)}
+.kit-calc-verdict.is-go{border-left-color:var(--green);background:var(--green-soft)}
+.kit-calc-verdict.is-check{border-left-color:#D97706;background:#FFF7E6}
+.kit-calc-verdict.is-stop{border-left-color:#C2410C;background:#FDECE4}
 .kit-calc:not(.kit-js) .kit-calc-out{display:none}
 .kit-calc:not(.kit-js) .kit-calc-in{border-right:0}
 @media (max-width:760px){.kit-calc-grid{grid-template-columns:1fr}.kit-calc-in{border-right:0;border-bottom:1px solid var(--line)}.kit-calc-big{font-size:46px}}
