@@ -10,6 +10,7 @@
  * (4) мобильный режим (390px): прокрутка .fig-scroll, бейдж увеличения, отсутствие обрезки.
  */
 import fs from 'node:fs';
+import { sitePages } from './pages.mjs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
@@ -134,12 +135,8 @@ const MOBILE_JS = `(() => {
   return { figures: out, page };
 })()`;
 
-const slugs = fs
-  .readdirSync('/home/user/ss-blog/site/dist/blog')
-  .filter((f) => f.endsWith('.html') && f !== 'index.html')
-  .map((f) => f.replace('.html', ''))
-  .sort();
-if (MAX_SLUGS) slugs.length = Math.min(slugs.length, MAX_SLUGS);
+const pages = sitePages();
+if (MAX_SLUGS) pages.length = Math.min(pages.length, MAX_SLUGS);
 
 let exePath = null;
 async function withBrowser(fn) {
@@ -162,12 +159,12 @@ async function withBrowser(fn) {
 
 const report = { base: BASE, at: new Date().toISOString(), articles: [] };
 
-for (const slug of slugs) {
-  const entry = { slug, figures: [], problems: [] };
+for (const pg of pages) {
+  const entry = { page: pg, figures: [], problems: [] };
   try {
     await withBrowser(async (browser) => {
       const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-      await page.goto(`${BASE}/blog/${slug}.html`, { waitUntil: 'load', timeout: 30000 });
+      await page.goto(`${BASE}/${pg}`, { waitUntil: 'load', timeout: 30000 });
       await page.waitForTimeout(300);
       const n = await page.$$eval('.fig-svg', (els) => els.length);
       entry.figuresTotal = n;
@@ -188,7 +185,7 @@ for (const slug of slugs) {
         if (data.minRatio !== null && data.minRatio < 4.5) figEntry.ok = false;
         if (data.overflow.length) figEntry.ok = false;
         if (figEntry.overlayBg !== 'rgb(250, 250, 247)') entry.problems.push(`fig${i}: фон оверлея ${figEntry.overlayBg}`);
-        const shot = path.join(SHOTS, `${slug}-fig${i}.png`);
+        const shot = path.join(SHOTS, `${entry.page.replace(/[^\w.-]+/g, '_')}-fig${i}.png`);
         try {
           await page.screenshot({ path: shot, fullPage: false });
           figEntry.shot = shot;
@@ -239,7 +236,7 @@ for (const slug of slugs) {
   }
   report.articles.push(entry);
   const bad = entry.problems.length;
-  console.log(`${slug}: фигур ${entry.figuresTotal ?? '?'} | проблем ${bad}${bad ? ' → ' + entry.problems.join(' | ') : ''}`);
+  console.log(`${entry.page}: фигур ${entry.figuresTotal ?? '?'} | проблем ${bad}${bad ? ' → ' + entry.problems.join(' | ') : ''}`);
   fs.writeFileSync(JSON_OUT, JSON.stringify(report, null, 2));
 }
 

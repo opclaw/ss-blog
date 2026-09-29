@@ -15,6 +15,7 @@
  *  8. Единообразие: смешение радиусов/теней/толщин границ в пределах одного типа блока.
  */
 import fs from 'node:fs';
+import { sitePages } from './pages.mjs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
@@ -146,11 +147,7 @@ async function withBrowser(fn) {
   throw lastErr;
 }
 
-const blogDir = '/home/user/ss-blog/site/dist/blog';
-const pages = [
-  'index.html', 'services.html', 'ai.html', 'ai-agenty.html', 'blog/index.html',
-  ...fs.readdirSync(blogDir).filter((f) => f.endsWith('.html') && f !== 'index.html').map((f) => `blog/${f}`),
-].filter((p) => (ONLY ? p.includes(ONLY) : true));
+const pages = sitePages().filter((p) => (ONLY ? p.includes(ONLY) : true));
 
 const report = { at: new Date().toISOString(), pages: [] };
 for (const page of pages) {

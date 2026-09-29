@@ -135,6 +135,13 @@ def jaccard(a: set, b: set) -> float:
 
 def main() -> None:
     pages = sorted(p for p in BLOG.glob('*.html') if p.name != 'index.html')
+    # посадочные лежат в корне dist и собраны на том же макете «светлый лист»,
+    # поэтому проверяются теми же правилами — отличия помечены флагом is_landing
+    for p in sorted(DIST.glob('*.html')):
+        if p.name == '404.html' or re.match(r'(google|yandex)', p.name):
+            continue
+        if 'class="bl-text"' in p.read_text(encoding='utf-8'):
+            pages.append(p)
     # время чтения считает article.js по тексту .bl-text; тот же расчёт делает
     # tools/fix-minutes.mjs и складывает в dist/minutes.json — берём его, а не свою прикидку
     report = BLOG.parent / 'minutes.json'
@@ -169,6 +176,7 @@ def main() -> None:
             'pub': pub.group(1) if pub else None,
             'mod': mod.group(1) if mod else None,
             'new_layout': 'bl-sheet' in html,
+            'is_landing': p.parent == DIST,
         }
 
     print(f'Контент-аудит: {len(pages)} статей\n')
@@ -177,6 +185,8 @@ def main() -> None:
     print('Время чтения: заявлено против фактического (180 слов/мин)')
     time_issues = []
     for name, d in data.items():
+        if d['is_landing']:
+            continue  # на посадочной времени чтения нет: это не статья
         real = MINUTES.get('blog/' + name, {}).get('minutes') if MINUTES else None
         if real is None:
             print('  ! нет dist/minutes.json — сначала node tools/fix-minutes.mjs dist')
@@ -237,8 +247,8 @@ def main() -> None:
             problems.append('нет ссылки на услуги/AI')
         if d['links_contacts'] == 0:
             problems.append('нет контактов')
-        if not d['has_tldr']:
-            problems.append('нет блока «Коротко»')
+        if not d['has_tldr'] and not d['is_landing']:
+            problems.append('нет блока «Коротко»')  # у посадочной роль «Коротко» играет вступление
         if d['faq_visible'] == 0:
             problems.append('нет вопросов')
         if problems:
@@ -247,8 +257,8 @@ def main() -> None:
     # --- даты
     print('\nДаты в схеме')
     for name, d in sorted(data.items()):
-        if not d['pub']:
-            print(f'  ⚠ {name}: нет datePublished')
+        if not d['pub'] and not d['is_landing']:
+            print(f'  ⚠ {name}: нет datePublished')  # посадочная — Service, а не Article: даты не нужны
         elif d['mod'] and d['mod'] != d['pub']:
             print(f'  · {name}: опубликовано {d["pub"]}, правилось {d["mod"]}')
 

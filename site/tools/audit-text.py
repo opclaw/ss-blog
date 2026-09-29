@@ -147,13 +147,32 @@ def check_article(path):
             'seo': {'title_len': len(title), 'desc_len': len(desc), 'h2': len(h2s), 'inner_links': inner_links}}
 
 
+def page_paths():
+    """Статьи блога + посадочные из корня dist: те же, что собирает tools/pages.mjs для остальных аудитов."""
+    DIST = os.path.dirname(DIST_BLOG)
+    paths = [os.path.join(DIST_BLOG, f) for f in sorted(os.listdir(DIST_BLOG))
+             if f.endswith('.html') and f != 'index.html']
+    for f in sorted(os.listdir(DIST)):
+        if not f.endswith('.html') or f == '404.html' or re.match(r'(google|yandex)', f):
+            continue
+        p = os.path.join(DIST, f)
+        try:
+            raw = open(p, encoding='utf-8').read()
+        except OSError:
+            continue
+        # в корне лежат и служебные страницы: берём только собранные на макете статьи (светлый лист)
+        if 'class="bl-text"' in raw:
+            paths.append(p)
+    return paths
+
+
 def main():
-    files = sorted(f for f in os.listdir(DIST_BLOG) if f.endswith('.html') and f != 'index.html')
+    files = page_paths()
     if ONLY:
         files = [f for f in files if ONLY in f]
     report = {'articles': [], 'totals': Counter()}
     for f in files:
-        res = check_article(os.path.join(DIST_BLOG, f))
+        res = check_article(f)
         report['articles'].append(res)
         for e in res['errors']:
             report['totals']['errors'] += 1

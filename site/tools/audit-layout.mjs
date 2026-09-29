@@ -13,6 +13,7 @@
  *  5. Текст вне своей плашки: подпись выходит за границы карточки/фигуры.
  */
 import fs from 'node:fs';
+import { sitePages } from './pages.mjs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
@@ -247,9 +248,7 @@ async function withBrowser(fn) {
   throw lastErr;
 }
 
-const pages = ['index.html', 'services.html', 'ai.html', 'ai-agenty.html', 'blog/index.html',
-  ...fs.readdirSync('/home/user/ss-blog/site/dist/blog').filter((f) => f.endsWith('.html') && f !== 'index.html').map((f) => `blog/${f}`),
-  ...fs.readdirSync('/home/user/ss-blog/site/dist/cases').map((f) => `cases/${f}`)];
+const pages = sitePages();
 const list = pages.filter((p) => (ONLY ? p.includes(ONLY) : true));
 const viewports = [
   { w: 1440, h: 900, name: 'desktop' },

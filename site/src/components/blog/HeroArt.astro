@@ -243,15 +243,15 @@ const W = {
       <g>
         <g class="h-step" data-hs="0" data-note={note(0)}>
           <rect x="52" y="52" width="196" height="58" rx="14" fill="#fff" stroke={LINE} />
-          <text x="72" y="86" font-family={F} font-size={size(l(0), W.chatBubble)} fill={INK}>{lines(l(0), W.chatBubble).join(' ')}</text>
+          <text x="72" y="86" font-family={F} font-size={size(l(0), W.chatBubble)} fill={INK}>{lines(l(0), W.chatBubble).map((t, i, a) => <tspan x="72" dy={i === 0 ? dy(a.length, i, size(l(0), W.chatBubble)) : 12}>{t}</tspan>)}</text>
         </g>
         <g class="h-step" data-hs="1" data-note={note(1)}>
           <rect x="172" y="126" width="196" height="58" rx="14" fill={GREEN_BG} stroke={GREEN} />
-          <text x="192" y="160" font-family={F} font-size={size(l(1), W.chatBubble)} fill={GREEN_INK}>{lines(l(1), W.chatBubble).join(' ')}</text>
+          <text x="192" y="160" font-family={F} font-size={size(l(1), W.chatBubble)} fill={GREEN_INK}>{lines(l(1), W.chatBubble).map((t, i, a) => <tspan x="192" dy={i === 0 ? dy(a.length, i, size(l(1), W.chatBubble)) : 12}>{t}</tspan>)}</text>
         </g>
         <g class="h-step" data-hs="2" data-note={note(2)}>
           <rect x="52" y="200" width="196" height="58" rx="14" fill="#fff" stroke={ACC} />
-          <text x="72" y="234" font-family={F} font-size={size(l(2), W.chatBubble)} fill={ACCT}>{lines(l(2), W.chatBubble).join(' ')}</text>
+          <text x="72" y="234" font-family={F} font-size={size(l(2), W.chatBubble)} fill={ACCT}>{lines(l(2), W.chatBubble).map((t, i, a) => <tspan x="72" dy={i === 0 ? dy(a.length, i, size(l(2), W.chatBubble)) : 12}>{t}</tspan>)}</text>
           {/* курсор «печатает» — внутри пузыря, а не висящей точкой в пустоте */}
           <circle cx="228" cy="246" r="3.5" fill={ACC}><animate attributeName="opacity" values="1;.2;1" dur="1.8s" repeatCount="indefinite" /></circle>
         </g>

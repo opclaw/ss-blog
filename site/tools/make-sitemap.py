@@ -29,12 +29,18 @@ MANUAL_DATES: dict[str, str] = {
     '/ai.html': '2026-09-25',
     # 2026-09-25: новая посадочная под кластер «ИИ-агенты» (115 459 показов/мес в Wordstat)
     '/ai-agenty.html': '2026-09-25',
+    # 2026-09-29: новая посадочная под кластер «автоматизация продаж» (2 054 + 2 531 показов/мес)
+    '/avtomatizaciya-prodazh.html': '2026-09-29',
 }
+
+# Денежные посадочные: в карте идут сразу за /ai.html, а не в общем списке.
+LANDING = {'/ai-agenty.html', '/avtomatizaciya-prodazh.html'}
 
 # (регулярка адреса, changefreq, priority)
 RULES = [
     (r'^/$', 'weekly', '1.0'),
     (r'^/ai-agenty\.html$', 'weekly', '0.9'),
+    (r'^/avtomatizaciya-prodazh\.html$', 'weekly', '0.9'),
     (r'^/services\.html$', 'monthly', '0.8'),
     (r'^/cases/', 'monthly', '0.7'),
     (r'^/ai\.html$', 'weekly', '0.9'),
@@ -78,7 +84,7 @@ def collect() -> list[dict]:
     def sort_key(item):
         url = item['url']
         order = 0 if url == '/' else 1 if url == '/services.html' else 2 if url.startswith('/cases/') \
-            else 3 if url == '/ai.html' else 4 if url == '/blog/' else 5
+            else 3 if url == '/ai.html' else 3.5 if url in LANDING else 4 if url == '/blog/' else 5
         # статьи: свежие сверху, затем по алфавиту
         return (order, (item['mod'] or ''), url) if order == 5 else (order, '', url)
 

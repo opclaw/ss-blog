@@ -5,6 +5,7 @@
  * Запуск: LD_LIBRARY_PATH=/tmp/al2023/lib node tools/audit-figtext.mjs [--only slug] [--json /tmp/audit-figtext.json]
  */
 import fs from 'node:fs';
+import { sitePages } from './pages.mjs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
@@ -70,9 +71,7 @@ async function withBrowser(fn) {
   try { return await fn(browser); } finally { try { await browser.close(); } catch (e) {} }
 }
 
-const pages = ['ai.html', 'ai-agenty.html',
-  ...fs.readdirSync('/home/user/ss-blog/site/dist/blog').filter((f) => f.endsWith('.html') && f !== 'index.html').map((f) => `blog/${f}`),
-].filter((p) => (ONLY ? p.includes(ONLY) : true));
+const pages = sitePages().filter((p) => (ONLY ? p.includes(ONLY) : true));
 
 const report = { at: new Date().toISOString(), pages: [] };
 let total = 0;
