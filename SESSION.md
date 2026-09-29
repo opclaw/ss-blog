@@ -1596,3 +1596,15 @@ audit-text и content-audit берут посадочные из корня dist
 `audit-figtext` 0; `audit-numbering` 0 (Рис. 1–6 по порядку); `audit-visual` 30 стр. — 0
 (в том числе 0 битых якорей); геометрия 1440/1280/900/390 чистая; kit-check:
 calc 156 125 → 188, aba 4 строки и 8 полос, timeline 4 этапа, check 0→7, funnel 30,3→3,2.
+**Деплой посадочной 1/3:** коммит `18c5d65` → deployment 6745957277 → success →
+https://ss-blog-ffzepobwx-opclaws-projects-1b852b6a.vercel.app
+Страница: https://ss-blog-ffzepobwx-opclaws-projects-1b852b6a.vercel.app/avtomatizaciya-prodazh.html
+Постоянная ссылка ветки: https://ss-blog-git-arena-01a0d848-ss-blog-opclaws-projects-1b852b6a.vercel.app/avtomatizaciya-prodazh.html
+Дашборд: https://vercel.com/opclaws-projects-1b852b6a/ss-blog/deployments
+
+**Откат среды №24 (повторный, прямо по ходу задачи):** HEAD снова сброшен на `88bec6a`,
+`node_modules`, `/tmp/pw2` и `/tmp/al2023` удалены. Файлы в рабочей папке уцелели.
+Восстановление без потерь: `git fetch -q origin arena/01a0d848-ss-blog` → `git reset -q
+FETCH_HEAD` (mixed: индекс к origin, рабочие файлы не тронуты) → в статусе ровно свои правки.
+`git reset --hard` в этой ситуации применять нельзя — он откатил бы правки в отслеживаемых
+файлах (инструменты, HeroArt, статьи, sitemap).
