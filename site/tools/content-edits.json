@@ -269,9 +269,10 @@
     "allow": [
       "jsonld",
       "meta",
-      "title"
+      "title",
+      "text"
     ],
-    "reason": "добавлена разметка Organization + WebSite"
+    "reason": "добавлена разметка Organization + WebSite; цена пилота приведена к общей вилке сайта: 50–150К, внедрение от 200К (было 100–300К)"
   },
   "services.html": {
     "allow": [
