@@ -148,7 +148,7 @@
     var levels = verdict ? JSON.parse(verdict.dataset.levels) : [];
     function fmt(n, dig) { return Number(n).toLocaleString('ru-RU', { maximumFractionDigits: dig || 0, minimumFractionDigits: 0 }); }
     function upd() {
-      var v = inputs.map(function (i) { var o = $('output[data-o="' + i.dataset.i + '"]', root); if (o) o.textContent = fmt(+i.value) + (i.dataset.unit || ''); return +i.value; });
+      var v = inputs.map(function (i) { var o = $('output[data-o="' + i.dataset.i + '"]', root); if (o) o.textContent = fmt(+i.value, +(i.dataset.dig || 0)) + (i.dataset.unit || ''); return +i.value; });
       outs.forEach(function (o, k) {
         var x = fns[k].apply(null, v);
         if (!isFinite(x)) x = 0;

@@ -2,6 +2,7 @@
 // Сгенерировано из legacy/version-4/ai.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../layouts/Base.astro';
 import ContactCards from '../components/ContactCards.astro';
+import { readSuffix } from '../data/reading-time';
 const jsonLd = [
   "{\"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Главная\", \"item\": \"https://smartsolutions.today/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"AI-направление\", \"item\": \"https://smartsolutions.today/ai.html\"}]}",
 ];
@@ -859,18 +860,18 @@ const jsonLd = [
       <div class="blog-cols">
         <div class="blog-col">
           <p class="blog-col-label">С чего начать</p>
-          <a class="blog-card" href="/blog/vnedrenie-ii-v-biznes.html"><span class="blog-card-title">Внедрение ИИ в бизнес: с чего начать&nbsp;и как довести пилот до системы</span><span class="blog-card-meta">pillar · 10 мин</span></a>
-          <a class="blog-card" href="/blog/skolko-stoit-vnedrenie-ii.html"><span class="blog-card-title">Сколько стоит внедрение ИИ в бизнес: честная вилка цен</span><span class="blog-card-meta">стоимость · 9 мин</span></a>
-          <a class="blog-card" href="/blog/kak-poschitat-effekt-ot-ii-do-pilota.html"><span class="blog-card-title">Как посчитать эффект от ИИ до пилота: формула и пример</span><span class="blog-card-meta">расчёт · 11 мин</span></a>
-          <a class="blog-card" href="/blog/geo-optimizaciya.html"><span class="blog-card-title">GEO-оптимизация: как попадать в ответы ChatGPT, Нейро и Алисы</span><span class="blog-card-meta">GEO · 9 мин</span></a>
-          <a class="blog-card" href="/blog/chto-takoe-ii-agent.html"><span class="blog-card-title">Что такое ИИ-агент простыми словами: как работает и чем полезен бизнесу</span><span class="blog-card-meta">база · 9 мин</span></a>
+          <a class="blog-card" href="/blog/vnedrenie-ii-v-biznes.html"><span class="blog-card-title">Внедрение ИИ в бизнес: с чего начать&nbsp;и как довести пилот до системы</span><span class="blog-card-meta">pillar{readSuffix('/blog/vnedrenie-ii-v-biznes.html')}</span></a>
+          <a class="blog-card" href="/blog/skolko-stoit-vnedrenie-ii.html"><span class="blog-card-title">Сколько стоит внедрение ИИ в бизнес: честная вилка цен</span><span class="blog-card-meta">стоимость{readSuffix('/blog/skolko-stoit-vnedrenie-ii.html')}</span></a>
+          <a class="blog-card" href="/blog/kak-poschitat-effekt-ot-ii-do-pilota.html"><span class="blog-card-title">Как посчитать эффект от ИИ до пилота: формула и пример</span><span class="blog-card-meta">расчёт{readSuffix('/blog/kak-poschitat-effekt-ot-ii-do-pilota.html')}</span></a>
+          <a class="blog-card" href="/blog/geo-optimizaciya.html"><span class="blog-card-title">GEO-оптимизация: как попадать в ответы ChatGPT, Нейро и Алисы</span><span class="blog-card-meta">GEO{readSuffix('/blog/geo-optimizaciya.html')}</span></a>
+          <a class="blog-card" href="/blog/chto-takoe-ii-agent.html"><span class="blog-card-title">Что такое ИИ-агент простыми словами: как работает и чем полезен бизнесу</span><span class="blog-card-meta">база{readSuffix('/blog/chto-takoe-ii-agent.html')}</span></a>
         </div>
         <div class="blog-col">
           <p class="blog-col-label">По задачам</p>
-          <a class="blog-card" href="/blog/ii-dlya-prodazh.html"><span class="blog-card-title">ИИ для продаж: заявки в 4 раза быстрее без потерь</span><span class="blog-card-meta">продажи · 9 мин</span></a>
-          <a class="blog-card" href="/blog/ii-dlya-marketinga.html"><span class="blog-card-title">ИИ для маркетинга: контент, заявки и аналитика</span><span class="blog-card-meta">маркетинг · 9 мин</span></a>
-          <a class="blog-card" href="/blog/ii-dlya-buhgalterii.html"><span class="blog-card-title">ИИ для бухгалтерии: первичка и сверки в 6 раз быстрее</span><span class="blog-card-meta">бухгалтерия · 9 мин</span></a>
-          <a class="blog-card" href="/blog/ii-dlya-hr.html"><span class="blog-card-title">ИИ для HR: найм и адаптация без потери человеческого решения</span><span class="blog-card-meta">HR · 9 мин</span></a>
+          <a class="blog-card" href="/blog/ii-dlya-prodazh.html"><span class="blog-card-title">ИИ для продаж: заявки в 4 раза быстрее без потерь</span><span class="blog-card-meta">продажи{readSuffix('/blog/ii-dlya-prodazh.html')}</span></a>
+          <a class="blog-card" href="/blog/ii-dlya-marketinga.html"><span class="blog-card-title">ИИ для маркетинга: контент, заявки и аналитика</span><span class="blog-card-meta">маркетинг{readSuffix('/blog/ii-dlya-marketinga.html')}</span></a>
+          <a class="blog-card" href="/blog/ii-dlya-buhgalterii.html"><span class="blog-card-title">ИИ для бухгалтерии: первичка и сверки в 6 раз быстрее</span><span class="blog-card-meta">бухгалтерия{readSuffix('/blog/ii-dlya-buhgalterii.html')}</span></a>
+          <a class="blog-card" href="/blog/ii-dlya-hr.html"><span class="blog-card-title">ИИ для HR: найм и адаптация без потери человеческого решения</span><span class="blog-card-meta">HR{readSuffix('/blog/ii-dlya-hr.html')}</span></a>
           </div>
       </div>
 
@@ -883,18 +884,18 @@ const jsonLd = [
 
       <div class="blog-cols-collapsed" hidden>
         <p class="blog-col-label">Отрасли</p>
-        <a class="blog-card" href="/blog/ii-dlya-restorana.html"><span class="blog-card-title">ИИ для ресторана: как привлекать гостей и возвращать их без постоянных звонков</span><span class="blog-card-meta">ресторан · 9 мин</span></a>
-        <a class="blog-card" href="/blog/ii-dlya-medcentra.html"><span class="blog-card-title">ИИ для медицинского центра: как привлекать пациентов и не терять заявки</span><span class="blog-card-meta">медцентр · 9 мин</span></a>
-        <a class="blog-card" href="/blog/ii-dlya-salona-krasoty.html"><span class="blog-card-title">ИИ для салона красоты: как заполнять расписание и возвращать клиентов</span><span class="blog-card-meta">салон · 8 мин</span></a>
-        <a class="blog-card" href="/blog/ii-dlya-turagentstva.html"><span class="blog-card-title">ИИ для турагентства: подбор туров и оформление за минуты</span><span class="blog-card-meta">туризм · 9 мин</span></a>
-        <a class="blog-card" href="/blog/ii-dlya-onlain-shkoly.html"><span class="blog-card-title">ИИ для онлайн-школы: как привлекать учеников и доводить их до оплаты</span><span class="blog-card-meta">онлайн-школа · 9 мин</span></a>
-        <a class="blog-card" href="/blog/ii-dlya-internet-magazina.html"><span class="blog-card-title">ИИ для интернет-магазина: заказы и возврат покупателей на автопилоте</span><span class="blog-card-meta">e-commerce · 9 мин</span></a>
-        <a class="blog-card" href="/blog/ii-dlya-yuristov.html"><span class="blog-card-title">ИИ для юридической компании: больше обращений из поиска и мессенджеров</span><span class="blog-card-meta">юристы · 9 мин</span></a>
-        <a class="blog-card" href="/blog/ii-dlya-nedvizhimosti.html"><span class="blog-card-title">ИИ в недвижимости: как агентству получать больше заявок и не терять их</span><span class="blog-card-meta">недвижимость · 9 мин</span></a>
-        <a class="blog-card" href="/blog/ii-dlya-stroitelstva.html"><span class="blog-card-title">ИИ для строительной компании: сметы и документы за минуты</span><span class="blog-card-meta">стройка · 9 мин</span></a>
-        <a class="blog-card" href="/blog/ii-dlya-logistiki.html"><span class="blog-card-title">ИИ для логистики: заявки и статусы без ручных звонков</span><span class="blog-card-meta">логистика · 9 мин</span></a>
-        <a class="blog-card" href="/blog/ii-dlya-proizvodstva.html"><span class="blog-card-title">ИИ на производстве: от заявки до отгрузки без авралов</span><span class="blog-card-meta">производство · 9 мин</span></a>
-        <a class="blog-card" href="/blog/ii-v-crm.html"><span class="blog-card-title">ИИ в CRM: автоматизация работы с клиентами без потери качества</span><span class="blog-card-meta">CRM · 9 мин</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-restorana.html"><span class="blog-card-title">ИИ для ресторана: как привлекать гостей и возвращать их без постоянных звонков</span><span class="blog-card-meta">ресторан{readSuffix('/blog/ii-dlya-restorana.html')}</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-medcentra.html"><span class="blog-card-title">ИИ для медицинского центра: как привлекать пациентов и не терять заявки</span><span class="blog-card-meta">медцентр{readSuffix('/blog/ii-dlya-medcentra.html')}</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-salona-krasoty.html"><span class="blog-card-title">ИИ для салона красоты: как заполнять расписание и возвращать клиентов</span><span class="blog-card-meta">салон{readSuffix('/blog/ii-dlya-salona-krasoty.html')}</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-turagentstva.html"><span class="blog-card-title">ИИ для турагентства: подбор туров и оформление за минуты</span><span class="blog-card-meta">туризм{readSuffix('/blog/ii-dlya-turagentstva.html')}</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-onlain-shkoly.html"><span class="blog-card-title">ИИ для онлайн-школы: как привлекать учеников и доводить их до оплаты</span><span class="blog-card-meta">онлайн-школа{readSuffix('/blog/ii-dlya-onlain-shkoly.html')}</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-internet-magazina.html"><span class="blog-card-title">ИИ для интернет-магазина: заказы и возврат покупателей на автопилоте</span><span class="blog-card-meta">e-commerce{readSuffix('/blog/ii-dlya-internet-magazina.html')}</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-yuristov.html"><span class="blog-card-title">ИИ для юристов: нейросети для договоров и практики</span><span class="blog-card-meta">юристы{readSuffix('/blog/ii-dlya-yuristov.html')}</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-nedvizhimosti.html"><span class="blog-card-title">ИИ в недвижимости: как агентству получать больше заявок и не терять их</span><span class="blog-card-meta">недвижимость{readSuffix('/blog/ii-dlya-nedvizhimosti.html')}</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-stroitelstva.html"><span class="blog-card-title">ИИ для строительной компании: сметы и документы за минуты</span><span class="blog-card-meta">стройка{readSuffix('/blog/ii-dlya-stroitelstva.html')}</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-logistiki.html"><span class="blog-card-title">ИИ для логистики: заявки и статусы без ручных звонков</span><span class="blog-card-meta">логистика{readSuffix('/blog/ii-dlya-logistiki.html')}</span></a>
+        <a class="blog-card" href="/blog/ii-dlya-proizvodstva.html"><span class="blog-card-title">ИИ на производстве: от заявки до отгрузки без авралов</span><span class="blog-card-meta">производство{readSuffix('/blog/ii-dlya-proizvodstva.html')}</span></a>
+        <a class="blog-card" href="/blog/ii-v-crm.html"><span class="blog-card-title">ИИ в CRM: автоматизация работы с клиентами без потери качества</span><span class="blog-card-meta">CRM{readSuffix('/blog/ii-v-crm.html')}</span></a>
       </div>
     </div>
   </section>

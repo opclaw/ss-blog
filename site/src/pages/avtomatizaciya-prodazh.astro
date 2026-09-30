@@ -12,6 +12,7 @@ import Timeline from '../components/blog/Timeline.astro';
 import Checklist from '../components/blog/Checklist.astro';
 import AuthorCard from '../components/blog/AuthorCard.astro';
 import HeroArt from '../components/blog/HeroArt.astro';
+import { readSuffix } from '../data/reading-time';
 
 // Пример для расчёта: отдел из 4 менеджеров, 300 заявок в месяц,
 // конверсия в сделку 10 % (30 сделок), чек 60 000 ₽, маржа 20 %.
@@ -261,8 +262,8 @@ const jsonLd = [
 
         <h2 id="sec-8" class="no-num">Смотрите также</h2>
         <div class="bl-more" aria-label="Полезные материалы">
-          <a href="/blog/ii-dlya-prodazh.html"><span>исследование · 13 мин</span><b>ИИ для продаж: где теряются заявки и что с этим делать</b><i>→</i></a>
-          <a href="/blog/kak-poschitat-effekt-ot-ii-do-pilota.html"><span>методика · 13 мин</span><b>Как посчитать эффект от ИИ до пилота</b><i>→</i></a>
+          <a href="/blog/ii-dlya-prodazh.html"><span>исследование{readSuffix('/blog/ii-dlya-prodazh.html')}</span><b>ИИ для продаж: где теряются заявки и что с этим делать</b><i>→</i></a>
+          <a href="/blog/kak-poschitat-effekt-ot-ii-do-pilota.html"><span>методика{readSuffix('/blog/kak-poschitat-effekt-ot-ii-do-pilota.html')}</span><b>Как посчитать эффект от ИИ до пилота</b><i>→</i></a>
           <a href="/ai.html"><span>подход</span><b>Внедрение ИИ в процессы: как мы работаем</b><i>→</i></a>
         </div>
 
