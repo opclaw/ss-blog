@@ -31,16 +31,19 @@ MANUAL_DATES: dict[str, str] = {
     '/ai-agenty.html': '2026-09-25',
     # 2026-09-29: новая посадочная под кластер «автоматизация продаж» (2 054 + 2 531 показов/мес)
     '/avtomatizaciya-prodazh.html': '2026-09-29',
+    # 2026-09-29: новая посадочная под кластер «чат бот для сайта» (548 + 846 + 151 показов/мес)
+    '/ii-assistent-dlya-sajta.html': '2026-09-29',
 }
 
 # Денежные посадочные: в карте идут сразу за /ai.html, а не в общем списке.
-LANDING = {'/ai-agenty.html', '/avtomatizaciya-prodazh.html'}
+LANDING = {'/ai-agenty.html', '/avtomatizaciya-prodazh.html', '/ii-assistent-dlya-sajta.html'}
 
 # (регулярка адреса, changefreq, priority)
 RULES = [
     (r'^/$', 'weekly', '1.0'),
     (r'^/ai-agenty\.html$', 'weekly', '0.9'),
     (r'^/avtomatizaciya-prodazh\.html$', 'weekly', '0.9'),
+    (r'^/ii-assistent-dlya-sajta\.html$', 'weekly', '0.9'),
     (r'^/services\.html$', 'monthly', '0.8'),
     (r'^/cases/', 'monthly', '0.7'),
     (r'^/ai\.html$', 'weekly', '0.9'),
