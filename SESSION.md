@@ -1699,3 +1699,12 @@ audit-figures 31 стр. 0 проблем; audit-figtext 0; audit-numbering 0 (�
 audit-visual 31 стр. — 0; audit-layout — у обеих посадочных 0; геометрия
 1440/1280/900/390 чистая; все ползунки держат значения по умолчанию (кратность шагу
 проверена в браузере).
+**Деплой посадочной 2/3:** коммит `c3f8e01` → deployment 6755975421 → success →
+https://ss-blog-p14p6by7i-opclaws-projects-1b852b6a.vercel.app
+Новая страница: https://ss-blog-p14p6by7i-opclaws-projects-1b852b6a.vercel.app/ii-assistent-dlya-sajta.html
+Первая посадочная: https://ss-blog-p14p6by7i-opclaws-projects-1b852b6a.vercel.app/avtomatizaciya-prodazh.html
+Статья про ИИ для продаж: .../blog/ii-dlya-prodazh.html
+Карта сайта: 31 страница.
+
+**Осталось из трёх посадочных:** `/ii-dlya-yuristov.html` — там обязательно правило
+разведения ролей: парная статья `/blog/ii-dlya-yuristov.html` уже есть.
