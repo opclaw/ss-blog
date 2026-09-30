@@ -102,6 +102,16 @@ for (const f of files.sort()) {
   }
   for (const root of d.querySelectorAll('[data-kit="calc"]')) {
     const inputs = [...root.querySelectorAll('input[data-i]')];
+    // Значение ползунка обязано лежать на сетке min + k·step. Иначе браузер молча сдвинет его
+    // к ближайшему допустимому и посчитает не по тому числу, что видит читатель в разметке:
+    // сервер показал бы 54 %, браузер — 55 %, и строки результата разъедутся. В JSDOM этого
+    // не видно (он не сдвигает range), поэтому проверяем арифметикой по атрибутам.
+    for (const i of inputs) {
+      const min = +i.min, step = +i.step, val = +i.value, k = (val - min) / step;
+      if (step > 0 && Math.abs(k - Math.round(k)) > 1e-9)
+        errs.push(`calc: ползунок «${i.getAttribute('aria-label') || i.dataset.i}» value=${val} `
+          + `не попадает в сетку min=${min} step=${step} — браузер сдвинет на ${min + Math.round(k) * step}`);
+    }
     const out = root.querySelector('[data-r]'), before = out.textContent, inp = inputs[0];
     if (!/[1-9]/.test(before)) errs.push('calc: итог нулевой при значениях по умолчанию');
     inp.value = inp.max; inp.dispatchEvent(new w.Event('input'));
