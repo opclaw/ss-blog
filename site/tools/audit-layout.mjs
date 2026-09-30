@@ -92,11 +92,25 @@ const SCAN = `(() => {
     const r = el.getBoundingClientRect();
     if (r.width < 2 || r.height < 2) return;
     if (el.closest('svg')) return; // геометрия внутри SVG-схем: законно выходит за колонку (свайп)
-    if (r.right > vw + 2 || r.left < -2) {
+    // Видимая часть элемента после обрезки контейнерами-предками.
+    // html/body в расчёт не берём: их overflow-x:clip — это заглушка, которая прячет поломку, а не намерение.
+    // Если контейнер обрезает элемент внутри экрана (свечения, бегущая строка логотипов) — это задумано.
+    let cb = { left: r.left, right: r.right };
+    let cn = el.parentElement;
+    while (cn && cn !== document.documentElement && cn !== document.body) {
+      const ccs = getComputedStyle(cn);
+      if (ccs.overflowX === 'hidden' || ccs.overflowX === 'clip' || ccs.overflow === 'hidden' || ccs.overflow === 'clip') {
+        const cr = cn.getBoundingClientRect();
+        cb.left = Math.max(cb.left, cr.left);
+        cb.right = Math.min(cb.right, cr.right);
+      }
+      cn = cn.parentElement;
+    }
+    if (cb.right > vw + 2 || cb.left < -2) {
       // исключаем элементы внутри горизонтально прокручиваемых контейнеров (это законно)
       let n = el.parentElement, scrollable = false;
       while (n) { const p = getComputedStyle(n); if (p.overflowX === 'auto' || p.overflowX === 'scroll') { scrollable = true; break; } n = n.parentElement; }
-      if (!scrollable) out.overflow.push({ el: name(el), text: describe(el), left: Math.round(r.left), right: Math.round(r.right), vw });
+      if (!scrollable) out.overflow.push({ el: name(el), text: describe(el), left: Math.round(cb.left), right: Math.round(cb.right), vw });
     }
     const card = el.closest('.week-card, .kit, .bl-fig, .fig, .bl-table-wrap, .kit-table-wrap, .bl-split, .bl-loop, .bl-prompt, .bl-sources, .bl-quote, .bl-note, .bl-split, .author-card, .week-card');
     if (card && isText(el) && el !== card && !el.closest('svg') && !el.closest('.fig-clip, .bl-table-wrap, .kit-table-wrap, .bl-pipe-scroll, .ag-table-wrap, .kit-tabs-bar')) {
