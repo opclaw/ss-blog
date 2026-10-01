@@ -3542,19 +3542,10 @@ p.format-note.text-secondary {
   50% { transform: translateY(-8px); }
 }
 
-/* Схема пути заявки в герое (вместо созвездия) */
-.hero-scheme { width: 100%; height: auto; }
-.hero-scheme-dot {
-  fill: var(--accent);
-  animation: heroFlow 3.6s ease-in-out infinite;
-}
-.hero-scheme-dot--2 { animation-delay: 1.8s; }
-@keyframes heroFlow {
-  0%, 12% { transform: translateY(0); opacity: 0; }
-  30% { opacity: 1; }
-  70% { transform: translateY(58px); opacity: 1; }
-  88%, 100% { transform: translateY(58px); opacity: 0; }
-}
+
+
+
+
 
 /* ===== ДВИЖЕНИЕ, ВОЗВРАЩЁННОЕ ПО ПРОСЬБЕ ВЛАДЕЛЬЦА ===== */
 .btn-shimmer::after {
@@ -3571,4 +3562,110 @@ p.format-note.text-secondary {
 @keyframes shimmer {
   0% { left: -60%; }
   30%, 100% { left: 120%; }
+}
+
+/* ===== Визуализация первого экрана: результат, а не устройство системы ===== */
+/* Показываем не «как работает система», а что она даёт: сколько заявок тот же
+   трафик приносил до и после. Клетки = заявки, рост виден как прирост клеток —
+   его можно пересчитать (1 000 посетителей × 1,2% = 12, × 2,8% = 28). */
+.hero-result {
+  margin: 0;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.hero-result-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+.hero-result-title { font-family: var(--font-mono); font-size: 0.82rem; color: var(--secondary); }
+.hero-result-case { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+.hero-dots { display: block; width: 100%; height: auto; }
+.hero-dot {
+  fill: rgba(255, 255, 255, 0.1);
+  stroke: rgba(255, 255, 255, 0.16);
+  stroke-width: 1;
+}
+.hero-dot--grew {
+  fill: var(--accent);
+  stroke: none;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: leadGrow 0.5s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+  animation-delay: calc(var(--order) * 55ms + 0.45s);
+}
+@keyframes leadGrow {
+  from { opacity: 0; transform: scale(0.7); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.hero-result-rows { display: flex; flex-direction: column; gap: 0.5rem; }
+.hero-result-row {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--secondary);
+}
+.hero-result-key {
+  min-width: 3.3rem;
+  font-size: 0.76rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.hero-result-num {
+  font-family: var(--font-mono);
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+.hero-result-num--accent { color: var(--accent); }
+.hero-result-rate {
+  font-family: var(--font-mono);
+  margin-left: auto;
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.hero-result-delta {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  border-radius: 999px;
+  padding: 0.1rem 0.45rem;
+}
+.hero-result-note { margin: 0; font-size: 0.82rem; line-height: 1.5; color: var(--muted); }
+.hero-result-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+}
+.hero-result-link svg { transition: transform var(--transition); }
+.hero-result-link:hover svg { transform: translateX(3px); }
+
+/* между 768 и 1023 px карточка узкая — уплотняем, чтобы цифры не ломались */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-result { padding: 1.1rem; gap: 1rem; }
+  .hero-result-num { font-size: 1.25rem; }
+  .hero-result-rate { margin-left: 0; }
+  .hero-result-note { font-size: 0.78rem; }
 }

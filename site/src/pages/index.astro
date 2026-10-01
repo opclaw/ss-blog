@@ -2,6 +2,21 @@
 // Сгенерировано из legacy/version-4/index.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../layouts/Base.astro';
 import ContactCards from '../components/ContactCards.astro';
+
+/* Визуализация первого экрана: сколько заявок приносит тот же трафик.
+   Цифры не придуманы — это конверсия сайта из кейса CND-Store: было 1,2%,
+   стало 2,8%. На каждые 1 000 посетителей это 12 и 28 заявок (×2,3).
+   Каждая клетка — одна заявка, рост ×2,3 показываем приростом клеток,
+   а не «стрелкой вверх», чтобы его можно было пересчитать. */
+const LEADS_WAS = 12;
+const LEADS_NOW = 28;
+const DOT_COLS = 7;
+const leads = Array.from({ length: LEADS_NOW }, (_, i) => ({
+  x: 74 + (i % DOT_COLS) * 32,
+  y: 6 + Math.floor(i / DOT_COLS) * 32,
+  grew: i >= LEADS_WAS,
+  order: i - LEADS_WAS,
+}));
 const jsonLd = [
   "{\"@context\": \"https://schema.org\", \"@type\": \"Organization\", \"name\": \"Smart Solutions\", \"url\": \"https://smartsolutions.today/\", \"logo\": \"https://smartsolutions.today/images/og-cover.jpg\", \"description\": \"Системы привлечения клиентов на основе исследований: сайты, реклама, аналитика и внедрение ИИ с замером эффекта.\", \"foundingDate\": \"2017\", \"telephone\": \"+7 (925) 090-95-00\", \"email\": \"ok@smartsolutions.today\", \"address\": {\"@type\": \"PostalAddress\", \"addressCountry\": \"RU\", \"addressLocality\": \"Москва\", \"streetAddress\": \"ул. Воронцовская, д. 35-Б\"}, \"contactPoint\": [{\"@type\": \"ContactPoint\", \"contactType\": \"customer service\", \"telephone\": \"+7 (925) 090-95-00\", \"email\": \"ok@smartsolutions.today\", \"availableLanguage\": \"ru\"}]}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"WebSite\", \"name\": \"Smart Solutions\", \"url\": \"https://smartsolutions.today/\", \"inLanguage\": \"ru\", \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\", \"url\": \"https://smartsolutions.today/\"}}",
@@ -44,28 +59,50 @@ const jsonLd = [
         </div>
 
         <div class="hero-visual fade-in fade-in-d2">
-          <!-- Путь заявки: что именно делает система. Движение — только по делу:
-               точка показывает, что заявка идёт сверху вниз, а не «для красоты» -->
-          <svg class="hero-scheme" viewBox="0 0 380 380" fill="none" role="img"
-               aria-label="Заявка проходит через систему и становится клиентом, решение остаётся за человеком">
-            <g stroke="currentColor" stroke-width="1" opacity="0.45">
-              <rect x="90" y="30" width="200" height="52" rx="10"/>
-              <rect x="90" y="150" width="200" height="52" rx="10"/>
-              <rect x="90" y="270" width="200" height="52" rx="10"/>
-              <path d="M190 82v58" stroke-linecap="round"/>
-              <path d="M185 135l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M190 202v58" stroke-linecap="round"/>
-              <path d="M185 255l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/>
-            </g>
-            <circle class="hero-scheme-dot" cx="190" cy="88" r="3.5"/>
-            <circle class="hero-scheme-dot hero-scheme-dot--2" cx="190" cy="208" r="3.5"/>
-            <g fill="currentColor" text-anchor="middle" font-size="15" font-weight="500">
-              <text x="190" y="61">заявка</text>
-              <text x="190" y="181">система</text>
-              <text x="190" y="301">клиент</text>
-            </g>
-            <text x="190" y="352" fill="currentColor" opacity="0.6" text-anchor="middle" font-size="13">решение остаётся за человеком</text>
-          </svg>
+          <!-- Результат, а не устройство системы: сколько заявок тот же трафик
+               давал до работы и сколько даёт после. Клетки = заявки, их можно
+               пересчитать: 1 000 посетителей × 1,2% = 12, × 2,8% = 28. -->
+          <figure class="hero-result">
+            <div class="hero-result-head">
+              <span class="hero-result-title">Заявок с 1&nbsp;000 посетителей</span>
+              <span class="hero-result-case">CND-Store</span>
+            </div>
+
+            <svg class="hero-dots" viewBox="0 0 360 132" role="img"
+                 aria-label="Было 12 заявок с тысячи посетителей, стало 28 — рост в 2,3 раза">
+              {leads.map((d) => (
+                <rect class={d.grew ? 'hero-dot hero-dot--grew' : 'hero-dot'}
+                      x={d.x} y={d.y} width="20" height="20" rx="5"
+                      style={d.grew ? `--order: ${d.order}` : undefined} />
+              ))}
+            </svg>
+
+            <div class="hero-result-rows">
+              <p class="hero-result-row">
+                <span class="hero-result-key">Было</span>
+                <span class="hero-result-num" data-countup="12">12</span>
+                <span class="hero-result-unit">заявок</span>
+                <span class="hero-result-rate">конверсия 1,2%</span>
+              </p>
+              <p class="hero-result-row hero-result-row--now">
+                <span class="hero-result-key">Стало</span>
+                <span class="hero-result-num hero-result-num--accent" data-countup="28">28</span>
+                <span class="hero-result-unit">заявок</span>
+                <span class="hero-result-rate">конверсия 2,8%</span>
+                <span class="hero-result-delta">&times;2,3</span>
+              </p>
+            </div>
+
+            <p class="hero-result-note">
+              Тот же сайт и тот же трафик. Рост дали исследование пути клиента
+              и пересборка checkout.
+            </p>
+
+            <a class="hero-result-link" href="/cases/cnd-store.html">
+              Разбор кейса
+              <svg width="14" height="14"><use href="/icons.svg#icon-arrow-right"/></svg>
+            </a>
+          </figure>
         </div>
       </div>
     </div>
