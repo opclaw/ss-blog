@@ -125,6 +125,39 @@ def main() -> None:
         sys.exit(1)
     print(f'QA-проверка: {len(pages)} страниц\n')
 
+    # --- целостность CSS: у каждой используемой анимации должно быть описание.
+    # Случай из практики: при уборке стилей удалили @keyframes glowPulse, а правило
+    # .glow-pulse осталось — анимация молча перестала работать, и это заметил
+    # только владелец на живой странице.
+    KEYWORDS = {'none', 'infinite', 'linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out',
+                'alternate', 'forwards', 'backwards', 'both', 'normal', 'reverse',
+                'paused', 'running', 'step-start', 'step-end'}
+    css_files = [DIST / 'styles.css', *sorted((DIST / 'blog-assets').glob('*.css'))]
+    for css in css_files:
+        if not css.exists():
+            continue
+        text = css.read_text(encoding='utf-8')
+        defined = set(re.findall(r'@keyframes\s+([\w-]+)', text))
+        used = set()
+        for m in re.finditer(r'animation(?:-name)?\s*:\s*([^;}]+)', text):
+            for part in m.group(1).split(','):
+                for tok in part.strip().split():
+                    if re.fullmatch(r'[A-Za-z][\w-]*', tok) and tok not in KEYWORDS:
+                        used.add(tok)
+                        break
+                else:
+                    continue
+                break
+        rel_css = str(css.relative_to(DIST))
+        lost = sorted(used - defined)
+        if lost:
+            for name in lost:
+                where = [sel.strip()[:40] for sel in re.findall(r'([^{}]+)\{[^{}]*\b' + re.escape(name) + r'\b[^}]*\}', text)]
+                errors.append(f'{rel_css}: анимация «{name}» используется, но @keyframes для неё нет'
+                              + (f' (правила: {", ".join(where[:2])})' if where else ''))
+        else:
+            notes.append(f'{rel_css}: анимаций {len(used)}, у всех есть @keyframes')
+
     for p in pages:
         rel = str(p.relative_to(DIST))
         html = p.read_text(encoding='utf-8')
