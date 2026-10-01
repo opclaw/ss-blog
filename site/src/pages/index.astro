@@ -44,42 +44,28 @@ const jsonLd = [
         </div>
 
         <div class="hero-visual fade-in fade-in-d2">
-          <div class="hero-constellation">
-            <!-- Central hub -->
-            <div class="const-hub">
-              <div class="const-hub-ring"></div>
-              <div class="const-hub-ring const-hub-ring--2"></div>
-              <div class="const-hub-core"></div>
-            </div>
-            <!-- Orbiting nodes -->
-            <div class="const-node const-node--1"><span></span></div>
-            <div class="const-node const-node--2"><span></span></div>
-            <div class="const-node const-node--3"><span></span></div>
-            <div class="const-node const-node--4"><span></span></div>
-            <div class="const-node const-node--5"><span></span></div>
-            <!-- Connecting lines (SVG) -->
-            <svg class="const-lines" viewBox="0 0 400 400" fill="none">
-              <line x1="200" y1="200" x2="80" y2="90" stroke="url(#line-grad)" stroke-width="1" opacity="0.15"/>
-              <line x1="200" y1="200" x2="330" y2="110" stroke="url(#line-grad)" stroke-width="1" opacity="0.12"/>
-              <line x1="200" y1="200" x2="320" y2="300" stroke="url(#line-grad-g)" stroke-width="1" opacity="0.1"/>
-              <line x1="200" y1="200" x2="70" y2="280" stroke="url(#line-grad)" stroke-width="1" opacity="0.12"/>
-              <line x1="200" y1="200" x2="200" y2="50" stroke="url(#line-grad-g)" stroke-width="1" opacity="0.08"/>
-              <!-- Cross-connections -->
-              <line x1="80" y1="90" x2="330" y2="110" stroke="url(#line-grad)" stroke-width="0.5" opacity="0.06"/>
-              <line x1="330" y1="110" x2="320" y2="300" stroke="url(#line-grad-g)" stroke-width="0.5" opacity="0.06"/>
-              <line x1="70" y1="280" x2="80" y2="90" stroke="url(#line-grad)" stroke-width="0.5" opacity="0.05"/>
-              <defs>
-                <linearGradient id="line-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="rgb(0,217,255)" stop-opacity="1"/>
-                  <stop offset="100%" stop-color="rgb(0,217,255)" stop-opacity="0"/>
-                </linearGradient>
-                <linearGradient id="line-grad-g" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="rgb(16,185,129)" stop-opacity="1"/>
-                  <stop offset="100%" stop-color="rgb(16,185,129)" stop-opacity="0"/>
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
+          <!-- Путь заявки: что именно делает система. Движение — только по делу:
+               точка показывает, что заявка идёт сверху вниз, а не «для красоты» -->
+          <svg class="hero-scheme" viewBox="0 0 380 380" fill="none" role="img"
+               aria-label="Заявка проходит через систему и становится клиентом, решение остаётся за человеком">
+            <g stroke="currentColor" stroke-width="1" opacity="0.45">
+              <rect x="90" y="30" width="200" height="52" rx="10"/>
+              <rect x="90" y="150" width="200" height="52" rx="10"/>
+              <rect x="90" y="270" width="200" height="52" rx="10"/>
+              <path d="M190 82v58" stroke-linecap="round"/>
+              <path d="M185 135l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M190 202v58" stroke-linecap="round"/>
+              <path d="M185 255l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+            <circle class="hero-scheme-dot" cx="190" cy="88" r="3.5"/>
+            <circle class="hero-scheme-dot hero-scheme-dot--2" cx="190" cy="208" r="3.5"/>
+            <g fill="currentColor" text-anchor="middle" font-size="15" font-weight="500">
+              <text x="190" y="61">заявка</text>
+              <text x="190" y="181">система</text>
+              <text x="190" y="301">клиент</text>
+            </g>
+            <text x="190" y="352" fill="currentColor" opacity="0.6" text-anchor="middle" font-size="13">решение остаётся за человеком</text>
+          </svg>
         </div>
       </div>
     </div>
