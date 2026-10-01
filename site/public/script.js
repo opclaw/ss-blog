@@ -36,27 +36,6 @@
     });
   }
 
-  // ===== CURSOR GLOW (desktop only) =====
-  const cursorGlow = document.getElementById('cursorGlow');
-  let mouseX = 0, mouseY = 0, glowX = 0, glowY = 0;
-  const isTouchDevice = 'ontouchstart' in window;
-
-  if (cursorGlow && !isTouchDevice) {
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-
-    (function animateGlow() {
-      glowX += (mouseX - glowX) * 0.08;
-      glowY += (mouseY - glowY) * 0.08;
-      cursorGlow.style.transform = `translate(${glowX - 150}px, ${glowY - 150}px)`;
-      requestAnimationFrame(animateGlow);
-    })();
-  } else if (cursorGlow) {
-    cursorGlow.style.display = 'none';
-  }
-
   // ===== NAVBAR =====
   const nav = document.getElementById('nav');
   const burger = document.getElementById('navBurger');

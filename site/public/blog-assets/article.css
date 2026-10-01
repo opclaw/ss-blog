@@ -6,7 +6,11 @@
   --paper:#FAFAF7; --paper2:#F1F1EC; --card:#FFFFFF;
   --fg:#101014; --text:#2B2B33; --dim:#5E5E68; --mute:#6C6C78; --line:#E4E4DE; --line2:#D2D2CA;
   --acc:#00D9FF; --acc-t:#0A7392; --acc-soft:#E3F7FC; --green:#0E9F6E; --green-t:#0B7A57; --green-soft:#E3F5EE; --red:#C2410C;
-  --f-d:'Manrope',system-ui,sans-serif; --f-t:'Inter',system-ui,sans-serif; --f-m:'JetBrains Mono',ui-monospace,monospace;
+  --f-d:'Manrope',system-ui,sans-serif; --f-t:'Inter',system-ui,sans-serif; /* --f-m был JetBrains Mono: его ноль с точкой в центре — штамп нейросетей, а
+   альтернативного нуля у шрифта нет (в GSUB только calt/ccmp/frac/locl).
+   Переменная оставлена, чтобы не менять десятки правил, но теперь это
+   текстовой шрифт с табличными цифрами. */
+  --f-m:'Inter',system-ui,sans-serif;
   --col:700px;
   /* Алиасы переменных старой тёмной темы сайта: внутри светлого листа блоки legacy-разметки
      (fig, weeks-grid, err-card, pull-quote, formula-card) берут светлую палитру, а не инверсную. */
@@ -77,7 +81,7 @@ html{scroll-padding-top:84px}
 .bl-text a:hover{text-decoration-color:currentColor}
 .bl-text b{color:var(--fg);font-weight:600}
 .bl-text h2{counter-increment:sec;font:800 clamp(26px,3vw,34px)/1.18 var(--f-d);letter-spacing:-.028em;color:var(--fg);margin:84px 0 22px;text-wrap:balance}
-.bl-text h2::before{content:counter(sec,decimal-leading-zero) " /";display:block;font:500 13px/1 var(--f-m);color:var(--acc-t);margin-bottom:14px}
+.bl-text h2::before{content:counter(sec);display:block;font:500 13px/1 var(--f-m);color:var(--acc-t);margin-bottom:14px}
 .bl-text h2.no-num{counter-increment:none}.bl-text h2.no-num::before{content:none}
 .bl-text ul,.bl-text ol{padding-left:1.25em}
 
@@ -367,3 +371,18 @@ html{color-scheme:light}
 .bl-sheet .week-card,.bl-sheet .no-card,.bl-sheet .err-card,.bl-sheet .formula-card,
 .bl-sheet .bl-note,.bl-sheet .bl-brief,.bl-sheet .bl-check{border-radius:16px}
 .bl-sheet .no-card,.bl-sheet .err-card{border-radius:0 16px 16px 0}
+
+/* ================================================================
+   ЦИФРЫ (правка нейрослопа)
+   ================================================================ */
+/* В моно (JetBrains Mono) ноль идёт с точкой в центре — самый узнаваемый штамп
+   нейросетей, а альтернативного нуля у шрифта нет (проверено: в GSUB только
+   calt/ccmp/frac/locl). Поэтому всё, где встречаются цифры, набирается
+   текстовым шрифтом с табличными цифрами. Моно остаётся там, где цифр нет:
+   надзаголовки, подписи к рисункам, служебные ярлыки. */
+output, .kit-out, .kit-tl-n, .kit-funnel-lbl, .kit-res-val, .kit-calc-out,
+.bl-meta, .bl-hero-cap, .bl-left, .related-meta, figcaption,
+svg text, svg tspan, b, em {
+  font-family: var(--f-t);
+  font-variant-numeric: tabular-nums;
+}

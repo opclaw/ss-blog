@@ -103,7 +103,7 @@ const lines = (s: string, w: number, max = 2, sizes?: number[]) => fit(s, w, max
 const size = (s: string, w: number, max = 2, sizes?: number[]) => fit(s, w, max, sizes).size;
 const dy = (n: number, i: number, fs = 10) => (i - (n - 1) / 2) * Math.round(fs * 1.2);
 
-const F = 'JetBrains Mono, ui-monospace, monospace';
+const F = 'Inter, system-ui, sans-serif'; // моно убран: его ноль с точкой — штамп нейросетей
 const INK = '#101014', DIM = '#5E5E68', MUTE = '#6C6C78', LINE = '#E4E4DE', LINE2 = '#D2D2CA';
 const ACC = '#00D9FF', ACCT = '#0A7392', GREEN = '#0E9F6E', GREEN_INK = '#0B7A57', GREEN_BG = '#E3F5EE', RED = '#C2410C', AMBER = '#B45309';
 const stepCount = { flow: 3, doc: 3, calc: 3, nodes: 5, chat: 3, steps: 4 }[variant];

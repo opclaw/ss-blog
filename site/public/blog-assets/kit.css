@@ -312,7 +312,11 @@
   --fg:#F5F5F7; --text:rgba(245,245,247,.78); --dim:rgba(245,245,247,.7); --mute:rgba(245,245,247,.55);
   --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
   --acc:#00D9FF; --acc-t:#00D9FF; --acc-soft:rgba(0,217,255,.1);
-  --f-d:'Manrope',system-ui,sans-serif; --f-t:'Inter',system-ui,sans-serif; --f-m:'JetBrains Mono',ui-monospace,monospace;
+  --f-d:'Manrope',system-ui,sans-serif; --f-t:'Inter',system-ui,sans-serif; /* --f-m был JetBrains Mono: его ноль с точкой в центре — штамп нейросетей, а
+   альтернативного нуля у шрифта нет (в GSUB только calt/ccmp/frac/locl).
+   Переменная оставлена, чтобы не менять десятки правил, но теперь это
+   текстовой шрифт с табличными цифрами. */
+  --f-m:'Inter',system-ui,sans-serif;
 }
 .kit-dark .kit-calc-out{background:repeating-linear-gradient(135deg,rgba(10,126,164,.16) 0 1px,transparent 1px 9px),var(--paper)}
 .kit-dark .kit-calc-in input[type=range]{background:transparent}
@@ -335,3 +339,18 @@
 [data-hero="doc"] .kit-hero-scan{animation:kit-hero-scan 4.5s cubic-bezier(.45,0,.2,1) infinite}
 @keyframes kit-hero-scan{0%{transform:translateY(0);opacity:0}8%{opacity:1}85%{opacity:1}100%{transform:translateY(256px);opacity:0}}
 @media (prefers-reduced-motion:reduce){.kit-hero-scan{animation:none;opacity:0}}
+
+/* ================================================================
+   ЦИФРЫ (правка нейрослопа)
+   ================================================================ */
+/* В моно (JetBrains Mono) ноль идёт с точкой в центре — самый узнаваемый штамп
+   нейросетей, а альтернативного нуля у шрифта нет (проверено: в GSUB только
+   calt/ccmp/frac/locl). Поэтому всё, где встречаются цифры, набирается
+   текстовым шрифтом с табличными цифрами. Моно остаётся там, где цифр нет:
+   надзаголовки, подписи к рисункам, служебные ярлыки. */
+output, .kit-out, .kit-tl-n, .kit-funnel-lbl, .kit-res-val, .kit-calc-out,
+.bl-meta, .bl-hero-cap, .bl-left, .related-meta, figcaption,
+svg text, svg tspan, b, em {
+  font-family: var(--f-t);
+  font-variant-numeric: tabular-nums;
+}

@@ -78,9 +78,7 @@ def collect() -> list[dict]:
     for p in sorted(DIST.rglob('*.html')):
         if re.match(r'(google|yandex)', p.name):
             continue
-        # демо-варианты оформления: в карту сайта и в поиск не должны попадать
-        if 'variants/' in p.as_posix():
-            continue
+
         if p.name == '404.html':
             continue  # служебная страница: закрыта noindex, в карте сайта ей не место
         url = url_of(p)
