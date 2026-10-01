@@ -3546,11 +3546,6 @@ p.format-note.text-secondary {
   70% { transform: translateY(58px); opacity: 1; }
   88%, 100% { transform: translateY(58px); opacity: 0; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .hero-scheme-dot { animation: none; opacity: 0.9; }
-  .marquee-track { animation: none; }
-  .partnership-circle-you, .partnership-circle-us { animation: none; }
-}
 
 /* ===== ДВИЖЕНИЕ, ВОЗВРАЩЁННОЕ ПО ПРОСЬБЕ ВЛАДЕЛЬЦА ===== */
 .btn-shimmer::after {

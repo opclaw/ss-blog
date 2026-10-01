@@ -3,6 +3,11 @@
 (function () {
   'use strict';
 
+  /* Определялась внутри блока курсорного свечения; когда блок убрали, ссылки на неё
+     остались (наклон карточек, магнитные кнопки) и скрипт падал с ReferenceError,
+     обрывая всё, что инициализируется ниже: счётчики, FAQ, раскрытие рисунков. */
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
   // ===== PRELOADER =====
   window.addEventListener('load', () => {
     const preloader = document.getElementById('preloader');
