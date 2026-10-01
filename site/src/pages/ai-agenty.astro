@@ -177,7 +177,7 @@ const layers = [
     .ag-table .ag-no { color: var(--muted); }
 
     /* сценарии */
-    .ag-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+    .ag-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 18px; }
     .ag-card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; display: flex; flex-direction: column; gap: 10px; transition: border-color var(--transition), transform var(--transition); }
     .ag-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
     .ag-card-n { font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); }
@@ -218,7 +218,7 @@ const layers = [
     .ag-price-d { color: var(--secondary); font-size: 0.92rem; }
 
     /* читать */
-    .ag-read { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+    .ag-read { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 16px; }
     .ag-read a { display: grid; gap: 6px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none; transition: border-color var(--transition); }
     .ag-read a:hover { border-color: var(--border-hover); }
     .ag-read span { font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; }

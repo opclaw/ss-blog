@@ -272,6 +272,8 @@
 .kit-tl-btn:hover .kit-tl-lbl{color:var(--fg)}
 .kit-tl-who{margin-left:auto;font:500 11px/1.4 var(--f-m);letter-spacing:.06em;text-transform:uppercase;color:var(--acc-t);white-space:nowrap}
 .kit-tl-body{padding:0 4px 14px;font-size:15px;line-height:1.6;color:var(--dim)}
+/* на узких экранах метка «кто делает» уезжала за край карточки и срезалась — переносим её под подпись */
+@media (max-width:480px){.kit-tl-btn{flex-wrap:wrap}.kit-tl-who{margin-left:0}}
 .kit-tl li.on .kit-tl-n{background:var(--acc-t);color:#0A0A0F}
 .kit-tl li.on .kit-tl-lbl{color:var(--fg)}
 .kit-timeline.kit-js .kit-tl-body{display:none}

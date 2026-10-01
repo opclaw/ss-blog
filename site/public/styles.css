@@ -575,7 +575,8 @@ a {
 }
 
 .hero-title {
-  font-size: 2.75rem;
+  /* 44px фиксированными не влезали в экран телефона: слово «долгосрочного» = 366px при колонке 342px */
+  font-size: clamp(1.9rem, 8.6vw, 2.75rem);
   font-weight: 800;
   margin-bottom: 1.5rem;
   line-height: 1.08;
@@ -1473,6 +1474,9 @@ p.format-note.text-secondary {
 }
 
 .partnership-text { margin-bottom: 1.25rem; }
+/* 36px не влезали на 320px: слово «продолжение.» = 291px при колонке 272px */
+.partnership-text-col h2 { font-size: clamp(1.6rem, 8.5vw, 2.25rem); }
+.partnership-layout, .partnership-text-col, .partnership-visual { min-width: 0; }
 
 .partnership-points {
   display: flex;
@@ -1706,9 +1710,15 @@ p.format-note.text-secondary {
 /* Contact cards */
 .contacts-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
   margin-bottom: 2rem;
+}
+/* четыре колонки — только когда карточка вмещает почту целиком (на 1024px было 181px при нужных 183px) */
+@media (min-width: 1200px) {
+  .contacts-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 .contact-card {
@@ -1763,11 +1773,6 @@ p.format-note.text-secondary {
   max-width: 100%;
 }
 
-@media (max-width: 900px) {
-  .contacts-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
 @media (max-width: 480px) {
   .contacts-grid {
     grid-template-columns: 1fr;
@@ -1874,17 +1879,19 @@ p.format-note.text-secondary {
 
   h2 { font-size: 2.75rem; }
 
-  .hero-title { font-size: 3.5rem; }
+  /* кегль растёт постепенно: скачок с 44px сразу до 56px в узкой колонке давал 10 строк заголовка */
+  .hero-title { font-size: clamp(2.75rem, 5.6vw, 3.5rem); }
   .hero-visual {
     display: block;
   }
   .hero-layout {
     flex-direction: row;
     align-items: center;
-    gap: 4rem;
+    gap: 3rem;
   }
   .hero-content { flex: 1; }
-  .hero-visual { flex: 0 0 380px; }
+  /* визуал уступает место тексту: иначе колонка текста сжималась до 286px — уже, чем на телефоне */
+  .hero-visual { flex: 0 1 clamp(240px, 36%, 380px); min-width: 0; }
 
   .stats-grid { grid-template-columns: repeat(3, 1fr); }
 
@@ -1898,15 +1905,6 @@ p.format-note.text-secondary {
   .testimonials-grid { grid-template-columns: 1fr 1fr; }
   .testimonial-featured { grid-column: 1 / -1; }
 
-  .about-grid { grid-template-columns: 1.3fr 0.7fr; align-items: start; gap: 3rem; }
-  .about-timeline {
-    flex-direction: column;
-    gap: 1.5rem;
-    padding-left: 2rem;
-  }
-  .about-timeline::before { display: block; }
-  .about-fact { flex: none; padding: 1.25rem 1.5rem; }
-  .about-fact-num { font-size: 1.5rem; }
 
   .process-list::before { display: block; }
   .process-item {
@@ -1931,6 +1929,17 @@ p.format-note.text-secondary {
    ================================================================ */
 @media (min-width: 1024px) {
   .section { padding: 8rem 5rem; }
+  /* две колонки — только когда левая колонка текста не теснится: на 768px она была 406px
+     (эталон на 1280px — 697px), из-за чего блок раздувался с 629px до 992px */
+  .about-grid { grid-template-columns: 1.3fr 0.7fr; align-items: start; gap: 3rem; }
+  .about-timeline {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-left: 2rem;
+  }
+  .about-timeline::before { display: block; }
+  .about-fact { flex: none; padding: 1.25rem 1.5rem; }
+  .about-fact-num { font-size: 1.5rem; }
   .logo-strip { padding: 2rem 0; }
   .client-logo { height: 36px; max-width: 240px; }
 
@@ -1943,8 +1952,8 @@ p.format-note.text-secondary {
 
   .nav { padding: 1.25rem 5rem; }
 
-  .hero-title { font-size: 4.25rem; }
-  .hero-visual { flex: 0 0 440px; }
+  .hero-title { font-size: clamp(3.5rem, 5.2vw, 4.25rem); }
+  .hero-visual { flex: 0 1 clamp(340px, 40%, 440px); }
   .hero-constellation { height: 360px; }
 
   h2 { font-size: 2.75rem; }
@@ -2554,6 +2563,17 @@ p.format-note.text-secondary {
 
 /* Results grid: 3-column variant */
 .case-results-grid--three { }
+
+/* Case responsive: узкие экраны (до 480px) */
+@media (max-width: 480px) {
+  /* таймлайн: год над текстом, иначе заголовок не влезал в колонку */
+  .case-timeline-item { flex-direction: column; gap: 0.75rem; }
+  /* метрика героя: значение и подпись переносятся, а не вылезают за карточку */
+  .case-hero-metric { flex-wrap: wrap; }
+  .case-hero-metric-val { font-size: 2rem; }
+  /* бейдж роста — в поток, иначе он наезжал на число (так же сделано и на планшете) */
+  .case-result-growth { position: static; transform: none; margin-left: 0; flex-basis: auto; margin-top: 0.25rem; }
+}
 
 /* Case responsive: tablet+ */
 @media (min-width: 768px) {
