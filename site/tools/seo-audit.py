@@ -126,7 +126,9 @@ def main() -> None:
 
     SERVICE = {'404.html'}   # служебные страницы: noindex, в sitemap не входят
     pages = sorted(p for p in DIST.rglob('*.html')
-                   if not re.match(r'(google|yandex)', p.name) and p.name not in SERVICE)
+                   if not re.match(r'(google|yandex)', p.name) and p.name not in SERVICE
+                   # демо-варианты оформления: закрыты noindex, в выдаче не участвуют
+                   and 'variants/' not in p.as_posix())
     articles = [p for p in pages if p.parent.name == 'blog' and p.name != 'index.html']
     blog_index = DIST / 'blog' / 'index.html'
 

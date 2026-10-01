@@ -4,6 +4,9 @@ Allow: /
 Disallow: /*.md$
 Disallow: /send.php
 
+# Демо-варианты оформления (черновик выбора вида): в индекс не должны попадать
+Disallow: /variants/
+
 # Старые пути WordPress: отдаются 410, но пусть боты не тратят на них краулинг
 Disallow: /wp-admin/
 Disallow: /wp-includes/

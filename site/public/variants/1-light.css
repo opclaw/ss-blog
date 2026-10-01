@@ -1,0 +1,65 @@
+/* ВАРИАНТ 1: светлая редакционная — как блог, один сайт нацело */
+
+:root {
+  --bg: #FBFAF7;
+  --bg-elevated: #F3F1EC;
+  --fg: #16161A;
+  --accent: #0A7392;
+  --accent-glow: rgba(10, 115, 146, 0.10);
+  --green: #0B7A57;
+  --green-glow: rgba(11, 122, 87, 0.10);
+  --purple: #4F5BD5;
+  --muted: #6C6C78;
+  --secondary: #55555F;
+  --border: rgba(22, 22, 26, 0.12);
+  --border-hover: rgba(22, 22, 26, 0.30);
+  --card-bg: #FFFFFF;
+  --card-bg-hover: #FFFFFF;
+}
+
+body { background: var(--bg); color: var(--fg); }
+.nav { background: rgba(251, 250, 247, 0.94); border-bottom: 1px solid var(--border); }
+.nav.scrolled { background: rgba(251, 250, 247, 0.97); }
+.nav-logo:hover { text-shadow: none; }
+
+/* жёстко прописанные белые подложки → бумага с контуром */
+.stat-card, .case-card, .ag-card, .services-include-card, .partnership-package,
+.hero-card, .format-card, .process-card, .contact-card, .ai-card, .blog-card,
+[class*="card"] {
+  background: #FFFFFF !important;
+  border: 1px solid var(--border) !important;
+}
+
+.btn-primary { background: #16161A; color: #FBFAF7; }
+.btn-primary:hover { background: #2A2A32; }
+.btn-outline { border-color: var(--border); color: var(--fg); }
+.btn-outline:hover { border-color: var(--border-hover); background: rgba(22, 22, 26, 0.04); }
+
+/* логотипы клиентов: были осветлены под тёмный фон — возвращаем тёмными */
+.client-logo { filter: grayscale(1); opacity: 0.55; }
+
+/* вместо созвездия — настоящая схема */
+.hero-constellation { display: none !important; }
+.hero-visual {
+  background: url('/variants/diagram-light.svg') center no-repeat;
+  background-size: contain;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* полноэкранное меню и подпись к рисунку прописаны тёмными — в светлом варианте
+   их надо перекрасить, иначе тёмный текст на тёмной подложке */
+.mobile-menu { background: rgba(251, 250, 247, 0.98); }
+.mobile-link { color: #16161A; }
+.mobile-link:hover { color: var(--accent); }
+.mobile-contacts, .mobile-phone, .mobile-menu * { color: inherit; }
+.mobile-link, .mobile-phone { color: #16161A; }
+.fig-overlay-caption {
+  background: rgba(251, 250, 247, 0.96);
+  border-top: 1px solid var(--border);
+  color: var(--fg);
+  font-family: inherit;
+}
+
+/* --success нигде не определён, из-за этого подставлялся неоновый запасной #10b981 */
+:root { --success: #0B7A57; }
