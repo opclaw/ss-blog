@@ -2,21 +2,6 @@
 // Сгенерировано из legacy/version-4/index.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../layouts/Base.astro';
 import ContactCards from '../components/ContactCards.astro';
-
-/* Визуализация первого экрана: сколько заявок приносит тот же трафик.
-   Цифры не придуманы — это конверсия сайта из кейса CND-Store: было 1,2%,
-   стало 2,8%. На каждые 1 000 посетителей это 12 и 28 заявок (×2,3).
-   Каждая клетка — одна заявка, рост ×2,3 показываем приростом клеток,
-   а не «стрелкой вверх», чтобы его можно было пересчитать. */
-const LEADS_WAS = 12;
-const LEADS_NOW = 28;
-const DOT_COLS = 7;
-const leads = Array.from({ length: LEADS_NOW }, (_, i) => ({
-  x: 74 + (i % DOT_COLS) * 32,
-  y: 6 + Math.floor(i / DOT_COLS) * 32,
-  grew: i >= LEADS_WAS,
-  order: i - LEADS_WAS,
-}));
 const jsonLd = [
   "{\"@context\": \"https://schema.org\", \"@type\": \"Organization\", \"name\": \"Smart Solutions\", \"url\": \"https://smartsolutions.today/\", \"logo\": \"https://smartsolutions.today/images/og-cover.jpg\", \"description\": \"Системы привлечения клиентов на основе исследований: сайты, реклама, аналитика и внедрение ИИ с замером эффекта.\", \"foundingDate\": \"2017\", \"telephone\": \"+7 (925) 090-95-00\", \"email\": \"ok@smartsolutions.today\", \"address\": {\"@type\": \"PostalAddress\", \"addressCountry\": \"RU\", \"addressLocality\": \"Москва\", \"streetAddress\": \"ул. Воронцовская, д. 35-Б\"}, \"contactPoint\": [{\"@type\": \"ContactPoint\", \"contactType\": \"customer service\", \"telephone\": \"+7 (925) 090-95-00\", \"email\": \"ok@smartsolutions.today\", \"availableLanguage\": \"ru\"}]}",
   "{\"@context\": \"https://schema.org\", \"@type\": \"WebSite\", \"name\": \"Smart Solutions\", \"url\": \"https://smartsolutions.today/\", \"inLanguage\": \"ru\", \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\", \"url\": \"https://smartsolutions.today/\"}}",
@@ -59,50 +44,47 @@ const jsonLd = [
         </div>
 
         <div class="hero-visual fade-in fade-in-d2">
-          <!-- Результат, а не устройство системы: сколько заявок тот же трафик
-               давал до работы и сколько даёт после. Клетки = заявки, их можно
-               пересчитать: 1 000 посетителей × 1,2% = 12, × 2,8% = 28. -->
-          <figure class="hero-result">
-            <div class="hero-result-head">
-              <span class="hero-result-title">Заявок с 1&nbsp;000 посетителей</span>
-              <span class="hero-result-case">CND-Store</span>
+          <div class="hero-constellation">
+            <!-- Central hub -->
+            <div class="const-hub">
+              <div class="const-hub-ring"></div>
+              <div class="const-hub-ring const-hub-ring--2"></div>
+              <div class="const-hub-core"></div>
             </div>
-
-            <svg class="hero-dots" viewBox="0 0 360 132" role="img"
-                 aria-label="Было 12 заявок с тысячи посетителей, стало 28 — рост в 2,3 раза">
-              {leads.map((d) => (
-                <rect class={d.grew ? 'hero-dot hero-dot--grew' : 'hero-dot'}
-                      x={d.x} y={d.y} width="20" height="20" rx="5"
-                      style={d.grew ? `--order: ${d.order}` : undefined} />
-              ))}
+            <!-- Orbiting nodes -->
+            <div class="const-node const-node--1"><span></span></div>
+            <div class="const-node const-node--2"><span></span></div>
+            <div class="const-node const-node--3"><span></span></div>
+            <div class="const-node const-node--4"><span></span></div>
+            <div class="const-node const-node--5"><span></span></div>
+            <!-- Connecting lines (SVG) -->
+            <svg class="const-lines" viewBox="0 0 400 400" fill="none">
+              <line x1="200" y1="200" x2="80" y2="90" stroke="url(#line-grad)" stroke-width="1" opacity="0.15"/>
+              <line x1="200" y1="200" x2="330" y2="110" stroke="url(#line-grad)" stroke-width="1" opacity="0.12"/>
+              <line x1="200" y1="200" x2="320" y2="300" stroke="url(#line-grad-g)" stroke-width="1" opacity="0.1"/>
+              <line x1="200" y1="200" x2="70" y2="280" stroke="url(#line-grad)" stroke-width="1" opacity="0.12"/>
+              <line x1="200" y1="200" x2="200" y2="50" stroke="url(#line-grad-g)" stroke-width="1" opacity="0.08"/>
+              <!-- Cross-connections -->
+              <line x1="80" y1="90" x2="330" y2="110" stroke="url(#line-grad)" stroke-width="0.5" opacity="0.06"/>
+              <line x1="330" y1="110" x2="320" y2="300" stroke="url(#line-grad-g)" stroke-width="0.5" opacity="0.06"/>
+              <line x1="70" y1="280" x2="80" y2="90" stroke="url(#line-grad)" stroke-width="0.5" opacity="0.05"/>
+              <defs>
+                <linearGradient id="line-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="rgb(0,217,255)" stop-opacity="1"/>
+                  <stop offset="100%" stop-color="rgb(0,217,255)" stop-opacity="0"/>
+                </linearGradient>
+                <linearGradient id="line-grad-g" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="rgb(16,185,129)" stop-opacity="1"/>
+                  <stop offset="100%" stop-color="rgb(16,185,129)" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
             </svg>
-
-            <div class="hero-result-rows">
-              <p class="hero-result-row">
-                <span class="hero-result-key">Было</span>
-                <span class="hero-result-num" data-countup="12">12</span>
-                <span class="hero-result-unit">заявок</span>
-                <span class="hero-result-rate">конверсия 1,2%</span>
-              </p>
-              <p class="hero-result-row hero-result-row--now">
-                <span class="hero-result-key">Стало</span>
-                <span class="hero-result-num hero-result-num--accent" data-countup="28">28</span>
-                <span class="hero-result-unit">заявок</span>
-                <span class="hero-result-rate">конверсия 2,8%</span>
-                <span class="hero-result-delta">&times;2,3</span>
-              </p>
+            <!-- Ambient particles -->
+            <div class="const-particles">
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
             </div>
-
-            <p class="hero-result-note">
-              Тот же сайт и тот же трафик. Рост дали исследование пути клиента
-              и пересборка checkout.
-            </p>
-
-            <a class="hero-result-link" href="/cases/cnd-store.html">
-              Разбор кейса
-              <svg width="14" height="14"><use href="/icons.svg#icon-arrow-right"/></svg>
-            </a>
-          </figure>
+          </div>
         </div>
       </div>
     </div>
