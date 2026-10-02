@@ -271,6 +271,28 @@
     });
   });
 
+  // ===== КЕЙС В ГЕРОЕ: выбор метрики =====
+  const heroCase = document.querySelector('.hero-case');
+  if (heroCase) {
+    const caseRows = Array.prototype.slice.call(heroCase.querySelectorAll('.hero-case-row'));
+    const caseCause = heroCase.querySelector('.hero-case-cause');
+    const openRow = function (row) {
+      caseRows.forEach(function (r) {
+        const on = r === row;
+        r.classList.toggle('is-open', on);
+        r.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      caseCause.textContent = row.getAttribute('data-cause');
+      caseCause.classList.remove('is-in');
+      void caseCause.offsetWidth; // перезапуск анимации появления
+      caseCause.classList.add('is-in');
+    };
+    caseRows.forEach(function (r) {
+      r.addEventListener('click', function () { openRow(r); });
+    });
+    openRow(caseRows[0]);
+  }
+
   // ===== ФИГУРЫ: узкие вписываем, широкие — тап-увеличение =====
   function updateFigureFits() {
     if (!window.matchMedia('(max-width: 640px)').matches) return;

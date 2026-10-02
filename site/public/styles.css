@@ -559,13 +559,7 @@ a {
 
 
 
-.const-hub-ring--2 {
-  width: 72px;
-  height: 72px;
-  border-color: rgba(0, 217, 255, 0.06);
-  animation-delay: 1s;
-  animation-duration: 5s;
-}
+
 
 
 
@@ -1782,7 +1776,7 @@ p.format-note.text-secondary {
 
   .hero-title { font-size: clamp(3.5rem, 5.2vw, 4.25rem); }
   .hero-visual { flex: 0 1 clamp(340px, 40%, 440px); }
-  .hero-constellation { height: 360px; }
+  
 
   h2 { font-size: 2.75rem; }
 
@@ -3565,7 +3559,6 @@ p.format-note.text-secondary {
   30%, 100% { left: 120%; }
 }
 
-/* ===== Созвездие в герое (исходная визуализация, возвращена) ===== */
 
 .hero-constellation {
   position: relative;
@@ -3573,185 +3566,97 @@ p.format-note.text-secondary {
   height: 320px;
 }
 
-.const-lines {
-  position: absolute;
-  inset: 0;
+/* ===== Интерактив в герое: кейс «Моя Планета» ===== */
+/* Четыре метрики из кейса; шкала у каждой строки своя, столбики
+   пропорциональны её числам. У отказов столбик «стало» короче — там меньше лучше. */
+.hero-case {
+  margin: 0;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card-bg);
+}
+.hero-case-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+.hero-case-name { font-family: var(--font-mono); font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
+.hero-case-tag { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+.hero-case-rows { display: flex; flex-direction: column; gap: 0.35rem; }
+.hero-case-row {
+  display: flex;
+  flex-direction: column;
+  /* у <button> в браузере по умолчанию align-items: center — из-за этого
+     вложенные строки не растягивались на всю ширину и столбики схлопывались в 0 */
+  align-items: stretch;
+  gap: 0.45rem;
   width: 100%;
-  height: 100%;
+  padding: 0.6rem 0.65rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
 }
-
-.const-hub {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.const-hub-core {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 20px rgba(0, 217, 255, 0.4), 0 0 60px rgba(0, 217, 255, 0.1);
-  position: relative;
-  z-index: 2;
-}
-
-.const-hub-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 217, 255, 0.12);
-  transform: translate(-50%, -50%);
-  animation: hubPulse 4s ease-in-out infinite;
-}
-
-.const-hub-ring--2 {
-  width: 72px;
-  height: 72px;
-  border-color: rgba(0, 217, 255, 0.06);
-  animation-delay: 1s;
-  animation-duration: 5s;
-}
-
-.const-node {
-  position: absolute;
-}
-
-.const-node span {
+.hero-case-row:hover { background: var(--card-bg-hover); border-color: var(--border); }
+.hero-case-row.is-open { background: var(--card-bg-hover); border-color: rgba(0, 217, 255, 0.28); }
+.hero-case-line { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
+.hero-case-label { font-size: 0.85rem; color: var(--secondary); }
+.hero-case-row.is-open .hero-case-label { color: var(--fg); }
+.hero-case-delta { font-family: var(--font-mono); font-size: 0.74rem; font-weight: 600; color: var(--accent); }
+.hero-case-bars { display: flex; flex-direction: column; gap: 3px; width: 100%; }
+.hero-case-bar {
   display: block;
-  border-radius: 50%;
-  background: var(--accent);
-}
-
-.const-particles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.const-particles span {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  border-radius: 50%;
-  background: var(--accent);
-  opacity: 0;
-  animation: particleDrift 6s ease-in-out infinite;
-}
-
-.const-node--1 {
-  top: 22%;
-  left: 20%;
-  animation: nodeFloat1 8s ease-in-out infinite;
-}
-
-.const-node--1 span {
-  width: 7px;
-  height: 7px;
-  opacity: 0.6;
-  box-shadow: 0 0 12px rgba(0, 217, 255, 0.3);
-}
-
-.const-node--2 {
-  top: 27%;
-  right: 17%;
-  animation: nodeFloat2 9s ease-in-out infinite 0.5s;
-}
-
-.const-node--2 span {
-  width: 5px;
   height: 5px;
-  opacity: 0.5;
-  background: var(--green);
-  box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+  border-radius: 3px;
+  width: var(--w);
+  animation: caseBar 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
 }
-
-.const-node--3 {
-  bottom: 25%;
-  right: 20%;
-  animation: nodeFloat3 7s ease-in-out infinite 1s;
+.hero-case-bar--was { background: rgba(255, 255, 255, 0.16); animation-delay: 0.25s; }
+.hero-case-bar--now { background: var(--accent); animation-delay: 0.35s; }
+@keyframes caseBar { from { width: 0; } }
+.hero-case-values {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted);
 }
+.hero-case-now { color: var(--fg); font-weight: 600; }
+.hero-case-row.is-open .hero-case-now { color: var(--accent); }
 
-.const-node--3 span {
-  width: 6px;
-  height: 6px;
-  opacity: 0.45;
-  box-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
+.hero-case-cause {
+  margin: 0.9rem 0 0;
+  min-height: 3.2em;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--muted);
 }
-
-.const-node--4 {
-  bottom: 30%;
-  left: 17%;
-  animation: nodeFloat1 10s ease-in-out infinite 1.5s;
+.hero-case-cause.is-in { animation: causeIn 0.35s ease-out; }
+@keyframes causeIn { from { opacity: 0; transform: translateY(3px); } }
+.hero-case-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
 }
+.hero-case-link svg { transition: transform var(--transition); }
+.hero-case-link:hover svg { transform: translateX(3px); }
 
-.const-node--4 span {
-  width: 4px;
-  height: 4px;
-  opacity: 0.4;
-  background: var(--green);
-  box-shadow: 0 0 8px rgba(16, 185, 129, 0.2);
-}
-
-.const-node--5 {
-  top: 12%;
-  left: 50%;
-  transform: translateX(-50%);
-  animation: nodeFloat2 6s ease-in-out infinite 2s;
-}
-
-.const-node--5 span {
-  width: 3px;
-  height: 3px;
-  opacity: 0.35;
-}
-
-.const-particles span:nth-child(1) { top: 18%; left: 35%; animation-delay: 0s; }
-
-.const-particles span:nth-child(2) { top: 40%; right: 30%; animation-delay: 0.8s; background: var(--green); }
-
-.const-particles span:nth-child(3) { bottom: 20%; left: 40%; animation-delay: 1.6s; }
-
-.const-particles span:nth-child(4) { top: 60%; left: 25%; animation-delay: 2.4s; background: var(--green); }
-
-.const-particles span:nth-child(5) { top: 30%; right: 40%; animation-delay: 3.2s; }
-
-.const-particles span:nth-child(6) { bottom: 35%; right: 25%; animation-delay: 4s; }
-
-.const-particles span:nth-child(7) { top: 50%; left: 60%; animation-delay: 4.8s; background: var(--green); }
-
-.const-particles span:nth-child(8) { bottom: 45%; left: 30%; animation-delay: 5.5s; }
-
-@keyframes hubPulse {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-  50% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.5; }
-}
-
-@keyframes nodeFloat1 {
-  0%, 100% { transform: translate(0, 0); }
-  33% { transform: translate(6px, -8px); }
-  66% { transform: translate(-4px, 4px); }
-}
-
-@keyframes nodeFloat2 {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(-5px, -6px); }
-}
-
-@keyframes nodeFloat3 {
-  0%, 100% { transform: translate(0, 0); }
-  40% { transform: translate(4px, -5px); }
-  70% { transform: translate(-3px, 3px); }
-}
-
-@keyframes particleDrift {
-  0% { opacity: 0; transform: translateY(0) scale(1); }
-  20% { opacity: 0.25; }
-  50% { opacity: 0.15; transform: translateY(-10px) scale(1.5); }
-  80% { opacity: 0.2; }
-  100% { opacity: 0; transform: translateY(-20px) scale(0.5); }
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-case { padding: 1rem; }
+  .hero-case-label { font-size: 0.78rem; }
+  .hero-case-cause { font-size: 0.76rem; }
 }

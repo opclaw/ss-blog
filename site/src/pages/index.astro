@@ -45,47 +45,90 @@ const jsonLd = [
         </div>
 
         <div class="hero-visual fade-in fade-in-d2">
-          <div class="hero-constellation">
-            <!-- Central hub -->
-            <div class="const-hub">
-              <div class="const-hub-ring"></div>
-              <div class="const-hub-ring const-hub-ring--2"></div>
-              <div class="const-hub-core"></div>
+          <!-- Интерактив с кейсом «Моя Планета». Все четыре метрики — из самого
+               кейса: 30K → 1M, 1.2 → 3.8, 82% → 45%, 200 → 5 000+. Шкала у каждой
+               строки своя, столбики пропорциональны её числам. Нажатие на строку
+               показывает, что именно было сделано, — причины тоже из кейса. -->
+          <figure class="hero-case">
+            <div class="hero-case-head">
+              <span class="hero-case-name">Моя Планета</span>
+              <span class="hero-case-tag">портал ВГТРК</span>
             </div>
-            <!-- Orbiting nodes -->
-            <div class="const-node const-node--1"><span></span></div>
-            <div class="const-node const-node--2"><span></span></div>
-            <div class="const-node const-node--3"><span></span></div>
-            <div class="const-node const-node--4"><span></span></div>
-            <div class="const-node const-node--5"><span></span></div>
-            <!-- Connecting lines (SVG) -->
-            <svg class="const-lines" viewBox="0 0 400 400" fill="none">
-              <line x1="200" y1="200" x2="80" y2="90" stroke="url(#line-grad)" stroke-width="1" opacity="0.15"/>
-              <line x1="200" y1="200" x2="330" y2="110" stroke="url(#line-grad)" stroke-width="1" opacity="0.12"/>
-              <line x1="200" y1="200" x2="320" y2="300" stroke="url(#line-grad-g)" stroke-width="1" opacity="0.1"/>
-              <line x1="200" y1="200" x2="70" y2="280" stroke="url(#line-grad)" stroke-width="1" opacity="0.12"/>
-              <line x1="200" y1="200" x2="200" y2="50" stroke="url(#line-grad-g)" stroke-width="1" opacity="0.08"/>
-              <!-- Cross-connections -->
-              <line x1="80" y1="90" x2="330" y2="110" stroke="url(#line-grad)" stroke-width="0.5" opacity="0.06"/>
-              <line x1="330" y1="110" x2="320" y2="300" stroke="url(#line-grad-g)" stroke-width="0.5" opacity="0.06"/>
-              <line x1="70" y1="280" x2="80" y2="90" stroke="url(#line-grad)" stroke-width="0.5" opacity="0.05"/>
-              <defs>
-                <linearGradient id="line-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="rgb(0,217,255)" stop-opacity="1"/>
-                  <stop offset="100%" stop-color="rgb(0,217,255)" stop-opacity="0"/>
-                </linearGradient>
-                <linearGradient id="line-grad-g" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="rgb(16,185,129)" stop-opacity="1"/>
-                  <stop offset="100%" stop-color="rgb(16,185,129)" stop-opacity="0"/>
-                </linearGradient>
-              </defs>
-            </svg>
-            <!-- Ambient particles -->
-            <div class="const-particles">
-              <span></span><span></span><span></span><span></span>
-              <span></span><span></span><span></span><span></span>
+
+            <div class="hero-case-rows">
+              <button type="button" class="hero-case-row" aria-pressed="false"
+                      data-cause="Иерархическая структура: страна → регион → тема, у каждой категории свой хаб с подборками и навигацией.">
+                <span class="hero-case-line">
+                  <span class="hero-case-label">Посетителей / мес</span>
+                  <span class="hero-case-delta">×33</span>
+                </span>
+                <span class="hero-case-bars">
+                  <span class="hero-case-bar hero-case-bar--was" style="--w: 3%"></span>
+                  <span class="hero-case-bar hero-case-bar--now" style="--w: 100%"></span>
+                </span>
+                <span class="hero-case-values">
+                  <span class="hero-case-was">30K</span>
+                  <span class="hero-case-arrow" aria-hidden="true">&rarr;</span>
+                  <span class="hero-case-now">1M</span>
+                </span>
+              </button>
+              <button type="button" class="hero-case-row" aria-pressed="false"
+                      data-cause="Система перелинковки: блоки «Читайте также» по теме и географии, карта-навигация, тематические подборки.">
+                <span class="hero-case-line">
+                  <span class="hero-case-label">Глубина просмотра</span>
+                  <span class="hero-case-delta">×3,2</span>
+                </span>
+                <span class="hero-case-bars">
+                  <span class="hero-case-bar hero-case-bar--was" style="--w: 32%"></span>
+                  <span class="hero-case-bar hero-case-bar--now" style="--w: 100%"></span>
+                </span>
+                <span class="hero-case-values">
+                  <span class="hero-case-was">1.2</span>
+                  <span class="hero-case-arrow" aria-hidden="true">&rarr;</span>
+                  <span class="hero-case-now">3.8</span>
+                </span>
+              </button>
+              <button type="button" class="hero-case-row" aria-pressed="false"
+                      data-cause="Техническая оптимизация: скорость загрузки, оптимизация изображений, корректная индексация, AMP-версии.">
+                <span class="hero-case-line">
+                  <span class="hero-case-label">Показатель отказов</span>
+                  <span class="hero-case-delta">−37 пп</span>
+                </span>
+                <span class="hero-case-bars">
+                  <span class="hero-case-bar hero-case-bar--was" style="--w: 100%"></span>
+                  <span class="hero-case-bar hero-case-bar--now" style="--w: 55%"></span>
+                </span>
+                <span class="hero-case-values">
+                  <span class="hero-case-was">82%</span>
+                  <span class="hero-case-arrow" aria-hidden="true">&rarr;</span>
+                  <span class="hero-case-now">45%</span>
+                </span>
+              </button>
+              <button type="button" class="hero-case-row" aria-pressed="false"
+                      data-cause="SEO-оптимизация контента: отдельный h1 для поиска рядом с редакционным заголовком, meta-описания, микроразметка.">
+                <span class="hero-case-line">
+                  <span class="hero-case-label">Запросов в топ-10</span>
+                  <span class="hero-case-delta">×25</span>
+                </span>
+                <span class="hero-case-bars">
+                  <span class="hero-case-bar hero-case-bar--was" style="--w: 4%"></span>
+                  <span class="hero-case-bar hero-case-bar--now" style="--w: 100%"></span>
+                </span>
+                <span class="hero-case-values">
+                  <span class="hero-case-was">200</span>
+                  <span class="hero-case-arrow" aria-hidden="true">&rarr;</span>
+                  <span class="hero-case-now">5 000+</span>
+                </span>
+              </button>
             </div>
-          </div>
+
+            <p class="hero-case-cause"></p>
+
+            <a class="hero-case-link" href="/cases/moya-planeta.html">
+              Разбор кейса
+              <svg width="13" height="13"><use href="/icons.svg#icon-arrow-right"/></svg>
+            </a>
+          </figure>
         </div>
       </div>
     </div>
