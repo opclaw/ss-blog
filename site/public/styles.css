@@ -542,31 +542,10 @@ a {
   font-size: 1.125rem;
   color: var(--secondary);
   line-height: 1.55;
-  margin: 0 0 2rem;
+  margin: 0 0 2.5rem;
   max-width: 42ch;
 }
-.hero-summary a {
-  color: var(--fg);
-  text-decoration: none;
-  border-bottom: 1px solid rgba(0, 217, 255, 0.35);
-  transition: color var(--transition), border-color var(--transition);
-}
-.hero-summary a:hover { color: var(--accent); border-color: var(--accent); }
 
-/* Доказательство под кнопкой: цифра из кейса, а не абстрактное «портфолио» */
-.hero-proof { margin: 1.25rem 0 0; font-size: 0.85rem; }
-.hero-proof a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-family: var(--font-mono);
-  color: var(--secondary);
-  text-decoration: none;
-  transition: color var(--transition);
-}
-.hero-proof a svg { transition: transform var(--transition); }
-.hero-proof a:hover { color: var(--accent); }
-.hero-proof a:hover svg { transform: translateX(3px); }
 .hero-visual {
   display: none;
 }
