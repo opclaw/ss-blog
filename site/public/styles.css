@@ -3567,35 +3567,38 @@ p.format-note.text-secondary {
 }
 
 /* ===== Интерактив в герое: кейс «Моя Планета» ===== */
-/* Четыре метрики из кейса; шкала у каждой строки своя, столбики
-   пропорциональны её числам. У отказов столбик «стало» короче — там меньше лучше. */
+/* Панель данных: главное в ней — цифры, поэтому «стало» крупное и акцентное,
+   а «было» — тихое. Шкала у каждой строки своя, столбики пропорциональны её
+   числам; у отказов «стало» короче — там меньше лучше. */
 .hero-case {
   margin: 0;
-  padding: 1.25rem;
-  border: 1px solid var(--border);
+  padding: 1.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius);
-  background: var(--card-bg);
+  background: rgba(255, 255, 255, 0.02);
 }
-.hero-case-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 0.9rem;
+.hero-case-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; }
+.hero-case-kicker {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
-.hero-case-name { font-family: var(--font-mono); font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
-.hero-case-tag { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.hero-case-name { font-family: var(--font-mono); font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; }
+.hero-case-tag { padding-top: 0.15rem; font-size: 0.7rem; color: var(--muted); }
+.hero-case-task { margin: 0.7rem 0 1.05rem; font-size: 0.78rem; line-height: 1.5; color: var(--muted); }
 
-.hero-case-rows { display: flex; flex-direction: column; gap: 0.35rem; }
+.hero-case-rows { display: flex; flex-direction: column; gap: 0.25rem; }
 .hero-case-row {
   display: flex;
   flex-direction: column;
   /* у <button> в браузере по умолчанию align-items: center — из-за этого
-     вложенные строки не растягивались на всю ширину и столбики схлопывались в 0 */
+     вложенные строки не растягивались и столбики схлопывались в 0 */
   align-items: stretch;
-  gap: 0.45rem;
   width: 100%;
-  padding: 0.6rem 0.65rem;
+  padding: 0.6rem 0.7rem;
   background: transparent;
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
@@ -3604,49 +3607,85 @@ p.format-note.text-secondary {
   text-align: left;
   cursor: pointer;
   transition: background var(--transition), border-color var(--transition);
+  animation: caseRowIn 0.5s ease-out backwards;
 }
-.hero-case-row:hover { background: var(--card-bg-hover); border-color: var(--border); }
-.hero-case-row.is-open { background: var(--card-bg-hover); border-color: rgba(0, 217, 255, 0.28); }
-.hero-case-line { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
-.hero-case-label { font-size: 0.85rem; color: var(--secondary); }
+.hero-case-row:hover { background: rgba(255, 255, 255, 0.035); }
+.hero-case-row.is-open {
+  background: rgba(0, 217, 255, 0.05);
+  border-color: rgba(0, 217, 255, 0.22);
+}
+.hero-case-line { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.hero-case-label { font-size: 0.82rem; color: var(--secondary); }
 .hero-case-row.is-open .hero-case-label { color: var(--fg); }
-.hero-case-delta { font-family: var(--font-mono); font-size: 0.74rem; font-weight: 600; color: var(--accent); }
-.hero-case-bars { display: flex; flex-direction: column; gap: 3px; width: 100%; }
+.hero-case-delta {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  border-radius: 999px;
+  padding: 0.08rem 0.45rem;
+  white-space: nowrap;
+}
+
+.hero-case-bars { display: flex; flex-direction: column; gap: 4px; width: 100%; margin-top: 0.55rem; }
 .hero-case-bar {
   display: block;
-  height: 5px;
-  border-radius: 3px;
+  height: 4px;
+  border-radius: 2px;
   width: var(--w);
-  animation: caseBar 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+  animation: caseBar 0.85s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
 }
-.hero-case-bar--was { background: rgba(255, 255, 255, 0.16); animation-delay: 0.25s; }
-.hero-case-bar--now { background: var(--accent); animation-delay: 0.35s; }
+.hero-case-bar--was { background: rgba(255, 255, 255, 0.18); }
+.hero-case-bar--now { background: var(--accent); }
 @keyframes caseBar { from { width: 0; } }
+
 .hero-case-values {
   display: flex;
   align-items: baseline;
-  gap: 0.4rem;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
   font-family: var(--font-mono);
-  font-size: 0.78rem;
-  color: var(--muted);
+  font-variant-numeric: tabular-nums;
 }
-.hero-case-now { color: var(--fg); font-weight: 600; }
+.hero-case-was { font-size: 0.8rem; color: var(--muted); }
+.hero-case-arrow { font-size: 0.8rem; color: rgba(255, 255, 255, 0.5); }
+.hero-case-now { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; color: var(--fg); }
 .hero-case-row.is-open .hero-case-now { color: var(--accent); }
 
+/* появление строка за строкой: сначала подписи, потом столбики */
+@keyframes caseRowIn { from { opacity: 0; transform: translateY(6px); } }
+.hero-case-row:nth-child(1) { animation-delay: 0.10s; }
+.hero-case-row:nth-child(2) { animation-delay: 0.18s; }
+.hero-case-row:nth-child(3) { animation-delay: 0.26s; }
+.hero-case-row:nth-child(4) { animation-delay: 0.34s; }
+.hero-case-row:nth-child(1) .hero-case-bar--was { animation-delay: 0.35s; }
+.hero-case-row:nth-child(1) .hero-case-bar--now { animation-delay: 0.45s; }
+.hero-case-row:nth-child(2) .hero-case-bar--was { animation-delay: 0.50s; }
+.hero-case-row:nth-child(2) .hero-case-bar--now { animation-delay: 0.60s; }
+.hero-case-row:nth-child(3) .hero-case-bar--was { animation-delay: 0.65s; }
+.hero-case-row:nth-child(3) .hero-case-bar--now { animation-delay: 0.75s; }
+.hero-case-row:nth-child(4) .hero-case-bar--was { animation-delay: 0.80s; }
+.hero-case-row:nth-child(4) .hero-case-bar--now { animation-delay: 0.90s; }
+
 .hero-case-cause {
-  margin: 0.9rem 0 0;
-  min-height: 3.2em;
+  margin: 1.05rem 0 0;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--border);
+  min-height: 3.4em;
   font-size: 0.8rem;
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--muted);
 }
-.hero-case-cause.is-in { animation: causeIn 0.35s ease-out; }
-@keyframes causeIn { from { opacity: 0; transform: translateY(3px); } }
+.hero-case-cause.is-in { animation: causeIn 0.4s ease-out; }
+@keyframes causeIn { from { opacity: 0; transform: translateY(4px); } }
 .hero-case-link {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  margin-top: 0.85rem;
+  margin-top: 0.9rem;
   font-size: 0.82rem;
   font-weight: 500;
   color: var(--accent);
@@ -3657,6 +3696,13 @@ p.format-note.text-secondary {
 
 @media (min-width: 768px) and (max-width: 1023px) {
   .hero-case { padding: 1rem; }
-  .hero-case-label { font-size: 0.78rem; }
-  .hero-case-cause { font-size: 0.76rem; }
+  /* колонка узкая (242–380 px): строку задачи убираем, иначе карточка
+     вытягивается почти на весь экран, а она служебная, не несущая цифр */
+  .hero-case-task { display: none; }
+  .hero-case-row { padding: 0.5rem 0.55rem; }
+  .hero-case-bars { margin-top: 0.45rem; }
+  .hero-case-values { margin-top: 0.4rem; }
+  .hero-case-label { font-size: 0.76rem; }
+  .hero-case-now { font-size: 1rem; }
+  .hero-case-cause { font-size: 0.76rem; margin-top: 0.85rem; padding-top: 0.75rem; }
 }
