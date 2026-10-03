@@ -45,10 +45,11 @@ const jsonLd = [
         </div>
 
         <div class="hero-visual fade-in fade-in-d2">
-          <!-- Интерактив с кейсом «Моя Планета». Все четыре метрики — из самого
-               кейса: 30K → 1M, 1.2 → 3.8, 82% → 45%, 200 → 5 000+. Шкала у каждой
-               строки своя, столбики пропорциональны её числам. Нажатие на строку
-               показывает, что именно было сделано, — причины тоже из кейса. -->
+          <!-- Интерактив по кейсу «Моя Планета». Четыре метрики из кейса,
+               переключатель под графиком. Шкала у каждой метрики своя: линия
+               идёт от «было» к «стало» по её собственным числам, поэтому у
+               отказов она спускается — там меньше лучше. Промежуточных точек
+               нет, значит и линии прямые: траекторию мы не выдумываем. -->
           <figure class="hero-case">
             <div class="hero-case-head">
               <div class="hero-case-title">
@@ -63,71 +64,53 @@ const jsonLd = [
               сохранив редакционное качество контента.
             </p>
 
-            <div class="hero-case-rows">
-              <button type="button" class="hero-case-row" aria-pressed="false"
-                      data-cause="Иерархическая структура: страна → регион → тема, у каждой категории свой хаб с подборками и навигацией.">
-                <span class="hero-case-line">
-                  <span class="hero-case-label">Посетителей / мес</span>
-                  <span class="hero-case-delta">×33</span>
-                </span>
-                <span class="hero-case-bars">
-                  <span class="hero-case-bar hero-case-bar--was" style="--w: 3%"></span>
-                  <span class="hero-case-bar hero-case-bar--now" style="--w: 100%"></span>
-                </span>
-                <span class="hero-case-values">
-                  <span class="hero-case-was">30K</span>
-                  <span class="hero-case-arrow" aria-hidden="true">&rarr;</span>
-                  <span class="hero-case-now">1M</span>
-                </span>
-              </button>
-              <button type="button" class="hero-case-row" aria-pressed="false"
-                      data-cause="Система перелинковки: блоки «Читайте также» по теме и географии, карта-навигация, тематические подборки.">
-                <span class="hero-case-line">
-                  <span class="hero-case-label">Глубина просмотра</span>
-                  <span class="hero-case-delta">×3,2</span>
-                </span>
-                <span class="hero-case-bars">
-                  <span class="hero-case-bar hero-case-bar--was" style="--w: 32%"></span>
-                  <span class="hero-case-bar hero-case-bar--now" style="--w: 100%"></span>
-                </span>
-                <span class="hero-case-values">
-                  <span class="hero-case-was">1.2</span>
-                  <span class="hero-case-arrow" aria-hidden="true">&rarr;</span>
-                  <span class="hero-case-now">3.8</span>
-                </span>
-              </button>
-              <button type="button" class="hero-case-row" aria-pressed="false"
-                      data-cause="Техническая оптимизация: скорость загрузки, оптимизация изображений, корректная индексация, AMP-версии.">
-                <span class="hero-case-line">
-                  <span class="hero-case-label">Показатель отказов</span>
-                  <span class="hero-case-delta">−37 пп</span>
-                </span>
-                <span class="hero-case-bars">
-                  <span class="hero-case-bar hero-case-bar--was" style="--w: 100%"></span>
-                  <span class="hero-case-bar hero-case-bar--now" style="--w: 55%"></span>
-                </span>
-                <span class="hero-case-values">
-                  <span class="hero-case-was">82%</span>
-                  <span class="hero-case-arrow" aria-hidden="true">&rarr;</span>
-                  <span class="hero-case-now">45%</span>
-                </span>
-              </button>
-              <button type="button" class="hero-case-row" aria-pressed="false"
-                      data-cause="SEO-оптимизация контента: отдельный h1 для поиска рядом с редакционным заголовком, meta-описания, микроразметка.">
-                <span class="hero-case-line">
-                  <span class="hero-case-label">Запросов в топ-10</span>
-                  <span class="hero-case-delta">×25</span>
-                </span>
-                <span class="hero-case-bars">
-                  <span class="hero-case-bar hero-case-bar--was" style="--w: 4%"></span>
-                  <span class="hero-case-bar hero-case-bar--now" style="--w: 100%"></span>
-                </span>
-                <span class="hero-case-values">
-                  <span class="hero-case-was">200</span>
-                  <span class="hero-case-arrow" aria-hidden="true">&rarr;</span>
-                  <span class="hero-case-now">5 000+</span>
-                </span>
-              </button>
+            <div class="hero-case-stage">
+              <div class="hero-case-line1">
+                <span class="hero-case-label">Посетителей в месяц</span>
+                <span class="hero-case-delta">×33</span>
+              </div>
+
+              <div class="hero-case-now">1 000 000</div>
+
+              <svg class="hero-case-chart" viewBox="0 0 320 118" role="img"
+                   aria-label="Рост показателя с 30 000 до 1 000 000">
+                <defs>
+                  <linearGradient id="caseFill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#00D9FF" stop-opacity="0.22"/>
+                    <stop offset="100%" stop-color="#00D9FF" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path class="hero-case-area" fill="url(#caseFill)"
+                      d="M 12 101.3 L 308 14.0 L 308 104 L 12 104 Z"/>
+                <path class="hero-case-trend" pathLength="100"
+                      d="M 12 101.3 L 308 14.0"/>
+                <circle class="hero-case-dot hero-case-dot--was" cx="12" cy="101.3" r="3.5"/>
+                <circle class="hero-case-dot hero-case-dot--now" cx="308" cy="14.0" r="4.5"/>
+              </svg>
+
+              <div class="hero-case-foot">
+                <span class="hero-case-was">было <b>30 000</b></span>
+                <span class="hero-case-axis">итог</span>
+              </div>
+            </div>
+
+            <div class="hero-case-tabs">
+              <button type="button" class="hero-case-tab is-active" aria-pressed="true"
+                      data-label="Посетителей в месяц" data-was="30000" data-now="1000000"
+                      data-was-text="30 000" data-now-text="1 000 000" data-format="int"
+                      data-delta="×33" data-cause="Иерархическая структура: страна → регион → тема, у каждой категории свой хаб с подборками и навигацией.">Посетители</button>
+              <button type="button" class="hero-case-tab" aria-pressed="false"
+                      data-label="Глубина просмотра" data-was="1.2" data-now="3.8"
+                      data-was-text="1.2" data-now-text="3.8" data-format="dec1"
+                      data-delta="×3,2" data-cause="Система перелинковки: блоки «Читайте также» по теме и географии, карта-навигация, тематические подборки.">Глубина</button>
+              <button type="button" class="hero-case-tab" aria-pressed="false"
+                      data-label="Показатель отказов" data-was="82" data-now="45"
+                      data-was-text="82%" data-now-text="45%" data-format="pct"
+                      data-delta="−37 пп" data-cause="Техническая оптимизация: скорость загрузки, оптимизация изображений, корректная индексация, AMP-версии.">Отказы</button>
+              <button type="button" class="hero-case-tab" aria-pressed="false"
+                      data-label="Запросов в топ-10" data-was="200" data-now="5000"
+                      data-was-text="200" data-now-text="5 000+" data-format="int"
+                      data-delta="×25" data-cause="SEO-оптимизация контента: отдельный h1 для поиска рядом с редакционным заголовком, meta-описания, микроразметка.">Запросы</button>
             </div>
 
             <p class="hero-case-cause"></p>

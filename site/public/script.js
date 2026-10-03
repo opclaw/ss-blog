@@ -271,26 +271,87 @@
     });
   });
 
-  // ===== КЕЙС В ГЕРОЕ: выбор метрики =====
+  // ===== КЕЙС В ГЕРОЕ: график роста и переключатель метрик =====
   const heroCase = document.querySelector('.hero-case');
   if (heroCase) {
-    const caseRows = Array.prototype.slice.call(heroCase.querySelectorAll('.hero-case-row'));
-    const caseCause = heroCase.querySelector('.hero-case-cause');
-    const openRow = function (row) {
-      caseRows.forEach(function (r) {
-        const on = r === row;
-        r.classList.toggle('is-open', on);
-        r.setAttribute('aria-pressed', on ? 'true' : 'false');
+    var CH = { x0: 12, x1: 308, top: 14, bottom: 104 };
+    var labelEl = heroCase.querySelector('.hero-case-label');
+    var deltaEl = heroCase.querySelector('.hero-case-delta');
+    var nowEl = heroCase.querySelector('.hero-case-now');
+    var wasEl = heroCase.querySelector('.hero-case-was b');
+    var causeEl = heroCase.querySelector('.hero-case-cause');
+    var chartEl = heroCase.querySelector('.hero-case-chart');
+    var trendEl = heroCase.querySelector('.hero-case-trend');
+    var areaEl = heroCase.querySelector('.hero-case-area');
+    var dotWas = heroCase.querySelector('.hero-case-dot--was');
+    var dotNow = heroCase.querySelector('.hero-case-dot--now');
+    var caseTabs = Array.prototype.slice.call(heroCase.querySelectorAll('.hero-case-tab'));
+    var shownValue = null;
+
+    function caseFmt(v, f) {
+      if (f === 'dec1') return (Math.round(v * 10) / 10).toFixed(1);
+      if (f === 'pct') return Math.round(v) + '%';
+      return Math.round(v).toLocaleString('ru-RU');
+    }
+    function caseY(v, max) { return CH.bottom - (v / max) * (CH.bottom - CH.top); }
+
+    function tweenNum(from, to, f, dur, finalText) {
+      var t0 = null;
+      function step(t) {
+        if (t0 === null) t0 = t;
+        var k = Math.min((t - t0) / dur, 1);
+        var e = 1 - Math.pow(1 - k, 3);
+        // в конце ставим точный текст из разметки: у «5 000+» плюс теряется
+        // при пересчёте, а он часть числа
+        nowEl.textContent = k < 1 ? caseFmt(from + (to - from) * e, f) : finalText;
+        if (k < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    function drawChart(was, now) {
+      var max = Math.max(was, now);
+      var y0 = caseY(was, max);
+      var y1 = caseY(now, max);
+      trendEl.setAttribute('d', 'M ' + CH.x0 + ' ' + y0 + ' L ' + CH.x1 + ' ' + y1);
+      areaEl.setAttribute('d', 'M ' + CH.x0 + ' ' + y0 + ' L ' + CH.x1 + ' ' + y1 +
+                               ' L ' + CH.x1 + ' ' + CH.bottom + ' L ' + CH.x0 + ' ' + CH.bottom + ' Z');
+      dotWas.setAttribute('cy', y0);
+      dotNow.setAttribute('cy', y1);
+      chartEl.classList.remove('is-drawing');
+      void chartEl.getBoundingClientRect(); // перезапуск анимации
+      chartEl.classList.add('is-drawing');
+    }
+
+    function selectMetric(tab) {
+      var was = parseFloat(tab.getAttribute('data-was'));
+      var now = parseFloat(tab.getAttribute('data-now'));
+      var f = tab.getAttribute('data-format');
+      caseTabs.forEach(function (t) {
+        var on = t === tab;
+        t.classList.toggle('is-active', on);
+        t.setAttribute('aria-pressed', on ? 'true' : 'false');
       });
-      caseCause.textContent = row.getAttribute('data-cause');
-      caseCause.classList.remove('is-in');
-      void caseCause.offsetWidth; // перезапуск анимации появления
-      caseCause.classList.add('is-in');
-    };
-    caseRows.forEach(function (r) {
-      r.addEventListener('click', function () { openRow(r); });
+      labelEl.textContent = tab.getAttribute('data-label');
+      deltaEl.textContent = tab.getAttribute('data-delta');
+      wasEl.textContent = tab.getAttribute('data-was-text');
+      chartEl.setAttribute('aria-label', tab.getAttribute('data-label') + ': с ' +
+        tab.getAttribute('data-was-text') + ' до ' + tab.getAttribute('data-now-text'));
+      // первый раз число просто ставим, дальше — пересчитываем от текущего
+      if (shownValue === null) nowEl.textContent = tab.getAttribute('data-now-text');
+      else tweenNum(shownValue, now, f, 900, tab.getAttribute('data-now-text'));
+      shownValue = now;
+      drawChart(was, now);
+      causeEl.textContent = tab.getAttribute('data-cause');
+      causeEl.classList.remove('is-in');
+      void causeEl.offsetWidth;
+      causeEl.classList.add('is-in');
+    }
+
+    caseTabs.forEach(function (t) {
+      t.addEventListener('click', function () { selectMetric(t); });
     });
-    openRow(caseRows[0]);
+    selectMetric(caseTabs[0]);
   }
 
   // ===== ФИГУРЫ: узкие вписываем, широкие — тап-увеличение =====
