@@ -4,10 +4,18 @@
 .bl-sheet{
   --ink:#08080D; --ink2:#0E0E14; --on-ink:#F5F5F7; --on-ink-dim:rgba(245,245,247,.6); --ink-line:rgba(255,255,255,.08);
   --paper:#FAFAF7; --paper2:#F1F1EC; --card:#FFFFFF;
-  --fg:#101014; --text:#2B2B33; --dim:#5E5E68; --mute:#8C8C96; --line:#E4E4DE; --line2:#D2D2CA;
-  --acc:#00D9FF; --acc-t:#0A7EA4; --acc-soft:#E3F7FC; --green:#0E9F6E; --green-soft:#E3F5EE; --red:#C2410C;
-  --f-d:'Manrope',system-ui,sans-serif; --f-t:'Inter',system-ui,sans-serif; --f-m:'JetBrains Mono',ui-monospace,monospace;
+  --fg:#101014; --text:#2B2B33; --dim:#5E5E68; --mute:#6C6C78; --line:#E4E4DE; --line2:#D2D2CA;
+  --acc:#00D9FF; --acc-t:#0A7392; --acc-soft:#E3F7FC; --green:#0E9F6E; --green-t:#0B7A57; --green-soft:#E3F5EE; --red:#C2410C;
+  --f-d:'Manrope',system-ui,sans-serif; --f-t:'Inter',system-ui,sans-serif; /* --f-m был JetBrains Mono: его ноль с точкой в центре — штамп нейросетей, а
+   альтернативного нуля у шрифта нет (в GSUB только calt/ccmp/frac/locl).
+   Переменная оставлена, чтобы не менять десятки правил, но теперь это
+   текстовой шрифт с табличными цифрами. */
+  --f-m:'Inter',system-ui,sans-serif;
   --col:700px;
+  /* Алиасы переменных старой тёмной темы сайта: внутри светлого листа блоки legacy-разметки
+     (fig, weeks-grid, err-card, pull-quote, formula-card) берут светлую палитру, а не инверсную. */
+  --bg:#FAFAF7; --bg-elevated:#FFFFFF; --card-bg:#FFFFFF; --border:#E4E4DE; --border-strong:#D2D2CA;
+  --muted:#6C6C78; --secondary:#5E5E68; --accent:#0A7392; --accent-soft:#E3F7FC;
 }
 html{scroll-padding-top:84px}
 .bl-sheet{background:var(--paper);color:var(--text);font:400 18px/1.72 var(--f-t);-webkit-font-smoothing:antialiased}
@@ -15,11 +23,25 @@ html{scroll-padding-top:84px}
 
 /* ГЕРОЙ: миллиметровка + живая схема */
 .bl-hero{border-bottom:1px solid var(--line);background:repeating-linear-gradient(0deg,transparent 0 31px,rgba(16,16,20,.05) 31px 32px),repeating-linear-gradient(90deg,transparent 0 31px,rgba(16,16,20,.05) 31px 32px),var(--paper)}
-.bl-hero-in{max-width:1240px;margin:0 auto;padding:80px 24px 64px;display:grid;grid-template-columns:1.25fr .75fr;gap:48px;align-items:center}
+.bl-hero-in{max-width:1240px;margin:0 auto;padding:64px 24px 52px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(330px,.7fr);gap:44px;align-items:center}
 .bl-kicker{display:inline-block;font:500 12px/1 var(--f-m);letter-spacing:.1em;text-transform:uppercase;color:var(--acc-t);background:var(--acc-soft);padding:8px 12px;border-radius:999px;margin:0 0 28px}
-.bl-hero h1{font:800 clamp(38px,5.6vw,74px)/1.03 var(--f-d);letter-spacing:-.035em;color:var(--fg);margin:0;text-wrap:balance}
+.bl-hero h1{font:800 clamp(34px,4.5vw,58px)/1.06 var(--f-d);letter-spacing:-.03em;color:var(--fg);margin:0;text-wrap:balance}
 .bl-meta{margin:28px 0 0;font:400 13px/1.6 var(--f-m);color:var(--dim)}
 .bl-hero-art{width:100%;height:auto;overflow:visible}
+/* Живой арт: шаги отвечают на нажатие, подпись объясняет выбранный этап */
+.bl-hero-live{position:relative}
+.bl-hero-live .h-step{cursor:pointer;transition:opacity .3s ease}
+.bl-hero-live .h-step:hover{opacity:1}
+.bl-hero-live.has-on .h-step{opacity:.34}
+.bl-hero-live.has-on .h-step.h-on{opacity:1}
+.bl-hero-live .h-step:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.bl-hero-cap{margin:16px 0 0;font:500 12px/1.5 var(--f-m);color:var(--fg);min-height:38px;transition:color .2s}
+.bl-hero-cap em{display:block;margin-top:3px;font:400 11px/1.4 var(--f-m);font-style:normal;color:var(--mute)}
+.bl-hero-dots{display:flex;gap:6px;margin-top:12px}
+.bl-hero-dot{width:22px;height:4px;padding:0;border:0;border-radius:999px;background:var(--line2);cursor:pointer;font:inherit;transition:background .2s,width .2s}
+.bl-hero-dot:hover{background:var(--mute)}
+.bl-hero-dot.on{background:var(--acc-t);width:34px}
+@media (prefers-reduced-motion:reduce){.bl-hero-live .h-step,.bl-hero-cap{transition:none}}
 .ha-line{fill:none;stroke:var(--line2);stroke-width:2}
 .ha-dash{stroke:var(--acc);stroke-dasharray:6 10;animation:ha 1.6s linear infinite}
 @keyframes ha{to{stroke-dashoffset:-32}}
@@ -30,11 +52,11 @@ html{scroll-padding-top:84px}
 .ha-h circle{stroke:var(--green);stroke-dasharray:4 3}
 .ha-t rect{fill:var(--card);stroke:var(--line2)}
 .ha-t text{font-size:11px;fill:var(--dim)}
-.ha-dot{fill:var(--acc);filter:drop-shadow(0 0 6px rgba(0,217,255,.8))}
-@media (max-width:860px){.bl-hero-in{grid-template-columns:1fr;padding:48px 20px 40px;gap:24px}.bl-hero-art{max-width:360px}}
+.ha-dot{fill:var(--acc);stroke:var(--paper);stroke-width:2}
+@media (max-width:860px){.bl-hero-in{grid-template-columns:1fr;padding:40px 20px 32px;gap:24px}.bl-hero-art{max-width:340px}}
 
 /* ТЕЛО */
-.bl-body{max-width:1240px;margin:0 auto;padding:64px 24px 40px;display:grid;grid-template-columns:220px minmax(0,var(--col)) 1fr;gap:56px}
+.bl-body{max-width:1240px;margin:0 auto;padding:64px 24px 40px;display:grid;grid-template-columns:200px minmax(0,var(--col)) 240px;gap:40px}
 .bl-toc{position:sticky;top:100px;align-self:start;font-size:13px}
 .bl-toc p{font:500 11px/1 var(--f-m);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin:0 0 12px}
 .bl-toc a{display:block;padding:7px 0 7px 14px;border-left:2px solid var(--line);color:var(--dim);text-decoration:none;line-height:1.35;transition:.15s}
@@ -59,23 +81,45 @@ html{scroll-padding-top:84px}
 .bl-text a:hover{text-decoration-color:currentColor}
 .bl-text b{color:var(--fg);font-weight:600}
 .bl-text h2{counter-increment:sec;font:800 clamp(26px,3vw,34px)/1.18 var(--f-d);letter-spacing:-.028em;color:var(--fg);margin:84px 0 22px;text-wrap:balance}
-.bl-text h2::before{content:counter(sec,decimal-leading-zero) " /";display:block;font:500 13px/1 var(--f-m);color:var(--acc-t);margin-bottom:14px}
+.bl-text h2::before{content:counter(sec);display:block;font:500 13px/1 var(--f-m);color:var(--acc-t);margin-bottom:14px}
 .bl-text h2.no-num{counter-increment:none}.bl-text h2.no-num::before{content:none}
 .bl-text ul,.bl-text ol{padding-left:1.25em}
 
 .bl-quote{margin:40px 0;padding:0 0 0 24px;border-left:3px solid var(--acc);font:800 clamp(24px,3vw,32px)/1.25 var(--f-d);letter-spacing:-.025em;color:var(--fg)}
 
-.bl-note{margin:32px 0;padding:20px 22px;border-radius:14px;background:var(--paper2)}
+.bl-note{margin:32px 0;padding:20px 22px;border-radius:16px;background:var(--paper2)}
 .bl-note span{display:block;font:500 11px/1 var(--f-m);letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:10px}
 .bl-note p{margin:0;font-size:16px;color:var(--text)}
 
 /* общие рисунки */
-.bl-fig{margin:40px 0 44px;padding:24px;border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:0 1px 0 rgba(16,16,20,.03),0 12px 32px -18px rgba(16,16,20,.18)}
+.bl-fig{margin:40px 0 44px;padding:24px;border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:3px 3px 0 0 var(--paper2)}
 .bl-fig figcaption{display:flex;align-items:baseline;gap:12px;font:500 13px/1.4 var(--f-m);color:var(--fg);margin-bottom:20px}
 .bl-fig figcaption span{color:var(--acc-t)}
 .bl-fig figcaption em{margin-left:auto;font-style:normal;color:var(--mute);font-weight:400}
 .bl-fig-note{margin:18px 0 0!important;font:400 13px/1.5 var(--f-m);color:var(--dim)}
-.bl-fig-note b{color:var(--green)}
+.bl-fig-note b{color:var(--green-t)}
+/* Инлайновые схемы статей (классы подписей из старого макета): на светлом листе
+   читаются тёмным — переменные листа, а не тёмной темы сайта. */
+.bl-sheet .f-label{fill:var(--fg)}
+.bl-sheet .f-mono{fill:var(--mute)}
+.bl-sheet .f-green{fill:var(--green-t)}   /* зелёный ТЕКСТ: 5.1:1 на листе (яркий --green — только заливки и линии) */
+.bl-sheet .f-label-acc,.bl-sheet .f-acc{fill:var(--acc-t)}
+.bl-sheet .f-value{fill:var(--fg)}
+.bl-sheet .f-neg{fill:var(--red)}
+.bl-sheet .f-warn{fill:#B45309}
+.bl-sheet .no-card{border-left-color:var(--red)}
+.bl-sheet .pull-quote{border-left-color:var(--acc-t)}
+.bl-sheet .kit-prompt,.bl-sheet .bl-prompt{color:var(--on-ink)}
+/* Курсор-лупа — только на самой схеме (.fig-svg), а не на подписи и полях плашки:
+   клик по подписи ничего не открывал, а лупа обещала увеличение. Правило — в styles.css. */
+/* Узкая колонка (телефон): схема шире контента — её листают пальцем.
+   Без overflow-x контент молча обрезался (overflow:hidden у .fig) — «текст не помещается». */
+.fig-clip{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+@media (max-width:640px){
+  .fig-clip .fig-zoom-badge{display:none}
+  .fig-clip::after{content:"листайте схему → · нажмите, чтобы увеличить";display:block;position:sticky;left:0;
+    margin-top:12px;font:500 11px/1.4 var(--f-m);letter-spacing:.06em;text-transform:uppercase;color:var(--acc-t)}
+}
 
 /* Рис.1 — чат-бот vs агент */
 .bl-tabs{display:inline-flex;padding:4px;border-radius:999px;background:var(--paper2);margin-bottom:16px}
@@ -106,18 +150,20 @@ html{scroll-padding-top:84px}
 .bl-loop-panel p{margin:0!important;font-size:16px}
 .bl-loop-tools{margin-top:8px!important;font:400 12px/1.5 var(--f-m)!important;color:var(--acc-t)}
 .bl-loop-foot{display:flex;flex-wrap:wrap;gap:8px 24px;margin:14px 0 0!important;font:400 12px/1.4 var(--f-m);color:var(--dim)}
-.bl-loop-foot .g{color:var(--green)}
+.bl-loop-foot .g{color:var(--green-t)}
 @media (max-width:560px){.bl-loop-row{grid-template-columns:1fr 1fr}}
 
 /* Рис.3 — конвейер с бегущей заявкой */
 .bl-swipe{display:none}
 .bl-pipe-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -8px;padding:4px 8px 8px}
-.bl-pipe-row{position:relative;display:grid;grid-template-columns:repeat(5,minmax(118px,1fr));gap:28px;list-style:none;margin:0!important;padding:18px 0 0!important;min-width:660px}
+.bl-pipe-row{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:22px;list-style:none;margin:0!important;padding:18px 0 0!important;min-width:0}
+/* Узкая колонка: пайп не сжимается в кашу — уходит в свайп со подсказкой «листайте →» */
+@media (max-width:760px){.bl-pipe-row{grid-template-columns:repeat(5,minmax(112px,1fr));min-width:604px}}
 .bl-pipe-row li{position:relative;margin:0!important;padding:14px;border:1px solid var(--line2);border-radius:12px;background:var(--paper)}
-.bl-pipe-row li+li::before{content:"→";position:absolute;left:-22px;top:50%;transform:translateY(-50%);color:var(--acc-t);font:400 15px var(--f-m)}
+.bl-pipe-row li+li::before{content:"→";position:absolute;left:-15px;top:50%;transform:translateY(-50%);color:var(--acc-t);font:400 15px var(--f-m)}
 .bl-pipe-row b{display:block;font:700 15px/1.2 var(--f-d);color:var(--fg);margin-bottom:6px}
 .bl-pipe-row span{display:block;font-size:13px;line-height:1.4;color:var(--dim)}
-.bl-pipe-row li.h{border:1.5px dashed var(--green);background:var(--green-soft)}.bl-pipe-row li.h b{color:var(--green)}
+.bl-pipe-row li.h{border:1.5px dashed var(--green);background:var(--green-soft)}.bl-pipe-row li.h b{color:var(--green-t)}
 .bl-pipe-token{position:absolute;top:0;left:0;width:12px;height:12px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 4px rgba(0,217,255,.2);animation:tok 6s cubic-bezier(.6,0,.4,1) infinite}
 @keyframes tok{0%{left:0}18%{left:18%}24%{left:20%}40%{left:38%}46%{left:40%}62%{left:58%}68%{left:60%}84%{left:78%}100%{left:calc(100% - 12px);background:var(--green);box-shadow:0 0 0 4px rgba(14,159,110,.2)}}
 @media (max-width:760px){.bl-swipe{display:inline}}
@@ -130,7 +176,7 @@ html{scroll-padding-top:84px}
 .bl-prompt pre{margin:0;padding:18px 18px 22px;font:400 14px/1.7 var(--f-m);color:rgba(245,245,247,.88);white-space:pre-wrap;overflow-wrap:anywhere}
 
 /* калькулятор */
-.bl-calc{display:grid;grid-template-columns:1.1fr .9fr;margin:32px 0 40px;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:var(--card);box-shadow:0 14px 40px -22px rgba(16,16,20,.25)}
+.bl-calc{display:grid;grid-template-columns:1.1fr .9fr;margin:32px 0 40px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--card);box-shadow:3px 3px 0 0 var(--paper2)}
 .bl-calc-in{padding:26px 26px 12px;display:flex;flex-direction:column;gap:18px}
 .bl-calc-in label{display:grid;grid-template-columns:1fr auto;gap:8px 12px;align-items:baseline}
 .bl-calc-in span{font-size:14px;color:var(--dim)}
@@ -158,7 +204,7 @@ html{scroll-padding-top:84px}
 .bl-split{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
 .bl-split>div{padding:20px 22px;border-radius:16px;border:1px solid var(--line);background:var(--card)}
 .bl-split .t{font:700 17px/1.2 var(--f-d);color:var(--fg);margin:0 0 12px!important;display:flex;gap:10px;align-items:center}
-.bl-split .yes .t::before{content:"✓";display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--green-soft);color:var(--green);font-size:13px}
+.bl-split .yes .t::before{content:"✓";display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--green-soft);color:var(--green-t);font-size:13px}
 .bl-split .no .t::before{content:"✕";display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#FBEDE6;color:var(--red);font-size:12px}
 .bl-split ul{margin:0 0 12px;padding-left:1.1em;font-size:16px}
 .bl-split .e{margin:0!important;padding-top:12px;border-top:1px solid var(--line);font-size:14px;color:var(--dim)}
@@ -204,8 +250,10 @@ html{scroll-padding-top:84px}
 .bl-faq details{border-bottom:1px solid var(--line)}
 .bl-faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px;padding:20px 0;font:700 18px/1.4 var(--f-d);color:var(--fg)}
 .bl-faq summary::-webkit-details-marker{display:none}
-.bl-faq summary::after{content:"+";flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--paper2);color:var(--fg);font:400 18px/1 var(--f-t);transition:.2s}
-.bl-faq details[open] summary::after{transform:rotate(45deg);background:var(--ink);color:#fff}
+.bl-faq summary::after{content:"";flex:none;width:28px;height:28px;border-radius:50%;background:var(--paper2);transition:.2s;
+  background-image:linear-gradient(var(--fg),var(--fg)),linear-gradient(var(--fg),var(--fg));
+  background-size:12px 1.5px,1.5px 12px;background-position:center;background-repeat:no-repeat}
+.bl-faq details[open] summary::after{transform:rotate(135deg);background-color:var(--ink);background-image:linear-gradient(#fff,#fff),linear-gradient(#fff,#fff)}
 .bl-faq details p{margin:-4px 0 22px;color:var(--text)}
 
 /* читать дальше */
@@ -226,15 +274,24 @@ html{scroll-padding-top:84px}
 @media (max-width:600px){.bl-sheet{font-size:17px}.bl-intro{font-size:19px}.bl-text h2{margin-top:64px}.bl-fig{padding:18px;margin-left:-8px;margin-right:-8px}}
 @media (prefers-reduced-motion:reduce){.bl-sheet *{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 
+/* Списки внутри двухколоночных сеток (недели пилота и подобные): раньше список,
+   оставшийся внутри .weeks-grid, сжимался в одну колонку и «прилипал» к левому краю. */
+.weeks-grid > ul,.weeks-grid > ol,.kit-stages > ul{grid-column:1/-1;margin:18px 0 0!important;padding-left:1.25em}
+
 /* таблица */
 .bl-table-wrap{margin:28px 0 36px;overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--card)}
 .bl-table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.5;min-width:560px}
-.bl-table th{font:500 12px/1.3 var(--f-m);letter-spacing:.06em;text-transform:uppercase;color:var(--acc-t);text-align:left;padding:14px 16px;border-bottom:1px solid var(--line);background:var(--paper2)}
+.bl-table th{position:sticky;top:0;z-index:1;font:500 12px/1.3 var(--f-m);letter-spacing:.06em;text-transform:uppercase;color:var(--acc-t);text-align:left;padding:14px 16px;border-bottom:1px solid var(--line);background:var(--paper2)}
+.bl-table th+th,.bl-table td+td{border-left:1px solid var(--line)}
 .bl-table th:last-child{background:var(--acc-soft)}
 .bl-table td{padding:13px 16px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--dim)}
 .bl-table tr:last-child td{border-bottom:0}
-.bl-table td:first-child{font:500 12px/1.6 var(--f-m);color:var(--mute);white-space:nowrap}
+.bl-table td:first-child{font:600 13px/1.6 var(--f-m);color:var(--fg);white-space:nowrap}
 .bl-table td:last-child{color:var(--fg);font-weight:500;background:rgba(227,247,252,.45)}
+@media (max-width:640px){
+  .bl-table-wrap::after{content:"листайте таблицу →";display:block;position:sticky;left:0;padding:12px 16px 14px;
+    font:500 11px/1.4 var(--f-m);letter-spacing:.06em;text-transform:uppercase;color:var(--acc-t)}
+}
 
 /* стыковка с каркасом сайта */
 .bl-page .nav{background:rgba(8,8,13,.92);border-bottom-color:var(--border)}
@@ -242,3 +299,90 @@ html{scroll-padding-top:84px}
 .bl-text li{margin:0 0 .45em}
 .bl-page .section-cta{margin-top:0}
 .bl-page .bl-hero{padding-top:64px}
+
+/* ===== Карточка автора на светлом листе =====
+   На широких экранах — третьей колонкой (липкая), на узких — в потоке после статьи.
+   Тема карточки задаётся пропом компонента: здесь <AuthorCard theme="light" /> — светлая. */
+.bl-author{position:sticky;top:100px;align-self:start}
+@media (max-width:1100px){
+  .bl-author{position:static;margin-top:40px}
+  .author-card{max-width:520px}
+}
+@media print{.bl-author{display:none}}
+
+/* Диаграммы-компоненты (FigBars/FigRows): на узких экранах шрифт внутри SVG уменьшался вместе
+   с картинкой — поэтому даём горизонтальную прокрутку вместо нечитаемых 5px подписей. */
+.fig-scroll{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+.fig-scroll::-webkit-scrollbar{height:6px}
+.fig-scroll::-webkit-scrollbar-thumb{background:var(--line2);border-radius:3px}
+@media (max-width:640px){
+  .fig-bars .fig-scroll>svg,.fig-rows .fig-scroll>svg{min-width:560px}
+  .fig-bars,.fig-rows{padding-left:18px;padding-right:12px}
+}
+
+.fig-swipe{display:none;margin:10px 0 0!important;font:400 12px/1.4 var(--f-m);color:var(--mute)}
+@media (max-width:640px){.fig-swipe{display:block}}
+
+/* УВЕЛИЧЕНИЕ ФИГУРЫ (статьи). Оверлей — «печатный»: тот же светлый лист и миллиметровка, что в статье,
+   чтобы схема не меняла палитру при увеличении (было: чёрный фон + тёмные чернила = нечитаемо). */
+.fig-overlay--paper{background:var(--paper);cursor:zoom-out;padding:0}
+.fig-overlay--paper::before{content:"";position:fixed;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent 0 31px,rgba(16,16,20,.05) 31px 32px),
+             repeating-linear-gradient(90deg,transparent 0 31px,rgba(16,16,20,.05) 31px 32px)}
+.fig-overlay--paper .fig-overlay-canvas{display:flex;align-items:center;justify-content:center;
+  min-height:100%;min-width:100%;padding:48px 24px 72px}
+.fig-overlay--paper .fig-overlay-canvas .fig-svg{width:max(90vw,560px);max-width:none;height:auto;
+  background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;
+  box-shadow:4px 4px 0 0 var(--paper2);cursor:grab}
+.fig-overlay--paper .fig-overlay-canvas .fig-svg:active{cursor:grabbing}
+.fig-overlay--paper .fig-overlay-caption{position:fixed;left:0;right:0;bottom:0;padding:14px 20px;
+  background:var(--card);border-top:1px solid var(--line);color:var(--dim);
+  font:500 12px/1.5 var(--f-m);letter-spacing:.06em;text-transform:uppercase;text-align:center;margin:0}
+.fig-overlay--paper .fig-overlay-close{background:var(--card);border:1px solid var(--line);color:var(--fg)}
+.fig-overlay--paper .fig-overlay-close:hover{border-color:var(--acc-t);color:var(--acc-t)}
+@media (max-width:640px){
+  /* на телефоне увеличение = крупнее экрана + панорамирование: текст читаем, а не сжат */
+  .fig-overlay--paper .fig-overlay-canvas{padding:20px 12px 96px;align-items:flex-start;justify-content:flex-start}
+  .fig-overlay--paper .fig-overlay-canvas .fig-svg{width:min(150vw,760px)}
+  .fig-overlay--paper .fig-overlay-caption{font-size:11px;letter-spacing:.04em;text-transform:none}
+  .fig-overlay--paper::after{content:"двигайте схему пальцем";position:fixed;left:0;right:0;bottom:58px;
+    text-align:center;font:500 11px/1.4 var(--f-m);letter-spacing:.06em;text-transform:uppercase;
+    color:var(--dim);pointer-events:none}
+}
+
+/* legacy-ink-fix: в перенесённых статьях часть схем несёт инлайновые светлые чернила
+   (#8C8C96 / #0E9F6E). На белом они давали 3.3:1 — ниже нормы 4.5. Заменяем точечно,
+   только для <text>/<tspan> внутри фигур, не трогая заливки и линии. */
+.bl-sheet .fig-svg text[fill="#8C8C96"],.bl-sheet .fig-svg tspan[fill="#8C8C96"],
+.bl-sheet .fig-svg text[fill="#8c8c96"],.bl-sheet .fig-svg tspan[fill="#8c8c96"]{fill:var(--mute)}
+.bl-sheet .fig-svg text[fill="#0E9F6E"],.bl-sheet .fig-svg tspan[fill="#0E9F6E"],
+.bl-sheet .fig-svg text[fill="#0e9f6e"],.bl-sheet .fig-svg tspan[fill="#0e9f6e"]{fill:var(--green-t)}
+
+/* Светлый лист — принудительно светлый: color-scheme снимает авто-затемнение форм и скроллбаров,
+   forced-color-adjust не даёт системе перекрашивать наши цвета в режиме высокой контрастности.
+   Тогда увеличенная схема остаётся «бумажной» в любом режиме браузера. */
+html{color-scheme:light}
+.bl-sheet,.fig-overlay,.fig-overlay--paper{color-scheme:light}
+.bl-sheet .fig-svg,.fig-overlay .fig-svg,.bl-sheet .fig,.fig-overlay-canvas{forced-color-adjust:none}
+
+/* Единый радиус блоков статьи: 16px у всех плашек (фигуры, таблицы, киты, карточки).
+   Было 12/14/16/18 — на одной странице блоки выглядели как из разных наборов. */
+.bl-sheet .kit,.bl-sheet .bl-fig,.bl-sheet .bl-table-wrap,.bl-sheet .kit-table-wrap,
+.bl-sheet .week-card,.bl-sheet .no-card,.bl-sheet .err-card,.bl-sheet .formula-card,
+.bl-sheet .bl-note,.bl-sheet .bl-brief,.bl-sheet .bl-check{border-radius:16px}
+.bl-sheet .no-card,.bl-sheet .err-card{border-radius:0 16px 16px 0}
+
+/* ================================================================
+   ЦИФРЫ (правка нейрослопа)
+   ================================================================ */
+/* В моно (JetBrains Mono) ноль идёт с точкой в центре — самый узнаваемый штамп
+   нейросетей, а альтернативного нуля у шрифта нет (проверено: в GSUB только
+   calt/ccmp/frac/locl). Поэтому всё, где встречаются цифры, набирается
+   текстовым шрифтом с табличными цифрами. Моно остаётся там, где цифр нет:
+   надзаголовки, подписи к рисункам, служебные ярлыки. */
+output, .kit-out, .kit-tl-n, .kit-funnel-lbl, .kit-res-val, .kit-calc-out,
+.bl-meta, .bl-hero-cap, .bl-left, .related-meta, figcaption,
+svg text, svg tspan, b, em {
+  font-family: var(--f-t);
+  font-variant-numeric: tabular-nums;
+}

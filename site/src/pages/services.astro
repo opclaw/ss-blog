@@ -2,8 +2,13 @@
 // Сгенерировано из legacy/version-4/services.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../layouts/Base.astro';
 import ContactCards from '../components/ContactCards.astro';
+const jsonLd = [
+  "{\"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Главная\", \"item\": \"https://smartsolutions.today/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Услуги и цены\", \"item\": \"https://smartsolutions.today/services.html\"}]}",
+];
 ---
+
 <Base
+  jsonLd={jsonLd}
   title={"Услуги и цены — Smart Solutions"}
   description={"Системы привлечения клиентов для бизнеса. От лендинга до интернет-магазина. Сопровождение и рост после запуска."}
   path="/services.html"

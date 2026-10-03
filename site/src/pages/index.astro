@@ -2,8 +2,14 @@
 // Сгенерировано из legacy/version-4/index.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../layouts/Base.astro';
 import ContactCards from '../components/ContactCards.astro';
+const jsonLd = [
+  "{\"@context\": \"https://schema.org\", \"@type\": \"Organization\", \"name\": \"Smart Solutions\", \"url\": \"https://smartsolutions.today/\", \"logo\": \"https://smartsolutions.today/images/og-cover.jpg\", \"description\": \"Системы привлечения клиентов на основе исследований: сайты, реклама, аналитика и внедрение ИИ с замером эффекта.\", \"foundingDate\": \"2017\", \"telephone\": \"+7 (925) 090-95-00\", \"email\": \"ok@smartsolutions.today\", \"address\": {\"@type\": \"PostalAddress\", \"addressCountry\": \"RU\", \"addressLocality\": \"Москва\", \"streetAddress\": \"ул. Воронцовская, д. 35-Б\"}, \"contactPoint\": [{\"@type\": \"ContactPoint\", \"contactType\": \"customer service\", \"telephone\": \"+7 (925) 090-95-00\", \"email\": \"ok@smartsolutions.today\", \"availableLanguage\": \"ru\"}]}",
+  "{\"@context\": \"https://schema.org\", \"@type\": \"WebSite\", \"name\": \"Smart Solutions\", \"url\": \"https://smartsolutions.today/\", \"inLanguage\": \"ru\", \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\", \"url\": \"https://smartsolutions.today/\"}}",
+];
 ---
+
 <Base
+  jsonLd={jsonLd}
   title={"Smart Solutions — Системы привлечения клиентов для бизнеса"}
   description={"Изучаем ваш рынок, конкурентов и клиентов. Выстраиваем систему, которая стабильно приводит заявки. Москва."}
   path="/"
@@ -19,7 +25,7 @@ import ContactCards from '../components/ContactCards.astro';
     <div class="container">
       <div class="hero-layout">
         <div class="hero-content">
-          <p class="label fade-in">Москва &bull; Привлечение клиентов через цифровые каналы</p>
+          <p class="label fade-in">Москва &bull; с 2017 года</p>
 
           <h1 class="hero-title fade-in fade-in-d1">
             Вам не нужен сайт.<br>
@@ -27,7 +33,8 @@ import ContactCards from '../components/ContactCards.astro';
           </h1>
 
           <p class="hero-summary fade-in fade-in-d2">
-            Соединяем сайт, рекламу, аналитику и ИИ в систему привлечения клиентов.
+            Аудит &rarr; расчёт &rarr; система, которая приводит заявки.
+            Бюджет фиксируем после аудита. Пилот 2&ndash;4 недели &mdash; 50&ndash;150 тысяч.
           </p>
 
           <a href="#contacts" class="btn btn-primary btn-shimmer fade-in fade-in-d3">
@@ -38,47 +45,81 @@ import ContactCards from '../components/ContactCards.astro';
         </div>
 
         <div class="hero-visual fade-in fade-in-d2">
-          <div class="hero-constellation">
-            <!-- Central hub -->
-            <div class="const-hub">
-              <div class="const-hub-ring"></div>
-              <div class="const-hub-ring const-hub-ring--2"></div>
-              <div class="const-hub-core"></div>
+          <!-- Интерактив по кейсу «Моя Планета». Четыре метрики из кейса,
+               переключатель под графиком. Шкала у каждой метрики своя: линия
+               идёт от «было» к «стало» по её собственным числам, поэтому у
+               отказов она спускается — там меньше лучше. Промежуточных точек
+               нет, значит и линии прямые: траекторию мы не выдумываем. -->
+          <figure class="hero-case">
+            <div class="hero-case-head">
+              <div class="hero-case-title">
+                <span class="hero-case-kicker">Кейс</span>
+                <span class="hero-case-name">Моя Планета</span>
+              </div>
+              <span class="hero-case-tag">портал ВГТРК</span>
             </div>
-            <!-- Orbiting nodes -->
-            <div class="const-node const-node--1"><span></span></div>
-            <div class="const-node const-node--2"><span></span></div>
-            <div class="const-node const-node--3"><span></span></div>
-            <div class="const-node const-node--4"><span></span></div>
-            <div class="const-node const-node--5"><span></span></div>
-            <!-- Connecting lines (SVG) -->
-            <svg class="const-lines" viewBox="0 0 400 400" fill="none">
-              <line x1="200" y1="200" x2="80" y2="90" stroke="url(#line-grad)" stroke-width="1" opacity="0.15"/>
-              <line x1="200" y1="200" x2="330" y2="110" stroke="url(#line-grad)" stroke-width="1" opacity="0.12"/>
-              <line x1="200" y1="200" x2="320" y2="300" stroke="url(#line-grad-g)" stroke-width="1" opacity="0.1"/>
-              <line x1="200" y1="200" x2="70" y2="280" stroke="url(#line-grad)" stroke-width="1" opacity="0.12"/>
-              <line x1="200" y1="200" x2="200" y2="50" stroke="url(#line-grad-g)" stroke-width="1" opacity="0.08"/>
-              <!-- Cross-connections -->
-              <line x1="80" y1="90" x2="330" y2="110" stroke="url(#line-grad)" stroke-width="0.5" opacity="0.06"/>
-              <line x1="330" y1="110" x2="320" y2="300" stroke="url(#line-grad-g)" stroke-width="0.5" opacity="0.06"/>
-              <line x1="70" y1="280" x2="80" y2="90" stroke="url(#line-grad)" stroke-width="0.5" opacity="0.05"/>
-              <defs>
-                <linearGradient id="line-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="rgb(0,217,255)" stop-opacity="1"/>
-                  <stop offset="100%" stop-color="rgb(0,217,255)" stop-opacity="0"/>
-                </linearGradient>
-                <linearGradient id="line-grad-g" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="rgb(16,185,129)" stop-opacity="1"/>
-                  <stop offset="100%" stop-color="rgb(16,185,129)" stop-opacity="0"/>
-                </linearGradient>
-              </defs>
-            </svg>
-            <!-- Ambient particles -->
-            <div class="const-particles">
-              <span></span><span></span><span></span><span></span>
-              <span></span><span></span><span></span><span></span>
+
+            <p class="hero-case-task">
+              Задача: вывести портал на 1 миллион посетителей в месяц,
+              сохранив редакционное качество контента.
+            </p>
+
+            <div class="hero-case-stage">
+              <div class="hero-case-line1">
+                <span class="hero-case-label">Посетителей в месяц</span>
+                <span class="hero-case-delta">×33</span>
+              </div>
+
+              <div class="hero-case-now">1 000 000</div>
+
+              <svg class="hero-case-chart" viewBox="0 0 320 118" role="img"
+                   aria-label="Рост показателя с 30 000 до 1 000 000">
+                <defs>
+                  <linearGradient id="caseFill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#00D9FF" stop-opacity="0.22"/>
+                    <stop offset="100%" stop-color="#00D9FF" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path class="hero-case-area" fill="url(#caseFill)"
+                      d="M 12 101.3 L 308 14.0 L 308 104 L 12 104 Z"/>
+                <path class="hero-case-trend" pathLength="100"
+                      d="M 12 101.3 L 308 14.0"/>
+                <circle class="hero-case-dot hero-case-dot--was" cx="12" cy="101.3" r="3.5"/>
+                <circle class="hero-case-dot hero-case-dot--now" cx="308" cy="14.0" r="4.5"/>
+              </svg>
+
+              <div class="hero-case-foot">
+                <span class="hero-case-was">было <b>30 000</b></span>
+                <span class="hero-case-axis">итог</span>
+              </div>
             </div>
-          </div>
+
+            <div class="hero-case-tabs">
+              <button type="button" class="hero-case-tab is-active" aria-pressed="true"
+                      data-label="Посетителей в месяц" data-was="30000" data-now="1000000"
+                      data-was-text="30 000" data-now-text="1 000 000" data-format="int"
+                      data-delta="×33" data-cause="Иерархическая структура: страна → регион → тема, у каждой категории свой хаб с подборками и навигацией.">Посетители</button>
+              <button type="button" class="hero-case-tab" aria-pressed="false"
+                      data-label="Глубина просмотра" data-was="1.2" data-now="3.8"
+                      data-was-text="1.2" data-now-text="3.8" data-format="dec1"
+                      data-delta="×3,2" data-cause="Система перелинковки: блоки «Читайте также» по теме и географии, карта-навигация, тематические подборки.">Глубина</button>
+              <button type="button" class="hero-case-tab" aria-pressed="false"
+                      data-label="Показатель отказов" data-was="82" data-now="45"
+                      data-was-text="82%" data-now-text="45%" data-format="pct"
+                      data-delta="−37 пп" data-cause="Техническая оптимизация: скорость загрузки, оптимизация изображений, корректная индексация, AMP-версии.">Отказы</button>
+              <button type="button" class="hero-case-tab" aria-pressed="false"
+                      data-label="Запросов в топ-10" data-was="200" data-now="5000"
+                      data-was-text="200" data-now-text="5 000+" data-format="int"
+                      data-delta="×25" data-cause="SEO-оптимизация контента: отдельный h1 для поиска рядом с редакционным заголовком, meta-описания, микроразметка.">Запросы</button>
+            </div>
+
+            <p class="hero-case-cause"></p>
+
+            <a class="hero-case-link" href="/cases/moya-planeta.html">
+              Разбор кейса
+              <svg width="13" height="13"><use href="/icons.svg#icon-arrow-right"/></svg>
+            </a>
+          </figure>
         </div>
       </div>
     </div>
@@ -139,7 +180,7 @@ import ContactCards from '../components/ContactCards.astro';
           <h3 class="direction-title">Внедрение с замером эффекта</h3>
           <p class="direction-desc">
             Аудит процесса → пилот за 2–4 недели → боевая система.
-            Цена пилота 100–300К, эффект измеряем в часах и рублях.
+            Цена пилота 50–150К, внедрение от 200К, эффект измеряем в часах и рублях.
           </p>
           <span class="direction-arrow">→</span>
         </a>

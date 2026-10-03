@@ -1,0 +1,49 @@
+---
+// Воронка: сколько заявок доходит до сделки при разной скорости первого ответа.
+// Модель прозрачная и на допущениях читателя: «период полураспада интереса» задаёт он сам,
+// поэтому в блоке нет выдуманной статистики — только следствия его же цифр.
+interface Props { fig?: number; title: string; note: string; n?: number; t?: number; half?: number; k?: number; c?: number }
+const { fig, title, note, n = 400, t = 60, half = 60, k = 20, c = 60000 } = Astro.props;
+
+const alive = (min: number, h: number) => Math.pow(0.5, min / h);   // доля заявок, доживших до диалога
+const fmt = (x: number, dig = 0) =>
+  new Intl.NumberFormat('ru-RU', { maximumFractionDigits: dig, minimumFractionDigits: 0 }).format(x);
+
+const dealsNow = n * alive(t, half) * (k / 100);
+const dealsFast = n * alive(1, half) * (k / 100);
+const diff = dealsFast - dealsNow;
+const money = diff * c;
+
+const rows = [
+  { key: 'fast', label: 'если отвечать за 1 минуту', value: fmt(dealsFast, 1), unit: 'сделок', dig: 1 },
+  { key: 'diff', label: 'разница в сделках', value: '+' + fmt(diff, 1), unit: 'сделок', dig: 1 },
+  { key: 'money', label: 'разница в деньгах', value: '+' + fmt(money), unit: '₽', dig: 0 },
+];
+const shareNow = Math.max(1, Math.round(alive(t, half) * 100));
+---
+<figure class="kit kit-funnel" data-kit="funnel" data-n={n} data-t={t} data-half={half} data-k={k} data-c={c}>
+  <figcaption class="kit-cap">{fig && <b>Рис. {fig}</b>}{title}<em>подставьте свои цифры</em></figcaption>
+  <div class="kit-calc-grid">
+    <div class="kit-calc-in">
+      <label><span>Заявок в месяц</span><output data-fo="n">{fmt(n)}</output><input type="range" min="20" max="3000" step="20" value={n} data-fn="n" aria-label="Заявок в месяц" /></label>
+      <label><span>Минут до первого ответа сейчас</span><output data-fo="t">{fmt(t)}</output><input type="range" min="1" max="240" step="1" value={t} data-fn="t" aria-label="Минут до первого ответа сейчас" /></label>
+      <label><span>Интерес остывает вдвое за, мин</span><output data-fo="half">{fmt(half)}</output><input type="range" min="15" max="240" step="15" value={half} data-fn="half" aria-label="За сколько минут интерес к заявке остывает вдвое" /></label>
+      <label><span>Из диалога в сделку, %</span><output data-fo="k">{fmt(k)}</output><input type="range" min="1" max="60" step="1" value={k} data-fn="k" aria-label="Конверсия из диалога в сделку, процентов" /></label>
+      <label><span>Средний чек, ₽</span><output data-fo="c">{fmt(c)}</output><input type="range" min="5000" max="500000" step="5000" value={c} data-fn="c" aria-label="Средний чек, рублей" /></label>
+    </div>
+    <div class="kit-calc-out" aria-live="polite">
+      <p class="kit-calc-k">доходит до сделки сейчас</p>
+      <p class="kit-calc-big"><span data-fr="now" data-dig="1">{fmt(dealsNow, 1)}</span><small>сделок</small></p>
+      <div class="kit-funnel-bars">
+        <div class="kit-funnel-bar"><span class="kit-funnel-lbl">сейчас · ответ <span data-flbl>{fmt(t)}</span> мин</span><i data-fbar="now" style={`width:${shareNow}%`}></i></div>
+        <div class="kit-funnel-bar"><span class="kit-funnel-lbl">ответ 1 мин</span><i data-fbar="fast" style={`width:${Math.max(1, Math.round(alive(1, half) * 100))}%`}></i></div>
+      </div>
+      <ul class="kit-calc-rows">
+        {rows.map((r) => (
+          <li><span>{r.label}</span><b><span data-fr={r.key} data-dig={r.dig}>{r.value}</span> {r.unit}</b></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+  <p class="kit-foot">{note}</p>
+</figure>

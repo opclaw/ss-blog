@@ -1,14 +1,19 @@
 ---
 // Статья блога (дизайн v6). Сгенерировано tools/port_v6.py из site-preview/blog/chto-takoe-ii-agent.html; дальше правим здесь.
 import Base from '../../layouts/Base.astro';
+import { assetV } from '../../data/asset-version';
+import AuthorCard from '../../components/blog/AuthorCard.astro';
 import ContactCards from '../../components/ContactCards.astro';
+import Checklist from '../../components/blog/Checklist.astro';
+import HeroArt from '../../components/blog/HeroArt.astro';
+import { readSuffix } from '../../data/reading-time';
 const jsonLd = [
-  "{\"@context\":\"https://schema.org\",\"@graph\":[\n{\"@type\":\"Article\",\"headline\":\"Что такое ИИ-агент простыми словами: как работает и чем полезен бизнесу в 2026\",\n \"description\":\"Как устроен ИИ-агент, чем отличается от чат-бота и ассистента, примеры для бизнеса.\",\n \"author\":{\"@type\":\"Person\",\"name\":\"Олег Кречетов\",\"jobTitle\":\"Основатель Smart Solutions\"},\n \"publisher\":{\"@type\":\"Organization\",\"name\":\"Smart Solutions\",\"url\":\"https://smartsolutions.today/\"},\n \"datePublished\":\"2026-09-25\",\"dateModified\":\"2026-09-25\",\"inLanguage\":\"ru\",\n \"mainEntityOfPage\":\"https://smartsolutions.today/blog/chto-takoe-ii-agent.html\"},\n{\"@type\":\"BreadcrumbList\",\"itemListElement\":[\n {\"@type\":\"ListItem\",\"position\":1,\"name\":\"Главная\",\"item\":\"https://smartsolutions.today/\"},\n {\"@type\":\"ListItem\",\"position\":2,\"name\":\"Блог\",\"item\":\"https://smartsolutions.today/blog/\"},\n {\"@type\":\"ListItem\",\"position\":3,\"name\":\"Что такое ИИ-агент\"}]},\n{\"@type\":\"FAQPage\",\"mainEntity\":[\n {\"@type\":\"Question\",\"name\":\"ИИ-агент и ChatGPT — это одно и то же?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Нет. ChatGPT, GigaChat или Алиса AI — это языковые модели, «мозг». Агент — система вокруг модели: инструкции, доступ к вашим данным и программам, правила проверки. Одна и та же модель может работать и как чат, и как агент.\"}},\n {\"@type\":\"Question\",\"name\":\"Агент заменит сотрудника?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Агент забирает отдельные операции: разбор заявок, черновики документов, сверку данных. Решения, переговоры и ответственность остаются за сотрудником.\"}},\n {\"@type\":\"Question\",\"name\":\"Безопасно ли давать агенту доступ к CRM и документам?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Да, если доступ ограничен: агент видит только нужные поля, работает с российскими или локальными моделями, а все отправки наружу проходят через подтверждение человеком.\"}},\n {\"@type\":\"Question\",\"name\":\"Сколько стоит ИИ-агент для бизнеса?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Пилот на одном процессе у нас стоит 100–300 тыс. ₽ и занимает 2–4 недели. Плюс расходы на модель — обычно тысячи рублей в месяц.\"}},\n {\"@type\":\"Question\",\"name\":\"Можно ли сделать ИИ-агента бесплатно?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Для личных задач — да, на no-code платформах и бесплатных тарифах. Для бизнес-процесса с данными клиентов бесплатные решения обычно не подходят из-за ограничений по безопасности и стабильности.\"}}]}\n]}"
+  "{\"@context\":\"https://schema.org\",\"@graph\":[\n{\"@type\":\"Article\",\"headline\":\"Что такое ИИ-агент простыми словами: как работает и чем полезен бизнесу в 2026\",\n \"description\":\"Как устроен ИИ-агент, чем отличается от чат-бота и ассистента, примеры для бизнеса.\",\n \"author\":{\"@type\":\"Person\",\"name\":\"Олег Кречетов\",\"jobTitle\":\"Основатель Smart Solutions\"},\n \"publisher\":{\"@type\":\"Organization\",\"name\":\"Smart Solutions\",\"url\":\"https://smartsolutions.today/\"},\n \"datePublished\":\"2026-09-25\",\"dateModified\":\"2026-09-25\",\"inLanguage\":\"ru\",\n \"mainEntityOfPage\":\"https://smartsolutions.today/blog/chto-takoe-ii-agent.html\"},\n{\"@type\":\"BreadcrumbList\",\"itemListElement\":[\n {\"@type\":\"ListItem\",\"position\":1,\"name\":\"Главная\",\"item\":\"https://smartsolutions.today/\"},\n {\"@type\":\"ListItem\",\"position\":2,\"name\":\"Блог\",\"item\":\"https://smartsolutions.today/blog/\"},\n {\"@type\":\"ListItem\",\"position\":3,\"name\":\"Что такое ИИ-агент\"}]},\n{\"@type\":\"FAQPage\",\"mainEntity\":[\n {\"@type\":\"Question\",\"name\":\"ИИ-агент и ChatGPT — это одно и то же?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Нет. ChatGPT, GigaChat или Алиса AI — это языковые модели, «мозг». Агент — система вокруг модели: инструкции, доступ к вашим данным и программам, правила проверки. Одна и та же модель может работать и как чат, и как агент.\"}},\n {\"@type\":\"Question\",\"name\":\"Агент заменит сотрудника?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Агент забирает отдельные операции: разбор заявок, черновики документов, сверку данных. Решения, переговоры и ответственность остаются за сотрудником.\"}},\n {\"@type\":\"Question\",\"name\":\"Безопасно ли давать агенту доступ к CRM и документам?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Да, если доступ ограничен: агент видит только нужные поля, работает с российскими или локальными моделями, а все отправки наружу проходят через подтверждение человеком.\"}},\n {\"@type\":\"Question\",\"name\":\"Сколько стоит ИИ-агент для бизнеса?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Пилот на одном процессе у нас стоит от 50 000 до 150 000 ₽ и занимает 2–4 недели. Рабочее решение — от 200 000 ₽. Плюс расходы на модель — обычно тысячи рублей в месяц.\"}},\n {\"@type\":\"Question\",\"name\":\"Можно ли сделать ИИ-агента бесплатно?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Для личных задач — да, на no-code платформах и бесплатных тарифах. Для бизнес-процесса с данными клиентов бесплатные решения обычно не подходят из-за ограничений по безопасности и стабильности.\"}}]}\n]}"
 ];
 ---
 <Base
   title={"Что такое ИИ-агент простыми словами — Smart Solutions"}
-  description={"ИИ-агент — программа, которая сама выполняет задачу по шагам: работает с CRM, почтой, 1С и зовёт человека, когда нужно решение. Как устроен, чем отличается от чат-бота, сколько экономит."}
+  description={"ИИ-агент сам выполняет задачу по шагам: CRM, почта, 1С; человек — только на решении. Как устроен, чем отличается от чат-бота и сколько экономит времени."}
   path="/blog/chto-takoe-ii-agent.html"
   ogType="article"
   jsonLd={jsonLd}
@@ -17,27 +22,24 @@ const jsonLd = [
   readProgress
   bodyClass="bl-page"
 >
-<link slot="head" rel="stylesheet" href="/blog-assets/article.css">
+<link slot="head" rel="stylesheet" href={`/blog-assets/article.css?v=${assetV('/blog-assets/article.css')}`}>
+<link slot="head" rel="stylesheet" href={`/blog-assets/kit.css?v=${assetV('/blog-assets/kit.css')}`}>
 <main class="bl-sheet" id="article">
   <header class="bl-hero">
     <div class="bl-hero-in">
       <div class="bl-hero-txt">
         <p class="bl-kicker">Разбор · AI-направление</p>
         <h1>Что такое ИИ-агент простыми словами</h1>
-        <p class="bl-meta">Олег Кречетов, основатель Smart Solutions · сентябрь 2026 · ~8 минут чтения</p>
+        <p class="bl-meta">Олег Кречетов, основатель Smart Solutions · сентябрь 2026 · <span data-readmin>~7 минут чтения</span></p>
       </div>
-      <svg class="bl-hero-art" viewBox="0 0 420 300" aria-hidden="true">
-        <path class="ha-line" d="M60 150 C120 60 180 60 210 150 S300 240 360 150"/>
-        <path class="ha-line ha-dash" d="M60 150 C120 60 180 60 210 150 S300 240 360 150"/>
-        <path class="ha-thin" d="M60 150 L130 250 M210 150 L210 40 M360 150 L300 60"/>
-        <g class="ha-n"><circle cx="60" cy="150" r="22"/><text x="60" y="154">цель</text></g>
-        <g class="ha-n"><circle cx="210" cy="150" r="28"/><text x="210" y="154">агент</text></g>
-        <g class="ha-n ha-h"><circle cx="360" cy="150" r="22"/><text x="360" y="154">итог</text></g>
-        <g class="ha-t"><rect x="96" y="238" width="68" height="24" rx="12"/><text x="130" y="254">CRM</text></g>
-        <g class="ha-t"><rect x="176" y="18" width="68" height="24" rx="12"/><text x="210" y="34">почта</text></g>
-        <g class="ha-t"><rect x="266" y="48" width="68" height="24" rx="12"/><text x="300" y="64">1С</text></g>
-        <circle class="ha-dot" r="5"><animateMotion dur="5s" repeatCount="indefinite" path="M60 150 C120 60 180 60 210 150 S300 240 360 150"/></circle>
-      </svg>
+      <HeroArt variant="nodes" labels={['задача клиента', 'CRM', 'почта', '1С и таблицы', 'человек проверяет']}
+        notes={[
+          'Задача клиента: агент ведёт её сам, а не отвечает текстом',
+          'CRM: находит клиента, читает историю обращений, заполняет карточку',
+          'Почта: готовит черновик ответа по инструкции и данным компании',
+          '1С и таблицы: сверяет счета, статусы оплат, остатки — без ручного поиска',
+          'Человек проверяет значимые шаги — ответственность остаётся за ним',
+        ]} />
     </div>
   </header>
 
@@ -193,15 +195,22 @@ const jsonLd = [
         <li><b>Замерьте снова</b> и решите по цифрам: масштабировать или остановиться.</li>
       </ol>
 
-      <div class="bl-check" data-check>
-        <p class="bl-check-t">Готов ли ваш процесс? Отметьте, что есть</p>
-        <label><input type="checkbox"><span>Операция повторяется хотя бы 20 раз в неделю</span></label>
-        <label><input type="checkbox"><span>Есть регламент или примеры, как делать правильно</span></label>
-        <label><input type="checkbox"><span>Данные уже в цифровом виде: CRM, почта, таблицы</span></label>
-        <label><input type="checkbox"><span>Понятно, кто проверяет результат</span></label>
-        <label><input type="checkbox"><span>Известно, сколько часов процесс занимает сейчас</span></label>
-        <div class="bl-check-res"><div class="bl-check-meter"><span data-meter></span></div><p data-verdict>Отметьте пункты — покажем, с чего начать.</p></div>
-      </div>
+      <Checklist
+        title="Готов ли ваш процесс к ИИ-агенту"
+        items={[
+          'Операция повторяется хотя бы 20 раз в неделю',
+          'Есть регламент или примеры, как делать правильно',
+          'Данные уже в цифровом виде: CRM, почта, таблицы',
+          'Понятно, кто проверяет результат',
+          'Известно, сколько часов процесс занимает сейчас',
+        ]}
+        levels={[
+          { from: 0, text: 'Рано: закройте пробелы — без них агент не с чего настраивать' },
+          { from: 3, text: 'Можно собирать материалы и запускать пилот на одном процессе' },
+          { from: 5, text: 'Процесс готов: можно запускать пилот и считать эффект' },
+        ]}
+        note="Пункт без ответа — это риск, который всплывёт на второй неделе пилота."
+      />
 
       <div class="bl-brief">
         <p class="bl-brief-t">Коротко</p>
@@ -218,16 +227,23 @@ const jsonLd = [
         <details><summary>ИИ-агент и ChatGPT — это одно и то же?</summary><p>Нет. ChatGPT, GigaChat или Алиса AI — это языковые модели. Агент — система вокруг модели: инструкции, доступ к вашим данным и программам, правила проверки. Одна и та же модель может работать и как чат, и как агент.</p></details>
         <details><summary>Агент заменит сотрудника?</summary><p>Агент забирает отдельные операции: разбор заявок, черновики документов, сверку данных. Решения, переговоры и ответственность остаются за сотрудником.</p></details>
         <details><summary>Безопасно ли давать агенту доступ к CRM и документам?</summary><p>Да, если доступ ограничен: агент видит только нужные поля, работает с российскими или локальными моделями, а всё, что уходит клиенту, сначала подтверждает человек.</p></details>
-        <details><summary>Сколько стоит ИИ-агент для бизнеса?</summary><p>Пилот на одном процессе у нас стоит 100–300 тыс. ₽ и занимает 2–4 недели. Плюс оплата модели — обычно несколько тысяч рублей в месяц. Подробнее — в статье <a href="/blog/skolko-stoit-vnedrenie-ii.html">о стоимости внедрения</a>.</p></details>
+        <details><summary>Сколько стоит ИИ-агент для бизнеса?</summary><p>Пилот на одном процессе у нас стоит от 50 000 до 150 000 ₽ и занимает 2–4 недели. Рабочее решение — от 200 000 ₽. Плюс оплата модели — обычно несколько тысяч рублей в месяц. Подробнее — в статье <a href="/blog/skolko-stoit-vnedrenie-ii.html">о стоимости внедрения</a>.</p></details>
         <details><summary>Можно ли сделать ИИ-агента бесплатно?</summary><p>Для личных задач — да, на no-code платформах и бесплатных тарифах. Для процесса с данными клиентов бесплатные решения обычно не подходят: нет гарантий по безопасности и стабильности.</p></details>
       </div>
 
-      <section class="bl-more" aria-label="Читать дальше">
+            <p>Наш формат работы — <a href="/ai.html">внедрение ИИ в процессы компании</a>: один процесс за пилот, человек проверяет результат, эффект считаем до старта. Если нужен именно агент под ваш процесс — смотрите <a href="/ai-agenty.html">разработку ИИ-агентов для бизнеса</a>.</p>
+
+<section class="bl-more" aria-label="Читать дальше">
         <h2 class="no-num">Читать дальше</h2>
-        <a href="/blog/vnedrenie-ii-v-biznes.html"><span>pillar · 30 мин</span><b>Внедрение ИИ в бизнес: с чего начать и как довести пилот до рабочей системы</b><i>→</i></a>
+        <a href="/blog/vnedrenie-ii-v-biznes.html"><span>pillar{readSuffix('/blog/vnedrenie-ii-v-biznes.html')}</span><b>Внедрение ИИ в бизнес: с чего начать и как довести пилот до рабочей системы</b><i>→</i></a>
         <a href="/blog/kak-poschitat-effekt-ot-ii-do-pilota.html"><span>расчёт</span><b>Как посчитать эффект от ИИ до пилота</b><i>→</i></a>
         <a href="/blog/ii-dlya-prodazh.html"><span>продажи</span><b>ИИ для продаж</b><i>→</i></a>
       </section>
+    </div>
+
+    <!-- третья колонка на широких экранах; на узких — в потоке после статьи -->
+    <div class="bl-author">
+      <AuthorCard theme="light" />
     </div>
   </div>
 </main>
@@ -254,6 +270,7 @@ const jsonLd = [
     }, { passive: true });
   })();
 </script>
-<script is:inline src="/blog-assets/article.js"></script>
+<script is:inline src={`/blog-assets/article.js?v=${assetV('/blog-assets/article.js')}`}></script>
+<script is:inline src={`/blog-assets/kit.js?v=${assetV('/blog-assets/kit.js')}`}></script>
 </Fragment>
 </Base>

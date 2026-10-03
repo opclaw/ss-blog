@@ -3,6 +3,11 @@
 (function () {
   'use strict';
 
+  /* Определялась внутри блока курсорного свечения; когда блок убрали, ссылки на неё
+     остались (наклон карточек, магнитные кнопки) и скрипт падал с ReferenceError,
+     обрывая всё, что инициализируется ниже: счётчики, FAQ, раскрытие рисунков. */
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
   // ===== PRELOADER =====
   window.addEventListener('load', () => {
     const preloader = document.getElementById('preloader');
@@ -34,27 +39,6 @@
     backToTop.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-  }
-
-  // ===== CURSOR GLOW (desktop only) =====
-  const cursorGlow = document.getElementById('cursorGlow');
-  let mouseX = 0, mouseY = 0, glowX = 0, glowY = 0;
-  const isTouchDevice = 'ontouchstart' in window;
-
-  if (cursorGlow && !isTouchDevice) {
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-
-    (function animateGlow() {
-      glowX += (mouseX - glowX) * 0.08;
-      glowY += (mouseY - glowY) * 0.08;
-      cursorGlow.style.transform = `translate(${glowX - 150}px, ${glowY - 150}px)`;
-      requestAnimationFrame(animateGlow);
-    })();
-  } else if (cursorGlow) {
-    cursorGlow.style.display = 'none';
   }
 
   // ===== NAVBAR =====
@@ -287,6 +271,89 @@
     });
   });
 
+  // ===== КЕЙС В ГЕРОЕ: график роста и переключатель метрик =====
+  const heroCase = document.querySelector('.hero-case');
+  if (heroCase) {
+    var CH = { x0: 12, x1: 308, top: 14, bottom: 104 };
+    var labelEl = heroCase.querySelector('.hero-case-label');
+    var deltaEl = heroCase.querySelector('.hero-case-delta');
+    var nowEl = heroCase.querySelector('.hero-case-now');
+    var wasEl = heroCase.querySelector('.hero-case-was b');
+    var causeEl = heroCase.querySelector('.hero-case-cause');
+    var chartEl = heroCase.querySelector('.hero-case-chart');
+    var trendEl = heroCase.querySelector('.hero-case-trend');
+    var areaEl = heroCase.querySelector('.hero-case-area');
+    var dotWas = heroCase.querySelector('.hero-case-dot--was');
+    var dotNow = heroCase.querySelector('.hero-case-dot--now');
+    var caseTabs = Array.prototype.slice.call(heroCase.querySelectorAll('.hero-case-tab'));
+    var shownValue = null;
+
+    function caseFmt(v, f) {
+      if (f === 'dec1') return (Math.round(v * 10) / 10).toFixed(1);
+      if (f === 'pct') return Math.round(v) + '%';
+      return Math.round(v).toLocaleString('ru-RU');
+    }
+    function caseY(v, max) { return CH.bottom - (v / max) * (CH.bottom - CH.top); }
+
+    function tweenNum(from, to, f, dur, finalText) {
+      var t0 = null;
+      function step(t) {
+        if (t0 === null) t0 = t;
+        var k = Math.min((t - t0) / dur, 1);
+        var e = 1 - Math.pow(1 - k, 3);
+        // в конце ставим точный текст из разметки: у «5 000+» плюс теряется
+        // при пересчёте, а он часть числа
+        nowEl.textContent = k < 1 ? caseFmt(from + (to - from) * e, f) : finalText;
+        if (k < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    function drawChart(was, now) {
+      var max = Math.max(was, now);
+      var y0 = caseY(was, max);
+      var y1 = caseY(now, max);
+      trendEl.setAttribute('d', 'M ' + CH.x0 + ' ' + y0 + ' L ' + CH.x1 + ' ' + y1);
+      areaEl.setAttribute('d', 'M ' + CH.x0 + ' ' + y0 + ' L ' + CH.x1 + ' ' + y1 +
+                               ' L ' + CH.x1 + ' ' + CH.bottom + ' L ' + CH.x0 + ' ' + CH.bottom + ' Z');
+      dotWas.setAttribute('cy', y0);
+      dotNow.setAttribute('cy', y1);
+      chartEl.classList.remove('is-drawing');
+      void chartEl.getBoundingClientRect(); // перезапуск анимации
+      chartEl.classList.add('is-drawing');
+    }
+
+    function selectMetric(tab) {
+      var was = parseFloat(tab.getAttribute('data-was'));
+      var now = parseFloat(tab.getAttribute('data-now'));
+      var f = tab.getAttribute('data-format');
+      caseTabs.forEach(function (t) {
+        var on = t === tab;
+        t.classList.toggle('is-active', on);
+        t.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      labelEl.textContent = tab.getAttribute('data-label');
+      deltaEl.textContent = tab.getAttribute('data-delta');
+      wasEl.textContent = tab.getAttribute('data-was-text');
+      chartEl.setAttribute('aria-label', tab.getAttribute('data-label') + ': с ' +
+        tab.getAttribute('data-was-text') + ' до ' + tab.getAttribute('data-now-text'));
+      // первый раз число просто ставим, дальше — пересчитываем от текущего
+      if (shownValue === null) nowEl.textContent = tab.getAttribute('data-now-text');
+      else tweenNum(shownValue, now, f, 900, tab.getAttribute('data-now-text'));
+      shownValue = now;
+      drawChart(was, now);
+      causeEl.textContent = tab.getAttribute('data-cause');
+      causeEl.classList.remove('is-in');
+      void causeEl.offsetWidth;
+      causeEl.classList.add('is-in');
+    }
+
+    caseTabs.forEach(function (t) {
+      t.addEventListener('click', function () { selectMetric(t); });
+    });
+    selectMetric(caseTabs[0]);
+  }
+
   // ===== ФИГУРЫ: узкие вписываем, широкие — тап-увеличение =====
   function updateFigureFits() {
     if (!window.matchMedia('(max-width: 640px)').matches) return;
@@ -308,6 +375,7 @@
       if (contentAtReadable <= cw) {
         // влезает → обрезаем пустые поля, без увеличения
         svg.setAttribute('viewBox', '0 0 ' + (maxRight + 16) + ' ' + viewH);
+        svg.dataset.fitW = String(maxRight + 16);
         svg.style.minWidth = '';
         fig.classList.remove('fig-clip');
         if (badge) badge.remove();
@@ -329,21 +397,34 @@
   window.addEventListener('resize', updateFigureFits);
 
   // ===== ТАП-УВЕЛИЧЕНИЕ ФИГУР =====
+  // Фигура клонируется вместе со своим контекстом. Иначе схема, нарисованная для светлого листа
+  // статьи, попадает в тёмный оверлей без правил .bl-sheet: тёмные чернила оказываются на чёрном
+  // фоне, светлые заливки — инверсными. Поэтому светлый лист переносим целиком (обёртка .bl-sheet),
+  // а сам оверлей для статей делаем «печатным» — светлым, как лист.
   function openFigOverlay(svg) {
     const existing = document.querySelector('.fig-overlay');
     if (existing) existing.remove();
+    const fromSheet = !!svg.closest('.bl-sheet');
     const overlay = document.createElement('div');
-    overlay.className = 'fig-overlay';
+    overlay.className = 'fig-overlay' + (fromSheet ? ' fig-overlay--paper bl-sheet' : '');
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-label', 'Увеличенная схема');
     const close = document.createElement('button');
     close.className = 'fig-overlay-close';
     close.textContent = '✕';
     close.setAttribute('aria-label', 'Закрыть');
+    const canvas = document.createElement('div');
+    canvas.className = 'fig-overlay-canvas';
     const clone = svg.cloneNode(true);
     clone.classList.add('fig-svg');
     clone.removeAttribute('style');
-    if (svg.dataset.origW) {
-      clone.setAttribute('viewBox', '0 0 ' + svg.dataset.origW + ' ' + svg.viewBox.baseVal.height);
+    const vb = svg.viewBox && svg.viewBox.baseVal ? svg.viewBox.baseVal : null;
+    if (vb) {
+      const w = svg.dataset.origW || svg.dataset.fitW || vb.width;
+      clone.setAttribute('viewBox', '0 0 ' + w + ' ' + vb.height);
     }
+    canvas.appendChild(clone);
     // Подпись снизу (берём из figcaption, если есть)
     const caption = document.createElement('div');
     caption.className = 'fig-overlay-caption';
@@ -351,17 +432,29 @@
     if (srcFig) {
       const cap = srcFig.querySelector('figcaption');
       if (cap) {
-        const parts = Array.from(cap.querySelectorAll('span')).map(s => s.textContent.trim()).filter(Boolean);
-        caption.textContent = parts.join(' · ');
+        const parts = Array.from(cap.querySelectorAll('span, b')).map((x) => x.textContent.trim()).filter(Boolean);
+        caption.textContent = parts.length ? parts.join(' · ') : cap.textContent.trim();
       }
+      if (!caption.textContent) caption.remove();
     }
-    overlay.appendChild(clone);
+    overlay.appendChild(canvas);
     overlay.appendChild(caption);
     overlay.appendChild(close);
     document.body.appendChild(overlay);
     document.body.style.overflow = 'hidden';
-    const closeFn = () => { overlay.remove(); document.body.style.overflow = ''; };
-    overlay.addEventListener('click', (e) => { if (e.target === overlay || e.target === close) closeFn(); });
+    overlay.scrollLeft = 0;   // схема открывается с начала: верхний левый угол, а не «обрезанной» с середины
+    overlay.scrollTop = 0;
+    close.focus();
+    const onKey = (e) => { if (e.key === 'Escape') closeFn(); };
+    const closeFn = () => {
+      overlay.remove();
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', onKey);
+    };
+    document.addEventListener('keydown', onKey);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay || e.target === close || e.target === canvas) closeFn();
+    });
 
     // Drag-to-pan увеличенной картинки
     let isDragging = false, startX = 0, startY = 0, scrollL = 0, scrollT = 0;
@@ -391,10 +484,6 @@
       const dy = e.changedTouches[0].clientY - touchStartY;
       if (dy > 80 && overlay.scrollTop <= 0) closeFn();
     }, { passive: true });
-
-    document.addEventListener('keydown', function esc(e) {
-      if (e.key === 'Escape') { closeFn(); document.removeEventListener('keydown', esc); }
-    });
   }
   document.querySelectorAll('.fig').forEach((fig) => {
     fig.addEventListener('click', (e) => {

@@ -4,7 +4,10 @@
 // JSON-LD (Article, FAQPage, BreadcrumbList) строится из этих же данных — FAQ на странице и в разметке не расходятся.
 import Base from './Base.astro';
 import ContactCards from '../components/ContactCards.astro';
+import AuthorCard from '../components/blog/AuthorCard.astro';
+import { readSuffix } from '../data/reading-time';
 import { SITE } from '../data/site';
+import { assetV } from '../data/asset-version';
 
 interface Toc { id: string; label: string }
 interface Faq { q: string; a: string }
@@ -15,6 +18,7 @@ interface Props {
   datePublished: string; dateModified: string;
   toc: Toc[]; brief: string[]; faq: Faq[]; more: More[];
   breadcrumb: string;
+  ogTitle?: string; ogDescription?: string;
 }
 const p = Astro.props;
 const url = new URL(p.path, SITE.url).href;
@@ -31,11 +35,12 @@ const jsonLd = [
     { '@type': 'ListItem', position: 3, name: p.breadcrumb, item: url } ] },
 ].map((o) => JSON.stringify(o));
 ---
-<Base title={p.title} description={p.description} path={p.path} ogType="article" jsonLd={jsonLd}
+<Base mainWrap={false} title={p.title} description={p.description} path={p.path} ogType="article" jsonLd={jsonLd}
+      ogTitle={p.ogTitle} ogDescription={p.ogDescription}
       active="ai" skipTo="#article" readProgress bodyClass="bl-page">
 <Fragment slot="head">
-  <link rel="stylesheet" href="/blog-assets/article.css">
-  <link rel="stylesheet" href="/blog-assets/kit.css">
+  <link rel="stylesheet" href={`/blog-assets/article.css?v=${assetV('/blog-assets/article.css')}`}>
+  <link rel="stylesheet" href={`/blog-assets/kit.css?v=${assetV('/blog-assets/kit.css')}`}>
 </Fragment>
 
 <main class="bl-sheet" id="article">
@@ -44,7 +49,7 @@ const jsonLd = [
       <div class="bl-hero-txt">
         <p class="bl-kicker">{p.kicker}</p>
         <h1>{p.h1}</h1>
-        <p class="bl-meta">Олег Кречетов, основатель Smart Solutions · {p.monthYear} · ~{p.minutes} минут чтения</p>
+        <p class="bl-meta">Олег Кречетов, основатель Smart Solutions · {p.monthYear} · <span data-readmin>~{p.minutes} минут чтения</span></p>
       </div>
       <slot name="hero" />
     </div>
@@ -73,8 +78,13 @@ const jsonLd = [
 
       <section class="bl-more" aria-label="Читать дальше">
         <h2 class="no-num">Читать дальше</h2>
-        {p.more.map((m) => <a href={m.href}><span>{m.meta}</span><b>{m.title}</b><i>→</i></a>)}
+        {p.more.map((m) => <a href={m.href}><span>{m.meta}{readSuffix(m.href)}</span><b>{m.title}</b><i>→</i></a>)}
       </section>
+    </div>
+
+    <!-- третья колонка на широких экранах; на узких — в потоке после статьи -->
+    <div class="bl-author">
+      <AuthorCard theme="light" />
     </div>
   </div>
 </main>
@@ -101,6 +111,6 @@ const jsonLd = [
   })();
 </script>
 <script is:inline src="/blog-assets/article.js"></script>
-<script is:inline src="/blog-assets/kit.js"></script>
+<script is:inline src={`/blog-assets/kit.js?v=${assetV('/blog-assets/kit.js')}`}></script>
 </Fragment>
 </Base>
