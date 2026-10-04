@@ -1,0 +1,354 @@
+---
+// Прототипы правой колонки первого экрана. Временная страница: удаляется
+// после того, как владелец выберет вариант. В навигации нет, в индекс не
+// попадает, на сайте ни на что не ссылается.
+---
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Первый экран: три варианта правой колонки</title>
+<style is:global>
+  :root{
+    --bg:#08080D; --fg:#F5F5F7; --accent:#00D9FF; --green:#10B981;
+    --muted:rgba(255,255,255,.5); --secondary:rgba(255,255,255,.6);
+    --border:rgba(255,255,255,.06); --border-hover:rgba(255,255,255,.15);
+    --radius:12px; --transition:.35s cubic-bezier(.4,0,.2,1);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.6}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  .lead{padding:48px 0 8px;border-bottom:1px solid var(--border);margin-bottom:40px}
+  .lead h1{margin:0 0 10px;font-size:1.6rem;letter-spacing:-.02em}
+  .lead p{margin:0 0 34px;max-width:70ch;color:var(--secondary);font-size:.9rem}
+  .lead .tip{color:var(--muted);font-size:.8rem;display:block;margin-top:6px}
+  .var{margin-bottom:64px}
+  .var-h{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+  .var-h b{font-size:1.15rem;letter-spacing:-.01em}
+  .var-h span{color:var(--muted);font-size:.85rem}
+  .var-note{margin:0 0 18px;color:var(--secondary);font-size:.85rem;max-width:76ch}
+
+  .hero{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;
+        min-height:520px;padding:40px 0;position:relative}
+  .hero::after{content:'';position:absolute;left:-40px;top:0;width:420px;height:420px;
+               background:radial-gradient(circle,rgba(0,217,255,.07),transparent 70%);pointer-events:none}
+  .eyebrow{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+  h2.h1{margin:0 0 20px;font-size:2.6rem;line-height:1.14;letter-spacing:-.025em;font-weight:600}
+  .sub{margin:0 0 28px;font-size:1rem;color:var(--secondary);max-width:46ch}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:var(--radius);
+       background:var(--accent);color:#04141A;font-weight:600;font-size:.92rem;text-decoration:none}
+  .card{padding:22px;border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);
+        background:rgba(255,255,255,.02);position:relative;z-index:1}
+
+  /* ВАРИАНТ 1. МАРШРУТ */
+  .vr-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px}
+  .vr-kicker{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .vr-total{font-size:.82rem;color:var(--accent);font-weight:600}
+  .vr-list{list-style:none;margin:0;padding:0 0 0 26px;position:relative}
+  .vr-list::before{content:'';position:absolute;left:7px;top:6px;bottom:26px;width:1px;background:var(--border)}
+  .vr-step{position:relative;padding-bottom:14px}
+  .vr-btn{width:100%;display:flex;align-items:baseline;gap:10px;padding:4px 0;background:none;border:0;
+          color:inherit;font:inherit;text-align:left;cursor:pointer}
+  .vr-dot{position:absolute;left:-26px;top:9px;width:9px;height:9px;border-radius:50%;
+          background:#14141C;border:1px solid rgba(255,255,255,.25);transition:all var(--transition)}
+  .vr-step.is-open .vr-dot{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 4px rgba(0,217,255,.15)}
+  .vr-num{font-family:'Manrope','Inter',sans-serif;font-size:.68rem;color:var(--muted);letter-spacing:.06em}
+  .vr-name{font-size:.9rem;font-weight:500}
+  .vr-days{margin-left:auto;font-family:'Manrope','Inter',sans-serif;font-size:.7rem;color:var(--muted);
+           border:1px solid var(--border);border-radius:999px;padding:1px 8px;white-space:nowrap}
+  .vr-step.is-open .vr-days{color:var(--accent);border-color:rgba(0,217,255,.3)}
+  .vr-out{margin:0;overflow:hidden;max-height:0;opacity:0;font-size:.8rem;color:var(--secondary);
+          transition:max-height .4s ease,opacity .3s ease,margin .3s ease}
+  .vr-step.is-open .vr-out{max-height:80px;opacity:1;margin:2px 0 6px}
+  .vr-foot{margin:14px 0 0;padding-top:14px;border-top:1px solid var(--border);font-size:.8rem;color:var(--muted)}
+
+  /* ВАРИАНТ 2. РАСЧЁТ */
+  .vc-kicker{display:block;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+             color:var(--muted);margin-bottom:14px}
+  .vc-lab{display:flex;justify-content:space-between;align-items:baseline;font-size:.85rem;
+          color:var(--secondary);margin-bottom:8px}
+  .vc-lab output{font-family:'Manrope','Inter',sans-serif;font-size:1rem;font-weight:700;color:var(--fg)}
+  .vc-range{width:100%;-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;
+            background:rgba(255,255,255,.1);outline:none;margin:6px 0 22px}
+  .vc-range::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+            background:var(--accent);cursor:pointer;border:3px solid #04141A;box-shadow:0 0 0 1px var(--accent)}
+  .vc-bar{margin-bottom:10px}
+  .vc-bar-lab{display:flex;justify-content:space-between;font-size:.76rem;color:var(--muted);margin-bottom:4px}
+  .vc-bar-lab b{font-family:'Manrope','Inter',sans-serif;color:var(--fg);font-weight:600}
+  .vc-bar-track{height:8px;border-radius:2px;background:rgba(255,255,255,.05);overflow:hidden}
+  .vc-bar-fill{display:block;height:100%;border-radius:2px;transition:width .45s cubic-bezier(.3,.7,.3,1)}
+  .vc-bar-fill.now{background:linear-gradient(90deg,rgba(255,255,255,.28),rgba(255,255,255,.12))}
+  .vc-bar-fill.fast{background:linear-gradient(90deg,var(--accent),rgba(0,217,255,.35))}
+  .vc-deals{display:flex;gap:26px;margin:20px 0 14px;padding-top:16px;border-top:1px solid var(--border)}
+  .vc-deals span{display:block;font-size:.72rem;color:var(--muted)}
+  .vc-deals b{font-family:'Manrope','Inter',sans-serif;font-size:1.5rem;font-weight:700;letter-spacing:-.02em}
+  .vc-deals .was b{color:var(--muted)}
+  .vc-deals .now-b b{color:var(--accent)}
+  .vc-loss{font-size:.9rem;color:var(--secondary);margin:0 0 18px}
+  .vc-loss b{font-family:'Manrope','Inter',sans-serif;color:#FF6B6B;font-weight:700;font-size:1.05rem}
+  .vc-btn{display:inline-flex;padding:10px 20px;border-radius:var(--radius);background:var(--accent);
+          color:#04141A;font-weight:600;font-size:.85rem;text-decoration:none;border:0;cursor:pointer}
+  .vc-note{margin:16px 0 0;padding-top:14px;border-top:1px solid var(--border);font-size:.72rem;
+           color:var(--muted);line-height:1.55}
+
+  /* ВАРИАНТ 3. КЕЙСЫ */
+  .vk-tabs{display:flex;gap:6px;margin-bottom:18px}
+  .vk-tab{padding:6px 13px;font:inherit;font-size:.78rem;color:var(--secondary);background:none;
+          border:1px solid var(--border);border-radius:999px;cursor:pointer;transition:all var(--transition)}
+  .vk-tab:hover{border-color:var(--border-hover);color:var(--fg)}
+  .vk-tab.is-active{background:var(--accent);border-color:var(--accent);color:#04141A;font-weight:600}
+  .vk-rows{display:grid;gap:14px}
+  .vk-row{display:flex;align-items:baseline;gap:10px}
+  .vk-lab{font-size:.78rem;color:var(--muted);min-width:132px}
+  .vk-vals{font-family:'Manrope','Inter',sans-serif;font-weight:600;font-size:.92rem}
+  .vk-vals .was{color:var(--muted);font-weight:500}
+  .vk-vals .arw{color:rgba(255,255,255,.5);margin:0 5px;font-size:.8rem}
+  .vk-vals .now{color:var(--accent);font-size:1.05rem}
+  .vk-delta{margin-left:auto;font-family:'Manrope','Inter',sans-serif;font-size:.7rem;font-weight:600;
+            color:var(--green);border:1px solid rgba(16,185,129,.3);border-radius:999px;padding:1px 8px}
+  .vk-cause{margin:16px 0 0;padding-top:14px;border-top:1px solid var(--border);font-size:.78rem;
+            color:var(--secondary);line-height:1.55}
+  .vk-cause.is-in{animation:fadeIn .35s ease-out}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(3px)}}
+  .vk-link{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:.82rem;
+           font-weight:500;color:var(--accent);text-decoration:none}
+  footer{padding:36px 0 64px;border-top:1px solid var(--border);font-size:.78rem;color:var(--muted)}
+  @media (max-width:900px){
+    .hero{grid-template-columns:1fr}
+    h2.h1{font-size:2rem}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="lead">
+    <h1>Первый экран: три варианта правой колонки</h1>
+    <p>Левая колонка одна и та же — ваш текст, не менялся. Разница только справа. Прототипы живые:
+       в первом варианте шаги раскрываются, во втором можно двигать ползунок, в третьем — переключать кейсы.
+       Все цифры настоящие, взяты с сайта.</p>
+    <span class="tip">Варианты нарисованы с запасом по высоте — на реальном экране они помещаются в 950 px.
+      Страница временная: в навигации её нет, в поиск она не попадает.</span>
+  </div>
+
+  <section class="var">
+    <div class="var-h"><b>Вариант 1. Маршрут</b><span>что с вами будет после клика</span></div>
+    <p class="var-note">Четыре шага с реальными сроками и выходом каждого. Числа — про метод, а не про чужой
+       результат: «до 60 интервью», «20+ конкурентов», «17 рабочих дней». Отвечает на единственный вопрос,
+       который сейчас не закрыт: что произойдёт после «Обсудить проект».</p>
+
+    <div class="hero">
+      <div>
+        <div class="eyebrow">Москва · с 2017 года</div>
+        <h2 class="h1">Вам не нужен сайт.<br>Вам нужны клиенты.</h2>
+        <p class="sub">Аудит → расчёт → система, которая приводит заявки. Бюджет фиксируем после аудита.
+           Пилот 2–4 недели — 50–150 тысяч</p>
+        <a class="btn" href="#contacts">Обсудить проект</a>
+      </div>
+
+      <div class="card" data-route>
+        <div class="vr-head">
+          <span class="vr-kicker">Маршрут</span>
+          <span class="vr-total">17 рабочих дней</span>
+        </div>
+        <ul class="vr-list">
+          <li class="vr-step is-open">
+            <span class="vr-dot"></span>
+            <button type="button" class="vr-btn">
+              <span class="vr-num">01</span><span class="vr-name">Расчёт</span><span class="vr-days">2 дня</span>
+            </button>
+            <p class="vr-out">Считаем unit-экономику: сколько вы зарабатываете на клиенте и сколько
+               можете платить за заявку.</p>
+          </li>
+          <li class="vr-step">
+            <span class="vr-dot"></span>
+            <button type="button" class="vr-btn">
+              <span class="vr-num">02</span><span class="vr-name">Интервью</span><span class="vr-days">5 дней</span>
+            </button>
+            <p class="vr-out">До 60 разговоров с вашими клиентами: почему купили и почему не купили.</p>
+          </li>
+          <li class="vr-step">
+            <span class="vr-dot"></span>
+            <button type="button" class="vr-btn">
+              <span class="vr-num">03</span><span class="vr-name">Конкуренты</span><span class="vr-days">3 дня</span>
+            </button>
+            <p class="vr-out">Обзвон 20+ конкурентов: на что они давят, где у них слабое место.</p>
+          </li>
+          <li class="vr-step">
+            <span class="vr-dot"></span>
+            <button type="button" class="vr-btn">
+              <span class="vr-num">04</span><span class="vr-name">Прототип и тексты</span><span class="vr-days">7 дней</span>
+            </button>
+            <p class="vr-out">Система, которая приводит заявки.</p>
+          </li>
+        </ul>
+        <p class="vr-foot">Бюджет фиксируем после аудита</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="var">
+    <div class="var-h"><b>Вариант 2. Ваш расчёт</b><span>где вы теряете заявки</span></div>
+    <p class="var-note">Один ползунок — и посетитель видит свои же потери. Формула и числа не придуманы:
+       это модель, уже опубликованная у вас в блоге (воронка: остывание интереса вдвое за 60 минут).
+       Единственный вариант, который заканчивается действием.</p>
+
+    <div class="hero">
+      <div>
+        <div class="eyebrow">Москва · с 2017 года</div>
+        <h2 class="h1">Вам не нужен сайт.<br>Вам нужны клиенты.</h2>
+        <p class="sub">Аудит → расчёт → система, которая приводит заявки. Бюджет фиксируем после аудита.
+           Пилот 2–4 недели — 50–150 тысяч</p>
+        <a class="btn" href="#contacts">Обсудить проект</a>
+      </div>
+
+      <div class="card" data-calc>
+        <span class="vc-kicker">Ваша воронка</span>
+        <div class="vc-lab">
+          <span>Через сколько вы отвечаете на заявку</span>
+          <output data-out>60 мин</output>
+        </div>
+        <input class="vc-range" type="range" min="1" max="240" step="1" value="60" data-range
+               aria-label="Через сколько минут вы отвечаете на заявку">
+
+        <div class="vc-bar">
+          <div class="vc-bar-lab"><span>до диалога доходит сейчас</span><b data-share-now>50%</b></div>
+          <div class="vc-bar-track"><i class="vc-bar-fill now" data-bar-now style="width:50%"></i></div>
+        </div>
+        <div class="vc-bar">
+          <div class="vc-bar-lab"><span>при ответе за минуту</span><b data-share-fast>99%</b></div>
+          <div class="vc-bar-track"><i class="vc-bar-fill fast" data-bar-fast style="width:99%"></i></div>
+        </div>
+
+        <div class="vc-deals">
+          <div class="was"><span>сделок сейчас</span><b data-deals-now>40</b></div>
+          <div class="now-b"><span>могло быть</span><b data-deals-fast>79</b></div>
+        </div>
+
+        <p class="vc-loss">Потери: <b data-loss>2 344 800 ₽</b> в месяц</p>
+        <button type="button" class="vc-btn">Прислать расчёт</button>
+
+        <p class="vc-note">Доля заявок, доживших до диалога: 0,5<sup>(минуты / 60)</sup>.
+           Взяты ваши значения: 400 заявок в месяц, конверсия диалога 20 %, чек 60 000 ₽.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="var">
+    <div class="var-h"><b>Вариант 3. Кейсы по отраслям</b><span>выберите свою</span></div>
+    <p class="var-note">Тот же блок, что сейчас, но с переключателем: посетитель сам находит отрасль,
+       похожую на свою. Закрывает главную слабость текущего варианта — «это не про меня».</p>
+
+    <div class="hero">
+      <div>
+        <div class="eyebrow">Москва · с 2017 года</div>
+        <h2 class="h1">Вам не нужен сайт.<br>Вам нужны клиенты.</h2>
+        <p class="sub">Аудит → расчёт → система, которая приводит заявки. Бюджет фиксируем после аудита.
+           Пилот 2–4 недели — 50–150 тысяч</p>
+        <a class="btn" href="#contacts">Обсудить проект</a>
+      </div>
+
+      <div class="card" data-cases>
+        <div class="vk-tabs">
+          <button type="button" class="vk-tab is-active">Магазин</button>
+          <button type="button" class="vk-tab">Производство</button>
+          <button type="button" class="vk-tab">Медиа</button>
+        </div>
+        <div class="vk-rows" data-rows></div>
+        <p class="vk-cause" data-cause></p>
+        <a class="vk-link" href="#contacts">Разбор кейса →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contacts">
+    Прототипы правой колонки первого экрана. Страница временная: в навигации её нет,
+    в поиск не попадает, с сайта на неё нет ссылок. Удаляется после выбора варианта.
+  </footer>
+
+</div>
+
+<script is:inline>
+// Вариант 1: шаги раскрываются
+document.querySelectorAll('[data-route] .vr-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var step = btn.parentElement;
+    var wasOpen = step.classList.contains('is-open');
+    step.parentElement.querySelectorAll('.vr-step').forEach(function (s) { s.classList.remove('is-open'); });
+    if (!wasOpen) step.classList.add('is-open');
+  });
+});
+
+// Вариант 2: расчёт по модели, опубликованной в блоге
+(function () {
+  var box = document.querySelector('[data-calc]');
+  var range = box.querySelector('[data-range]');
+  var N = 400, HALF = 60, K = 0.2, CHECK = 60000;
+  var alive = function (min) { return Math.pow(0.5, min / HALF); };
+  var nf = function (v) { return Math.round(v).toLocaleString('ru-RU'); };
+
+  function render() {
+    var t = +range.value;
+    var now = N * alive(t) * K;
+    var fast = N * alive(1) * K;
+    box.querySelector('[data-out]').textContent = t + ' мин';
+    box.querySelector('[data-share-now]').textContent = Math.max(1, Math.round(alive(t) * 100)) + '%';
+    box.querySelector('[data-share-fast]').textContent = Math.max(1, Math.round(alive(1) * 100)) + '%';
+    box.querySelector('[data-bar-now]').style.width = Math.max(1, alive(t) * 100) + '%';
+    box.querySelector('[data-bar-fast]').style.width = Math.max(1, alive(1) * 100) + '%';
+    box.querySelector('[data-deals-now]').textContent = Math.round(now);
+    box.querySelector('[data-deals-fast]').textContent = Math.round(fast);
+    box.querySelector('[data-loss]').textContent = nf((fast - now) * CHECK) + ' ₽';
+  }
+  range.addEventListener('input', render);
+  render();
+})();
+
+// Вариант 3: переключатель кейсов
+(function () {
+  var DATA = [
+    { name: 'CND-Store', rows: [
+        ['Конверсия сайта', '1,2%', '2,8%', '×2,3'],
+        ['Средний чек', '2 800 ₽', '3 900 ₽', '+40%'],
+        ['ROI рекламы', '80%', '340%', '×4,3']],
+      cause: 'Исследование покупателей: состав важнее цены, страх подделки, цикл повторной покупки 3–4 недели, мастера — ключевая аудитория.' },
+    { name: 'Arhgrille', rows: [
+        ['Выручка', '0 ₽', '1,8 млн ₽', 'за 3 месяца'],
+        ['Сегментов ЦА', '1', '3', '×3'],
+        ['Сопровождение', '—', '5 лет', '']],
+      cause: 'Сегментация аудитории, 3 сценария на сайте, 5 лет сопровождения.' },
+    { name: 'Моя Планета', rows: [
+        ['Посетителей в месяц', '30 000', '1 000 000', '×33'],
+        ['Отказы', '82%', '45%', '−37 пп'],
+        ['Запросов в топ-10', '200', '5 000+', '×25']],
+      cause: 'Иерархическая структура, система перелинковки, техническая и SEO-оптимизация контента.' }
+  ];
+  var box = document.querySelector('[data-cases]');
+  var tabs = box.querySelectorAll('.vk-tab');
+  var rowsBox = box.querySelector('[data-rows]');
+  var cause = box.querySelector('[data-cause]');
+
+  function show(i) {
+    var d = DATA[i];
+    tabs.forEach(function (t, j) { t.classList.toggle('is-active', i === j); });
+    rowsBox.innerHTML = d.rows.map(function (r) {
+      return '<div class="vk-row"><span class="vk-lab">' + r[0] + '</span>' +
+             '<span class="vk-vals"><span class="was">' + r[1] + '</span>' +
+             '<span class="arw">→</span><span class="now">' + r[2] + '</span></span>' +
+             (r[3] ? '<span class="vk-delta">' + r[3] + '</span>' : '') + '</div>';
+    }).join('');
+    cause.textContent = d.name + ': ' + d.cause;
+    cause.classList.remove('is-in');
+    void cause.offsetWidth;
+    cause.classList.add('is-in');
+  }
+  tabs.forEach(function (t, i) { t.addEventListener('click', function () { show(i); }); });
+  show(0);
+})();
+</script>
+</body>
+</html>

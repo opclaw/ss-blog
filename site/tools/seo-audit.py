@@ -124,7 +124,8 @@ def main() -> None:
         print('Нет site/dist — сначала соберите: npm run build')
         sys.exit(1)
 
-    SERVICE = {'404.html'}   # служебные страницы: noindex, в sitemap не входят
+    SERVICE = {'404.html', 'hero-variants.html'}   # служебные: noindex, в sitemap не входят
+    # hero-variants.html — временные прототипы первого экрана, удаляются после выбора варианта
     pages = sorted(p for p in DIST.rglob('*.html')
                    if not re.match(r'(google|yandex)', p.name) and p.name not in SERVICE)
     articles = [p for p in pages if p.parent.name == 'blog' and p.name != 'index.html']

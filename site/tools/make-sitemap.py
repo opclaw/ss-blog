@@ -81,6 +81,9 @@ def collect() -> list[dict]:
 
         if p.name == '404.html':
             continue  # служебная страница: закрыта noindex, в карте сайта ей не место
+
+        if p.name == 'hero-variants.html':
+            continue  # временные прототипы первого экрана: noindex, в карте сайта им не место
         url = url_of(p)
         html = p.read_text(encoding='utf-8')
         pages.append({'url': url, 'mod': lastmod(html) or MANUAL_DATES.get(url), 'html': html})
