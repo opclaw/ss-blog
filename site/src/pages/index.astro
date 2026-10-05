@@ -25,7 +25,7 @@ const jsonLd = [
     <div class="container">
       <div class="hero-layout">
         <div class="hero-content">
-          <p class="label fade-in">Москва &bull; с 2017 года</p>
+          <p class="label fade-in">Москва &bull; Привлечение клиентов через цифровые каналы</p>
 
           <h1 class="hero-title fade-in fade-in-d1">
             Вам не нужен сайт.<br>
@@ -33,8 +33,7 @@ const jsonLd = [
           </h1>
 
           <p class="hero-summary fade-in fade-in-d2">
-            Аудит &rarr; расчёт &rarr; система, которая приводит заявки.
-            Бюджет фиксируем после аудита. Пилот 2&ndash;4 недели &mdash; 50&ndash;150 тысяч.
+            Соединяем сайт, рекламу, аналитику и ИИ в систему привлечения клиентов.
           </p>
 
           <a href="#contacts" class="btn btn-primary btn-shimmer fade-in fade-in-d3">
@@ -45,80 +44,97 @@ const jsonLd = [
         </div>
 
         <div class="hero-visual fade-in fade-in-d2">
-          <!-- Интерактив по кейсу «Моя Планета». Четыре метрики из кейса,
-               переключатель под графиком. Шкала у каждой метрики своя: линия
-               идёт от «было» к «стало» по её собственным числам, поэтому у
-               отказов она спускается — там меньше лучше. Промежуточных точек
-               нет, значит и линии прямые: траекторию мы не выдумываем. -->
-          <figure class="hero-case">
-            <div class="hero-case-head">
-              <div class="hero-case-title">
-                <span class="hero-case-kicker">Кейс</span>
+          <!-- Интерактив: три кейса по отраслям. Переключатель сверху, у каждого
+               кейса — три метрики, строка «что сделали» и ссылка на разбор.
+               Все цифры и формулировки взяты со страниц кейсов, ничего не
+               придумано. Наборы лежат в разметке: без JS виден первый кейс,
+               скрипт только переключает их и водит свечение за курсором. -->
+          <figure class="hero-cases">
+            <div class="hero-cases-tabs">
+              <button type="button" class="hero-case-tab is-active" aria-pressed="true">Магазин</button>
+              <button type="button" class="hero-case-tab" aria-pressed="false">Производство</button>
+              <button type="button" class="hero-case-tab" aria-pressed="false">Медиа</button>
+            </div>
+
+            <div class="hero-case-set" data-set>
+              <div class="hero-case-head">
+                <span class="hero-case-name">CND-Store</span>
+                <span class="hero-case-tag">косметика для ногтей</span>
+              </div>
+              <div class="hero-case-rows">
+                <div class="hero-case-row">
+                  <span class="hero-case-lab">Конверсия сайта</span>
+                  <span class="hero-case-vals"><span class="was">1,2%</span><span class="arw">&rarr;</span><span class="now">2,8%</span></span>
+                  <span class="hero-case-delta">×2,3</span>
+                </div>
+                <div class="hero-case-row">
+                  <span class="hero-case-lab">Средний чек</span>
+                  <span class="hero-case-vals"><span class="was">2 800 ₽</span><span class="arw">&rarr;</span><span class="now">3 900 ₽</span></span>
+                  <span class="hero-case-delta">+40%</span>
+                </div>
+                <div class="hero-case-row">
+                  <span class="hero-case-lab">ROI рекламы</span>
+                  <span class="hero-case-vals"><span class="was">80%</span><span class="arw">&rarr;</span><span class="now">340%</span></span>
+                  <span class="hero-case-delta">×4,3</span>
+                </div>
+              </div>
+              <p class="hero-case-cause">Что сделали: исследование покупателей — состав важнее цены, страх подделки, цикл повторной покупки 3–4 недели, мастера — ключевая аудитория.</p>
+              <a class="hero-case-link" href="/cases/cnd-store.html"><span>Разбор кейса</span>
+                <svg width="13" height="13"><use href="/icons.svg#icon-arrow-right"/></svg></a>
+            </div>
+
+            <div class="hero-case-set" data-set>
+              <div class="hero-case-head">
+                <span class="hero-case-name">Arhgrille</span>
+                <span class="hero-case-tag">декоративные решётки</span>
+              </div>
+              <div class="hero-case-rows">
+                <div class="hero-case-row">
+                  <span class="hero-case-lab">Выручка</span>
+                  <span class="hero-case-vals"><span class="was">0 ₽</span><span class="arw">&rarr;</span><span class="now">1,8 млн ₽</span></span>
+                  <span class="hero-case-delta">за 3 месяца</span>
+                </div>
+                <div class="hero-case-row">
+                  <span class="hero-case-lab">Сегментов ЦА</span>
+                  <span class="hero-case-vals"><span class="was">1</span><span class="arw">&rarr;</span><span class="now">3</span></span>
+                  <span class="hero-case-delta">×3</span>
+                </div>
+                <div class="hero-case-row">
+                  <span class="hero-case-lab">Сопровождение</span>
+                  <span class="hero-case-vals"><span class="was">—</span><span class="arw">&rarr;</span><span class="now">5 лет</span></span>
+                </div>
+              </div>
+              <p class="hero-case-cause">Что сделали: сегментация аудитории, 3 сценария на сайте, 5 лет сопровождения.</p>
+              <a class="hero-case-link" href="/cases/arhgrille.html"><span>Разбор кейса</span>
+                <svg width="13" height="13"><use href="/icons.svg#icon-arrow-right"/></svg></a>
+            </div>
+
+            <div class="hero-case-set" data-set>
+              <div class="hero-case-head">
                 <span class="hero-case-name">Моя Планета</span>
+                <span class="hero-case-tag">портал ВГТРК</span>
               </div>
-              <span class="hero-case-tag">портал ВГТРК</span>
-            </div>
-
-            <p class="hero-case-task">
-              Задача: вывести портал на 1 миллион посетителей в месяц,
-              сохранив редакционное качество контента.
-            </p>
-
-            <div class="hero-case-stage">
-              <div class="hero-case-line1">
-                <span class="hero-case-label">Посетителей в месяц</span>
-                <span class="hero-case-delta">×33</span>
+              <div class="hero-case-rows">
+                <div class="hero-case-row">
+                  <span class="hero-case-lab">Посетителей в месяц</span>
+                  <span class="hero-case-vals"><span class="was">30 000</span><span class="arw">&rarr;</span><span class="now">1 000 000</span></span>
+                  <span class="hero-case-delta">×33</span>
+                </div>
+                <div class="hero-case-row">
+                  <span class="hero-case-lab">Отказы</span>
+                  <span class="hero-case-vals"><span class="was">82%</span><span class="arw">&rarr;</span><span class="now">45%</span></span>
+                  <span class="hero-case-delta">−37 пп</span>
+                </div>
+                <div class="hero-case-row">
+                  <span class="hero-case-lab">Запросов в топ-10</span>
+                  <span class="hero-case-vals"><span class="was">200</span><span class="arw">&rarr;</span><span class="now">5 000+</span></span>
+                  <span class="hero-case-delta">×25</span>
+                </div>
               </div>
-
-              <div class="hero-case-now">1 000 000</div>
-
-              <svg class="hero-case-chart" viewBox="0 0 320 118" role="img"
-                   aria-label="Рост показателя с 30 000 до 1 000 000">
-                <defs>
-                  <linearGradient id="caseFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#00D9FF" stop-opacity="0.22"/>
-                    <stop offset="100%" stop-color="#00D9FF" stop-opacity="0"/>
-                  </linearGradient>
-                </defs>
-                <path class="hero-case-area" fill="url(#caseFill)"
-                      d="M 12 101.3 L 308 14.0 L 308 104 L 12 104 Z"/>
-                <path class="hero-case-trend" pathLength="100"
-                      d="M 12 101.3 L 308 14.0"/>
-                <circle class="hero-case-dot hero-case-dot--was" cx="12" cy="101.3" r="3.5"/>
-                <circle class="hero-case-dot hero-case-dot--now" cx="308" cy="14.0" r="4.5"/>
-              </svg>
-
-              <div class="hero-case-foot">
-                <span class="hero-case-was">было <b>30 000</b></span>
-                <span class="hero-case-axis">итог</span>
-              </div>
+              <p class="hero-case-cause">Что сделали: иерархическая структура, система перелинковки, техническая и SEO-оптимизация контента.</p>
+              <a class="hero-case-link" href="/cases/moya-planeta.html"><span>Разбор кейса</span>
+                <svg width="13" height="13"><use href="/icons.svg#icon-arrow-right"/></svg></a>
             </div>
-
-            <div class="hero-case-tabs">
-              <button type="button" class="hero-case-tab is-active" aria-pressed="true"
-                      data-label="Посетителей в месяц" data-was="30000" data-now="1000000"
-                      data-was-text="30 000" data-now-text="1 000 000" data-format="int"
-                      data-delta="×33" data-cause="Иерархическая структура: страна → регион → тема, у каждой категории свой хаб с подборками и навигацией.">Посетители</button>
-              <button type="button" class="hero-case-tab" aria-pressed="false"
-                      data-label="Глубина просмотра" data-was="1.2" data-now="3.8"
-                      data-was-text="1.2" data-now-text="3.8" data-format="dec1"
-                      data-delta="×3,2" data-cause="Система перелинковки: блоки «Читайте также» по теме и географии, карта-навигация, тематические подборки.">Глубина</button>
-              <button type="button" class="hero-case-tab" aria-pressed="false"
-                      data-label="Показатель отказов" data-was="82" data-now="45"
-                      data-was-text="82%" data-now-text="45%" data-format="pct"
-                      data-delta="−37 пп" data-cause="Техническая оптимизация: скорость загрузки, оптимизация изображений, корректная индексация, AMP-версии.">Отказы</button>
-              <button type="button" class="hero-case-tab" aria-pressed="false"
-                      data-label="Запросов в топ-10" data-was="200" data-now="5000"
-                      data-was-text="200" data-now-text="5 000+" data-format="int"
-                      data-delta="×25" data-cause="SEO-оптимизация контента: отдельный h1 для поиска рядом с редакционным заголовком, meta-описания, микроразметка.">Запросы</button>
-            </div>
-
-            <p class="hero-case-cause"></p>
-
-            <a class="hero-case-link" href="/cases/moya-planeta.html">
-              Разбор кейса
-              <svg width="13" height="13"><use href="/icons.svg#icon-arrow-right"/></svg>
-            </a>
           </figure>
         </div>
       </div>

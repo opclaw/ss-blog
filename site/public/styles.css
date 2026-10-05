@@ -3566,99 +3566,22 @@ p.format-note.text-secondary {
   height: 320px;
 }
 
-/* ===== Интерактив в герое: кейс «Моя Планета» ===== */
-/* График роста: линия проводится от «было» к «стало», число набегает.
-   Шкала у каждой метрики своя — у отказов линия идёт вниз, там меньше лучше.
-   Промежуточных точек нет, поэтому линия прямая: траекторию не выдумываем. */
-.hero-case {
+/* ===== Интерактив в герое: три кейса по отраслям ===== */
+/* Переключатель сверху, у каждого кейса — три метрики, строка «что сделали»
+   и ссылка на разбор. Цифр три, и они разные по смыслу: у отказов «стало»
+   меньше «было», и это улучшение, а не провал. */
+.hero-cases {
   margin: 0;
   padding: 1.35rem;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.02);
 }
-.hero-case-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; }
-.hero-case-kicker {
-  display: block;
-  margin-bottom: 0.3rem;
-  font-size: 0.62rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.hero-case-name { font-family: var(--font-mono); font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; }
-.hero-case-tag { padding-top: 0.15rem; font-size: 0.7rem; color: var(--muted); }
-.hero-case-task { margin: 0.7rem 0 1.1rem; font-size: 0.78rem; line-height: 1.5; color: var(--muted); }
-
-.hero-case-line1 { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
-.hero-case-label { font-size: 0.8rem; color: var(--secondary); }
-.hero-case-delta {
-  flex: none;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--accent);
-  border: 1px solid rgba(0, 217, 255, 0.3);
-  border-radius: 999px;
-  padding: 0.08rem 0.45rem;
-  white-space: nowrap;
-}
-.hero-case-now {
-  margin-top: 0.2rem;
-  font-family: var(--font-mono);
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-  color: var(--accent);
-  font-variant-numeric: tabular-nums;
-}
-.hero-case-chart { display: block; width: 100%; height: auto; margin-top: 0.4rem; }
-
-/* до появления линия не видна: её рисует скрипт, добавляя is-drawing */
-.hero-case-trend {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
-}
-.hero-case-area { opacity: 0; }
-.hero-case-dot { opacity: 0; transform-box: fill-box; transform-origin: center; }
-.hero-case-dot--was { fill: rgba(255, 255, 255, 0.4); }
-.hero-case-dot--now { fill: var(--accent); }
-
-.hero-case-chart.is-drawing .hero-case-trend {
-  animation: caseDraw 0.9s cubic-bezier(0.3, 0.7, 0.3, 1) 0.15s forwards;
-}
-.hero-case-chart.is-drawing .hero-case-area {
-  animation: caseArea 0.7s ease-out 0.75s forwards;
-}
-.hero-case-chart.is-drawing .hero-case-dot--was {
-  animation: caseDot 0.45s ease-out 0.15s forwards;
-}
-.hero-case-chart.is-drawing .hero-case-dot--now {
-  animation: caseDot 0.45s ease-out 0.9s forwards;
-}
-@keyframes caseDraw { to { stroke-dashoffset: 0; } }
-@keyframes caseArea { to { opacity: 1; } }
-@keyframes caseDot { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: scale(1); } }
-
-.hero-case-foot {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 0.25rem;
-  font-size: 0.72rem;
-  color: var(--muted);
-}
-.hero-case-was b { font-family: var(--font-mono); font-weight: 600; color: var(--secondary); }
-
-.hero-case-tabs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 1.05rem; }
+.hero-cases-tabs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1.1rem; }
 .hero-case-tab {
-  padding: 0.3rem 0.65rem;
+  padding: 0.3rem 0.7rem;
   font: inherit;
-  font-size: 0.74rem;
+  font-size: 0.76rem;
   color: var(--secondary);
   background: transparent;
   border: 1px solid var(--border);
@@ -3674,37 +3597,112 @@ p.format-note.text-secondary {
   font-weight: 600;
 }
 
+.hero-case-set[hidden] { display: none; }
+.hero-case-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+.hero-case-name { font-family: var(--font-mono); font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
+.hero-case-tag { font-size: 0.7rem; color: var(--muted); text-align: right; }
+
+/* строка метрики: подпись на своей строке, ниже — числа и дельта справа.
+   Так строка не ломается и в узкой колонке 242 px */
+.hero-case-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.1rem 0.6rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.hero-case-row:last-child { border-bottom: 0; }
+.hero-case-lab { flex: 1 1 100%; font-size: 0.74rem; color: var(--muted); }
+.hero-case-vals {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+.hero-case-vals .was { color: var(--secondary); font-weight: 500; }
+.hero-case-vals .arw { color: rgba(255, 255, 255, 0.45); margin: 0 0.35rem; font-size: 0.85em; }
+.hero-case-vals .now { color: var(--accent); font-size: 1.15em; }
+.hero-case-delta {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--green);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 999px;
+  padding: 0.05rem 0.45rem;
+  white-space: nowrap;
+}
+
 .hero-case-cause {
-  margin: 1rem 0 0;
-  padding-top: 0.9rem;
+  margin: 0.9rem 0 0;
+  padding-top: 0.85rem;
   border-top: 1px solid var(--border);
-  min-height: 3.4em;
+  min-height: 3.2em;
   font-size: 0.8rem;
   line-height: 1.55;
   color: var(--muted);
 }
 .hero-case-cause.is-in { animation: causeIn 0.4s ease-out; }
 @keyframes causeIn { from { opacity: 0; transform: translateY(4px); } }
+
+/* Ссылка «Разбор кейса»: под курсором загорается мягкое свечение, которое
+   идёт за ним (координаты ставит скрипт), под текстом вырастает линия,
+   стрелка уезжает вправо. Без JS свечение просто стоит по центру. */
 .hero-case-link {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  margin-top: 0.9rem;
-  font-size: 0.82rem;
+  margin: 1rem 0 0 -0.75rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
   font-weight: 500;
   color: var(--accent);
   text-decoration: none;
+  transition: color var(--transition);
 }
+.hero-case-link::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(110px circle at var(--mx, 50%) var(--my, 50%), rgba(0, 217, 255, 0.22), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.hero-case-link:hover::before { opacity: 1; }
+.hero-case-link span { position: relative; }
+.hero-case-link span::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hero-case-link:hover span::after { transform: scaleX(1); }
 .hero-case-link svg { transition: transform var(--transition); }
-.hero-case-link:hover svg { transform: translateX(3px); }
+.hero-case-link:hover svg { transform: translateX(4px); }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-  .hero-case { padding: 1rem; }
-  /* колонка узкая (242–380 px): строку задачи убираем, иначе карточка
-     вытягивается почти на весь экран, а цифр в ней нет */
-  .hero-case-task { display: none; }
-  .hero-case-now { font-size: 1.6rem; }
-  .hero-case-label { font-size: 0.76rem; }
-  .hero-case-cause { font-size: 0.76rem; margin-top: 0.85rem; padding-top: 0.75rem; }
-  .hero-case-tab { font-size: 0.7rem; padding: 0.28rem 0.5rem; }
+  .hero-cases { padding: 1rem; }
+  .hero-case-tab { font-size: 0.7rem; padding: 0.26rem 0.5rem; }
+  .hero-case-name { font-size: 0.92rem; }
+  .hero-case-vals { font-size: 0.82rem; }
+  .hero-case-cause { font-size: 0.76rem; margin-top: 0.8rem; padding-top: 0.7rem; }
 }
