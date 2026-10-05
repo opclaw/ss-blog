@@ -3,9 +3,12 @@
  *
  * Запуск (нужен сервер: ./node_modules/.bin/astro preview --port 4321):
  *   LD_LIBRARY_PATH=/tmp/al2023/lib node tools/audit-layout.mjs \
- *     --base http://127.0.0.1:4321 --json /tmp/audit-layout.json [--only blog/]
+ *     --base http://127.0.0.1:4321 --json /tmp/audit-layout.json [--only blog/] [--jobs 2]
  *
- * Что проверяет на каждом разрешении (1440, 1280, 1024, 768, 390):
+ * Полный прогон (31 страница x 4 разрешения = 124 замера) — около 7 минут.
+ * В работе гонять с --only: одна страница на всех разрешениях — ~20 секунд.
+ *
+ * Что проверяет на каждом разрешении (1440, 1024, 768, 390):
  *  1. Переполнение по горизонтали: элемент выходит за правый/левый край родителя или окна.
  *  2. Обрезанный текст: у элемента с текстом scrollWidth > clientWidth при overflow:hidden/clip.
  *  3. Наезды: два текстовых блока накладываются друг на друга (пересечение площадей).
@@ -252,14 +255,43 @@ const SCAN = `(() => {
 try { new Function(SCAN); } catch (e) { console.error('ОШИБКА: SCAN не компилируется —', e.message); process.exit(1); }
 
 let exePath = null;
-async function withBrowser(fn) {
+let browser = null;
+async function launch() {
   if (!exePath) exePath = await chromium.executablePath();
-  let lastErr = null;
-  for (let attempt = 1; attempt <= 3; attempt++) {
-    const browser = await pw.launch({ executablePath: exePath, args: chromium.args, headless: true });
-    try { return await fn(browser); } catch (e) { lastErr = e; } finally { try { await browser.close(); } catch (e) {} }
+  return pw.launch({ executablePath: exePath, args: chromium.args, headless: true });
+}
+
+// Замер одной страницы на одном разрешении. Браузер общий на весь прогон: раньше он
+// поднимался заново на каждый просмотр (31 страница x 4 разрешения = 124 запуска Chromium,
+// ~10 минут на прогон). Вкладка каждый раз новая, состояние между страницами не течёт.
+async function measure(page, vp) {
+  const b = await launch();
+  const p = await b.newPage({ viewport: { width: vp.w, height: vp.h } });
+  try {
+    await p.goto(`${BASE}/${page}`, { waitUntil: 'load', timeout: 30000 });
+    await p.waitForTimeout(500);
+    // полная прокрутка, чтобы сработали reveal-анимации и загрузились отложенные блоки
+    await p.evaluate(async () => {
+      const step = window.innerHeight;
+      for (let y = 0; y < document.body.scrollHeight; y += step) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 60)); }
+      // в styles.css стоит scroll-behavior: smooth — возврат наверх анимируется, и замер ниже
+      // успевал сниматься в середине прокрутки (ложные «наезды»). Временно выключаем плавность и ждём 0.
+      const root = document.documentElement;
+      const prev = root.style.scrollBehavior;
+      root.style.scrollBehavior = 'auto';
+      window.scrollTo(0, 0);
+      for (let i = 0; i < 40 && window.scrollY > 0; i++) await new Promise((r) => setTimeout(r, 50));
+      root.style.scrollBehavior = prev;
+    });
+    await p.waitForTimeout(400);
+    const data = await p.evaluate(SCAN);
+    const px = await p.evaluate(pageScroll);
+    data.pageScrollX = px.x;
+    return data;
+  } finally {
+    try { await p.close(); } catch (e) {}
+    try { await b.close(); } catch (e) {}
   }
-  throw lastErr;
 }
 
 const pages = sitePages();
@@ -271,56 +303,75 @@ const viewports = [
   { w: 390, h: 844, name: 'phone' },
 ];
 
-const report = { at: new Date().toISOString(), pages: [] };
+// Воркеров по умолчанию 2: в песочнице 2 ядра. На 4 воркерах Chromium начинал сыпаться —
+// 56 срывов из 124 замеров, и «0 замечаний» означало бы просто «0 проверенных».
+// Переопределить: --jobs N.
+const JOBS = Math.max(1, Number(getArg('--jobs', '2')));
 const pageScroll = `({ x: document.documentElement.scrollWidth - document.documentElement.clientWidth })`;
+
+// Браузер поднимается fresh на каждый замер и закрывается после: попытка делить один
+// экземпляр между замерами давала 26–56 срывов «Target page has been closed» на прогоне
+// (часть замеров пропадала, и «0 замечаний» означало лишь «0 проверенных»).
+
+// Очередь «страница x разрешение». Воркеры делят один браузер, у каждого своя вкладка —
+// состояние между замерами не течёт. Последовательный прогон 31 страницы занимал 9–12 минут;
+// параллельность даёт ускорение, близкое к числу воркеров.
+const jobs = [];
+for (const page of list) for (const vp of viewports) jobs.push({ page, vp });
+const done = new Map();
+let cursor = 0;
+
+function countsOf(res) {
+  const counts = Object.fromEntries(Object.entries(res).filter(([, v]) => Array.isArray(v)).map(([k, v]) => [k, v.length]));
+  if (res.hero) {
+    const hp = [];
+    if (res.hero.problem) hp.push(res.hero.problem);
+    if (!res.hero.подписьМеняется) hp.push('подпись не меняется при нажатии');
+    if (!res.hero.точкиСинхронны) hp.push('точки не синхронны со шагами');
+    if (res.hero.emptyNotes) hp.push(`шагов без подписи: ${res.hero.emptyNotes}`);
+    if (hp.length) { counts.heroProblems = hp.length; res.hero.problems = hp; }
+    else counts.heroProblems = 0;
+  }
+  return counts;
+}
+
+async function worker() {
+  for (;;) {
+    const i = cursor++;
+    if (i >= jobs.length) return;
+    const { page, vp } = jobs[i];
+    let out = null;
+    for (let attempt = 1; attempt <= 3 && !out; attempt++) {
+      try {
+        const data = await measure(page, vp);
+        const counts = countsOf(data);
+        const bad = Object.values(counts).reduce((a, b2) => a + b2, 0) + (data.pageScrollX > 2 ? 1 : 0);
+        if (bad) console.log(`${page} @${vp.name}: ${JSON.stringify(counts)}${data.pageScrollX > 2 ? ` ГОРИЗОНТАЛЬНАЯ_ПРОКРУТКА:${data.pageScrollX}px` : ''}`);
+        out = { ok: true, data, counts };
+      } catch (e) {
+        if (attempt === 3) {
+          out = { ok: false, error: e };
+          console.log(`${page} @${vp.name}: ошибка ${String(e.message).slice(0, 60)}`);
+        }
+      }
+    }
+    done.set(`${page}@${vp.name}`, out);
+  }
+}
+await Promise.all(Array.from({ length: Math.min(JOBS, jobs.length) }, worker));
+
+const report = { at: new Date().toISOString(), jobs: JOBS, pages: [] };
 for (const page of list) {
   const entry = { page, viewports: {} };
   for (const vp of viewports) {
-    try {
-      const res = await withBrowser(async (browser) => {
-        const p = await browser.newPage({ viewport: { width: vp.w, height: vp.h } });
-        await p.goto(`${BASE}/${page}`, { waitUntil: 'load', timeout: 30000 });
-        await p.waitForTimeout(500);
-        // полная прокрутка, чтобы сработали reveal-анимации и загрузились отложенные блоки
-        await p.evaluate(async () => {
-          const step = window.innerHeight;
-          for (let y = 0; y < document.body.scrollHeight; y += step) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 60)); }
-          // в styles.css стоит scroll-behavior: smooth — возврат наверх анимируется, и замер ниже
-          // успевал сниматься в середине прокрутки (ложные «наезды»). Временно выключаем плавность и ждём 0.
-          const root = document.documentElement;
-          const prev = root.style.scrollBehavior;
-          root.style.scrollBehavior = 'auto';
-          window.scrollTo(0, 0);
-          for (let i = 0; i < 40 && window.scrollY > 0; i++) await new Promise((r) => setTimeout(r, 50));
-          root.style.scrollBehavior = prev;
-        });
-        await p.waitForTimeout(400);
-        const data = await p.evaluate(SCAN);
-        const px = await p.evaluate(pageScroll);
-        data.pageScrollX = px.x;
-        await p.close();
-        return data;
-      });
-      const counts = Object.fromEntries(Object.entries(res).filter(([, v]) => Array.isArray(v)).map(([k, v]) => [k, v.length]));
-      if (res.hero) {
-        const hp = [];
-        if (res.hero.problem) hp.push(res.hero.problem);
-        if (!res.hero.подписьМеняется) hp.push('подпись не меняется при нажатии');
-        if (!res.hero.точкиСинхронны) hp.push('точки не синхронны со шагами');
-        if (res.hero.emptyNotes) hp.push(`шагов без подписи: ${res.hero.emptyNotes}`);
-        if (hp.length) { counts.heroProblems = hp.length; res.hero.problems = hp; }
-        else counts.heroProblems = 0;
-      }
-      entry.viewports[vp.name] = { counts, details: res };
-      const bad = Object.values(counts).reduce((a, b) => a + b, 0) + (res.pageScrollX > 2 ? 1 : 0);
-      if (bad) console.log(`${page} @${vp.name}: ${JSON.stringify(counts)}${res.pageScrollX > 2 ? ` ГОРИЗОНТАЛЬНАЯ_ПРОКРУТКА:${res.pageScrollX}px` : ''}`);
-    } catch (e) {
-      entry.viewports[vp.name] = { error: String(e.message).slice(0, 100) };
-      console.log(`${page} @${vp.name}: ошибка ${String(e.message).slice(0, 60)}`);
-    }
+    const r = done.get(`${page}@${vp.name}`);
+    if (!r) continue;
+    entry.viewports[vp.name] = r.ok
+      ? { counts: r.counts, details: r.data }
+      : { error: String(r.error.message).slice(0, 100) };
   }
   report.pages.push(entry);
-  fs.writeFileSync(JSON_OUT, JSON.stringify(report, null, 2));
 }
+fs.writeFileSync(JSON_OUT, JSON.stringify(report, null, 2));
 const total = report.pages.reduce((s, p) => s + Object.values(p.viewports).reduce((a, v) => a + (v.counts ? Object.values(v.counts).reduce((x, y) => x + y, 0) : 0), 0), 0);
 console.log(`\nИТОГ: страниц ${report.pages.length}, замечаний ${total}; отчёт ${JSON_OUT}`);
