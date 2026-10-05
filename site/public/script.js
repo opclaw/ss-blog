@@ -289,7 +289,10 @@
       cause.classList.add('is-in');
     }
     caseTabs.forEach(function (t, i) {
-      t.addEventListener('click', function () { showCase(i); });
+      t.addEventListener('click', function () {
+        showCase(i);
+        goal('hero_case');   // только по клику: при загрузке цель не стреляет
+      });
     });
     showCase(0);
 
@@ -301,6 +304,40 @@
         link.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
       });
     });
+  }
+
+  // ===== ЦЕЛИ МЕТРИКИ =====
+  // Шесть целей: клик в Телеграм, WhatsApp, звонок, почту; переход в блог;
+  // доскролл до контактов; переключение кейсов в герое. Номера — в комментарии
+  // к каждой цели, названия совпадают с теми, что нужно создать в Метрике.
+  // Всё в try/catch и с проверкой ym: если счётчик не загрузился или отключён
+  // (metrikaId: null), страница продолжает работать как ни в чём не бывало.
+  var YM_ID = window.YM_ID || null;
+  function goal(name) {
+    try { if (YM_ID && typeof window.ym === 'function') window.ym(YM_ID, 'reachGoal', name); } catch (e) {}
+  }
+
+  document.querySelectorAll('a[href]').forEach(function (a) {
+    var h = a.getAttribute('href') || '';
+    var name = null;
+    if (h.indexOf('t.me/') > -1 || h.indexOf('telegram.me/') > -1) name = 'contact_telegram';
+    else if (h.indexOf('wa.me/') > -1 || h.indexOf('whatsapp') > -1) name = 'contact_whatsapp';
+    else if (h.indexOf('tel:') === 0) name = 'contact_phone';
+    else if (h.indexOf('mailto:') === 0) name = 'contact_email';
+    else if (h.indexOf('/blog') > -1) name = 'to_blog';
+    if (name) a.addEventListener('click', function () { goal(name); }, { passive: true });
+  });
+
+  // доскролл до контактов — один раз за визит
+  var contactsEl = document.getElementById('contacts');
+  if (contactsEl && 'IntersectionObserver' in window) {
+    var ioContacts = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        goal('scroll_contacts');
+        ioContacts.disconnect();
+      }
+    }, { threshold: 0.25 });
+    ioContacts.observe(contactsEl);
   }
 
   // ===== ФИГУРЫ: узкие вписываем, широкие — тап-увеличение =====
