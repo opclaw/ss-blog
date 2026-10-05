@@ -1931,6 +1931,13 @@ p.format-note.text-secondary {
   font-weight: 700;
   margin-top: 0.5rem;
 }
+.services-types-note {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-top: 1.25rem;
+  max-width: 76ch;
+}
 
 /* Packages */
 .services-packages {
