@@ -80,8 +80,8 @@ const canonical = new URL(path, SITE.url).href;
       Подгружаем два файла, которые первый экран использует точно:
       основной текст (Inter 400) и цифры с заголовками (Manrope 700),
       оба — кириллическое подмножество. */}
-  <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-cyrillic-400-normal.woff2" crossorigin>
-  <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope-cyrillic-700-normal.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-cyrillic-wght-normal.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope-cyrillic-wght-normal.woff2" crossorigin>
   <link rel="stylesheet" href={`/fonts.css?v=${assetV('/fonts.css')}`}>
   <link rel="stylesheet" href={`/styles.css?v=${assetV('/styles.css')}`}>
   <script is:inline src={`/script.js?v=${assetV('/script.js')}`} defer></script>
