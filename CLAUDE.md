@@ -29,7 +29,8 @@
 │   ├── src/data/site.ts   <- телефон, почта, мессенджеры, адрес, меню, ID Метрики
 │   ├── src/components/    <- Nav, MobileMenu, Footer, ContactCards, Metrika, blog/*
 │   ├── src/layouts/       <- Base.astro (каркас), Article.astro (статьи нового образца)
-│   ├── src/pages/         <- 28 страниц: index, services, ai, cases/ (3), blog/ (21 статья + оглавление)
+│   ├── src/pages/         <- 31 страница: index, services, ai, ai-agenty, avtomatizaciya-prodazh,
+│   │                         ii-assistent-dlya-sajta, 404, cases/ (3), blog/ (21 статья + оглавление)
 │   ├── public/            <- styles.css, script.js, blog-assets/, images/, logos/,
 │   │                         robots.txt, sitemap.xml, .htaccess, manifest.json, верификации
 │   ├── tools/             <- verify.py (сверка), make-sitemap.py, seo-audit.py,
@@ -80,11 +81,13 @@
 
 - **Фронт:** Astro 7 (static, `build.format: preserve` — адреса `*.html` не меняются) + CSS + Vanilla JS.
   Node 22, сборка — `npm run build`, результат в `site/dist/`.
-- **Аналитика:** Яндекс.Метрика 106747750 стоит на всех 28 страницах (cookie-баннера нет).
+- **Аналитика:** Яндекс.Метрика 106747750 стоит на всех 31 странице (cookie-баннера нет).
   Включена/выключена — `metrikaId` в `site/src/data/site.ts`. Отключение — только по согласованию.
 - **SEO:** `robots.txt` (с явным разрешением ИИ-краулеров и `Clean-param` для Яндекса),
-  `sitemap.xml` (генерируется из сборки: `npm run sitemap`), Schema.org (Article + FAQPage + BreadcrumbList
-  в статьях; на главной/услугах/кейсах схемы пока нет), `.htaccess`, canonical на всех страницах.
+  `sitemap.xml` (генерируется из сборки: `npm run sitemap`), Schema.org (Article + FAQPage +
+  BreadcrumbList в статьях; Organization + WebSite на главной; на страницах услуг, кейсов и
+  посадочных `ai-agenty`/`avtomatizaciya-prodazh`/`ii-assistent-dlya-sajta` — BreadcrumbList),
+  `.htaccess`, canonical на всех страницах.
 - **Проверки:** `npm run check` = сборка → сверка с `legacy/version-4` → sitemap актуален →
   JS на всех страницах → интерактив kit → SEO-аудит (`npm run audit`). То же гоняется в GitHub Actions.
 - **Деплой:** Vercel (preview `ss-ai-preview.vercel.app`) → Beget (prod, rsync `site/dist/`).
@@ -96,9 +99,14 @@
 - Автор: «Олег Кречетов, основатель Smart Solutions» + Schema Person.
 - Schema: Article + FAQPage + BreadcrumbList (в статьях нового образца строится из данных `Article.astro`).
 - Статьи нового образца — макет `src/layouts/Article.astro` + библиотека `src/components/blog/` и
-  `public/blog-assets/kit.{css,js}`; эталон — `blog/ii-dlya-yuristov.astro`. Остальные 20 статей пока на
-  старом макете `Base.astro` — при переписывании переводить на `Article.astro`.
+  `public/blog-assets/kit.{css,js}`; эталон — `blog/ii-dlya-yuristov.astro`. С 2026-10-05 на макет
+  `Article.astro` переведены все 21 статья; `Base.astro` остаётся каркасом для не-статейных страниц.
 - Запреты в тексте: «революция», «магия», «просто посадить», неподтверждённые цифры без пометки «оценка/пример».
+- **Стоимость часа сотрудника — одна формула на весь сайт:** полные затраты на сотрудника за месяц ÷ 168
+  (21 день × 8 часов). Никаких «÷150 × 1,5», «÷160», «÷173», «÷176». Примеры: 80 000 ₽ → 476 ₽/ч,
+  100 000 ₽ → 595 ₽/ч, 120 000 ₽ → 714 ₽/ч, 160 000 ₽ → 952 ₽/ч.
+- **Калькулятор статьи:** умолчания ползунков берутся из примера этой же статьи, а в подписи
+  (`note`) пишется, откуда цифры и что в расчёт не входит. Иначе читатель видит две разные арифметики.
 
 ---
 

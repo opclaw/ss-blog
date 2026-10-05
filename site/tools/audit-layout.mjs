@@ -285,7 +285,14 @@ for (const page of list) {
         await p.evaluate(async () => {
           const step = window.innerHeight;
           for (let y = 0; y < document.body.scrollHeight; y += step) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 60)); }
+          // в styles.css стоит scroll-behavior: smooth — возврат наверх анимируется, и замер ниже
+          // успевал сниматься в середине прокрутки (ложные «наезды»). Временно выключаем плавность и ждём 0.
+          const root = document.documentElement;
+          const prev = root.style.scrollBehavior;
+          root.style.scrollBehavior = 'auto';
           window.scrollTo(0, 0);
+          for (let i = 0; i < 40 && window.scrollY > 0; i++) await new Promise((r) => setTimeout(r, 50));
+          root.style.scrollBehavior = prev;
         });
         await p.waitForTimeout(400);
         const data = await p.evaluate(SCAN);
