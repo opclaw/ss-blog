@@ -523,22 +523,23 @@ const jsonLd = [
         <div class="ai-payback" aria-label="График окупаемости внедрения">
           <div class="ai-payback-head">
             <span class="ai-payback-label">// окупаемость на реальном примере</span>
-            <span class="ai-payback-meta">HR, 40 ч/нед, ставка 800 ₽</span>
+            <span class="ai-payback-meta">отдел продаж, 300 заявок в месяц, час 700 ₽</span>
           </div>
           <svg class="ai-payback-svg" viewBox="0 0 360 200" role="img" preserveAspectRatio="xMidYMid meet">
             <!-- оси -->
             <line x1="40" y1="20" x2="40" y2="170" stroke="rgba(255,255,255,0.18)"/>
             <line x1="40" y1="170" x2="340" y2="170" stroke="rgba(255,255,255,0.18)"/>
 
-            <!-- сетка по Y -->
-            <line x1="40" y1="125" x2="340" y2="125" stroke="rgba(255,255,255,0.06)"/>
-            <line x1="40" y1="80" x2="340" y2="80" stroke="rgba(255,255,255,0.06)"/>
+            <!-- сетка по Y: 150 px на 600 тыс., шкала одна на всю высоту -->
+            <line x1="40" y1="127" x2="340" y2="127" stroke="rgba(255,255,255,0.06)"/>
+            <line x1="40" y1="84" x2="340" y2="84" stroke="rgba(255,255,255,0.06)"/>
+            <line x1="40" y1="41" x2="340" y2="41" stroke="rgba(255,255,255,0.06)"/>
 
             <!-- y-метки -->
             <text x="34" y="174" text-anchor="end" class="ax-tick">0</text>
-            <text x="34" y="129" text-anchor="end" class="ax-tick">50K</text>
-            <text x="34" y="84" text-anchor="end" class="ax-tick">100K</text>
-            <text x="34" y="34" text-anchor="end" class="ax-tick">200K</text>
+            <text x="34" y="131" text-anchor="end" class="ax-tick">200K</text>
+            <text x="34" y="88" text-anchor="end" class="ax-tick">400K</text>
+            <text x="34" y="45" text-anchor="end" class="ax-tick">600K</text>
 
             <!-- x-метки -->
             <text x="40" y="186" class="ax-tick">0</text>
@@ -548,19 +549,19 @@ const jsonLd = [
             <text x="280" y="186" class="ax-tick">4</text>
             <text x="340" y="186" class="ax-tick">5 мес</text>
 
-            <!-- стоимость внедрения: горизонтальная линия 200K -->
-            <line x1="40" y1="34" x2="340" y2="34" stroke="rgba(255,255,255,0.4)" stroke-dasharray="4 3"/>
-            <text x="335" y="28" text-anchor="end" class="ax-label">стоимость внедрения</text>
+            <!-- стоимость: пилот + внедрение, 250 000 ₽ -->
+            <line x1="40" y1="116" x2="340" y2="116" stroke="rgba(255,255,255,0.4)" stroke-dasharray="4 3"/>
+            <text x="336" y="110" text-anchor="end" class="ax-label">пилот + внедрение, 250 000 ₽</text>
 
-            <!-- кривая эффекта: растёт -->
-            <path d="M40,170 L100,150 L160,118 L220,82 L280,52 L340,28" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <!-- кривая эффекта: 131 125 ₽/мес чистыми -->
+            <path d="M40,170 L100,142 L160,114 L220,86 L280,58 L340,29" fill="none" stroke="var(--accent)" stroke-width="2"/>
 
-            <!-- точка окупаемости: на ~2.5 мес -->
-            <circle cx="190" cy="100" r="5" fill="var(--accent)" stroke="#0a0a0e" stroke-width="2"/>
-            <line x1="190" y1="100" x2="190" y2="170" stroke="var(--accent)" stroke-dasharray="2 3" opacity="0.6"/>
-            <line x1="194" y1="98" x2="240" y2="88" stroke="var(--accent)" stroke-width="0.75" opacity="0.6"/>
-            <text x="244" y="84" class="ax-callout">окупаемость</text>
-            <text x="244" y="96" class="ax-callout">~ 2 мес</text>
+            <!-- точка окупаемости: 250 000 / 131 125 = 1,9 мес -->
+            <circle cx="154" cy="116" r="5" fill="var(--accent)" stroke="#0a0a0e" stroke-width="2"/>
+            <line x1="154" y1="116" x2="154" y2="170" stroke="var(--accent)" stroke-dasharray="2 3" opacity="0.6"/>
+            <line x1="158" y1="114" x2="205" y2="104" stroke="var(--accent)" stroke-width="0.75" opacity="0.6"/>
+            <text x="209" y="100" class="ax-callout">окупаемость</text>
+            <text x="209" y="112" class="ax-callout">1,9 мес</text>
 
             <!-- легенда -->
             <g transform="translate(220, 145)">
@@ -573,7 +574,9 @@ const jsonLd = [
             </g>
           </svg>
           <p class="ai-payback-foot">
-            <span class="ai-payback-stat">2 мес</span> — средняя окупаемость. Цифра зависит от объёма и ставки.
+            <span class="ai-payback-stat">1,9 мес</span> — окупаемость на примере отдела продаж: 300 заявок
+            в месяц, час 700 ₽, 250 000 ₽ разово. Разбор расчёта —
+            <a href="/avtomatizaciya-prodazh.html">в статье про автоматизацию продаж</a>. На ваших цифрах посчитаем на аудите.
           </p>
         </div>
       </div>
