@@ -182,7 +182,7 @@ const checkItems1 = ["Есть список каналов, куда прихо�
       { id: 'd', label: 'Рабочих дней в месяц', min: 15, max: 24, step: 1, value: 22 },
       { id: 'r', label: 'Стоимость часа, ₽', min: 300, max: 2000, step: 5, value: 455 },
       { id: 'sup', label: 'Поддержка и модели, ₽/мес', min: 10000, max: 150000, step: 5000, value: 50000 },
-      { id: 'setup', label: 'Пилот и внедрение разово, ₽', min: 250000, max: 350000, step: 25000, value: 250000 },
+      { id: 'setup', label: 'Пилот и внедрение разово, ₽', min: 50000, max: 350000, step: 50000, value: 250000 },
       ]}
       main={{ label: 'окупаемость', expr: 'setup/Math.max(1, s*h*p/100*d*r - sup)', unit: 'мес.', dig: 1, cap: 36 }}
       rows={[
