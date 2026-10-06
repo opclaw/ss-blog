@@ -58,9 +58,7 @@
 /* Реестр находок виден целиком с первой секунды (включая «вне текста») — блок не выглядит
    недорисованным. Прогон «Проверить договор» даёт вспышку: сначала карточки притушены,
    затем проявляются одна за другой по мере подсветки в тексте. */
-.kit-js .kit-scanning .kit-finds li{opacity:.35}
 .kit-js .kit-finds li{transition:opacity .35s,transform .35s,border-color .2s,box-shadow .2s}
-.kit-js .kit-scanning .kit-finds li.on{opacity:1}
 .kit-js .kit-finds li.human{opacity:1}
 .kit-scan-sum{font:500 13px var(--f-m);color:var(--dim);margin:0}
 .kit-scan-human-line{margin:0;padding:9px 12px;border:1px dashed var(--green);border-radius:10px;background:var(--green-soft);font:500 13px var(--f-m);color:var(--green-t)}
@@ -303,32 +301,6 @@
   .bl-sheet .kit *{animation:none!important;transition:none!important}
 }
 
-/* ---------- Тёмные страницы старого макета ---------- */
-/* kit рассчитан на светлый лист (.bl-sheet, переменные из article.css).
-   Статьи старого макета тёмные: они подключают kit.css и оборачивают интерактив в .kit-dark,
-   где те же переменные переопределены тёмными значениями — блок выглядит родным на тёмном фоне. */
-.kit-dark{
-  --paper:#0E0E14; --paper2:rgba(255,255,255,.03); --card:#0E0E14;
-  --fg:#F5F5F7; --text:rgba(245,245,247,.78); --dim:rgba(245,245,247,.7); --mute:rgba(245,245,247,.55);
-  --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
-  --acc:#00D9FF; --acc-t:#00D9FF; --acc-soft:rgba(0,217,255,.1);
-  --f-d:'Manrope',system-ui,sans-serif; --f-t:'Inter',system-ui,sans-serif; /* --f-m был JetBrains Mono: его ноль с точкой в центре — штамп нейросетей, а
-   альтернативного нуля у шрифта нет (в GSUB только calt/ccmp/frac/locl).
-   Переменная оставлена, чтобы не менять десятки правил, но теперь это
-   текстовой шрифт с табличными цифрами. */
-  --f-m:'Inter',system-ui,sans-serif;
-}
-.kit-dark .kit-calc-out{background:repeating-linear-gradient(135deg,rgba(10,126,164,.16) 0 1px,transparent 1px 9px),var(--paper)}
-.kit-dark .kit-calc-in input[type=range]{background:transparent}
-.kit-dark .kit-foot{background:var(--paper2)}
-.kit-dark .kit-btn{background:var(--fg);color:#08080D;border-color:var(--fg)}
-.kit-dark .kit-btn.ghost{background:transparent;color:var(--fg);border-color:var(--line2)}
-.kit-dark .kit-btn:hover{opacity:.92}
-
-@media (prefers-reduced-motion:reduce){
-  .kit-dark .kit *{animation:none!important;transition:none!important}
-}
-
 
 /* герой «документ под сканером» */
 /* «Луч» сверху вниз нужен только варианту с документом: в остальных артах
@@ -348,7 +320,7 @@
    calt/ccmp/frac/locl). Поэтому всё, где встречаются цифры, набирается
    текстовым шрифтом с табличными цифрами. Моно остаётся там, где цифр нет:
    надзаголовки, подписи к рисункам, служебные ярлыки. */
-output, .kit-out, .kit-tl-n, .kit-funnel-lbl, .kit-res-val, .kit-calc-out,
+output, .kit-tl-n, .kit-funnel-lbl, .kit-calc-out,
 .bl-meta, .bl-hero-cap, .bl-left, .related-meta, figcaption,
 svg text, svg tspan, b, em {
   font-family: var(--f-t);

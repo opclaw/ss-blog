@@ -1792,7 +1792,6 @@ p.format-note.text-secondary {
   /* схема «Партнёрство» занимает 388px — две колонки включаем только когда колонка визуала их вмещает */
   .partnership-layout { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); align-items: center; }
   .hero-visual { flex: 0 0 500px; }
-  .hero-constellation { height: 400px; }
 }
 
 /* ================================================================
@@ -2544,6 +2543,8 @@ p.format-note.text-secondary {
 .ai-hub-card em { font-style: normal; font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.04em; color: var(--accent); margin-top: 2px; }
 .ai-hub-card:hover { border-color: var(--accent); transform: translateY(-2px); }
 @media (max-width: 860px) { .ai-hub-list { grid-template-columns: 1fr; } .ai-hub { margin-top: 36px; } }
+@media (max-width: 860px) { .ai-hub-list { grid-template-columns: 1fr; } .ai-hub { margin-top: 36px; } }
+@media (prefers-reduced-motion: reduce) { .ai-hub-card { transition: none } .ai-hub-card:hover { transform: none } }
 @media (prefers-reduced-motion: reduce) { .ai-hub-card { transition: none } .ai-hub-card:hover { transform: none } }
 .ai-service-meta {
   font-family: var(--font-mono);
@@ -2706,54 +2707,6 @@ p.format-note.text-secondary {
   font-family: var(--font-mono); font-size: 0.76rem; color: var(--muted);
   margin-bottom: clamp(36px, 5vw, 56px);
 }
-.article-content { font-size: 1.02rem; line-height: 1.75; color: var(--secondary); }
-.article-content > p { margin-bottom: 22px; }
-.article-content strong { color: var(--fg); }
-.article-content h2 {
-  font-family: 'Manrope', sans-serif; font-weight: 800;
-  font-size: clamp(1.45rem, 2.6vw, 2rem);
-  letter-spacing: -0.024em; line-height: 1.15;
-  margin: clamp(44px, 6vw, 64px) 0 18px;
-  padding-top: clamp(20px, 3vw, 30px);
-  border-top: 1px solid var(--border);
-}
-.article-content h3 { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 1.15rem; margin: 30px 0 10px; color: var(--fg); }
-.article-content ul, .article-content ol { margin: 0 0 22px 22px; }
-.article-content li { margin-bottom: 9px; }
-.article-content li::marker { color: var(--accent); }
-.article-content blockquote {
-  border-left: 3px solid var(--accent);
-  background: var(--card-bg);
-  padding: 20px 24px; margin: 26px 0;
-  font-family: var(--font-mono); font-size: 0.92rem; line-height: 1.7;
-  border-radius: 0 var(--radius) var(--radius) 0;
-}
-.article-checklist { list-style: none; margin-left: 0 !important; }
-.article-checklist li {
-  padding: 10px 0 10px 34px; position: relative;
-  border-bottom: 1px dashed var(--border);
-}
-.article-checklist li::before {
-  content: ""; position: absolute; left: 0; top: 14px;
-  width: 16px; height: 16px;
-  border: 1px solid var(--accent); border-radius: 3px;
-}
-.article-faq-title {
-  font-family: 'Manrope', sans-serif; font-weight: 800;
-  font-size: clamp(1.4rem, 2.4vw, 1.9rem); letter-spacing: -0.02em;
-  margin: clamp(48px, 7vw, 72px) 0 32px;
-}
-.article-related ul { list-style: none; margin: 0; }
-.article-related li { padding: 12px 0; border-bottom: 1px dashed var(--border); }
-.article-related a { color: var(--accent); text-decoration: none; font-weight: 600; }
-.article-related a:hover { text-decoration: none; }
-.article-related .related-meta {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--muted);
-  letter-spacing: 0.04em;
-  margin-left: 6px;
-}
 .related-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -2807,16 +2760,8 @@ p.format-note.text-secondary {
   opacity: 1;
   transform: translateX(3px);
 }
-.article-related .related-meta {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--muted);
-  letter-spacing: 0.04em;
-  margin-left: 6px;
-}
 @media (max-width: 640px) {
   .article { padding-top: 110px; }
-  .article-content { font-size: 0.97rem; }
 }
 
 /* ===== Статья: компоненты читабельности ===== */
@@ -2826,33 +2771,8 @@ p.format-note.text-secondary {
 /* Мобильные отступы — фикс «прижато к краям» */
 @media (max-width: 640px) {
   .article .container { padding-left: 22px; padding-right: 22px; }
-  .article-content { max-width: 100%; }
 }
 
-/* Содержание */
-.article-toc {
-  background: var(--card-bg); border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: clamp(20px, 3vw, 30px);
-  margin-bottom: clamp(36px, 5vw, 52px);
-  max-width: 720px;
-}
-@media (min-width: 1180px) {
-  .article-toc { display: none; } /* На десктопе — только aside-left */
-}
-.toc-title {
-  font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
-}
-.article-toc ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 34px; }
-.article-toc li { break-inside: avoid; margin-bottom: 8px; }
-.article-toc a {
-  display: flex; gap: 10px; align-items: baseline;
-  font-size: 0.88rem; color: var(--secondary); text-decoration: none;
-  transition: color 0.2s;
-}
-.article-toc a:hover { color: var(--accent); }
-@media (max-width: 640px) { .article-toc ul { columns: 1; } }
 
 /* Формула-карточка */
 .formula-card {
@@ -2892,6 +2812,7 @@ p.format-note.text-secondary {
 }
 .week-card h3 { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 1rem; margin: 0 0 6px; color: var(--fg); }
 .week-card p { font-size: 0.88rem; color: var(--secondary); line-height: 1.6; margin: 0; }
+@media (max-width: 640px) { .weeks-grid { grid-template-columns: 1fr; } }
 @media (max-width: 640px) { .weeks-grid { grid-template-columns: 1fr; } }
 
 /* «Не окупается» и «Ошибки» — карточки */
@@ -2945,6 +2866,7 @@ p.format-note.text-secondary {
 .f-warn { fill: #FFB454; }
 .f-label-acc { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.08em; fill: var(--accent); }
 @media (max-width: 640px) { .fig { padding: 14px; margin: 22px 0; } }
+@media (max-width: 640px) { .fig { padding: 14px; margin: 22px 0; } }
 
 /* ===== Статья: мобильная читабельность ===== */
 /* Фигуры: на мобильных — горизонтальный свайп, текст не мельчит */
@@ -2957,38 +2879,17 @@ p.format-note.text-secondary {
 .fig figcaption { flex-wrap: wrap; }
 
   /* TOC свёрнут — компактная кнопка */
-  .article-toc { padding: 14px 18px; }
-  .article-toc:not([open]) ul { display: none; }
-  .article-toc summary {
-    cursor: pointer; list-style: none; margin-bottom: 0;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .article-toc summary::-webkit-details-marker { display: none; }
-  .article-toc[open] summary { margin-bottom: 14px; }
-  .toc-toggle::before { content: "развернуть +"; font-size: 0.64rem; color: var(--muted); }
-  .article-toc[open] .toc-toggle::before { content: "свернуть −"; }
 
   /* Текст крупнее */
-  .article-content { font-size: 1rem; line-height: 1.7; }
 
   /* Ритм плотнее */
-  .article-content h2 { margin-top: 38px; padding-top: 18px; }
   .pull-quote { margin: 28px 0; }
 }
-@media (min-width: 641px) {
-  .article-toc summary { pointer-events: none; }
-  .toc-toggle { display: none; }
-}
-
 /* TL;DR-блок в конце статьи */
 
 /* ===== Фикс читабельности (ревизия) ===== */
 /* h2 в статьях наследовали приглушённый secondary — были серыми */
-.article-content h2 { color: var(--fg); }
-.article-content h3 { color: var(--fg); }
 /* Содержание: ссылки ярче, читаемо */
-.article-toc a { color: var(--fg); }
-.article-toc a:hover { color: var(--accent); }
 
 .ai-blog-toggle-wrap { text-align: center; margin-top: 24px; }
 .ai-blog-toggle { background: transparent; border: 1px solid var(--border); color: var(--text); padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; font-family: inherit; transition: all .15s ease; }
@@ -2998,75 +2899,14 @@ p.format-note.text-secondary {
 /* ===== Статья: десктопная 3-колоночная раскладка ===== */
 @media (min-width: 1180px) {
   .article .container { max-width: 1280px; }
-  .article-shell {
-    display: grid !important;
-    grid-template-columns: 220px minmax(0, 1fr) 280px;
-    gap: 32px;
-    max-width: 1280px;
-    margin: 0 auto;
-  }
-  /* старый <details class="article-toc"> скрываем на десктопе — есть aside-left */
-  .article-toc { display: none; }
-  .article-aside-left {
-    position: sticky; top: 24px; align-self: start;
-    max-height: calc(100vh - 48px); overflow: hidden;
-    font-size: 13px; line-height: 1.5;
-  }
-  .article-aside-left a { display: block; padding: 6px 0; color: var(--muted); text-decoration: none; border-left: 2px solid transparent; padding-left: 12px; transition: all .15s; }
-  .article-aside-left a:hover { color: var(--fg); }
-  .article-aside-left a.active { color: var(--accent); border-left-color: var(--accent); }
-  .article-aside-right {
-    position: sticky; top: 24px; align-self: start;
-  }
-}
-@media (max-width: 1179px) {
-  /* Содержание на узких экранах скрыто (есть мобильный <details>), а карточка автора — нет:
-     раньше она пропадала вместе с ним, и читатель с телефона не видел, кто написал статью. */
-  .article-aside-left { display: none !important; }
-  .article-aside-right {
-    display: flex !important;
-    position: static !important;
-    margin: 32px auto 0;
-    max-width: 520px;
-  }
 }
 /* ===== Правая колонка статьи: карточка автора ===== */
 /* Рамку и фон рисует сам компонент AuthorCard (один вид на всех макетах),
    здесь — только место в сетке и «липкость». */
-.article-aside-right {
-  display: flex;
-  flex-direction: column;
-  position: sticky;
-  top: 24px;
-  align-self: start;
-}
 
-/* ===== Активный пункт TOC ===== */
-.article-aside-left a.active {
-  color: var(--accent);
-  font-weight: 700;
-  border-left: 2px solid var(--accent);
-  padding-left: 8px;
-  margin-left: -10px;
-}
-.article-aside-left a {
-  display: block;
-  padding: 6px 0;
-  border-left: 2px solid transparent;
-  padding-left: 8px;
-  margin-left: -10px;
-  transition: all 0.15s;
-}
 
 /* Заголовок статьи в TOC слева */
 /* TOC: не уезжает за шапку */
-@media (min-width: 1180px) {
-  .article-shell > .article-aside-left {
-    top: 90px !important;
-    max-height: calc(100vh - 110px) !important;
-  }
-}
-
 /* ===== Секция 06 — Что дальше (новый стиль) ===== */
 .next-step-list {
   list-style: none;
@@ -3151,15 +2991,6 @@ p.format-note.text-secondary {
 }
 @media (max-width: 760px) {
   .blog-cols { grid-template-columns: 1fr; }
-}
-
-/* ===== Стикеры в статье: одинаковый top ===== */
-@media (min-width: 1180px) {
-  .article-shell > .article-aside-left,
-  .article-shell > .article-aside-right {
-    top: 96px !important;
-    max-height: calc(100vh - 116px) !important;
-  }
 }
 
 /* ===== BLOG INDEX: grouped grid ===== */
@@ -3271,14 +3102,6 @@ p.format-note.text-secondary {
 
 @media (max-width: 880px) {
   .blog-grid { grid-template-columns: 1fr; }
-}
-.toc-section-label {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  color: var(--accent);
-  text-transform: uppercase;
-  margin: 0 0 12px;
 }
 /* ===== Направления ===== */
 .section-directions { padding: clamp(60px, 8vw, 100px) 0; }
@@ -3486,15 +3309,6 @@ p.format-note.text-secondary {
   margin: 0 auto 32px;
   color: var(--secondary);
 }
-.hero-keywords {
-  font-family: 'Manrope', sans-serif;
-  font-size: 1.15rem;
-  font-weight: 500;
-  color: var(--accent);
-  line-height: 1.4;
-  margin: 16px 0 18px;
-  max-width: 720px;
-}
 
 /* ================================================================
    ЦИФРЫ
@@ -3503,10 +3317,10 @@ p.format-note.text-secondary {
    в центре. Табличные цифры — чтобы колонки и расчёты не «дышали». */
 .stat-num, .about-fact-num, .process-num, .process-duration, .services-path-num,
 .direction-num, .directions-meta, .next-num, .case-metric-val, .case-result-growth,
-.case-result-num, .case-timeline-year, .ag-card-n, .ag-chip,
+.case-timeline-year, .ag-card-n, .ag-chip,
 .ag-step-n, .ag-price-t, .ai-service-num, .ai-step-num,
-.ai-payback-stat, .ai-payback-meta, .receipt-val, .partnership-stat-num,
-.nav-phone, .format-counter, .related-meta {
+.ai-payback-stat, .ai-payback-meta, .receipt-val,
+.nav-phone, .related-meta {
   font-variant-numeric: tabular-nums;
 }
 
@@ -3573,12 +3387,6 @@ p.format-note.text-secondary {
   30%, 100% { left: 120%; }
 }
 
-
-.hero-constellation {
-  position: relative;
-  width: 100%;
-  height: 320px;
-}
 
 /* ===== Интерактив в герое: три кейса по отраслям ===== */
 /* Переключатель сверху, у каждого кейса — три метрики, строка «что сделали»
