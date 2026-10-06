@@ -1637,8 +1637,6 @@ p.format-note.text-secondary {
 }
 .footer-link:hover { color: var(--fg); }
 .footer-address { color: var(--muted); }
-/* Заголовок группы в подвале: отделяет «Направления» от основной навигации */
-.footer-group-t { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 0.5rem; }
 
 .footer-bottom {
   padding-top: 1.5rem;

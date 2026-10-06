@@ -1,6 +1,6 @@
 ---
 // Подвал. Разметка 1:1 с version 4/index.html (7 пунктов, контакты, адрес).
-import { SITE, CONTACTS, FOOTER_NAV, AI_NAV, navHref } from '../data/site';
+import { SITE, CONTACTS, FOOTER_NAV, navHref } from '../data/site';
 interface Props { isHome?: boolean; hasContacts?: boolean }
 const { isHome = false, hasContacts = true } = Astro.props;
 const year = new Date().getFullYear();
@@ -14,8 +14,6 @@ const year = new Date().getFullYear();
         </div>
         <div class="footer-col">
           {FOOTER_NAV.map((i) => <a href={navHref(i, { isHome, hasContacts })} class="footer-link">{i.label}</a>)}
-          <span class="footer-group-t">Направления</span>
-          {AI_NAV.map((i) => <a href={i.href} class="footer-link">{i.label}</a>)}
         </div>
         <div class="footer-col">
           <a href={`tel:${CONTACTS.tel}`} class="footer-link">{CONTACTS.phone}</a>
