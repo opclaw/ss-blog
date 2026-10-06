@@ -547,11 +547,12 @@ const jsonLd = [
             <text x="160" y="186" class="ax-tick">2</text>
             <text x="220" y="186" class="ax-tick">3</text>
             <text x="280" y="186" class="ax-tick">4</text>
-            <text x="340" y="186" class="ax-tick">5 мес</text>
+            <text x="340" y="186" text-anchor="end" class="ax-tick">5 мес</text>
 
             <!-- стоимость: пилот + внедрение, 250 000 ₽ -->
             <line x1="40" y1="116" x2="340" y2="116" stroke="rgba(255,255,255,0.4)" stroke-dasharray="4 3"/>
-            <text x="336" y="110" text-anchor="end" class="ax-label">пилот + внедрение, 250 000 ₽</text>
+            <!-- подпись у левого конца пунктира: справа её перекрывала выноска «окупаемость 1,9 мес» -->
+            <text x="44" y="104" class="ax-label">пилот + внедрение, 250 000 ₽</text>
 
             <!-- кривая эффекта: 132 088 ₽/мес чистыми -->
             <path d="M40,170 L100,142 L160,113 L220,85 L280,56 L340,28" fill="none" stroke="var(--accent)" stroke-width="2"/>
