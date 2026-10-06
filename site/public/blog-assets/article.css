@@ -68,7 +68,20 @@ html{scroll-padding-top:84px}
   .bl-body{grid-template-columns:minmax(0,1fr);max-width:calc(var(--col) + 48px);padding-top:40px}
   .bl-toc{display:none}
   .bl-toc-m{display:block;margin:0 0 36px;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:0 18px}
-  .bl-toc-m summary{cursor:pointer;padding:15px 0;font:500 12px/1 var(--f-m);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+  /* Заголовок — по краям: слева «СОДЕРЖАНИЕ», справа переключатель.
+     Стандартный треугольник details убран: вместо него текстовая пара
+     «развернуть +» / «свернуть −», как было в прежней версии сайта. */
+  .bl-toc-m summary{
+    cursor:pointer;padding:15px 0;font:500 12px/1 var(--f-m);letter-spacing:.1em;
+    text-transform:uppercase;color:var(--dim);
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+    list-style:none;
+  }
+  .bl-toc-m summary::-webkit-details-marker{display:none}
+  .bl-toc-m summary::marker{content:""}
+  .bl-toc-toggle{white-space:nowrap}
+  .bl-toc-toggle::before{content:"развернуть +";font-size:11px;color:var(--mute)}
+  .bl-toc-m[open] .bl-toc-toggle::before{content:"свернуть −"}
   .bl-toc-m ol{margin:0 0 14px;padding-left:22px;font-size:16px;line-height:2}
   .bl-toc-m a{text-decoration:none}
 }
