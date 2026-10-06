@@ -1637,6 +1637,8 @@ p.format-note.text-secondary {
 }
 .footer-link:hover { color: var(--fg); }
 .footer-address { color: var(--muted); }
+/* Заголовок группы в подвале: отделяет «Направления» от основной навигации */
+.footer-group-t { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 0.5rem; }
 
 .footer-bottom {
   padding-top: 1.5rem;
@@ -2543,6 +2545,19 @@ p.format-note.text-secondary {
   margin: 0;
 }
 .ai-service p { margin: 0; font-size: 0.98rem; line-height: 1.6; }
+
+/* Вход на посадочные страницы направлений: в верхнем меню их нет,
+   отсюда — основной переход на каждую из трёх. */
+.ai-hub { margin-top: 46px; border-top: 1px solid var(--border); padding-top: 30px; }
+.ai-hub-t { font: 600 0.78rem/1.4 var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 0 0 18px; }
+.ai-hub-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.ai-hub-card { display: flex; flex-direction: column; gap: 8px; padding: 22px; border: 1px solid var(--border); border-radius: 14px; background: var(--card-bg); text-decoration: none; transition: border-color var(--transition), transform var(--transition); }
+.ai-hub-card b { font-family: 'Manrope', sans-serif; font-size: 1.05rem; font-weight: 700; letter-spacing: -0.014em; line-height: 1.25; }
+.ai-hub-card span { font-size: 0.9rem; line-height: 1.55; }
+.ai-hub-card em { font-style: normal; font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.04em; color: var(--accent); margin-top: 2px; }
+.ai-hub-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+@media (max-width: 860px) { .ai-hub-list { grid-template-columns: 1fr; } .ai-hub { margin-top: 36px; } }
+@media (prefers-reduced-motion: reduce) { .ai-hub-card { transition: none } .ai-hub-card:hover { transform: none } }
 .ai-service-meta {
   font-family: var(--font-mono);
   font-size: 0.74rem;

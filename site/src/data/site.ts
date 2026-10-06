@@ -58,6 +58,17 @@ export const FOOTER_NAV: { key: NavKey; label: string; hash?: string; href?: str
  *   на остальных — "/#approach";
  * - «Контакты» ведут к блоку контактов на этой же странице, если он есть.
  */
+// Направления внутри AI: посадочные под отдельные задачи.
+// В верхнем меню их нет — интент узкий, шапка и без них держит 6 пунктов.
+// Но ссылка на каждую стоит в подвале на всех страницах: иначе посадочная
+// остаётся без единой внутренней ссылки (так было с /ii-assistent-dlya-sajta.html).
+export const AI_NAV: { label: string; href: string }[] = [
+  { label: 'Внедрение ИИ в процессы', href: '/ai.html' },
+  { label: 'Автоматизация продаж', href: '/avtomatizaciya-prodazh.html' },
+  { label: 'ИИ-ассистент для сайта', href: '/ii-assistent-dlya-sajta.html' },
+  { label: 'ИИ-агенты', href: '/ai-agenty.html' },
+];
+
 export function navHref(item: { hash?: string; href?: string }, opts: { isHome: boolean; hasContacts: boolean }) {
   if (item.href) return item.href;
   if (item.hash === 'contacts' && opts.hasContacts) return '#contacts';
