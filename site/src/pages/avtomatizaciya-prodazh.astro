@@ -181,7 +181,7 @@ const jsonLd = [
         {toc.map((t) => <a href={`#${t.id}`}>{t.label}</a>)}
       </aside>
       <div class="bl-text">
-        <details class="bl-toc-m"><summary>На странице <span class="bl-toc-toggle"></span></summary><ol>{toc.map((t) => <li><a href={`#${t.id}`}>{t.label}</a></li>)}</ol></details>
+        <details class="bl-toc-m" open><summary>На странице <span class="bl-toc-toggle"></span></summary><ol>{toc.map((t) => <li><a href={`#${t.id}`}>{t.label}</a></li>)}</ol></details>
 
         <p class="bl-intro">Заявка приходит, менеджер занят, ответ уходит через сорок минут — а клиент уже написал трём конкурентам. Автоматизация продаж начинается не с «внедрить нейросеть», а с вопроса: сколько заявок вы теряете на скорости ответа и что это стоит. Ниже — модель, в которую можно подставить свои цифры, цены и порядок работы. Как это устроено изнутри — в разборе <a href="/blog/ii-dlya-prodazh.html">«ИИ для продаж»</a>.</p>
 
@@ -260,14 +260,14 @@ const jsonLd = [
         <Checklist fig={6} title="Готовность отдела к пилоту" items={checkItems}
           note="Отмечайте честно: если не хватает заявок или некому проверять ассистента, пилот это покажет, но деньги будут потрачены зря." />
 
-        <h2 id="sec-8" class="no-num">Смотрите также</h2>
+        <h2 id="sec-8">Смотрите также</h2>
         <div class="bl-more" aria-label="Полезные материалы">
           <a href="/blog/ii-dlya-prodazh.html"><span>исследование{readSuffix('/blog/ii-dlya-prodazh.html')}</span><b>ИИ для продаж: где теряются заявки и что с этим делать</b><i>→</i></a>
           <a href="/blog/kak-poschitat-effekt-ot-ii-do-pilota.html"><span>методика{readSuffix('/blog/kak-poschitat-effekt-ot-ii-do-pilota.html')}</span><b>Как посчитать эффект от ИИ до пилота</b><i>→</i></a>
           <a href="/ai.html"><span>подход</span><b>Внедрение ИИ в процессы: как мы работаем</b><i>→</i></a>
         </div>
 
-        <h2 id="sec-faq" class="no-num">Частые вопросы</h2>
+        <h2 id="sec-faq">Частые вопросы</h2>
         <div class="bl-faq">
           {faq.map((f) => (
             <details><summary>{f.q}</summary><p>{f.a}</p></details>

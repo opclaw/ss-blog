@@ -82,20 +82,22 @@ html{scroll-padding-top:84px}
   .bl-toc-toggle{white-space:nowrap}
   .bl-toc-toggle::before{content:"развернуть +";font-size:11px;color:var(--mute)}
   .bl-toc-m[open] .bl-toc-toggle::before{content:"свернуть −"}
-  .bl-toc-m ol{margin:0 0 14px;padding-left:22px;font-size:16px;line-height:2}
+  /* Пункты без номеров: как в оглавлении на десктопе и в прежней версии сайта.
+     Номера убраны 2026-10-06 — в тексте статей нумерации больше нет, ссылаться на
+     «пункт 5» было некуда, а счётчик над заголовками противоречил своим же «Шаг 1..3». */
+  .bl-toc-m ol{list-style:none;margin:0 0 16px;padding:0;font-size:16px;line-height:1.55}
+  .bl-toc-m li{margin-bottom:10px}
   .bl-toc-m a{text-decoration:none}
 }
 
 /* типографика */
-.bl-text{counter-reset:sec;min-width:0}
+.bl-text{min-width:0}
 .bl-text p{margin:0 0 1.1em;text-wrap:pretty}
 .bl-intro{font:500 21px/1.55 var(--f-t);color:var(--fg)}
 .bl-text a{color:var(--acc-t);text-decoration:underline;text-decoration-color:rgba(10,126,164,.35);text-underline-offset:3px}
 .bl-text a:hover{text-decoration-color:currentColor}
 .bl-text b{color:var(--fg);font-weight:600}
-.bl-text h2{counter-increment:sec;font:800 clamp(26px,3vw,34px)/1.18 var(--f-d);letter-spacing:-.028em;color:var(--fg);margin:84px 0 22px;text-wrap:balance}
-.bl-text h2::before{content:counter(sec);display:block;font:500 13px/1 var(--f-m);color:var(--acc-t);margin-bottom:14px}
-.bl-text h2.no-num{counter-increment:none}.bl-text h2.no-num::before{content:none}
+.bl-text h2{font:800 clamp(26px,3vw,34px)/1.18 var(--f-d);letter-spacing:-.028em;color:var(--fg);margin:84px 0 22px;text-wrap:balance}
 .bl-text ul,.bl-text ol{padding-left:1.25em}
 
 .bl-quote{margin:40px 0;padding:0 0 0 24px;border-left:3px solid var(--acc);font:800 clamp(24px,3vw,32px)/1.25 var(--f-d);letter-spacing:-.025em;color:var(--fg)}

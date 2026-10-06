@@ -184,7 +184,7 @@ const jsonLd = [
         {toc.map((t) => <a href={`#${t.id}`}>{t.label}</a>)}
       </aside>
       <div class="bl-text">
-        <details class="bl-toc-m"><summary>На странице <span class="bl-toc-toggle"></span></summary><ol>{toc.map((t) => <li><a href={`#${t.id}`}>{t.label}</a></li>)}</ol></details>
+        <details class="bl-toc-m" open><summary>На странице <span class="bl-toc-toggle"></span></summary><ol>{toc.map((t) => <li><a href={`#${t.id}`}>{t.label}</a></li>)}</ol></details>
 
         <p class="bl-intro">Половина обращений с сайта приходит тогда, когда отвечать некому: вечер, выходные, менеджер на встрече. Посетитель задаёт вопрос, не дожидается и уходит к тем, кто ответил. ИИ-ассистент закрывает эту дыру — отвечает по вашей базе знаний в любое время и передаёт менеджеру готовый диалог. Ниже — расчёт на ваших цифрах, цены и порядок работ. Как это устроено изнутри — в разборе <a href="/blog/chto-takoe-ii-agent.html">«Что такое ИИ-агент»</a>.</p>
 
@@ -286,14 +286,14 @@ const jsonLd = [
         <Checklist fig={6} title="Готовность сайта к пилоту" items={checkItems}
           note="Отмечайте честно: если трафика мало или некому править базу знаний, пилот это покажет, но деньги будут потрачены зря." />
 
-        <h2 id="sec-8" class="no-num">Смотрите также</h2>
+        <h2 id="sec-8">Смотрите также</h2>
         <div class="bl-more" aria-label="Полезные материалы">
           <a href="/blog/chto-takoe-ii-agent.html"><span>разбор{readSuffix('/blog/chto-takoe-ii-agent.html')}</span><b>Что такое ИИ-агент простыми словами</b><i>→</i></a>
           <a href="/avtomatizaciya-prodazh.html"><span>услуга</span><b>Автоматизация продаж: цена, сроки и расчёт эффекта</b><i>→</i></a>
           <a href="/ai.html"><span>подход</span><b>Внедрение ИИ в процессы: как мы работаем</b><i>→</i></a>
         </div>
 
-        <h2 id="sec-faq" class="no-num">Частые вопросы</h2>
+        <h2 id="sec-faq">Частые вопросы</h2>
         <div class="bl-faq">
           {faq.map((f) => (
             <details><summary>{f.q}</summary><p>{f.a}</p></details>

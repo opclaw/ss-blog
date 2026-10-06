@@ -62,7 +62,7 @@ const jsonLd = [
       <span class="bl-left" id="readLeft"></span>
     </aside>
     <div class="bl-text">
-      <details class="bl-toc-m"><summary>Содержание <span class="bl-toc-toggle"></span></summary><ol>{p.toc.map((t) => <li><a href={`#${t.id}`}>{t.label}</a></li>)}</ol></details>
+      <details class="bl-toc-m" open><summary>Содержание <span class="bl-toc-toggle"></span></summary><ol>{p.toc.map((t) => <li><a href={`#${t.id}`}>{t.label}</a></li>)}</ol></details>
 
       <slot />
 
@@ -71,13 +71,13 @@ const jsonLd = [
         <ul>{p.brief.map((b) => <li>{b}</li>)}</ul>
       </div>
 
-      <h2 id="sec-faq" class="no-num">Частые вопросы</h2>
+      <h2 id="sec-faq">Частые вопросы</h2>
       <div class="bl-faq">
         {p.faq.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}
       </div>
 
       <section class="bl-more" aria-label="Читать дальше">
-        <h2 class="no-num">Читать дальше</h2>
+        <h2>Читать дальше</h2>
         {p.more.map((m) => <a href={m.href}><span>{m.meta}{readSuffix(m.href)}</span><b>{m.title}</b><i>→</i></a>)}
       </section>
     </div>
