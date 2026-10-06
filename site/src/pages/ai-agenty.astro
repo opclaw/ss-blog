@@ -143,8 +143,7 @@ const layers = [
     .ag-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
     .ag-h2 { font-family: 'Manrope', sans-serif; font-size: clamp(1.7rem, 3.4vw, 2.6rem); font-weight: 800; letter-spacing: -0.026em; line-height: 1.12; margin: 0 0 18px; }
     .ag-h2 em { font-style: normal; font-weight: 400; color: var(--accent); }  /* акцент цветом, а не третьим шрифтом */
-    .ag-sec-label { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-    .ag-sec-num { font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); border: 1px solid var(--border-hover); border-radius: 6px; padding: 3px 7px; }
+    .ag-sec-label { margin-bottom: 14px; }
     .ag-sub { max-width: 720px; margin-bottom: 34px; }
 
     /* hero: карточка агента */
@@ -301,7 +300,7 @@ const layers = [
   <!-- ===== 01: ЧЕМ ОТЛИЧАЕТСЯ ===== -->
   <section class="section section-alt section-border-top" id="chem-otlichaetsya">
     <div class="container container-narrow">
-      <p class="label ag-sec-label"><span class="ag-sec-num">01</span>Разница</p>
+      <p class="label ag-sec-label">Разница</p>
       <h2 class="ag-h2">Что такое ИИ-агент и чем он <em>отличается</em> от чат-бота</h2>
       <p class="text-secondary ag-sub">
         Три инструмента решают разные задачи, и путаница между ними стоит денег:
@@ -363,7 +362,7 @@ const layers = [
   <!-- ===== 02: СЦЕНАРИИ ===== -->
   <section class="section section-border-top" id="scenarii">
     <div class="container">
-      <p class="label ag-sec-label"><span class="ag-sec-num">02</span>Сценарии</p>
+      <p class="label ag-sec-label">Сценарии</p>
       <h2 class="ag-h2">Где агент реально работает: <em>шесть</em> процессов</h2>
       <p class="text-secondary ag-sub">
         Начинаем с одного процесса, где видно часы и есть данные. У каждого сценария рядом —
@@ -386,7 +385,7 @@ const layers = [
   <!-- ===== 03: УСТРОЙСТВО ===== -->
   <section class="section section-alt section-border-top" id="ustrojstvo">
     <div class="container container-narrow">
-      <p class="label ag-sec-label"><span class="ag-sec-num">03</span>Устройство</p>
+      <p class="label ag-sec-label">Устройство</p>
       <h2 class="ag-h2">Из чего состоит агент: <em>пять</em> слоёв</h2>
       <p class="text-secondary ag-sub">
         Агент — это не «подключённая нейросеть». Работает он или нет — решают данные, доступы и контроль,
@@ -407,7 +406,7 @@ const layers = [
   <!-- ===== 04: ИНТЕГРАЦИИ ===== -->
   <section class="section section-border-top" id="integracii">
     <div class="container container-narrow">
-      <p class="label ag-sec-label"><span class="ag-sec-num">04</span>Интеграции</p>
+      <p class="label ag-sec-label">Интеграции</p>
       <h2 class="ag-h2">Куда подключаем: <em>к тому, что у вас уже есть</em></h2>
       <p class="text-secondary ag-sub">
         Агент бесполезен в вакууме: он должен видеть данные и уметь действовать в ваших системах.
@@ -438,7 +437,7 @@ const layers = [
   <!-- ===== 05: ГРАНИЦЫ ===== -->
   <section class="section section-alt section-border-top" id="granicy">
     <div class="container container-narrow">
-      <p class="label ag-sec-label"><span class="ag-sec-num">05</span>Границы</p>
+      <p class="label ag-sec-label">Границы</p>
       <h2 class="ag-h2">Где ИИ-агент <em>не нужен</em></h2>
       <p class="text-secondary ag-sub">
         Это не скромность, а экономика: в части случаев дешевле навести порядок в процессе,
@@ -473,7 +472,7 @@ const layers = [
   <!-- ===== 06: КАК РАБОТАЕМ ===== -->
   <section class="section section-border-top" id="process">
     <div class="container">
-      <p class="label ag-sec-label"><span class="ag-sec-num">06</span>Процесс</p>
+      <p class="label ag-sec-label">Процесс</p>
       <h2 class="ag-h2">Как мы работаем: <em>пилот за 2–4 недели</em></h2>
       <p class="text-secondary ag-sub">
         Один процесс, замер до и после, решение по цифрам. Дальше — либо масштабируем то, что сработало,
@@ -512,7 +511,7 @@ const layers = [
   <!-- ===== 07: БЕЗОПАСНОСТЬ ===== -->
   <section class="section section-alt section-border-top" id="bezopasnost">
     <div class="container container-narrow">
-      <p class="label ag-sec-label"><span class="ag-sec-num">07</span>Данные</p>
+      <p class="label ag-sec-label">Данные</p>
       <h2 class="ag-h2">Безопасность: данные <em>не уходят на сторону</em></h2>
       <p class="text-secondary ag-sub">
         Первый вопрос на любом директорском разговоре — «а куда утекут наши данные». Отвечаем делом:
@@ -543,7 +542,7 @@ const layers = [
   <!-- ===== 08: ЦЕНА ===== -->
   <section class="section section-border-top" id="cena">
     <div class="container container-narrow">
-      <p class="label ag-sec-label"><span class="ag-sec-num">08</span>Стоимость</p>
+      <p class="label ag-sec-label">Стоимость</p>
       <h2 class="ag-h2">Сколько стоит <em>разработка агента</em></h2>
       <p class="text-secondary ag-sub">
         Вилку «от …» здесь писать бессмысленно: два агента с одинаковым названием могут отличаться в цене
@@ -573,7 +572,7 @@ const layers = [
   <!-- ===== 09: FAQ ===== -->
   <section class="section section-alt section-border-top" id="faq">
     <div class="container container-narrow">
-      <p class="label ag-sec-label"><span class="ag-sec-num">09</span>Вопросы</p>
+      <p class="label ag-sec-label">Вопросы</p>
       <h2 class="ag-h2">Частые вопросы <em>про ИИ-агентов</em></h2>
 
       <div class="faq-list" id="faqList">
@@ -595,7 +594,7 @@ const layers = [
   <!-- ===== 10: ЧИТАТЬ ===== -->
   <section class="section section-border-top" id="read">
     <div class="container">
-      <p class="label ag-sec-label"><span class="ag-sec-num">10</span>Разобраться глубже</p>
+      <p class="label ag-sec-label">Разобраться глубже</p>
       <h2 class="ag-h2">Что почитать <em>по теме</em></h2>
       <div class="ag-read">
         <a href="/blog/chto-takoe-ii-agent.html">

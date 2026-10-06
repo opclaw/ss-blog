@@ -2461,17 +2461,6 @@ p.format-note.text-secondary {
 }
 .ai-hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
 
-/* Номер секции — моноширинный, editorial */
-.ai-sec-label { display: flex; align-items: baseline; gap: 14px; }
-.ai-sec-num {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: var(--accent);
-  letter-spacing: 0.12em;
-}
-.ai-sec-num::after { content: " /"; color: var(--muted); }
-
 /* Заголовки крупнее и плотнее, чем базовый h2 */
 .ai-h2 {
   font-family: 'Manrope', sans-serif;
@@ -2546,7 +2535,7 @@ p.format-note.text-secondary {
 
 /* Вход на посадочные страницы направлений: в верхнем меню их нет,
    отсюда — основной переход на каждую из трёх. */
-.ai-hub { margin-top: 46px; border-top: 1px solid var(--border); padding-top: 30px; }
+.ai-hub { margin-top: 34px; }
 .ai-hub-t { font: 600 0.78rem/1.4 var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 0 0 18px; }
 .ai-hub-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .ai-hub-card { display: flex; flex-direction: column; gap: 8px; padding: 22px; border: 1px solid var(--border); border-radius: 14px; background: var(--card-bg); text-decoration: none; transition: border-color var(--transition), transform var(--transition); }
@@ -3514,8 +3503,8 @@ p.format-note.text-secondary {
    в центре. Табличные цифры — чтобы колонки и расчёты не «дышали». */
 .stat-num, .about-fact-num, .process-num, .process-duration, .services-path-num,
 .direction-num, .directions-meta, .next-num, .case-metric-val, .case-result-growth,
-.case-result-num, .case-timeline-year, .ag-card-n, .ag-chip, .ag-sec-num,
-.ag-step-n, .ag-price-t, .ai-sec-num, .ai-service-num, .ai-step-num,
+.case-result-num, .case-timeline-year, .ag-card-n, .ag-chip,
+.ag-step-n, .ag-price-t, .ai-service-num, .ai-step-num,
 .ai-payback-stat, .ai-payback-meta, .receipt-val, .partnership-stat-num,
 .nav-phone, .format-counter, .related-meta {
   font-variant-numeric: tabular-nums;
