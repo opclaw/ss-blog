@@ -1,0 +1,108 @@
+---
+// ROI-калькулятор: читатель двигает ползунки и сразу видит окупаемость, эффект за год
+// и ROI, а график показывает, с какого месяца пилот выходит в плюс.
+// Без JS блок не пустует: сервер считает те же формулы по значениям по умолчанию и рисует
+// график. Порядок правил вердикта и формулы в kit.js должны совпадать с этим блоком —
+// иначе цифры до и после первого движения ползунка разойдутся (страховка — kit-check).
+interface Props { fig?: number; id?: string; title?: string; note?: string; }
+const {
+  fig, id = 'payback',
+  title = 'ROI-калькулятор: окупаемость и эффект за год',
+  note = 'Оценка по формуле из статьи: часы × ставка × процент экономии. Процент берите по нижней границе — расчёт должен сходиться даже при осторожных допущениях.',
+} = Astro.props;
+
+const inputs = [
+  { id: 'tasks', label: 'Задач в месяц', min: 2, max: 500, step: 2, value: 60, unit: ' шт' },
+  { id: 'min', label: 'Минут на задачу сейчас', min: 5, max: 240, step: 5, value: 40, unit: ' мин' },
+  { id: 'p', label: 'Время, которое забирает ИИ', min: 10, max: 70, step: 5, value: 40, unit: ' %' },
+  { id: 'rate', label: 'Полная ставка часа', min: 200, max: 3000, step: 2, value: 714, unit: ' ₽' },
+  { id: 'cost', label: 'Стоимость пилота', min: 30000, max: 600000, step: 10000, value: 150000, unit: ' ₽' },
+  { id: 'sup', label: 'Сопровождение', min: 0, max: 60000, step: 1000, value: 0, unit: ' ₽/мес' },
+];
+const V: Record<string, number> = {};
+inputs.forEach((i) => { V[i.id] = i.value; });
+
+const num = (n: number, dig = 0) => new Intl.NumberFormat('ru-RU', { maximumFractionDigits: dig, minimumFractionDigits: 0 }).format(n);
+const hours = (V.tasks * V.min) / 60;                 // часов на процесс в месяц
+const proc = hours * V.rate;                          // стоимость процесса
+const save = (proc * V.p) / 100;                      // экономия от ИИ
+const net = save - V.sup;                             // экономия минус сопровождение
+const payback = net > 0 ? V.cost / net : null;        // окупаемость, мес
+const year = net * 12 - V.cost;                       // чистый эффект за 12 месяцев
+const roi = (year / V.cost) * 100;                    // ROI за год, %
+
+// Тот же порядок правил, что в kit.js (roi в kit.js): сначала «не покрывает сопровождение»,
+// потом границы 4 / 9 месяцев — как в матрице «когда пилот имеет смысл» ниже по тексту.
+const rank = net <= 0
+  ? 'Экономия не покрывает сопровождение: при таких вводных проект не окупается.'
+  : payback !== null && payback <= 4
+    ? 'До 4 месяцев — делать: пилот возвращает вложения с запасом.'
+    : payback !== null && payback <= 9
+      ? '4–9 месяцев — обсуждаемо: усиливаем сценарий или масштаб.'
+      : 'Больше 9 месяцев — не делаем: ищем другой процесс или другой масштаб.';
+
+// Геометрия графика: 13 столбиков накопительного эффекта (месяц 0 — вложения, 1…12 — месяцы).
+const CH = { x0: 30, x1: 308, yt: 12, yb: 108, w: 13 };
+const vals = Array.from({ length: 13 }, (_, m) => m * net - V.cost);
+const lo = Math.min(...vals, 0), hi = Math.max(...vals, 0);
+const yOf = (v: number) => CH.yb - ((CH.yb - CH.yt) * (v - lo)) / ((hi - lo) || 1);
+const xOf = (m: number) => CH.x0 + ((CH.x1 - CH.x0) * m) / 12;
+const bars = vals.map((v, m) => ({
+  m,
+  x: +(xOf(m) - CH.w / 2).toFixed(1),
+  y: +((v >= 0 ? yOf(0) : yOf(v))).toFixed(1),
+  h: +Math.max(1, yOf(0) - yOf(v)).toFixed(1),
+  pos: v >= 0,
+}));
+const zeroY = +yOf(0).toFixed(1);
+const rankTone = net <= 0 ? 'is-none' : (payback ?? 99) <= 4 ? 'is-go' : (payback ?? 99) <= 9 ? 'is-check' : 'is-stop';
+const lab = payback !== null && payback <= 12
+  ? `окупаемость ≈ ${num(payback, 1)} мес`
+  : net > 0 ? 'за 12 месяцев пилот не окупается' : 'проект не окупается: экономия меньше сопровождения';
+---
+<figure class:list={['kit', 'kit-roi', net <= 0 && 'is-none']} data-kit="roi" id={id}>
+  <figcaption class="kit-cap">{fig && <b>Рис. {fig}</b>}{title}<em>подставьте свои цифры</em></figcaption>
+  <div class="kit-roi-grid">
+    <div class="kit-roi-in kit-calc-in">
+      {inputs.map((i) => (
+        <label>
+          <span>{i.label}</span>
+          <output data-o={i.id}>{num(i.value)}{i.unit}</output>
+          <input type="range" min={i.min} max={i.max} step={i.step} value={i.value} data-i={i.id} data-unit={i.unit} aria-label={i.label} />
+        </label>
+      ))}
+    </div>
+    <div class="kit-roi-out kit-calc-out" aria-live="polite">
+      <p class="kit-calc-k">Окупаемость пилота</p>
+      <p class="kit-calc-big">
+        <span data-roi-payback>{payback !== null ? num(payback, 1) : '—'}</span><small>мес</small>
+      </p>
+      <p class:list={['kit-roi-rank', rankTone]} data-roi-rank>{rank}</p>
+      <ul class="kit-calc-rows">
+        <li><span>Часов на процесс</span><b><span data-roi-row="hours">{num(hours, 1)}</span> ч/мес</b></li>
+        <li><span>Стоимость процесса</span><b><span data-roi-row="proc">{num(proc)}</span> ₽/мес</b></li>
+        <li><span>Экономия от ИИ</span><b><span data-roi-row="save">{num(save)}</span> ₽/мес</b></li>
+        <li><span>Сопровождение, вычитаем</span><b><span data-roi-row="sup">{num(V.sup)}</span> ₽/мес</b></li>
+        <li><span>Эффект за 12 месяцев</span><b><span data-roi-row="year">{num(year)}</span> ₽</b></li>
+        <li><span>ROI за 12 месяцев</span><b><span data-roi-row="roi">{num(roi, 1)}</span> %</b></li>
+      </ul>
+    </div>
+  </div>
+  <div class="kit-roi-chartwrap">
+    <p class="kit-roi-chartcap"><span>Накопительный эффект по месяцам</span><b data-roi-cap>{lab}</b></p>
+    <svg class="kit-roi-chart" viewBox="0 0 320 126" role="img" aria-label="График накопительного эффекта: с какого месяца пилот окупается">
+      <line class="kit-roi-zero" x1="22" y1={zeroY} x2="316" y2={zeroY} />
+      {bars.map((b) => (
+        <rect class:list={['kit-roi-bar', b.pos ? 'is-pos' : 'is-neg']} data-roi-bar={b.m} x={b.x} y={b.y} width={CH.w} height={b.h} rx="2" />
+      ))}
+      <text class="kit-roi-tick" x="30" y="122">0</text>
+      <text class="kit-roi-tick" x="169" y="122" text-anchor="middle">6 мес</text>
+      <text class="kit-roi-tick" x="308" y="122" text-anchor="end">12 мес</text>
+    </svg>
+    <p class="kit-roi-chartfoot">
+      <span data-roi-from>вложения на старте: {num(V.cost)} ₽</span>
+      <span data-roi-to>через 12 месяцев: {year >= 0 ? '+' : '−'}{num(Math.abs(year))} ₽</span>
+    </p>
+  </div>
+  <p class="kit-foot">{note}</p>
+</figure>

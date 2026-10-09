@@ -3,6 +3,11 @@
 (function () {
   'use strict';
 
+  /* Определялась внутри блока курсорного свечения; когда блок убрали, ссылки на неё
+     остались (наклон карточек, магнитные кнопки) и скрипт падал с ReferenceError,
+     обрывая всё, что инициализируется ниже: счётчики, FAQ, раскрытие рисунков. */
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
   // ===== PRELOADER =====
   window.addEventListener('load', () => {
     const preloader = document.getElementById('preloader');
@@ -34,27 +39,6 @@
     backToTop.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-  }
-
-  // ===== CURSOR GLOW (desktop only) =====
-  const cursorGlow = document.getElementById('cursorGlow');
-  let mouseX = 0, mouseY = 0, glowX = 0, glowY = 0;
-  const isTouchDevice = 'ontouchstart' in window;
-
-  if (cursorGlow && !isTouchDevice) {
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-
-    (function animateGlow() {
-      glowX += (mouseX - glowX) * 0.08;
-      glowY += (mouseY - glowY) * 0.08;
-      cursorGlow.style.transform = `translate(${glowX - 150}px, ${glowY - 150}px)`;
-      requestAnimationFrame(animateGlow);
-    })();
-  } else if (cursorGlow) {
-    cursorGlow.style.display = 'none';
   }
 
   // ===== NAVBAR =====
@@ -287,6 +271,75 @@
     });
   });
 
+  // ===== КЕЙСЫ В ГЕРОЕ: переключатель отраслей и свечение под курсором =====
+  const heroCases = document.querySelector('.hero-cases');
+  if (heroCases) {
+    var caseTabs = Array.prototype.slice.call(heroCases.querySelectorAll('.hero-case-tab'));
+    var caseSets = Array.prototype.slice.call(heroCases.querySelectorAll('[data-set]'));
+
+    function showCase(i) {
+      caseTabs.forEach(function (t, j) {
+        t.classList.toggle('is-active', i === j);
+        t.setAttribute('aria-pressed', i === j ? 'true' : 'false');
+      });
+      caseSets.forEach(function (s, j) { s.hidden = i !== j; });
+      var cause = caseSets[i].querySelector('.hero-case-cause');
+      cause.classList.remove('is-in');
+      void cause.offsetWidth;
+      cause.classList.add('is-in');
+    }
+    caseTabs.forEach(function (t, i) {
+      t.addEventListener('click', function () {
+        showCase(i);
+        goal('hero_case');   // только по клику: при загрузке цель не стреляет
+      });
+    });
+    showCase(0);
+
+    // свечение ссылки «Разбор кейса» идёт за курсором
+    heroCases.querySelectorAll('.hero-case-link').forEach(function (link) {
+      link.addEventListener('mousemove', function (e) {
+        var r = link.getBoundingClientRect();
+        link.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+        link.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+      });
+    });
+  }
+
+  // ===== ЦЕЛИ МЕТРИКИ =====
+  // Шесть целей: клик в Телеграм, WhatsApp, звонок, почту; переход в блог;
+  // доскролл до контактов; переключение кейсов в герое. Номера — в комментарии
+  // к каждой цели, названия совпадают с теми, что нужно создать в Метрике.
+  // Всё в try/catch и с проверкой ym: если счётчик не загрузился или отключён
+  // (metrikaId: null), страница продолжает работать как ни в чём не бывало.
+  var YM_ID = window.YM_ID || null;
+  function goal(name) {
+    try { if (YM_ID && typeof window.ym === 'function') window.ym(YM_ID, 'reachGoal', name); } catch (e) {}
+  }
+
+  document.querySelectorAll('a[href]').forEach(function (a) {
+    var h = a.getAttribute('href') || '';
+    var name = null;
+    if (h.indexOf('t.me/') > -1 || h.indexOf('telegram.me/') > -1) name = 'contact_telegram';
+    else if (h.indexOf('wa.me/') > -1 || h.indexOf('whatsapp') > -1) name = 'contact_whatsapp';
+    else if (h.indexOf('tel:') === 0) name = 'contact_phone';
+    else if (h.indexOf('mailto:') === 0) name = 'contact_email';
+    else if (h.indexOf('/blog') > -1) name = 'to_blog';
+    if (name) a.addEventListener('click', function () { goal(name); }, { passive: true });
+  });
+
+  // доскролл до контактов — один раз за визит
+  var contactsEl = document.getElementById('contacts');
+  if (contactsEl && 'IntersectionObserver' in window) {
+    var ioContacts = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        goal('scroll_contacts');
+        ioContacts.disconnect();
+      }
+    }, { threshold: 0.25 });
+    ioContacts.observe(contactsEl);
+  }
+
   // ===== ФИГУРЫ: узкие вписываем, широкие — тап-увеличение =====
   function updateFigureFits() {
     if (!window.matchMedia('(max-width: 640px)').matches) return;
@@ -308,6 +361,7 @@
       if (contentAtReadable <= cw) {
         // влезает → обрезаем пустые поля, без увеличения
         svg.setAttribute('viewBox', '0 0 ' + (maxRight + 16) + ' ' + viewH);
+        svg.dataset.fitW = String(maxRight + 16);
         svg.style.minWidth = '';
         fig.classList.remove('fig-clip');
         if (badge) badge.remove();
@@ -329,21 +383,34 @@
   window.addEventListener('resize', updateFigureFits);
 
   // ===== ТАП-УВЕЛИЧЕНИЕ ФИГУР =====
+  // Фигура клонируется вместе со своим контекстом. Иначе схема, нарисованная для светлого листа
+  // статьи, попадает в тёмный оверлей без правил .bl-sheet: тёмные чернила оказываются на чёрном
+  // фоне, светлые заливки — инверсными. Поэтому светлый лист переносим целиком (обёртка .bl-sheet),
+  // а сам оверлей для статей делаем «печатным» — светлым, как лист.
   function openFigOverlay(svg) {
     const existing = document.querySelector('.fig-overlay');
     if (existing) existing.remove();
+    const fromSheet = !!svg.closest('.bl-sheet');
     const overlay = document.createElement('div');
-    overlay.className = 'fig-overlay';
+    overlay.className = 'fig-overlay' + (fromSheet ? ' fig-overlay--paper bl-sheet' : '');
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-label', 'Увеличенная схема');
     const close = document.createElement('button');
     close.className = 'fig-overlay-close';
     close.textContent = '✕';
     close.setAttribute('aria-label', 'Закрыть');
+    const canvas = document.createElement('div');
+    canvas.className = 'fig-overlay-canvas';
     const clone = svg.cloneNode(true);
     clone.classList.add('fig-svg');
     clone.removeAttribute('style');
-    if (svg.dataset.origW) {
-      clone.setAttribute('viewBox', '0 0 ' + svg.dataset.origW + ' ' + svg.viewBox.baseVal.height);
+    const vb = svg.viewBox && svg.viewBox.baseVal ? svg.viewBox.baseVal : null;
+    if (vb) {
+      const w = svg.dataset.origW || svg.dataset.fitW || vb.width;
+      clone.setAttribute('viewBox', '0 0 ' + w + ' ' + vb.height);
     }
+    canvas.appendChild(clone);
     // Подпись снизу (берём из figcaption, если есть)
     const caption = document.createElement('div');
     caption.className = 'fig-overlay-caption';
@@ -351,17 +418,29 @@
     if (srcFig) {
       const cap = srcFig.querySelector('figcaption');
       if (cap) {
-        const parts = Array.from(cap.querySelectorAll('span')).map(s => s.textContent.trim()).filter(Boolean);
-        caption.textContent = parts.join(' · ');
+        const parts = Array.from(cap.querySelectorAll('span, b')).map((x) => x.textContent.trim()).filter(Boolean);
+        caption.textContent = parts.length ? parts.join(' · ') : cap.textContent.trim();
       }
+      if (!caption.textContent) caption.remove();
     }
-    overlay.appendChild(clone);
+    overlay.appendChild(canvas);
     overlay.appendChild(caption);
     overlay.appendChild(close);
     document.body.appendChild(overlay);
     document.body.style.overflow = 'hidden';
-    const closeFn = () => { overlay.remove(); document.body.style.overflow = ''; };
-    overlay.addEventListener('click', (e) => { if (e.target === overlay || e.target === close) closeFn(); });
+    overlay.scrollLeft = 0;   // схема открывается с начала: верхний левый угол, а не «обрезанной» с середины
+    overlay.scrollTop = 0;
+    close.focus();
+    const onKey = (e) => { if (e.key === 'Escape') closeFn(); };
+    const closeFn = () => {
+      overlay.remove();
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', onKey);
+    };
+    document.addEventListener('keydown', onKey);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay || e.target === close || e.target === canvas) closeFn();
+    });
 
     // Drag-to-pan увеличенной картинки
     let isDragging = false, startX = 0, startY = 0, scrollL = 0, scrollT = 0;
@@ -391,10 +470,6 @@
       const dy = e.changedTouches[0].clientY - touchStartY;
       if (dy > 80 && overlay.scrollTop <= 0) closeFn();
     }, { passive: true });
-
-    document.addEventListener('keydown', function esc(e) {
-      if (e.key === 'Escape') { closeFn(); document.removeEventListener('keydown', esc); }
-    });
   }
   document.querySelectorAll('.fig').forEach((fig) => {
     fig.addEventListener('click', (e) => {

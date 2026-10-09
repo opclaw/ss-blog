@@ -1,0 +1,37 @@
+---
+// Страница 404. Раньше её не было: Beget отдавал свою заглушку, и посетитель терял путь.
+// Задача команды: не «извиниться», а вернуть человека к делу — услуги, AI-направление, блог.
+// Адрес /404.html закрыт от индексации (noindex) и не попадает в sitemap.
+import Base from '../layouts/Base.astro';
+
+const links = [
+  { href: '/', label: 'Главная', note: 'Как мы строим системы привлечения клиентов' },
+  { href: '/services.html', label: 'Услуги и цены', note: 'Проект под ключ и сопровождение' },
+  { href: '/ai.html', label: 'AI-направление', note: 'Внедрение ИИ с замером эффекта в часах и рублях' },
+  { href: '/blog/', label: 'Блог', note: '21 разбор: процессы, отрасли, расчёты' },
+];
+---
+<Base
+  title="Страница не найдена — Smart Solutions"
+  description="Такой страницы нет: возможно, адрес изменился или в ссылке опечатка. Вернитесь на главную, посмотрите услуги и блог."
+  path="/404.html"
+  hasContacts={false}
+  noindex
+>
+  <section class="section section-hero" id="main-content">
+    <div class="container">
+      <p class="section-label">Ошибка 404</p>
+      <h1>Такой страницы нет</h1>
+      <p class="hero-subtitle">Возможно, адрес изменился или в ссылке опечатка. Ниже — то, что чаще всего ищут.</p>
+      <div class="related-grid" style="margin-top: 28px; max-width: 640px;">
+        {links.map((l) => (
+          <a class="related-card" href={l.href}>
+            <span class="related-title">{l.label}</span>
+            <span class="related-meta">{l.note}</span>
+            <span class="related-arrow">→</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
