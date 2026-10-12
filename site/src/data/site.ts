@@ -42,6 +42,18 @@ export const NAV: { key: NavKey; label: string; hash?: string; href?: string }[]
 ];
 
 // Подвал: те же пункты + «AI-направление» и «Блог» (как на главной, 7 пунктов).
+/**
+ * Три коммерческие посадочные AI-направления. В верхнем меню и подвале их пунктов нет —
+ * интент узкий; входы: карточки на /ai.html, блок «AI-направление» на /services.html,
+ * ссылка в подвале, блоки «Смотрите также» статей и поиск по сайту на странице 404.
+ * Решение владельца 2026-10-12: оставляем разделами, добавляем пути входа.
+ */
+export const AI_SERVICES: { label: string; href: string; note: string }[] = [
+  { label: 'ИИ-агенты', href: '/ai-agenty.html', note: 'Агент выполняет шаги в процессе: CRM, документы, база знаний' },
+  { label: 'Автоматизация продаж', href: '/avtomatizaciya-prodazh.html', note: 'Быстрый первый ответ, дожим, данные в CRM без ручного ввода' },
+  { label: 'ИИ-ассистент для сайта', href: '/ii-assistent-dlya-sajta.html', note: 'Отвечает посетителям по вашей базе знаний и передаёт диалог менеджеру' },
+];
+
 export const FOOTER_NAV: { key: NavKey; label: string; hash?: string; href?: string }[] = [
   { key: 'approach', label: 'Подход', hash: 'approach' },
   { key: 'projects', label: 'Проекты', hash: 'projects' },

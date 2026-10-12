@@ -11,7 +11,7 @@ import Aba from '../components/blog/Aba.astro';
 import Timeline from '../components/blog/Timeline.astro';
 import Checklist from '../components/blog/Checklist.astro';
 import AuthorCard from '../components/blog/AuthorCard.astro';
-import HeroArt from '../components/blog/HeroArt.astro';
+import HeroPanel from '../components/landing/HeroPanel.astro';
 import { readSuffix } from '../data/reading-time';
 
 // Пример для расчёта: отдел из 4 менеджеров, 300 заявок в месяц,
@@ -160,7 +160,7 @@ const jsonLd = [
     <link rel="stylesheet" href={`/blog-assets/kit.css?v=${assetV('/blog-assets/kit.css')}`} />
   </Fragment>
 
-  <main class="bl-sheet" id="main-content">
+  <main class="bl-sheet bl-dark" id="main-content">
     <header class="bl-hero">
       <div class="bl-hero-in">
         <div class="bl-hero-txt">
@@ -180,9 +180,16 @@ const jsonLd = [
           </div>
         </div>
 
-        <HeroArt variant="chat"
-          labels={['Клиент, 21:40: «сколько стоит и когда успеете?»', 'Отвечаю сразу и уточняю параметры заказа', 'Карточка в CRM: контакт, что нужно, срок']}
-          notes={['Заявка приходит вечером — отвечать некому до утра', 'Ассистент отвечает за минуты и сам ведёт первичный диалог', 'Менеджер открывает готовую карточку, а не переписку']} />
+        <HeroPanel
+          head="заявка · отдел продаж"
+          time="цикл 2 мин"
+          steps={[
+            { t: 'Заявка из формы, почты или мессенджера', d: 'Ночью и в выходные — в любое время' },
+            { t: 'Ответ за минуты и два уточняющих вопроса', d: 'Клиент ещё не ушёл к конкуренту' },
+            { t: 'Готовая карточка в CRM: контакт, задача, срок', d: 'Менеджер открывает сделку, а не переписку' },
+          ]}
+          foot="Человек подтверждает значимые шаги — агент не действует молча"
+        />
       </div>
     </header>
 
@@ -213,13 +220,13 @@ const jsonLd = [
           <figcaption><span>Рис. 2</span><span>Из 300 заявок до сделок доходит не всё</span></figcaption>
           <svg viewBox="0 0 720 210" class="fig-svg" role="img" aria-label="Из 300 заявок 60 не дождались быстрого ответа, 9 возвращаемы в работу, это 108 000 рублей прибыли в месяц">
             <text x="10" y="24" class="f-label">ЗАЯВОК В МЕСЯЦ</text>
-            <rect x="10" y="34" width="660" height="30" fill="rgba(16,16,20,0.05)" stroke="rgba(16,16,20,0.24)"/>
+            <rect x="10" y="34" width="660" height="30" class="fg-plate"/>
             <text x="20" y="54" class="f-mono">300 · весь поток отдела из четырёх менеджеров</text>
             <text x="10" y="92" class="f-label">НЕ ДОЖДАЛИСЬ БЫСТРОГО ОТВЕТА</text>
-            <rect x="10" y="102" width="132" height="30" fill="rgba(194,65,12,0.14)" stroke="rgba(194,65,12,0.5)"/>
+            <rect x="10" y="102" width="132" height="30" class="fg-warn-plate"/>
             <text x="150" y="122" class="f-mono">60 · каждый пятый обращается не туда</text>
             <text x="10" y="160" class="f-label">ИЗ НИХ ВОЗВРАЩАЕМЫ В РАБОТУ</text>
-            <rect x="10" y="170" width="20" height="30" fill="rgba(0,217,255,0.1)" stroke="#00D9FF"/>
+            <rect x="10" y="170" width="20" height="30" class="fg-acc-plate"/>
             <text x="38" y="190" class="f-mono f-acc">9 сделок · 15 % из потерянных</text>
           </svg>
         </figure>
@@ -289,7 +296,7 @@ const jsonLd = [
 
       <div class="bl-author">
         {/* На посадочной подпись карточки — «кто ведёт проект»: «Автор» здесь читается как статья */}
-        <AuthorCard theme="light" label="Кто ведёт проект" />
+        <AuthorCard label="Кто ведёт проект" />
       </div>
     </div>
   </main>

@@ -3717,3 +3717,79 @@ p.format-note.text-secondary {
   .e404-card { transition: none; }
   .e404-card:hover { transform: none; }
 }
+
+/* ===== Панель-схема на первом экране посадочной (components/landing/HeroPanel.astro) =====
+   Тёмная тема сайта. Линии 1px, цвета — токены; ни свечений, ни градиентов.
+   На узких экранах панель уходит под текст и не сжимается ниже 300px. */
+.lp-panel {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius);
+  overflow: hidden;
+  max-width: 520px;
+}
+.lp-panel-head {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  padding: 14px 18px;
+  border-bottom: 1px dashed var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted);
+}
+.lp-panel-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--green); margin-right: 8px; }
+.lp-panel-time { color: var(--accent); white-space: nowrap; }
+.lp-panel-body { padding: 18px; display: grid; gap: 14px; }
+.lp-step { display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: start; }
+.lp-step-n { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); padding-top: 3px; }
+.lp-step-t { font-size: 0.92rem; color: var(--fg); }
+.lp-step-d { font-size: 0.8rem; color: var(--secondary); margin-top: 3px; }
+.lp-panel-foot { padding: 13px 18px; border-top: 1px dashed var(--border); font-size: 0.78rem; color: var(--muted); }
+@media (max-width: 860px) { .lp-panel { max-width: none; } }
+
+/* ===== Подвал: строка «Услуги по ИИ» =====
+   Три ссылки на коммерческие посадочные AI-направления. Добавлены 2026-10-12:
+   без них с главной, услуг и подвала на эти страницы не вело ни одной ссылки. */
+.footer-sub-title {
+  margin: 18px 0 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.footer-link-sub { padding-left: 14px; position: relative; }
+.footer-link-sub::before {
+  content: '';
+  position: absolute; left: 0; top: 50%; width: 6px; height: 1px;
+  background: var(--border-hover);
+}
+
+/* ===== AI-направление на странице услуг =====
+   Три карточки-ссылки на посадочные. Оформление — как у блока «Куда дальше» на /ai.html,
+   но на тёмной теме сайта: линии 1px, цвета — токены, без свечений. */
+.services-ai-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: 18px;
+  margin-top: 34px;
+}
+.services-ai-card {
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  text-decoration: none;
+  transition: border-color var(--transition), background var(--transition);
+}
+.services-ai-card b { font-size: 1.05rem; color: var(--fg); }
+.services-ai-card span { font-size: 0.92rem; line-height: 1.5; }
+.services-ai-card em {
+  margin-top: auto; font-style: normal;
+  font-family: var(--font-mono); font-size: 0.76rem; letter-spacing: 0.04em;
+  color: var(--accent);
+}
+.services-ai-card:hover, .services-ai-card:focus-visible {
+  border-color: var(--border-hover);
+  background: var(--card-bg-hover);
+}

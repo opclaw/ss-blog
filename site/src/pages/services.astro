@@ -1,6 +1,7 @@
 ---
 // Сгенерировано из legacy/version-4/services.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../layouts/Base.astro';
+import { AI_SERVICES } from '../data/site';
 import ContactCards from '../components/ContactCards.astro';
 const jsonLd = [
   "{\"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Главная\", \"item\": \"https://smartsolutions.today/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Услуги и цены\", \"item\": \"https://smartsolutions.today/services.html\"}]}",
@@ -64,6 +65,32 @@ const jsonLd = [
           <p class="services-path-price">индивидуально</p>
           <p class="text-secondary">Фикс + процент от результата</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== AI-НАПРАВЛЕНИЕ =====
+       Три коммерческие посадочные + хаб. До 2026-10-12 из этого раздела вела одна ссылка
+       на /ai.html, а сами посадочные жили без входящих ссылок с услуг. -->
+  <section class="section section-border-top" id="ai">
+    <div class="container">
+      <div class="section-header">
+        <p class="label label-accent">AI-направление</p>
+        <h2>Внедряем ИИ в процессы, а не «для галочки»</h2>
+        <p class="text-secondary">
+          Считаем эффект до старта, пилот 2–4 недели, замер до и после. Как устроено направление —
+          <a href="/ai.html">все услуги и подход</a>.
+        </p>
+      </div>
+
+      <div class="services-ai-grid" data-stagger>
+        {AI_SERVICES.map((i) => (
+          <a class="services-ai-card" href={i.href} data-stagger-item>
+            <b>{i.label}</b>
+            <span class="text-muted">{i.note}</span>
+            <em>цены, сроки, расчёт →</em>
+          </a>
+        ))}
       </div>
     </div>
   </section>

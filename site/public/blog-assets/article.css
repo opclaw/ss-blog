@@ -399,3 +399,65 @@ svg text, svg tspan, b, em {
   .bl-service{display:grid;gap:4px}
   .bl-service span+span::before{content:none}
 }
+
+/* ===== ТЁМНЫЙ ЛИСТ (посадочные) =====
+   Посадочные в корне (/avtomatizaciya-prodazh.html, /ii-assistent-dlya-sajta.html) собраны на
+   том же макете, что статьи, но по решению владельца 2026-10-12 идут в тёмной теме сайта:
+   «тёмное = разделы и услуги, светлый лист = блог». Меняется только палитра и то, что было
+   захардкожено под бумагу; разметка, интерактив и тексты статей не затрагиваются.
+   Переменные — тот же набор имён, что у светлого листа выше, поэтому kit.css и блоки статьи
+   переключаются автоматически. */
+.bl-dark{
+  --paper:#08080D; --paper2:#0E0E14; --card:#111119;
+  --fg:#F5F5F7; --text:rgba(245,245,247,.78); --dim:rgba(245,245,247,.62); --mute:rgba(245,245,247,.5);
+  --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.16);
+  --acc:#00D9FF; --acc-t:#4FDCFF; --acc-soft:rgba(0,217,255,.1);
+  --green:#10B981; --green-t:#4ADE9E; --green-soft:rgba(16,185,129,.12);
+  --red:#FB923C;
+  /* --ink/--on-ink: «прочная тёмная плашка» и текст на ней. На тёмном листе остаются
+     тёмными (плашки-терминалы не должны светиться белым), поэтому всё, что опиралось
+     на контраст «чёрное на белом», ниже перекрашено отдельно. */
+  --ink:#05050A; --on-ink:#F5F5F7; --ink-line:rgba(255,255,255,.08);
+  /* алиасы старых тёмных переменных сайта — для блоков legacy-разметки */
+  --bg:#08080D; --bg-elevated:#0E0E14; --card-bg:#111119; --border:rgba(255,255,255,.08);
+  --border-strong:rgba(255,255,255,.16); --muted:rgba(245,245,247,.5); --secondary:rgba(245,245,247,.62);
+  --accent:#4FDCFF; --accent-soft:rgba(0,217,255,.1);
+}
+/* миллиметровка: на тёмном — еле заметная светлая сетка */
+.bl-dark .bl-hero{background:repeating-linear-gradient(0deg,transparent 0 31px,rgba(255,255,255,.045) 31px 32px),repeating-linear-gradient(90deg,transparent 0 31px,rgba(255,255,255,.045) 31px 32px),var(--paper)}
+.bl-dark .fig-overlay--paper::before{background:repeating-linear-gradient(0deg,transparent 0 31px,rgba(255,255,255,.045) 31px 32px),repeating-linear-gradient(90deg,transparent 0 31px,rgba(255,255,255,.045) 31px 32px)}
+/* панели-«терминалы»: тёмные, но с рамкой — иначе сливаются с фоном */
+.bl-dark .bl-screen,.bl-dark .bl-prompt,.bl-dark .bl-calc-out{border:1px solid var(--line)}
+.bl-dark .bl-calc-out{border:0;border-left:1px solid var(--line)}
+/* переключатель «бот / агент»: активная вкладка была чёрной плашкой с белым текстом */
+.bl-dark .bl-tabs{background:var(--paper2);border:1px solid var(--line)}
+.bl-dark .bl-tabs button[aria-selected="true"]{background:var(--acc-soft);color:var(--acc-t);box-shadow:none}
+/* нумерованные кружки шагов */
+.bl-dark .bl-steps li::before{background:var(--paper2);color:var(--acc-t);border:1px solid var(--line2)}
+/* «плюс/минус» в открытом вопросе FAQ был белым по чёрному */
+.bl-dark .bl-faq details[open] summary::after{background-color:var(--paper2);background-image:linear-gradient(var(--acc-t),var(--acc-t)),linear-gradient(var(--acc-t),var(--acc-t))}
+/* кнопка внутри текста (inline CTA) */
+.bl-dark .bl-inline-cta a{background:var(--fg);color:var(--bg)!important}
+/* кнопки первого экрана: на тёмном работает тема сайта, а не «чёрная плашка на бумаге» */
+.bl-dark .bl-actions .btn-primary{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.bl-dark .bl-actions .btn-primary:hover{background:rgba(245,245,247,.85)}
+.bl-dark .bl-actions .btn-outline{color:var(--fg);border-color:var(--line2)}
+.bl-dark .bl-actions .btn-outline:hover{background:rgba(255,255,255,.06);border-color:var(--fg)}
+/* служебная строка цен: те же цвета, что у текста на тёмном */
+.bl-dark .bl-service{color:var(--fg)}
+.bl-dark .bl-service span+span::before{color:var(--mute)}
+/* интерактив кита (kit.css) — два захардкоженных под бумагу места */
+.bl-dark .kit-btn{color:var(--bg)}
+.bl-dark .kit-doc{background:repeating-linear-gradient(0deg,transparent 0 29px,rgba(255,255,255,.035) 29px 30px),#0C0C13}
+/* инлайновые схемы: цвета «чернила на бумаге» вынесены в классы, чтобы работали в обеих темах */
+.bl-sheet .fg-plate{fill:rgba(16,16,20,.05);stroke:rgba(16,16,20,.24)}
+.bl-sheet .fg-plate-line{fill:none;stroke:rgba(16,16,20,.4)}
+.bl-sheet .fg-dim-line{fill:none;stroke:rgba(16,16,20,.24)}
+.bl-sheet .fg-warn-plate{fill:rgba(194,65,12,.14);stroke:rgba(194,65,12,.5)}
+.bl-sheet .fg-acc-plate{fill:rgba(0,217,255,.1);stroke:#00D9FF}
+.bl-sheet .fg-green-plate{fill:rgba(14,159,110,.12);stroke:#0E9F6E}
+.bl-dark .fg-plate{fill:rgba(255,255,255,.05);stroke:rgba(255,255,255,.28)}
+.bl-dark .fg-plate-line{stroke:rgba(255,255,255,.42)}
+.bl-dark .fg-dim-line{stroke:rgba(255,255,255,.26)}
+.bl-dark .fg-warn-plate{fill:rgba(251,146,60,.16);stroke:rgba(251,146,60,.6)}
+.bl-dark .fg-green-plate{fill:rgba(16,185,129,.16);stroke:#34D399}

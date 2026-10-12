@@ -13,7 +13,7 @@ import Aba from '../components/blog/Aba.astro';
 import Timeline from '../components/blog/Timeline.astro';
 import Checklist from '../components/blog/Checklist.astro';
 import AuthorCard from '../components/blog/AuthorCard.astro';
-import HeroArt from '../components/blog/HeroArt.astro';
+import HeroPanel from '../components/landing/HeroPanel.astro';
 import { assetV } from '../data/asset-version';
 import { readSuffix } from '../data/reading-time';
 
@@ -163,7 +163,7 @@ const jsonLd = [
     <link rel="stylesheet" href={`/blog-assets/kit.css?v=${assetV('/blog-assets/kit.css')}`} />
   </Fragment>
 
-  <main class="bl-sheet" id="main-content">
+  <main class="bl-sheet bl-dark" id="main-content">
     <header class="bl-hero">
       <div class="bl-hero-in">
         <div class="bl-hero-txt">
@@ -183,9 +183,16 @@ const jsonLd = [
           </div>
         </div>
 
-        <HeroArt variant="chat"
-          labels={['Посетитель, 21:40: «сколько стоит и когда привезут?»', 'Отвечаю сразу по вашему прайсу и срокам', 'Вопрос не по базе — передаю менеджеру']}
-          notes={['Вечер и выходные: оператора нет, посетитель уходит к конкуренту', 'Ассистент отвечает по базе знаний компании, а не выдумывает', 'Менеджер утром открывает готовый диалог и контакт']} />
+        <HeroPanel
+          head="посетитель · сайт"
+          time="ответ ~1 мин"
+          steps={[
+            { t: 'Вопрос на сайте: цена, срок, наличие', d: 'Вечер и выходные — оператора нет' },
+            { t: 'Ответ по вашей базе знаний и прайсу', d: 'Со ссылкой на источник, без выдумок' },
+            { t: 'Диалог и контакт уходят менеджеру', d: 'Утром человек продолжает с готовым контекстом' },
+          ]}
+          foot="Вопрос не по базе — ассистент передаёт человеку, а не догадывается"
+        />
       </div>
     </header>
 
@@ -216,35 +223,35 @@ const jsonLd = [
           <figcaption><span>Рис. 2</span><span>Из 20 000 визитов до сделок доходит не всё</span></figcaption>
           <svg viewBox="0 0 720 276" class="fig-svg" role="img" aria-label="Из 20 000 визитов 800 обращений, из них 320 остаются без ответа, ассистент возвращает 112, это 13 сделок в месяц">
             <g class="f-mono" font-size="11">
-              <rect x="210" y="8" width="300" height="34" rx="8" fill="rgba(16,16,20,0.05)" stroke="rgba(16,16,20,0.24)" />
+              <rect x="210" y="8" width="300" height="34" rx="8" class="fg-plate" />
               <text x="360" y="30" text-anchor="middle">20 000 визитов в месяц</text>
 
-              <path d="M360 42v10" stroke="rgba(16,16,20,0.4)" stroke-width="1.5" />
-              <path d="M356 48l4 4 4-4" fill="none" stroke="rgba(16,16,20,0.4)" stroke-width="1.5" />
+              <path d="M360 42v10" class="fg-plate-line" stroke-width="1.5" />
+              <path d="M356 48l4 4 4-4" fill="none" class="fg-plate-line" stroke-width="1.5" />
               <text x="372" y="56" class="f-mono">4 % пишут в чат или форму</text>
 
-              <rect x="210" y="64" width="300" height="34" rx="8" fill="rgba(16,16,20,0.05)" stroke="rgba(16,16,20,0.24)" />
+              <rect x="210" y="64" width="300" height="34" rx="8" class="fg-plate" />
               <text x="360" y="86" text-anchor="middle">800 обращений</text>
 
-              <path d="M360 98v10" stroke="rgba(16,16,20,0.4)" stroke-width="1.5" />
-              <path d="M356 104l4 4 4-4" fill="none" stroke="rgba(16,16,20,0.4)" stroke-width="1.5" />
+              <path d="M360 98v10" class="fg-plate-line" stroke-width="1.5" />
+              <path d="M356 104l4 4 4-4" fill="none" class="fg-plate-line" stroke-width="1.5" />
               <text x="372" y="112" class="f-mono">40 % остаются без ответа</text>
 
-              <rect x="210" y="120" width="300" height="34" rx="8" fill="rgba(194,65,12,0.14)" stroke="rgba(194,65,12,0.5)" />
+              <rect x="210" y="120" width="300" height="34" rx="8" class="fg-warn-plate" />
               <text x="360" y="142" text-anchor="middle">320 · ночь, выходные, занятый оператор</text>
 
-              <path d="M360 154v10" stroke="rgba(16,16,20,0.4)" stroke-width="1.5" />
-              <path d="M356 160l4 4 4-4" fill="none" stroke="rgba(16,16,20,0.4)" stroke-width="1.5" />
+              <path d="M360 154v10" class="fg-plate-line" stroke-width="1.5" />
+              <path d="M356 160l4 4 4-4" fill="none" class="fg-plate-line" stroke-width="1.5" />
               <text x="372" y="168" class="f-mono">35 % возвращает ассистент</text>
 
-              <rect x="210" y="176" width="300" height="34" rx="8" fill="rgba(0,217,255,0.1)" stroke="#00D9FF" />
+              <rect x="210" y="176" width="300" height="34" rx="8" class="fg-acc-plate" />
               <text x="360" y="198" text-anchor="middle">112 · ответ за минуту, контакт в CRM</text>
 
-              <path d="M360 210v10" stroke="rgba(16,16,20,0.4)" stroke-width="1.5" />
-              <path d="M356 216l4 4 4-4" fill="none" stroke="rgba(16,16,20,0.4)" stroke-width="1.5" />
+              <path d="M360 210v10" class="fg-plate-line" stroke-width="1.5" />
+              <path d="M356 216l4 4 4-4" fill="none" class="fg-plate-line" stroke-width="1.5" />
               <text x="372" y="224" class="f-mono">12 % из диалога доходят до сделки</text>
 
-              <rect x="210" y="232" width="300" height="34" rx="8" fill="rgba(14,159,110,0.12)" stroke="#0E9F6E" />
+              <rect x="210" y="232" width="300" height="34" rx="8" class="fg-green-plate" />
               <text x="360" y="254" text-anchor="middle">13,4 сделки в месяц</text>
             </g>
           </svg>
@@ -314,7 +321,7 @@ const jsonLd = [
 
       <div class="bl-author">
         {/* На посадочной подпись карточки — «кто ведёт проект»: «Автор» здесь читается как статья */}
-        <AuthorCard theme="light" label="Кто ведёт проект" />
+        <AuthorCard label="Кто ведёт проект" />
       </div>
     </div>
   </main>

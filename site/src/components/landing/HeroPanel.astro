@@ -1,0 +1,40 @@
+---
+// Тёмная схема для первого экрана посадочной (панель с шагами процесса).
+// Нужна потому, что HeroArt из блога рисует белые карточки под светлый лист,
+// а посадочные идут в тёмной теме сайта (решение 2026-10-12).
+// Стили — в styles.css (префикс lp-), цвета — только токены сайта: ни свечений,
+// ни градиентов, ни растровых картинок (правило из CLAUDE.md, § «Графика»).
+interface Step {
+  t: string;
+  d?: string;
+}
+interface Props {
+  /** левая часть служебной строки, например «заявка · отдел продаж» */
+  head: string;
+  /** правая часть служебной строки, например «цикл 2 мин» */
+  time?: string;
+  steps: Step[];
+  /** подпись под шагами */
+  foot?: string;
+}
+const { head, time, steps, foot } = Astro.props;
+---
+
+<aside class="lp-panel" aria-label={head}>
+  <div class="lp-panel-head">
+    <span class="lp-panel-dot" aria-hidden="true"></span>{head}
+    {time && <span class="lp-panel-time">{time}</span>}
+  </div>
+  <div class="lp-panel-body">
+    {steps.map((s, i) => (
+      <div class="lp-step">
+        <span class="lp-step-n">{String(i + 1).padStart(2, '0')}</span>
+        <div>
+          <p class="lp-step-t">{s.t}</p>
+          {s.d && <p class="lp-step-d">{s.d}</p>}
+        </div>
+      </div>
+    ))}
+  </div>
+  {foot && <p class="lp-panel-foot">{foot}</p>}
+</aside>
