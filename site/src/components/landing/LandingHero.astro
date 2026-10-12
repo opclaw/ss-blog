@@ -20,7 +20,10 @@ interface Props {
 const { label, title, lead, prices, actions } = Astro.props;
 ---
 
-<header class="ld-hero">
+{/* .section — не украшение: он даёт боковые отступы сетки (24/48/80px) как у остальных
+    разделов и включает ритм «section + section» для блока ниже. Без него первый экран
+    прилипал к краю экрана, а текст уезжал относительно всей страницы. */}
+<header class="section ld-hero">
   <div class="container">
     <div class="ld-hero-in">
       <div class="ld-hero-txt">

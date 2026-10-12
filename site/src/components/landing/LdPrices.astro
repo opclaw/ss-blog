@@ -22,7 +22,9 @@ const { plans, ctaLabel = 'Обсудить', ctaHref = '#contacts' } = Astro.pr
   {plans.map((p) => (
     <div class:list={['services-package-card', p.featured && 'services-package-featured']}>
       <div class:list={['services-package-badge', p.featured && 'services-package-badge-accent']}>{p.name}</div>
-      <p class="services-package-price">{p.price}{p.term && <span> · {p.term}</span>}</p>
+      {/* Разметка как у пакетов на /services.html: крупная цена + мелкий срок в span.
+          Разделитель «·» давал висящую точку в конце строки при переносе на телефоне. */}
+      <p class="services-package-price">{p.price}{p.term && <span>{p.term}</span>}</p>
       <ul class="services-package-list">
         {p.items.map((i) => (
           <li>
