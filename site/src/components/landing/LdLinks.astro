@@ -10,13 +10,14 @@ interface Props {
   items: Link[];
 }
 const { items } = Astro.props as { items: Link[] };
+import { typo } from '../../data/typo';
 ---
 
 <div class="ld-links">
   {items.map((l) => (
     <a class="ld-link" href={l.href}>
-      <span>{l.meta}</span>
-      <b>{l.title}</b>
+      <span>{typo(l.meta)}</span>
+      <b>{typo(l.title)}</b>
     </a>
   ))}
 </div>

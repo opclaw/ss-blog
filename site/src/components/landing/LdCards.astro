@@ -14,18 +14,19 @@ interface Props {
   items: Card[];
 }
 const { items } = Astro.props;
+import { typo } from '../../data/typo';
 ---
 
 <div class="ld-grid">
   {items.map((c) => (
     <article class="ld-card">
-      {c.n && <span class="ld-card-n">{c.n}</span>}
-      <h3>{c.t}</h3>
-      <p>{c.d}</p>
+      {c.n && <span class="ld-card-n">{typo(c.n)}</span>}
+      <h3>{typo(c.t)}</h3>
+      <p>{typo(c.d)}</p>
       {c.note && (
         <p class="ld-card-note">
-          {c.noteLabel && <b>{c.noteLabel}: </b>}
-          {c.note}
+          {c.noteLabel && <b>{typo(c.noteLabel)}: </b>}
+          {typo(c.note)}
         </p>
       )}
     </article>

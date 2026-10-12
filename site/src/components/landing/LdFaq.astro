@@ -9,13 +9,14 @@ interface Props {
   items: QA[];
 }
 const { items } = Astro.props;
+import { typo } from '../../data/typo';
 ---
 
 <div class="ld-faq">
   {items.map((f) => (
     <details>
-      <summary>{f.q}</summary>
-      <p>{f.a}</p>
+      <summary>{typo(f.q)}</summary>
+      <p>{typo(f.a)}</p>
     </details>
   ))}
 </div>

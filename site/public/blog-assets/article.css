@@ -1,17 +1,26 @@
 /* Smart Solutions — статья блога (лист v6) внутри общего каркаса сайта.
    Шапка, меню, контакты и подвал — из styles.css сайта. Префикс bl-.
    Шапка и финальный блок — тёмные, как на всём сайте. Лист статьи — светлый. Префикс bl-. */
-.bl-sheet{
-  --ink:#08080D; --ink2:#0E0E14; --on-ink:#F5F5F7; --on-ink-dim:rgba(245,245,247,.6); --ink-line:rgba(255,255,255,.08);
-  --paper:#FAFAF7; --paper2:#F1F1EC; --card:#FFFFFF;
-  --fg:#101014; --text:#2B2B33; --dim:#5E5E68; --mute:#6C6C78; --line:#E4E4DE; --line2:#D2D2CA;
-  --acc:#00D9FF; --acc-t:#0A7392; --acc-soft:#E3F7FC; --green:#0E9F6E; --green-t:#0B7A57; --green-soft:#E3F5EE; --red:#C2410C;
-  --f-d:'Manrope',system-ui,sans-serif; --f-t:'Inter',system-ui,sans-serif; /* --f-m был JetBrains Mono: его ноль с точкой в центре — штамп нейросетей, а
+/* Шрифтовые токены и ширина колонки — общие для статьи и посадочной-раздела.
+   Раньше жили только в .bl-sheet (светлом листе статьи). Посадочная этот класс
+   не использует, и внутри неё любое правило вида `font:500 12px/1.4 var(--f-m)`
+   становилось невалидным: подстановка неизвестной переменной обнуляет шорткат,
+   и киты рисовались системной гарнитурой 16px/1.6 вместо 12–13px. Токены вынесены
+   в корень — их видят и лист статьи, и тёмный раздел. */
+:root{
+  --f-d:'Manrope',system-ui,sans-serif; --f-t:'Inter',system-ui,sans-serif;
+  /* --f-m был JetBrains Mono: его ноль с точкой в центре — штамп нейросетей, а
    альтернативного нуля у шрифта нет (в GSUB только calt/ccmp/frac/locl).
    Переменная оставлена, чтобы не менять десятки правил, но теперь это
    текстовой шрифт с табличными цифрами. */
   --f-m:'Inter',system-ui,sans-serif;
   --col:700px;
+}
+.bl-sheet{
+  --ink:#08080D; --ink2:#0E0E14; --on-ink:#F5F5F7; --on-ink-dim:rgba(245,245,247,.6); --ink-line:rgba(255,255,255,.08);
+  --paper:#FAFAF7; --paper2:#F1F1EC; --card:#FFFFFF;
+  --fg:#101014; --text:#2B2B33; --dim:#5E5E68; --mute:#6C6C78; --line:#E4E4DE; --line2:#D2D2CA;
+  --acc:#00D9FF; --acc-t:#0A7392; --acc-soft:#E3F7FC; --green:#0E9F6E; --green-t:#0B7A57; --green-soft:#E3F5EE; --red:#C2410C;
   /* Алиасы переменных старой тёмной темы сайта: внутри светлого листа блоки legacy-разметки
      (fig, weeks-grid, err-card, pull-quote, formula-card) берут светлую палитру, а не инверсную. */
   --bg:#FAFAF7; --bg-elevated:#FFFFFF; --card-bg:#FFFFFF; --border:#E4E4DE; --border-strong:#D2D2CA;
@@ -262,7 +271,9 @@ html{scroll-padding-top:84px}
 
 
 
-@media (max-width:600px){.bl-sheet{font-size:17px}.bl-intro{font-size:19px}.bl-text h2{margin-top:64px}.bl-fig{padding:18px;margin-left:-8px;margin-right:-8px}}
+/* вылет фигуры за колонку — приём статьи (узкая колонка 700px). В разделе-посадочной
+   сетка шире, и там он читался как разъехавшаяся вёрстка: фигура шире блока на 8px. */
+@media (max-width:600px){.bl-sheet{font-size:17px}.bl-intro{font-size:19px}.bl-text h2{margin-top:64px}.bl-sheet .bl-fig{padding:18px;margin-left:-8px;margin-right:-8px}}
 @media (prefers-reduced-motion:reduce){.bl-sheet *{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 
 /* Списки внутри двухколоночных сеток (недели пилота и подобные): раньше список,

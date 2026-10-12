@@ -18,6 +18,7 @@ interface Props {
   actions: Action[];
 }
 const { label, title, lead, prices, actions } = Astro.props;
+import { typo } from '../../data/typo';
 ---
 
 {/* .section — не украшение: он даёт боковые отступы сетки (24/48/80px) как у остальных
@@ -27,15 +28,15 @@ const { label, title, lead, prices, actions } = Astro.props;
   <div class="container">
     <div class="ld-hero-in">
       <div class="ld-hero-txt">
-        <p class="label label-accent">{label}</p>
-        <h1 class="ld-title" set:html={title} />
-        <p class="ld-lead">{lead}</p>
+        <p class="label label-accent">{typo(label)}</p>
+        <h1 class="ld-title" set:html={typo(title)} />
+        <p class="ld-lead">{typo(lead)}</p>
         <p class="ld-prices">
-          {prices.map((p) => <span>{p}</span>)}
+          {prices.map((p) => <span>{typo(p)}</span>)}
         </p>
         <div class="ld-actions">
           {actions.map((a) => (
-            <a href={a.href} class:list={['btn', a.kind === 'outline' ? 'btn-outline' : 'btn-primary']}>{a.label}</a>
+            <a href={a.href} class:list={['btn', a.kind === 'outline' ? 'btn-outline' : 'btn-primary']}>{typo(a.label)}</a>
           ))}
         </div>
       </div>

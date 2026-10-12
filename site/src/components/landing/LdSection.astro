@@ -15,6 +15,7 @@ interface Props {
   bodyClass?: string;
 }
 const { id, label, title, sub, alt = false, top = true, narrow = false, bodyClass } = Astro.props;
+import { typo } from '../../data/typo';
 ---
 
 <section
@@ -23,9 +24,9 @@ const { id, label, title, sub, alt = false, top = true, narrow = false, bodyClas
 >
   <div class:list={['container', narrow && 'container-narrow']}>
     <div class="section-header">
-      {label && <p class="label label-accent">{label}</p>}
-      <h2>{title}</h2>
-      {sub && <p class="text-secondary">{sub}</p>}
+      {label && <p class="label label-accent">{typo(label)}</p>}
+      <h2>{typo(title)}</h2>
+      {sub && <p class="text-secondary">{typo(sub)}</p>}
     </div>
     <div class={bodyClass}>
       <slot />

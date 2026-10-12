@@ -18,23 +18,24 @@ interface Props {
   foot?: string;
 }
 const { head, time, steps, foot } = Astro.props;
+import { typo } from '../../data/typo';
 ---
 
 <aside class="lp-panel" aria-label={head}>
   <div class="lp-panel-head">
     <span class="lp-panel-dot" aria-hidden="true"></span>{head}
-    {time && <span class="lp-panel-time">{time}</span>}
+    {time && <span class="lp-panel-time">{typo(time)}</span>}
   </div>
   <div class="lp-panel-body">
     {steps.map((s, i) => (
       <div class="lp-step">
         <span class="lp-step-n">{String(i + 1).padStart(2, '0')}</span>
         <div>
-          <p class="lp-step-t">{s.t}</p>
-          {s.d && <p class="lp-step-d">{s.d}</p>}
+          <p class="lp-step-t">{typo(s.t)}</p>
+          {s.d && <p class="lp-step-d">{typo(s.d)}</p>}
         </div>
       </div>
     ))}
   </div>
-  {foot && <p class="lp-panel-foot">{foot}</p>}
+  {foot && <p class="lp-panel-foot">{typo(foot)}</p>}
 </aside>

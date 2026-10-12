@@ -15,25 +15,26 @@ interface Props {
   ctaLabel?: string;
   ctaHref?: string;
 }
+import { typo } from '../../data/typo';
 const { plans, ctaLabel = 'Обсудить', ctaHref = '#contacts' } = Astro.props;
 ---
 
 <div class="services-packages">
   {plans.map((p) => (
     <div class:list={['services-package-card', p.featured && 'services-package-featured']}>
-      <div class:list={['services-package-badge', p.featured && 'services-package-badge-accent']}>{p.name}</div>
+      <div class:list={['services-package-badge', p.featured && 'services-package-badge-accent']}>{typo(p.name)}</div>
       {/* Разметка как у пакетов на /services.html: крупная цена + мелкий срок в span.
           Разделитель «·» давал висящую точку в конце строки при переносе на телефоне. */}
-      <p class="services-package-price">{p.price}{p.term && <span>{p.term}</span>}</p>
+      <p class="services-package-price">{typo(p.price)}{p.term && <span>{typo(p.term)}</span>}</p>
       <ul class="services-package-list">
         {p.items.map((i) => (
           <li>
             <svg width="16" height="16"><use href="/icons.svg#icon-check" /></svg>
-            {i}
+            {typo(i)}
           </li>
         ))}
       </ul>
-      <a href={ctaHref} class:list={['btn', p.featured ? 'btn-primary' : 'btn-outline', 'services-package-btn']}>{ctaLabel}</a>
+      <a href={ctaHref} class:list={['btn', p.featured ? 'btn-primary' : 'btn-outline', 'services-package-btn']}>{typo(ctaLabel)}</a>
     </div>
   ))}
 </div>
