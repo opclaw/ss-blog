@@ -1,0 +1,24 @@
+# Мусор, который не должен попадать в репозиторий
+.DS_Store
+**/.DS_Store
+.claude/
+.vercel/
+*.log
+__pycache__/
+*.pyc
+
+# Сборочное и локальное
+site/node_modules/
+site/dist/
+site/.astro/
+site/tools/content-report.json
+
+# Временные файлы инструментов
+*.tmp
+*.bak
+*~
+
+# Секреты и выгрузки (в репозитории их быть не должно)
+.env
+.env.*
+*-token.txt

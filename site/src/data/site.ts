@@ -11,6 +11,14 @@ export const SITE = {
   metrikaId: 106747750 as number | null,
 };
 
+// Автор материалов блога — одна точка правды: имя, роль, описание.
+// Используется в карточке автора, в строке меты статьи и в разметке Person.
+export const AUTHOR = {
+  name: 'Олег Кречетов',
+  jobTitle: 'Основатель Smart Solutions',
+  bio: 'Основатель Smart Solutions. Запускаю ИИ в бизнес-процессы с замером эффекта.',
+};
+
 export const CONTACTS = {
   phone: '+7 (925) 090-95-00',
   tel: '+79250909500',

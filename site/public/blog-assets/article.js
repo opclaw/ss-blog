@@ -4,9 +4,15 @@
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* оглавление и «осталось ~N мин» (прогресс, «наверх» и меню — script.js сайта) */
-  var text=$('.bl-text'),left=$('#readLeft');
+  var text=$('.bl-text'),left=$('#readLeft'),metaMin=$('[data-readmin]');
   var toc=$$('.bl-toc a[href^="#sec-"]').map(function(a){return {a:a,h:d.getElementById(a.hash.slice(1))}}).filter(function(x){return x.h});
+  // Единый источник времени чтения: и шапка, и «осталось» считаются здесь.
+  // Раньше шапка брала число из пропса статьи, а оглавление — из подсчёта слов,
+  // поэтому числа не совпадали (14 против 9). Теперь числа всегда одинаковые.
   var total=text?Math.max(1,Math.round(text.textContent.split(/\s+/).length/180)):1;
+  // «11 минут», но «21 минута» — иначе в шапке получается неграмотная форма
+  function minWord(n){var a=n%100,b=n%10;if(a>10&&a<20)return 'минут';if(b===1)return 'минута';if(b>1&&b<5)return 'минуты';return 'минут'}
+  if(metaMin)metaMin.textContent='~'+total+' '+minWord(total)+' чтения';
   function onScroll(){
     var y=scrollY,act=null;
     toc.forEach(function(x){if(x.h.offsetTop<=y+120)act=x});toc.forEach(function(x){x.a.classList.toggle('active',x===act)});
@@ -14,6 +20,32 @@
     left.textContent=p>.97?'дочитано':'осталось ~'+Math.max(1,Math.round(total*(1-p)))+' мин'}
   }
   addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);onScroll();
+
+  /* Живой арт в шапке: шаги, подпись, точки. Сам проигрывает этапы по кругу,
+     останавливается, когда читатель нажал сам, и через паузу продолжает. */
+  var hero=$('[data-hero]');
+  if(hero){
+    var hSteps=$$('.h-step',hero),hCap=$('[data-hero-cap]',hero),hDots=$$('.bl-hero-dot',hero);
+    var hAll=$$('[data-hs]',hero);   // шаги + их зеркала в легенде: подсвечиваются вместе
+    var hi=0,hTimer=null,hResume=null;
+    function hSet(k){
+      if(!hSteps[k])return;hi=k;
+      hero.classList.add('has-on');
+      hSteps.forEach(function(el,j){el.classList.toggle('h-on',j===k);el.setAttribute('aria-pressed',j===k?'true':'false')});
+      hAll.forEach(function(el){el.classList.toggle('h-on',+el.dataset.hs===k)});
+      if(hCap)hCap.textContent=hSteps[k].dataset.note||'';
+      hDots.forEach(function(d,j){d.classList.toggle('on',j===k)});
+    }
+    function hStop(){if(hTimer){clearInterval(hTimer);hTimer=null}}
+    function hStart(){if(reduce)return;hStop();hTimer=setInterval(function(){hSet((hi+1)%hSteps.length)},3400)}
+    function hPick(k){hSet(k);hStop();clearTimeout(hResume);hResume=setTimeout(hStart,14000)}
+    hAll.forEach(function(el){el.addEventListener('click',function(){hPick(+el.dataset.hs)})});
+    hAll.forEach(function(el){el.style.cursor='pointer'});
+    hDots.forEach(function(d,k){d.addEventListener('click',function(){hPick(k)})});
+    hSet(0);
+    (function(){var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){hStart();io.disconnect()}},{threshold:.4});
+      if('IntersectionObserver' in window)io.observe(hero);else hStart();})();
+  }
 
   /* запуск, когда блок появился на экране */
   function onView(el,fn){if(!el)return;var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){fn();io.disconnect()}},{threshold:.35});io.observe(el)}
@@ -76,15 +108,6 @@
 
   /* столбики */
   var bars=$('[data-bars]');onView(bars,function(){bars.classList.add('in')});
-
-  /* чек-лист */
-  var ch=$('[data-check]');
-  if(ch){
-    var boxes=$$('input',ch),m=$('[data-meter]',ch),vd=$('[data-verdict]',ch);
-    var V=['Отметьте пункты — покажем, с чего начать.','Рано для агента: начните с описания процесса и замера времени.','Рано для агента: начните с описания процесса и замера времени.','Почти готово: закройте недостающие пункты — это 1–2 недели подготовки.','Можно начинать пилот на 2–4 недели.','Процесс готов. Можно начинать пилот на 2–4 недели.'];
-    function u(){var n=boxes.filter(function(b){return b.checked}).length;m.style.width=n*20+'%';m.style.background=n>=4?'var(--green)':n>=3?'#D97706':'var(--red)';vd.textContent=(n?n+' из 5 — ':'')+V[n]}
-    boxes.forEach(function(b){b.addEventListener('change',u)});
-  }
 
   /* копирование промпта */
   $$('.bl-prompt button').forEach(function(b){b.onclick=function(){navigator.clipboard.writeText($('pre',b.closest('.bl-prompt')).innerText).then(function(){b.textContent='скопировано';setTimeout(function(){b.textContent='копировать'},1600)})}});

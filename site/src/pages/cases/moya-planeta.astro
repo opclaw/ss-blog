@@ -2,8 +2,13 @@
 // Сгенерировано из legacy/version-4/cases/moya-planeta.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../../layouts/Base.astro';
 import ContactCards from '../../components/ContactCards.astro';
+const jsonLd = [
+  "{\"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Главная\", \"item\": \"https://smartsolutions.today/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Проекты\", \"item\": \"https://smartsolutions.today/#projects\"}, {\"@type\": \"ListItem\", \"position\": 3, \"name\": \"Кейс «Моя Планета»\", \"item\": \"https://smartsolutions.today/cases/moya-planeta.html\"}]}",
+];
 ---
+
 <Base
+  jsonLd={jsonLd}
   title={"Моя Планета: x33 рост трафика — Smart Solutions"}
   description={"Как контент-стратегия и структурная оптимизация увеличили трафик портала о путешествиях в 33 раза до 1 млн посетителей в месяц."}
   path="/cases/moya-planeta.html"

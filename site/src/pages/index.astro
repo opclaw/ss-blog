@@ -2,8 +2,14 @@
 // Сгенерировано из legacy/version-4/index.html (tools/import_legacy.py). Дальше правим здесь.
 import Base from '../layouts/Base.astro';
 import ContactCards from '../components/ContactCards.astro';
+const jsonLd = [
+  "{\"@context\": \"https://schema.org\", \"@type\": \"Organization\", \"name\": \"Smart Solutions\", \"url\": \"https://smartsolutions.today/\", \"logo\": \"https://smartsolutions.today/images/og-cover.jpg\", \"description\": \"Системы привлечения клиентов на основе исследований: сайты, реклама, аналитика и внедрение ИИ с замером эффекта.\", \"foundingDate\": \"2017\", \"telephone\": \"+7 (925) 090-95-00\", \"email\": \"ok@smartsolutions.today\", \"address\": {\"@type\": \"PostalAddress\", \"addressCountry\": \"RU\", \"addressLocality\": \"Москва\", \"streetAddress\": \"ул. Воронцовская, д. 35-Б\"}, \"contactPoint\": [{\"@type\": \"ContactPoint\", \"contactType\": \"customer service\", \"telephone\": \"+7 (925) 090-95-00\", \"email\": \"ok@smartsolutions.today\", \"availableLanguage\": \"ru\"}]}",
+  "{\"@context\": \"https://schema.org\", \"@type\": \"WebSite\", \"name\": \"Smart Solutions\", \"url\": \"https://smartsolutions.today/\", \"inLanguage\": \"ru\", \"publisher\": {\"@type\": \"Organization\", \"name\": \"Smart Solutions\", \"url\": \"https://smartsolutions.today/\"}}",
+];
 ---
+
 <Base
+  jsonLd={jsonLd}
   title={"Smart Solutions — Системы привлечения клиентов для бизнеса"}
   description={"Изучаем ваш рынок, конкурентов и клиентов. Выстраиваем систему, которая стабильно приводит заявки. Москва."}
   path="/"
@@ -38,47 +44,100 @@ import ContactCards from '../components/ContactCards.astro';
         </div>
 
         <div class="hero-visual fade-in fade-in-d2">
-          <div class="hero-constellation">
-            <!-- Central hub -->
-            <div class="const-hub">
-              <div class="const-hub-ring"></div>
-              <div class="const-hub-ring const-hub-ring--2"></div>
-              <div class="const-hub-core"></div>
+          <!-- Интерактив: три кейса по отраслям. Переключатель сверху, у каждого
+               кейса — три метрики, строка «что сделали» и ссылка на разбор.
+               Все цифры и формулировки взяты со страниц кейсов, ничего не
+               придумано. Наборы лежат в разметке: без JS виден первый кейс,
+               скрипт только переключает их и водит свечение за курсором. -->
+          <figure class="hero-cases">
+            <div class="hero-cases-tabs">
+              <button type="button" class="hero-case-tab is-active" aria-pressed="true">Магазин</button>
+              <button type="button" class="hero-case-tab" aria-pressed="false">Производство</button>
+              <button type="button" class="hero-case-tab" aria-pressed="false">Медиа</button>
             </div>
-            <!-- Orbiting nodes -->
-            <div class="const-node const-node--1"><span></span></div>
-            <div class="const-node const-node--2"><span></span></div>
-            <div class="const-node const-node--3"><span></span></div>
-            <div class="const-node const-node--4"><span></span></div>
-            <div class="const-node const-node--5"><span></span></div>
-            <!-- Connecting lines (SVG) -->
-            <svg class="const-lines" viewBox="0 0 400 400" fill="none">
-              <line x1="200" y1="200" x2="80" y2="90" stroke="url(#line-grad)" stroke-width="1" opacity="0.15"/>
-              <line x1="200" y1="200" x2="330" y2="110" stroke="url(#line-grad)" stroke-width="1" opacity="0.12"/>
-              <line x1="200" y1="200" x2="320" y2="300" stroke="url(#line-grad-g)" stroke-width="1" opacity="0.1"/>
-              <line x1="200" y1="200" x2="70" y2="280" stroke="url(#line-grad)" stroke-width="1" opacity="0.12"/>
-              <line x1="200" y1="200" x2="200" y2="50" stroke="url(#line-grad-g)" stroke-width="1" opacity="0.08"/>
-              <!-- Cross-connections -->
-              <line x1="80" y1="90" x2="330" y2="110" stroke="url(#line-grad)" stroke-width="0.5" opacity="0.06"/>
-              <line x1="330" y1="110" x2="320" y2="300" stroke="url(#line-grad-g)" stroke-width="0.5" opacity="0.06"/>
-              <line x1="70" y1="280" x2="80" y2="90" stroke="url(#line-grad)" stroke-width="0.5" opacity="0.05"/>
-              <defs>
-                <linearGradient id="line-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="rgb(0,217,255)" stop-opacity="1"/>
-                  <stop offset="100%" stop-color="rgb(0,217,255)" stop-opacity="0"/>
-                </linearGradient>
-                <linearGradient id="line-grad-g" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="rgb(16,185,129)" stop-opacity="1"/>
-                  <stop offset="100%" stop-color="rgb(16,185,129)" stop-opacity="0"/>
-                </linearGradient>
-              </defs>
-            </svg>
-            <!-- Ambient particles -->
-            <div class="const-particles">
-              <span></span><span></span><span></span><span></span>
-              <span></span><span></span><span></span><span></span>
+
+            <div class="hero-case-set" data-set>
+              <div class="hero-case-head">
+                <span class="hero-case-name">CND-Store</span>
+                <span class="hero-case-tag">косметика для ногтей</span>
+              </div>
+              <div class="hero-case-rows">
+                <div class="hero-case-row">
+                  <span class="hero-case-lab">Конверсия сайта</span>
+                  <span class="hero-case-vals"><span class="was">1,2%</span><span class="arw">&rarr;</span><span class="now">2,8%</span></span>
+                  <span class="hero-case-delta">×2,3</span>
+                </div>
+                <div class="hero-case-row">
+                  <span class="hero-case-lab">Средний чек</span>
+                  <span class="hero-case-vals"><span class="was">2 800 ₽</span><span class="arw">&rarr;</span><span class="now">3 900 ₽</span></span>
+                  <span class="hero-case-delta">+40%</span>
+                </div>
+                <div class="hero-case-row">
+                  <span class="hero-case-lab">ROI рекламы</span>
+                  <span class="hero-case-vals"><span class="was">80%</span><span class="arw">&rarr;</span><span class="now">340%</span></span>
+                  <span class="hero-case-delta">×4,3</span>
+                </div>
+              </div>
+              <p class="hero-case-cause">Что сделали: исследование покупателей — состав важнее цены, страх подделки, цикл повторной покупки 3–4 недели, мастера — ключевая аудитория.</p>
+              <a class="hero-case-link" href="/cases/cnd-store.html"><span>Разбор кейса</span>
+                <svg width="13" height="13"><use href="/icons.svg#icon-arrow-right"/></svg></a>
             </div>
-          </div>
+
+            <div class="hero-case-set" data-set>
+              <div class="hero-case-head">
+                <span class="hero-case-name">Arhgrille</span>
+                <span class="hero-case-tag">декоративные решётки</span>
+              </div>
+              <div class="hero-case-rows">
+                <div class="hero-case-row">
+                  <span class="hero-case-lab">Выручка</span>
+                  <span class="hero-case-vals"><span class="was">0 ₽</span><span class="arw">&rarr;</span><span class="now">1,8 млн ₽</span></span>
+                  <span class="hero-case-delta">за 3 месяца</span>
+                </div>
+                <div class="hero-case-row">
+                  <span class="hero-case-lab">Сегментов ЦА</span>
+                  <span class="hero-case-vals"><span class="was">1</span><span class="arw">&rarr;</span><span class="now">3</span></span>
+                  <span class="hero-case-delta">×3</span>
+                </div>
+                <div class="hero-case-row">
+                  <span class="hero-case-lab">Сопровождение</span>
+                  <!-- Строка без сравнения: у сопровождения нет состояния «было»,
+                       поэтому было→стало и стрелка здесь неуместны — только факт. -->
+                  <span class="hero-case-vals"><span class="now">5 лет</span></span>
+                </div>
+              </div>
+              <p class="hero-case-cause">Что сделали: сегментация аудитории, 3 сценария на сайте, 5 лет сопровождения.</p>
+              <a class="hero-case-link" href="/cases/arhgrille.html"><span>Разбор кейса</span>
+                <svg width="13" height="13"><use href="/icons.svg#icon-arrow-right"/></svg></a>
+            </div>
+
+            <div class="hero-case-set" data-set>
+              <div class="hero-case-head">
+                <span class="hero-case-name">Моя Планета</span>
+                <span class="hero-case-tag">портал ВГТРК</span>
+              </div>
+              <div class="hero-case-rows">
+                <div class="hero-case-row">
+                  <span class="hero-case-lab">Посетителей в месяц</span>
+                  <span class="hero-case-vals"><span class="was">30 000</span><span class="arw">&rarr;</span><span class="now">1 000 000</span></span>
+                  <span class="hero-case-delta">×33</span>
+                </div>
+                <div class="hero-case-row">
+                  <span class="hero-case-lab">Отказы</span>
+                  <span class="hero-case-vals"><span class="was">82%</span><span class="arw">&rarr;</span><span class="now">45%</span></span>
+                  <span class="hero-case-delta">−37 пп</span>
+                </div>
+                <div class="hero-case-row">
+                  <span class="hero-case-lab">Запросов в топ-10</span>
+                  <span class="hero-case-vals"><span class="was">200</span><span class="arw">&rarr;</span><span class="now">5 000+</span></span>
+                  <span class="hero-case-delta">×25</span>
+                </div>
+              </div>
+              <p class="hero-case-cause">Что сделали: иерархическая структура, система перелинковки, техническая и SEO-оптимизация контента.</p>
+              <a class="hero-case-link" href="/cases/moya-planeta.html"><span>Разбор кейса</span>
+                <svg width="13" height="13"><use href="/icons.svg#icon-arrow-right"/></svg></a>
+            </div>
+          </figure>
         </div>
       </div>
     </div>
@@ -125,7 +184,7 @@ import ContactCards from '../components/ContactCards.astro';
         <a href="#approach" class="direction-card">
           <span class="direction-num">01</span>
           <span class="direction-label">Системы привлечения</span>
-          <h3 class="direction-title">Упаковка и поддержание сайтов</h3>
+          <h3 class="direction-title">Упаковка и продвижение сайтов</h3>
           <p class="direction-desc">
             Исследование рынка → сайт с ясным оффером → реклама и аналитика → сопровождение и рост.
             Работаем не на «сделать сайт», а на стабильный поток заявок.
@@ -139,7 +198,7 @@ import ContactCards from '../components/ContactCards.astro';
           <h3 class="direction-title">Внедрение с замером эффекта</h3>
           <p class="direction-desc">
             Аудит процесса → пилот за 2–4 недели → боевая система.
-            Цена пилота 100–300К, эффект измеряем в часах и рублях.
+            Цена пилота 50–150К, внедрение от 200К, эффект измеряем в часах и рублях.
           </p>
           <span class="direction-arrow">→</span>
         </a>

@@ -1,0 +1,285 @@
+---
+// Живой арт в шапке статьи: 6 вариантов (flow, doc, calc, nodes, chat, steps).
+// Шаги кликабельны, у каждого своя подпись; точки синхронны; есть автопрокрутка.
+//
+// Подписи вписываются в фигуры АВТОМАТИЧЕСКИ: шрифт моноширинный (JetBrains Mono),
+// поэтому ширина строки = число знаков × 0,6 × кегль. Для каждой подписи ищем кегль
+// и разбивку, при которых каждая строка укладывается в ширину своей фигуры.
+// Так подписи не вылезают за круги, плашки и полосы независимо от длины текста.
+interface Props {
+  variant?: 'flow' | 'doc' | 'calc' | 'nodes' | 'chat' | 'steps';
+  labels?: string[];
+  notes?: string[];
+}
+const { variant = 'flow', labels = [], notes = [] } = Astro.props;
+
+const DEFAULT_LABELS: Record<string, string[]> = {
+  flow: ['заявка', 'ИИ: черновик', 'человек решает'],
+  doc: ['документ', 'риски', 'решение'],
+  calc: ['часы', 'ставка', 'экономия'],
+  nodes: ['агент', 'CRM', 'почта', '1С', 'человек'],
+  chat: ['вопрос', 'ответ', 'человек'],
+  steps: ['замер', 'данные', 'пилот', 'решение'],
+};
+const l = (i: number) => labels[i] ?? DEFAULT_LABELS[variant]?.[i] ?? '';
+
+const DEFAULT_NOTES: Record<string, string[]> = {
+  flow: [
+    'Заявка приходит в форму, почту или мессенджер — здесь начинается отсчёт времени',
+    'ИИ разбирает заявку: тип, срочность, данные клиента, черновик ответа',
+    'Человек проверяет и отправляет — решение и ответственность остаются за ним',
+  ],
+  doc: [
+    'Скан, PDF или фото: ИИ вытаскивает текст даже из плохого качества',
+    'Реквизиты, суммы, НДС — ИИ сверяет с базой и помечает расхождения',
+    'Человек проверяет помеченное и подписывает — ручного ввода больше нет',
+  ],
+  calc: [
+    'Часы на процесс за месяц: считаем по журналу задач или хронометражу',
+    'Ставка часа вместе с налогами — от неё зависит вся экономия',
+    'Экономия в месяц и срок окупаемости: решение принимают по ним',
+  ],
+  nodes: [
+    'Агент — в центре: он ведёт задачу и сам решает, куда обратиться',
+    'CRM: карточка клиента, история обращений, статус сделки',
+    'Почта и мессенджеры: черновики ответов и цепочки переписки',
+    '1С и таблицы: документы, счета, статусы оплат',
+    'Человек: подтверждает значимые шаги и отвечает за результат',
+  ],
+  chat: [
+    'Клиент спрашивает своими словами — без меню и кнопок',
+    'Ответ собирается по вашей базе знаний: цены, сроки, условия',
+    'Сложный вопрос уходит человеку — вместе с контекстом и историей',
+  ],
+  steps: [
+    'Описываем процесс как есть: шаги, время, объём работы',
+    'Собираем данные и настраиваем контур: что ИИ делает сам, а где стоп',
+    'Пилот на реальных задачах с проверкой каждого результата',
+    'Считаем эффект и решаем: масштабировать, доработать или остановить',
+  ],
+};
+const note = (i: number) => notes[i] ?? DEFAULT_NOTES[variant]?.[i] ?? l(i);
+
+/* ---- Вписывание подписи в фигуру ---------------------------------------- */
+const CHAR_W = 0.6;                                     // доля ширины знака JetBrains Mono
+const textW = (s: string, size: number) => s.length * size * CHAR_W;
+
+/** Разбивка по словам так, чтобы каждая строка была не шире w. */
+const wrapTo = (s: string, w: number, size: number) => {
+  const words = String(s || '').trim().split(/\s+/).filter(Boolean);
+  if (!words.length) return [''];
+  const lines: string[] = [];
+  let cur = '';
+  for (const word of words) {
+    if (!cur) cur = word;
+    else if (textW(cur + ' ' + word, size) <= w) cur += ' ' + word;
+    else { lines.push(cur); cur = word; }
+  }
+  if (cur) lines.push(cur);
+  return lines;
+};
+
+/**
+ * Подбирает кегль и разбивку под ширину фигуры.
+ * Если слово шире фигуры при минимальном кегле — режем его по знакам,
+ * чтобы не было «вылезания» ни при какой длине текста.
+ */
+const fit = (s: string, w: number, max = 2, sizes: number[] = [11, 10.5, 10, 9.5, 9, 8.5, 8]) => {
+  for (const size of sizes) {
+    const lines = wrapTo(s, w, size);
+    if (lines.length <= max && lines.every((t) => textW(t, size) <= w)) return { size, lines };
+  }
+  const size = sizes[sizes.length - 1];
+  const perLine = Math.max(3, Math.floor(w / (size * CHAR_W)));
+  const chunks: string[] = [];
+  for (const word of String(s || '').trim().split(/\s+/)) {
+    for (let i = 0; i < word.length; i += perLine) chunks.push(word.slice(i, i + perLine));
+  }
+  return { size, lines: chunks.slice(0, Math.max(1, max)) };
+};
+
+/** Строки для одной подписи (в шаблоне читается короче, чем fit(...).lines). */
+const lines = (s: string, w: number, max = 2, sizes?: number[]) => fit(s, w, max, sizes).lines;
+const size = (s: string, w: number, max = 2, sizes?: number[]) => fit(s, w, max, sizes).size;
+const dy = (n: number, i: number, fs = 10) => (i - (n - 1) / 2) * Math.round(fs * 1.2);
+
+const F = 'Inter, system-ui, sans-serif'; // моно убран: его ноль с точкой — штамп нейросетей
+const INK = '#101014', DIM = '#5E5E68', MUTE = '#6C6C78', LINE = '#E4E4DE', LINE2 = '#D2D2CA';
+const ACC = '#00D9FF', ACCT = '#0A7392', GREEN = '#0E9F6E', GREEN_INK = '#0B7A57', GREEN_BG = '#E3F5EE', RED = '#C2410C', AMBER = '#B45309';
+const stepCount = { flow: 3, doc: 3, calc: 3, nodes: 5, chat: 3, steps: 4 }[variant];
+
+// Ширины, в которые должны уложиться подписи (внутри фигур, с запасом на скругление)
+const W = {
+  flowCard: [86, 98, 74],          // плашки «вход → ИИ → человек»
+  calcLabel: [92, 92, 130],        // подписи над столбиками и результатом
+  nodeCenter: 78,                  // центральный круг r=48
+  nodeSide: 80,                    // плашки-сателлиты
+  chatBubble: 150,                 // пузыри диалога
+  stepLabel: 92,                   // подписи под кругами шагов
+  docMirror: 112,                  // легенда под документом
+};
+---
+
+<div class="bl-hero-live" data-hero={variant}>
+  <svg class="bl-hero-art" viewBox="0 0 420 300" aria-hidden="true">
+    {variant === 'flow' && (
+      <g>
+        {/* бегущая точка идёт ПОД карточками: видна в промежутках между этапами
+            и не наезжает на подписи */}
+        <circle r="4" fill={ACC}><animateMotion dur="4s" repeatCount="indefinite" path="M70 150h292" /></circle>
+        <g class="h-step" data-hs="0" data-note={note(0)}>
+          <rect x="18" y="118" width="104" height="64" rx="10" fill="#fff" stroke={LINE2} />
+          <text x="70" y="150" text-anchor="middle" font-family={F} font-size={size(l(0), W.flowCard[0])} fill={INK}>{lines(l(0), W.flowCard[0]).map((t, i, a) => <tspan x="70" dy={i === 0 ? dy(a.length, i, size(l(0), W.flowCard[0])) : 12}>{t}</tspan>)}</text>
+          <text x="70" y="176" text-anchor="middle" font-family={F} font-size="10" fill={MUTE}>вход</text>
+        </g>
+        <path d="M122 150h40" stroke={LINE2} stroke-width="1.5" />
+        <path d="M158 146l6 4-6 4" fill="none" stroke={LINE2} stroke-width="1.5" />
+        <g class="h-step" data-hs="1" data-note={note(1)}>
+          <rect x="164" y="106" width="118" height="88" rx="12" fill="#fff" stroke={ACC} stroke-width="1.5" />
+          <text x="223" y="128" text-anchor="middle" font-family={F} font-size={size(l(1), W.flowCard[1])} fill={ACCT}>{lines(l(1), W.flowCard[1]).map((t, i) => <tspan x="223" dy={i === 0 ? 0 : 12}>{t}</tspan>)}</text>
+          <g stroke={LINE} stroke-width="4" stroke-linecap="round">
+            <path d="M186 158h74M186 170h54M186 182h64" />
+          </g>
+          <rect class="kit-hero-scan" x="176" y="108" width="94" height="3" rx="1.5" fill={ACC} />
+        </g>
+        <path d="M282 150h40" stroke={LINE2} stroke-width="1.5" />
+        <path d="M318 146l6 4-6 4" fill="none" stroke={LINE2} stroke-width="1.5" />
+        <g class="h-step" data-hs="2" data-note={note(2)}>
+          <rect x="316" y="112" width="92" height="76" rx="10" fill={GREEN_BG} stroke={GREEN} />
+          <text x="362" y="150" text-anchor="middle" font-family={F} font-size={size(l(2), W.flowCard[2])} fill={GREEN_INK}>{lines(l(2), W.flowCard[2]).map((t, i, a) => <tspan x="362" dy={i === 0 ? dy(a.length, i, size(l(2), W.flowCard[2])) : 12}>{t}</tspan>)}</text>
+          <text x="362" y="176" text-anchor="middle" font-family={F} font-size="10" fill={GREEN_INK}>решение</text>
+        </g>
+      </g>
+    )}
+
+    {variant === 'doc' && (
+      <g>
+        <g class="h-step" data-hs="0" data-note={note(0)}>
+          <rect x="110" y="16" width="200" height="228" rx="10" fill="#fff" stroke={LINE2} />
+          <g stroke={LINE} stroke-width="6" stroke-linecap="round">
+            <path d="M140 60h140M140 84h120M140 108h140M140 132h100M140 156h140M140 180h130M140 204h90M140 228h140" />
+          </g>
+        </g>
+        <g class="h-step" data-hs="1" data-note={note(1)}>
+          <path d="M140 108h140" stroke={RED} stroke-opacity=".35" stroke-width="10" stroke-linecap="round" />
+          <path d="M140 180h130" stroke={AMBER} stroke-opacity=".35" stroke-width="10" stroke-linecap="round" />
+          <g font-family={F} font-size="11" fill={DIM}>
+            <path d="M296 108h34" stroke={RED} stroke-width="1.5" />
+            <circle cx="336" cy="108" r="11" fill="#fff" stroke={RED} stroke-width="1.5" />
+            <text x="336" y="112" text-anchor="middle" fill={RED} font-size="12">!</text>
+            <path d="M286 180h44" stroke={AMBER} stroke-width="1.5" />
+            <circle cx="336" cy="180" r="11" fill="#fff" stroke={AMBER} stroke-width="1.5" />
+            <text x="336" y="184" text-anchor="middle" fill={AMBER} font-size="12">?</text>
+          </g>
+        </g>
+        <g class="h-step" data-hs="2" data-note={note(2)}>
+          <g font-family={F} font-size="11" fill={DIM}>
+            <circle cx="80" cy="222" r="16" fill={GREEN_BG} stroke={GREEN} stroke-width="1.5" />
+            <text x="80" y="227" text-anchor="middle" fill={GREEN_INK} font-size="12">✓</text>
+            <path d="M96 222h36" stroke={GREEN} stroke-width="1.5" stroke-dasharray="3 3" />
+          </g>
+        </g>
+        <g font-family={F} font-size="10">
+          {[[20, RED, l(0)], [150, AMBER, l(1)], [286, GREEN, l(2)]].map(([x, c, label], i) => (
+            // зеркало шага: подсвечивается вместе с ним, но подпись и нажатие берёт основной блок
+            <g class="h-mirror" data-hs={String(i)}>
+              <circle cx={+x + 4} cy="268" r="4" fill={c as string} />
+              <text x={+x + 14} y="272" fill={DIM} font-size={size(String(label), W.docMirror, 1)}>{lines(String(label), W.docMirror, 1).join(' ')}</text>
+            </g>
+          ))}
+        </g>
+        <rect class="kit-hero-scan" x="104" y="16" width="212" height="3" rx="1.5" fill={ACC} />
+      </g>
+    )}
+
+    {variant === 'calc' && (
+      <g>
+        <line x1="60" y1="230" x2="360" y2="230" stroke={LINE2} stroke-width="1.5" />
+        <g class="h-step" data-hs="0" data-note={note(0)}>
+          <rect x="86" y="120" width="58" height="110" rx="6" fill="#F1F1EC" stroke={LINE} />
+          {/* подпись над столбиком: длинную строку разбиваем, чтобы не сталкивалась с соседней */}
+          <text x="115" y="100" text-anchor="middle" font-family={F} font-size={size(l(0), W.calcLabel[0])} fill={DIM}>{lines(l(0), W.calcLabel[0]).map((t, i, a) => <tspan x="115" dy={i === 0 ? dy(a.length, i, size(l(0), W.calcLabel[0])) : 12}>{t}</tspan>)}</text>
+        </g>
+        <g class="h-step" data-hs="1" data-note={note(1)}>
+          <rect x="182" y="176" width="58" height="54" rx="6" fill={GREEN_BG} stroke={GREEN} />
+          <text x="211" y="164" text-anchor="middle" font-family={F} font-size={size(l(1), W.calcLabel[1])} fill={GREEN_INK}>{lines(l(1), W.calcLabel[1]).map((t, i, a) => <tspan x="211" dy={i === 0 ? dy(a.length, i, size(l(1), W.calcLabel[1])) : 12}>{t}</tspan>)}</text>
+        </g>
+        <g class="h-step" data-hs="2" data-note={note(2)}>
+          <path d="M244 150h24" stroke={LINE2} stroke-width="1.5" stroke-dasharray="4 4" />
+          {/* плашка результата: подпись вынесена НАД плашкой, внутри — только символ и единица */}
+          <text x="324" y="58" text-anchor="middle" font-family={F} font-size={size(l(2), W.calcLabel[2])} fill={ACCT}>{lines(l(2), W.calcLabel[2]).map((t, i, a) => <tspan x="324" dy={i === 0 ? dy(a.length, i, size(l(2), W.calcLabel[2])) : 12}>{t}</tspan>)}</text>
+          <rect x="268" y="70" width="112" height="64" rx="10" fill="#fff" stroke={ACC} stroke-width="1.5" />
+          <text x="324" y="106" text-anchor="middle" font-family={F} font-size="30" fill={ACCT}>₽</text>
+          <text x="324" y="123" text-anchor="middle" font-family={F} font-size="10" fill={MUTE}>экономия / мес</text>
+        </g>
+      </g>
+    )}
+
+    {variant === 'nodes' && (
+      <g>
+        <g class="h-step" data-hs="0" data-note={note(0)}>
+          <circle cx="210" cy="150" r="48" fill="#fff" stroke={ACC} stroke-width="1.5" />
+          <text x="210" y="147" text-anchor="middle" font-family={F} font-size={size(l(0), W.nodeCenter)} fill={ACCT}>{lines(l(0), W.nodeCenter).map((t, i, a) => <tspan x="210" dy={i === 0 ? dy(a.length, i, size(l(0), W.nodeCenter)) : 12}>{t}</tspan>)}</text>
+          <text x="210" y="170" text-anchor="middle" font-family={F} font-size="10" fill={MUTE}>агент</text>
+          <circle class="kit-hero-scan" cx="210" cy="150" r="56" fill="none" stroke={ACC} stroke-opacity=".5" />
+        </g>
+        {[[74, 66], [346, 66], [74, 234], [346, 234]].map(([x, y], i) => {
+          // линия идёт от плашки к КРАЮ центрального круга (r=48), а не внутрь него
+          const ux = (x < 210 ? -1 : 1) * 0.7071, uy = (y < 150 ? -1 : 1) * 0.7071;
+          const ex = Math.round(210 + ux * 52), ey = Math.round(150 + uy * 52);
+          return (
+            <g class="h-step" data-hs={String(i + 1)} data-note={note(i + 1)}>
+              <path d={`M${x + (x < 210 ? 46 : -46)} ${y + (y < 150 ? 18 : -18)}L${ex} ${ey}`}
+                    stroke={LINE2} stroke-width="1.2" stroke-dasharray="4 4" fill="none" />
+              <rect x={x - 46} y={y - 22} width="92" height="44" rx="9" fill="#fff" stroke={LINE} />
+              <text x={x} y={y + 5} text-anchor="middle" font-family={F} font-size={size(l(i + 1), W.nodeSide)} fill={INK}>{lines(l(i + 1), W.nodeSide).map((t, j, a) => <tspan x={x} dy={j === 0 ? dy(a.length, j, size(l(i + 1), W.nodeSide)) : 12}>{t}</tspan>)}</text>
+            </g>
+          );
+        })}
+      </g>
+    )}
+
+    {variant === 'chat' && (
+      <g>
+        <g class="h-step" data-hs="0" data-note={note(0)}>
+          <rect x="52" y="52" width="196" height="58" rx="14" fill="#fff" stroke={LINE} />
+          <text x="72" y="86" font-family={F} font-size={size(l(0), W.chatBubble)} fill={INK}>{lines(l(0), W.chatBubble).map((t, i, a) => <tspan x="72" dy={i === 0 ? dy(a.length, i, size(l(0), W.chatBubble)) : 12}>{t}</tspan>)}</text>
+        </g>
+        <g class="h-step" data-hs="1" data-note={note(1)}>
+          <rect x="172" y="126" width="196" height="58" rx="14" fill={GREEN_BG} stroke={GREEN} />
+          <text x="192" y="160" font-family={F} font-size={size(l(1), W.chatBubble)} fill={GREEN_INK}>{lines(l(1), W.chatBubble).map((t, i, a) => <tspan x="192" dy={i === 0 ? dy(a.length, i, size(l(1), W.chatBubble)) : 12}>{t}</tspan>)}</text>
+        </g>
+        <g class="h-step" data-hs="2" data-note={note(2)}>
+          <rect x="52" y="200" width="196" height="58" rx="14" fill="#fff" stroke={ACC} />
+          <text x="72" y="234" font-family={F} font-size={size(l(2), W.chatBubble)} fill={ACCT}>{lines(l(2), W.chatBubble).map((t, i, a) => <tspan x="72" dy={i === 0 ? dy(a.length, i, size(l(2), W.chatBubble)) : 12}>{t}</tspan>)}</text>
+          {/* курсор «печатает» — внутри пузыря, а не висящей точкой в пустоте */}
+          <circle cx="228" cy="246" r="3.5" fill={ACC}><animate attributeName="opacity" values="1;.2;1" dur="1.8s" repeatCount="indefinite" /></circle>
+        </g>
+      </g>
+    )}
+
+    {variant === 'steps' && (
+      <g>
+        <path d="M60 168h300" stroke={LINE} stroke-width="2" />
+        {[0, 1, 2, 3].map((i) => (
+          <g class="h-step" data-hs={String(i)} data-note={note(i)}>
+            <circle cx={60 + i * 100} cy="168" r="17" fill="#fff" stroke={i === 0 ? ACC : LINE2} stroke-width="1.5" />
+            <text x={60 + i * 100} y="173" text-anchor="middle" font-family={F} font-size="12" fill={i === 0 ? ACCT : DIM}>{i + 1}</text>
+            <text x={60 + i * 100} y="204" text-anchor="middle" font-family={F} font-size={size(l(i), W.stepLabel)} fill={DIM}>{lines(l(i), W.stepLabel).map((t, j) => <tspan x={60 + i * 100} dy={j === 0 ? 0 : 12}>{t}</tspan>)}</text>
+          </g>
+        ))}
+        <circle class="kit-hero-scan" cx="60" cy="168" r="26" fill="none" stroke={ACC} stroke-opacity=".5" />
+      </g>
+    )}
+  </svg>
+
+  <p class="bl-hero-cap">
+    <span data-hero-cap>{note(0)}</span>
+    <em data-hero-hint>нажимайте этапы — покажем, что происходит</em>
+  </p>
+  <div class="bl-hero-dots">
+    {Array.from({ length: stepCount }).map((_, i) => (
+      <button type="button" class="bl-hero-dot" data-hd={String(i)} aria-label={`Этап ${i + 1}`}></button>
+    ))}
+  </div>
+</div>
