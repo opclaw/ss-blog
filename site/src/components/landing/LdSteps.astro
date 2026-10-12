@@ -1,0 +1,31 @@
+---
+// Порядок работ: карточки этапов с нумерацией — как блок шагов на /ai-agenty.html
+// (.ag-steps / .ag-step-card). Заменяет статейный аккордеон-таймлайн: тот рассчитан на
+// вертикальный лонгрид, в разделе шаги читаются карточками, как в остальных разделах.
+import { typo } from '../../data/typo';
+
+interface Step {
+  /** название этапа: «Аудит» (в данных страниц поле называется label) */
+  label: string;
+  /** кто работает на этапе: «человек», «ИИ+человек» */
+  who?: string;
+  /** что происходит на этапе */
+  text: string;
+}
+interface Props {
+  steps: Step[];
+}
+const { steps } = Astro.props;
+---
+
+<ol class="ld-steps">
+  {steps.map((s) => (
+    <li class="ld-step">
+      <div class="ld-step-head">
+        <h3>{typo(s.label)}</h3>
+        {s.who && <span class="ld-step-who">{typo(s.who)}</span>}
+      </div>
+      <p>{typo(s.text)}</p>
+    </li>
+  ))}
+</ol>

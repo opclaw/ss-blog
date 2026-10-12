@@ -3857,6 +3857,97 @@ p.format-note.text-secondary {
    на 342px ширины 24px полей съедали место у схемы. */
 @media (max-width: 640px) { .ld-page .bl-fig { padding: 18px; margin: 22px 0; } }
 
+/* ===== Схема-цепочка раздела (components/landing/LdFlow.astro) =====
+   Оформление — как у панелей разделов (/ai-agenty.html, .ag-agent): панель --bg-elevated,
+   рамка, шапка моно-меткой, тело с отбивкой, сноска за пунктиром.
+   Статейная фигура (.bl-fig) сюда не подходит: её SVG-плашки, лупа и горизонтальная
+   прокрутка — признаки статьи. */
+.ld-flow { margin-top: 30px; background: var(--bg-elevated); border: 1px solid var(--border-hover); border-radius: var(--radius); overflow: hidden; }
+.ld-flow-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 14px 18px; border-bottom: 1px dashed var(--border); font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.ld-flow-hint { color: var(--muted); text-transform: none; letter-spacing: 0; }
+.ld-flow-list { list-style: none; margin: 0; padding: 18px; display: grid; gap: 16px; }
+.ld-flow-top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.ld-flow-l { font-size: 0.82rem; color: var(--secondary); }
+.ld-flow-v { font-family: var(--font-heading); font-size: 1.05rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; color: var(--fg); white-space: nowrap; }
+.ld-flow-track { display: block; margin-top: 8px; height: 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+.ld-flow-track i { display: block; height: 100%; border-radius: 999px; background: var(--accent); }
+.ld-flow-row.is-warn .ld-flow-track i { background: #FB923C; }
+.ld-flow-row.is-warn .ld-flow-v { color: #FB923C; }
+.ld-flow-row.is-green .ld-flow-track i { background: var(--green); }
+.ld-flow-row.is-green .ld-flow-v { color: var(--green); }
+.ld-flow-share { display: block; margin-top: 6px; font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); }
+.ld-flow-foot { padding: 13px 18px; border-top: 1px dashed var(--border); font-size: 0.78rem; line-height: 1.5; color: var(--muted); }
+
+/* ===== Порядок работ: карточки этапов (components/landing/LdSteps.astro) =====
+   Оформление — как у .ag-steps на /ai-agenty.html: сетка карточек на панели
+   --bg-elevated, номер этапа моно-меткой из счётчика. */
+.ld-steps { list-style: none; margin: 34px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 18px; counter-reset: ldstep; }
+.ld-step { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 22px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius); transition: border-color var(--transition), transform var(--transition); }
+.ld-step:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+.ld-step::before { counter-increment: ldstep; content: '0' counter(ldstep); font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; color: var(--accent); }
+.ld-step-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 10px; }
+.ld-step-head h3 { font-family: var(--font-heading); font-size: 1.08rem; font-weight: 700; letter-spacing: -0.01em; color: var(--fg); }
+.ld-step-who { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.ld-step p { font-size: 0.92rem; line-height: 1.6; color: var(--secondary); }
+
+/* ===== Таблица «до / после» раздела (components/landing/LdCompare.astro) =====
+   Оформление — как у .ag-table на /ai-agenty.html: рамка, сетка колонок, шапка
+   моно-метками на акцентной подложке, зебра строк, зелёная колонка результата. */
+.ld-cmp { margin-top: 30px; }
+.ld-cmp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 14px; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.ld-cmp-hint { color: var(--muted); text-transform: none; letter-spacing: 0; }
+.ld-cmp-wrap { overflow-x: auto; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: var(--radius); }
+.ld-cmp-table { width: 100%; border-collapse: collapse; min-width: 560px; font-size: 0.92rem; }
+.ld-cmp-table th, .ld-cmp-table td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.ld-cmp-table th + th, .ld-cmp-table td + td { border-left: 1px solid var(--border); }
+.ld-cmp-table thead th { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); background: rgba(0, 217, 255, 0.07); border-bottom: 1px solid rgba(0, 217, 255, 0.25); }
+.ld-cmp-table tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
+.ld-cmp-table tbody tr:last-child td { border-bottom: 0; }
+.ld-cmp-l { display: block; color: var(--secondary); }
+.ld-cmp-note { display: block; margin-top: 4px; font-size: 0.78rem; line-height: 1.45; color: var(--muted); }
+.ld-cmp-v { font-family: var(--font-heading); font-size: 1.05rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; color: var(--secondary); white-space: nowrap; }
+.ld-cmp-v span { font-size: 0.78rem; font-weight: 500; color: var(--muted); }
+.ld-cmp-v.is-after { color: var(--green); }
+/* Телефон: таблица не листается вбок, а раскладывается в строки-карточки.
+   Подписи «До пилота» / «После пилота» возвращаем через ::before — шапку прячем. */
+@media (max-width: 640px) {
+  .ld-cmp-wrap { overflow-x: visible; }
+  .ld-cmp-table { min-width: 0; }
+  .ld-cmp-table thead { display: none; }
+  .ld-cmp-table, .ld-cmp-table tbody, .ld-cmp-table tr, .ld-cmp-table td { display: block; width: 100%; }
+  .ld-cmp-table tr { padding: 14px 16px; }
+  .ld-cmp-table tr + tr { border-top: 1px solid var(--border); }
+  .ld-cmp-table td { border-left: 0; border-bottom: 0; padding: 0; }
+  /* метрика отделена от значений: строка читается как карточка, и таблица остаётся «видимой»
+     (проверка audit-layout: у ячеек должны быть границы) */
+  .ld-cmp-table td:nth-child(1) { padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .ld-cmp-table td + td { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-top: 8px; }
+  .ld-cmp-table td + td::before { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+  .ld-cmp-table td:nth-child(2)::before { content: 'До пилота'; }
+  .ld-cmp-table td:nth-child(3)::before { content: 'После пилота'; }
+}
+.ld-cmp-verdict { margin-top: 16px; padding-left: 14px; border-left: 2px solid var(--green); font-size: 0.95rem; line-height: 1.6; color: var(--fg); }
+.ld-cmp-foot { margin-top: 12px; font-size: 0.78rem; line-height: 1.5; color: var(--muted); }
+
+/* ===== Интерактив раздела: раздельное оформление вместо статейного =====
+   Кит блога рассчитан на светлый лист статьи: штриховка в блоке результата,
+   пунктирные разделители, своя шапка-«Рис. N». В разделе это читается как статья.
+   Ниже — только хром: панель, шапка, разделители, сноски. Поведение и ползунки
+   остаются те же (kit.js). */
+.ld-page .kit { border-radius: var(--radius); background: var(--bg-elevated); border-color: var(--border-hover); }
+.ld-page .kit-cap { color: var(--accent); letter-spacing: 0.08em; }
+.ld-page .kit-cap em { color: var(--muted); }
+.ld-page .kit-calc-out { background: var(--bg); }
+.ld-page .kit-calc-rows li { border-top-style: solid; }
+.ld-page .kit-calc-next, .ld-page .kit-calc-in label { border-color: var(--border); }
+.ld-page .kit-foot { background: transparent; color: var(--muted); }
+.ld-page .kit-calc-verdict { background: transparent; border-left-width: 2px; color: var(--secondary); }
+.ld-page .kit-calc-verdict.is-go { background: transparent; }
+.ld-page .kit-calc-verdict.is-check { background: transparent; }
+.ld-page .kit-funnel-bar i { background: var(--accent); }
+.ld-page .kit-check-list li { border-color: var(--border); }
+.ld-page .kit-tl { padding-left: 20px; }
+
 .ld-faq { margin-top: 30px; border-top: 1px solid var(--border); }
 .ld-faq details { border-bottom: 1px solid var(--border); }
 .ld-faq summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 0; font-size: 1rem; font-weight: 500; color: var(--fg); cursor: pointer; list-style: none; }

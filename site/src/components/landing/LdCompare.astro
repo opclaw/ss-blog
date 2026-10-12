@@ -1,0 +1,61 @@
+---
+// Таблица «до / после» для раздела — тем же оформлением, что таблица-сравнение на
+// /ai-agenty.html (.ag-table): шапка из моно-меток с акцентом, сетка колонок,
+// зебра строк и зелёная колонка результата.
+// Заменяет статейный интерактив с полосами (.kit-aba): полосы «до/после» — язык статьи,
+// у разделов для сравнения есть таблица.
+import { typo } from '../../data/typo';
+
+interface Row {
+  /** что меряем: «Время первого ответа» */
+  label: string;
+  /** значение до пилота (уже строка, чтобы сохранить формат: «1 800 000») */
+  before: string;
+  after: string;
+  /** единица: мин, %, шт, ₽ */
+  unit?: string;
+  /** пояснение под метрикой */
+  note?: string;
+}
+interface Props {
+  title: string;
+  hint?: string;
+  rows: Row[];
+  /** вывод под таблицей */
+  verdict?: string;
+  foot?: string;
+}
+const { title, hint, rows, verdict, foot } = Astro.props;
+---
+
+<div class="ld-cmp">
+  <div class="ld-cmp-head">
+    <span class="ld-cmp-k">{typo(title)}</span>
+    {hint && <span class="ld-cmp-hint">{typo(hint)}</span>}
+  </div>
+  <div class="ld-cmp-wrap">
+    <table class="ld-cmp-table">
+      <thead>
+        <tr>
+          <th>Метрика</th>
+          <th>До пилота</th>
+          <th>После пилота</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr>
+            <td>
+              <span class="ld-cmp-l">{typo(r.label)}</span>
+              {r.note && <span class="ld-cmp-note">{typo(r.note)}</span>}
+            </td>
+            <td class="ld-cmp-v">{typo(r.before)}{r.unit && <span> {typo(r.unit)}</span>}</td>
+            <td class="ld-cmp-v is-after">{typo(r.after)}{r.unit && <span> {typo(r.unit)}</span>}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  {verdict && <p class="ld-cmp-verdict">{typo(verdict)}</p>}
+  {foot && <p class="ld-cmp-foot">{typo(foot)}</p>}
+</div>

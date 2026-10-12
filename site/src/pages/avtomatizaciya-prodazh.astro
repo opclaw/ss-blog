@@ -11,8 +11,9 @@ import ContactCards from '../components/ContactCards.astro';
 import { assetV } from '../data/asset-version';
 import Funnel from '../components/blog/Funnel.astro';
 import Calc from '../components/blog/Calc.astro';
-import Aba from '../components/blog/Aba.astro';
-import Timeline from '../components/blog/Timeline.astro';
+import LdFlow from '../components/landing/LdFlow.astro';
+import LdSteps from '../components/landing/LdSteps.astro';
+import LdCompare from '../components/landing/LdCompare.astro';
 import Checklist from '../components/blog/Checklist.astro';
 import LandingHero from '../components/landing/LandingHero.astro';
 import HeroPanel from '../components/landing/HeroPanel.astro';
@@ -64,11 +65,13 @@ const mgTl = [
 ];
 
 // Замер до/после — те же 300 заявок и 30 сделок, что в расчёте выше.
+// Замер до/после — те же 300 заявок и 30 сделок, что в расчёте выше.
+// Значения — строками: таблица сохраняет формат числа («1 800 000»), а не пересчитывает его.
 const abaRows = [
-  { label: 'Время первого ответа', before: 45, after: 1, unit: 'мин', note: 'в рабочие часы; ночью и в выходные заявка вообще ждала утра' },
-  { label: 'Заявок обработано без менеджера', before: 0, after: 55, unit: '%', note: 'ассистент квалифицирует и передаёт готовую карточку' },
-  { label: 'Сделок в месяц', before: 30, after: 39, unit: 'шт', note: '30 своих + 9 возвращённых из заявок без ответа' },
-  { label: 'Выручка отдела', before: 1800000, after: 2340000, unit: '₽', note: typo('39 × 60 000 ₽; по марже 20 % это +108 000 ₽ прибыли') },
+  { label: 'Время первого ответа', before: '45', after: '1', unit: 'мин', note: 'в рабочие часы; ночью и в выходные заявка вообще ждала утра' },
+  { label: 'Заявок обработано без менеджера', before: '0', after: '55', unit: '%', note: 'ассистент квалифицирует и передаёт готовую карточку' },
+  { label: 'Сделок в месяц', before: '30', after: '39', unit: 'шт', note: '30 своих + 9 возвращённых из заявок без ответа' },
+  { label: 'Выручка отдела', before: '1 800 000', after: '2 340 000', unit: '₽', note: typo('39 × 60 000 ₽; по марже 20 % это +108 000 ₽ прибыли') },
 ];
 
 const problems = [
@@ -262,20 +265,16 @@ const jsonLd = [
         <div class="ld-stat"><b>{typo('108 000')} <em>₽/мес</em></b><span>{typo('прибыль с возвращённых сделок при марже 20 %')}</span></div>
       </div>
 
-      <figure class="fig bl-fig">
-        <figcaption><span>Как считаем</span><span>Из 300 заявок до сделок доходит не всё</span></figcaption>
-        <svg viewBox="0 0 720 210" class="fig-svg" role="img" aria-label="Из 300 заявок 60 не дождались быстрого ответа, 9 возвращаемы в работу, это 108 000 рублей прибыли в месяц">
-          <text x="10" y="24" class="f-label">ЗАЯВОК В МЕСЯЦ</text>
-          <rect x="10" y="34" width="660" height="30" class="fg-plate"/>
-          <text x="20" y="54" class="f-mono">300 · весь поток отдела из четырёх менеджеров</text>
-          <text x="10" y="92" class="f-label">НЕ ДОЖДАЛИСЬ БЫСТРОГО ОТВЕТА</text>
-          <rect x="10" y="102" width="132" height="30" class="fg-warn-plate"/>
-          <text x="150" y="122" class="f-mono">60 · каждый пятый обращается не туда</text>
-          <text x="10" y="160" class="f-label">ИЗ НИХ ВОЗВРАЩАЕМ В РАБОТУ</text>
-          <rect x="10" y="170" width="20" height="30" class="fg-acc-plate"/>
-          <text x="38" y="190" class="f-mono f-acc">{typo('9 сделок · 15 % из потерянных')}</text>
-        </svg>
-      </figure>
+      <LdFlow
+        label="Воронка ответа"
+        hint="цифры примера"
+        steps={[
+          { value: '300 заявок в месяц', label: 'весь поток отдела из четырёх менеджеров', share: 'точка отсчёта', pct: 100 },
+          { value: '60', label: 'не дождались быстрого ответа', share: '20 % от заявок — каждый пятый', pct: 20, tone: 'warn' },
+          { value: '9 сделок', label: 'возвращаем в работу на пилоте', share: '15 % из потерянных — осторожная доля', pct: 15, tone: 'green' },
+        ]}
+        foot="Ответ через 45 минут вместо минуты. Девять сделок при чеке 60 000 ₽ и марже 20 % — это 108 000 ₽ прибыли в месяц."
+      />
 
       <p class="ld-after">
         {typo('Девять сделок при чеке 60 000 ₽ и марже 20 % — это')} <b>{typo('108 000 ₽ прибыли в месяц')}</b>{typo(' из заявок, за привлечение которых вы уже заплатили. Цифры примера: свои подставьте в расчёте ниже.')}
@@ -311,20 +310,20 @@ const jsonLd = [
       sub="Тот же отдел, те же каналы и та же реклама. Цифры примера — на пилоте фиксируем ваши."
       bodyClass="ld-tools"
     >
-      <div class="bl-dark">
-        <Aba title="Один процесс, четыре метрики" rows={abaRows} caption="замер на одних и тех же задачах"
-          verdict={typo("Главная строка — не время ответа, а сделки: +9 в месяц при той же рекламе и том же штате.")}
-          note="Время ответа и доля обработанных заявок измеряются автоматически. Сделки считаем за полный месяц до и полный месяц после: на более коротком отрезке разница тонет в обычном разбросе." />
-      </div>
+      <LdCompare
+        title="Замер на одних и тех же задачах"
+        hint="месяц до / месяц после"
+        rows={abaRows}
+        verdict="Главная строка — не время ответа, а сделки: +9 в месяц при той же рекламе и том же штате."
+        foot="Время ответа и доля обработанных заявок измеряются автоматически. Сделки считаем за полный месяц до и полный месяц после: на более коротком отрезке разница тонет в обычном разбросе."
+      />
     </LdSection>
 
     <LdSection id="process" alt label="Порядок работ" title="Как мы работаем: от аудита до сопровождения"
       sub="Четыре шага. Пилот — 2–4 недели, метрики фиксируем до старта, деньги — после замера."
       bodyClass="ld-tools"
     >
-      <div class="bl-dark">
-        <Timeline title="От аудита до сопровождения" stages={mgTl} />
-      </div>
+      <LdSteps steps={mgTl} />
     </LdSection>
 
     <LdSection id="ceny" label="Цены и сроки" title="Сколько это стоит и когда платить"

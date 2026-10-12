@@ -1,0 +1,53 @@
+---
+// Схема-цепочка для раздела: шаги воронки полосами, как панели разделов на /ai-agenty.html.
+// Заменяет статейную фигуру (.bl-fig): там SVG-плашки с пунктиром и лупой-увеличением —
+// признак статьи. Здесь — обычная разметка раздела: заголовок-метка, строки, полосы,
+// числа и подписи долей. Никакого SVG, зума и горизонтальной прокрутки.
+//
+// Проценты — доля от предыдущего шага (так их и читает текст: «20 % от заявок»,
+// «15 % из потерянных»). Абсолютные величины всегда стоят числом рядом.
+import { typo } from '../../data/typo';
+
+interface Step {
+  /** значение шага, уже с единицей: «300», «60», «9 сделок» */
+  value: string;
+  /** что это за шаг: «заявок в месяц», «не дождались быстрого ответа» */
+  label: string;
+  /** доля от предыдущего шага — шириной полосы и подписью: «20 % от заявок» */
+  share?: string;
+  /** ширина полосы в процентах (та же доля, но числом для вёрстки) */
+  pct?: number;
+  /** тон полосы: потеря (warn), результат (green), обычный (accent) */
+  tone?: 'warn' | 'green';
+}
+interface Props {
+  /** метка над схемой, например «воронка ответа» */
+  label: string;
+  /** пояснение справа в шапке */
+  hint?: string;
+  steps: Step[];
+  /** сноска под схемой */
+  foot?: string;
+}
+const { label, hint, steps, foot } = Astro.props;
+---
+
+<div class="ld-flow">
+  <div class="ld-flow-head">
+    <span class="ld-flow-k">{typo(label)}</span>
+    {hint && <span class="ld-flow-hint">{typo(hint)}</span>}
+  </div>
+  <ol class="ld-flow-list">
+    {steps.map((s) => (
+      <li class:list={['ld-flow-row', s.tone && 'is-' + s.tone]}>
+        <p class="ld-flow-top">
+          <span class="ld-flow-l">{typo(s.label)}</span>
+          <b class="ld-flow-v">{typo(s.value)}</b>
+        </p>
+        <span class="ld-flow-track"><i style={`width:${Math.max(0, Math.min(100, s.pct ?? 100))}%`} /></span>
+        {s.share && <span class="ld-flow-share">{typo(s.share)}</span>}
+      </li>
+    ))}
+  </ol>
+  {foot && <p class="ld-flow-foot">{typo(foot)}</p>}
+</div>
