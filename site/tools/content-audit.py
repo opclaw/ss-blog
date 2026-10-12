@@ -179,7 +179,11 @@ def main() -> None:
             'is_landing': p.parent == DIST,
         }
 
-    print(f'Контент-аудит: {len(pages)} статей\n')
+    landings = sorted(n for n, d in data.items() if d['is_landing'])
+    # посадочные собираются тем же макетом, что статьи, но это не статьи:
+    # путать их в отчёте нельзя — из-за этого «непонятного распределения» и путались
+    print(f'Контент-аудит: {len(pages)} страниц — статей блога {len(pages) - len(landings)}, '
+          f'посадочных {len(landings)} ({", ".join(landings) or "—"})\n')
 
     # --- время чтения
     print('Время чтения: заявлено против фактического (180 слов/мин)')
@@ -204,7 +208,7 @@ def main() -> None:
         print('  заявленное время чтения совпадает с расчётом article.js во всех статьях')
 
     # --- структура и схожесть
-    print('\nСхожесть статей (пересечение разделов H2; выше 0.5 — кандидаты в шаблон)')
+    print('\nСхожесть страниц (пересечение разделов H2; выше 0.5 — кандидаты в шаблон; в списке и посадочные)')
     names = list(data)
     sims = []
     for i, a in enumerate(names):
@@ -218,10 +222,10 @@ def main() -> None:
     if not sims:
         print('  пар с пересечением ≥ 0.5 нет')
     h2_count = Counter(len(d['h2']) for d in data.values())
-    print('  распределение числа H2: ' + ', '.join(f'{k} разделов — {v} статей' for k, v in sorted(h2_count.items())))
+    print('  распределение числа H2: ' + ', '.join(f'{k} разделов — {v} страниц' for k, v in sorted(h2_count.items())))
 
     # --- дословные повторы
-    print('\nАбзацы, повторяющиеся дословно в разных статьях (>120 символов)')
+    print('\nАбзацы, повторяющиеся дословно на разных страницах (>120 символов)')
     seen: dict[str, list[str]] = defaultdict(list)
     for name, d in data.items():
         for para in d['paras']:
@@ -267,7 +271,8 @@ def main() -> None:
     out = ROOT / 'tools' / 'content-report.json'
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
     print(f'\nМашинный отчёт: {out.relative_to(ROOT)}')
-    print(f'ИТОГ: статей {len(pages)}; на новом макете {sum(1 for d in data.values() if d["new_layout"])}; '
+    print(f'ИТОГ: страниц {len(pages)} (статей {len(pages) - len(landings)}, посадочных {len(landings)}); '
+          f'на новом макете {sum(1 for d in data.values() if d["new_layout"])}; '
           f'повторов абзацев {len(dups)}; пар-«шаблонов» {len(sims)}')
     sys.exit(1 if (STRICT and time_issues) else 0)
 

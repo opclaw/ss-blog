@@ -38,6 +38,15 @@ IMG_WARN_KB = 300
 TITLE = (25, 60)          # рекомендация Яндекса/Google по длине
 DESC = (80, 170)
 
+# Коммерческие посадочные живут в корне и продают (схема Service), статьи — только в /blog/
+# и рассказывают (схема Article). Правило и разбор — CLAUDE.md § 3, CONTENT-MAP.md § 1.1.
+LANDINGS = {'/ai-agenty.html', '/avtomatizaciya-prodazh.html', '/ii-assistent-dlya-sajta.html'}
+# Пары «посадочная ↔ её статья»: один и тот же запрос не должен быть в H1 обеих.
+LANDING_PAIRS = [
+    ('/ai-agenty.html', '/blog/chto-takoe-ii-agent.html'),
+    ('/avtomatizaciya-prodazh.html', '/blog/ii-dlya-prodazh.html'),
+]
+
 errors: list[str] = []
 warns: list[str] = []
 notes: list[str] = []
@@ -135,6 +144,7 @@ def main() -> None:
     titles: dict[str, list[str]] = defaultdict(list)
     descs: dict[str, list[str]] = defaultdict(list)
     h1s: dict[str, list[str]] = defaultdict(list)
+    h1_by_rel: dict[str, str] = {}
 
     for p in pages:
         html = p.read_text(encoding='utf-8')
@@ -195,6 +205,7 @@ def main() -> None:
             err(f'{r}: H1 — {len(h)} шт. (нужен ровно один)')
         else:
             h1s[text_of(h[0])].append(r)
+            h1_by_rel[r] = text_of(h[0])
         h2 = len(re.findall(r'<h2\b', html, re.I))
         if is_article and h2 < 8:
             warn(f'{r}: всего {h2} H2 (бриф: 10–12 разделов)')
@@ -245,6 +256,19 @@ def main() -> None:
             if 'минут чтения' not in html:
                 warn(f'{r}: нет времени чтения в мете статьи')
 
+        # --- тип страницы: адрес и схема не должны спорить между собой
+        page_path = urlparse(url_of(r)).path or '/'
+        if page_path in LANDINGS:
+            if 'Service' not in types:
+                err(f'{r}: у посадочной нет схемы Service — тип страницы не подтверждён разметкой')
+            if 'Article' in types:
+                err(f'{r}: посадочная размечена как Article — смешение типов «статья ↔ посадочная»')
+        elif is_article:
+            if 'Article' not in types:
+                err(f'{r}: у статьи блога нет схемы Article')
+            if 'Service' in types:
+                err(f'{r}: статья блога размечена как Service — коммерческий тип внутри /blog/')
+
         # --- картинки
         for tag in re.findall(r'<img\b[^>]*>', html, re.I):
             if 'alt=' not in tag:
@@ -265,6 +289,23 @@ def main() -> None:
         size_kb = p.stat().st_size / 1024
         if size_kb > 300:
             note(f'{r}: HTML {size_kb:.0f} КБ')
+
+    # --- пары «посадочная ↔ статья»: целиться в один запрос нельзя
+    def tokens(text: str) -> str:
+        return re.sub(r'\s+', ' ', re.sub(r'[^\w\s]', ' ', text.lower().replace('ё', 'е'))).strip()
+
+    for landing, article in LANDING_PAIRS:
+        la, ar = h1_by_rel.get(landing.lstrip('/')), h1_by_rel.get(article.lstrip('/'))
+        if not la or not ar:
+            warn(f'пара {landing} ↔ {article}: не нашёл H1 на одной из страниц')
+            continue
+        ta, tb = tokens(la), tokens(ar)
+        if ta and (ta in tb or tb in ta):
+            err(f'H1 пары совпадают: «{la}» ↔ «{ar}» — посадочная и статья целятся в один запрос')
+            continue
+        wa, wb = {w for w in ta.split() if len(w) > 2}, {w for w in tb.split() if len(w) > 2}
+        if wa and wb and len(wa & wb) / min(len(wa), len(wb)) >= 0.75:
+            warn(f'H1 пары {landing} ↔ {article} похожи на {int(100 * len(wa & wb) / min(len(wa), len(wb)))}% — проверьте интенты')
 
     # --- дубли между страницами
     for t, rs in titles.items():

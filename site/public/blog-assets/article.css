@@ -377,3 +377,25 @@ svg text, svg tspan, b, em {
   font-family: var(--f-t);
   font-variant-numeric: tabular-nums;
 }
+
+/* ===== Посадочная на «листе»: коммерческие признаки первого экрана =====
+   Служебная строка с ценами и кнопки. Нужны, чтобы коммерческая страница не читалась
+   как статья: у статьи в первом экране нет ни цен, ни кнопок (только кикер, H1 и мета).
+   Классы используют только посадочные (/avtomatizaciya-prodazh.html, /ii-assistent-dlya-sajta.html). */
+.bl-service{margin:22px 0 0;font:500 14px/1.6 var(--f-m);color:var(--fg);display:flex;flex-wrap:wrap;gap:6px 14px}
+.bl-service span{white-space:nowrap}
+.bl-service span+span::before{content:'·';margin-right:14px;color:var(--mute)}
+.bl-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.bl-actions .btn{padding:.9rem 1.6rem;font-size:.93rem;text-decoration:none}
+/* Кнопки сайта рассчитаны на тёмный фон (btn-primary — светлая на тёмном). На белой
+   бумаге такая кнопка исчезает, поэтому здесь свои цвета из палитры листа. */
+.bl-actions .btn-primary{background:var(--ink);color:var(--on-ink);border:1px solid var(--ink)}
+.bl-actions .btn-primary:hover{background:#1D1D24}
+.bl-actions .btn-outline{background:transparent;color:var(--fg);border:1px solid var(--line2)}
+.bl-actions .btn-outline:hover{background:var(--paper2);border-color:var(--ink)}
+@media (max-width:600px){
+  .bl-actions .btn{width:100%;justify-content:center}
+  /* на узком экране цены идут столбиком: точки-разделители в начале строк лишние */
+  .bl-service{display:grid;gap:4px}
+  .bl-service span+span::before{content:none}
+}

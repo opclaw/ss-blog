@@ -167,6 +167,17 @@ const jsonLd = [
           <p class="bl-kicker">Услуга · AI-направление</p>
           <h1>Автоматизация продаж: цена, сроки и расчёт эффекта</h1>
           <p class="bl-meta">Один процесс · 2–4 недели · замер до и после</p>
+          {/* Коммерческие признаки первого экрана: статья их не показывает (см. article.css).
+              Цены — те же, что в разделе «Стоимость и сроки» ниже, без новых вилок. */}
+          <p class="bl-service">
+            <span>Аудит — 0 ₽</span>
+            <span>Пилот 2–4 недели — 50 000–150 000 ₽</span>
+            <span>Внедрение — от 200 000 ₽</span>
+          </p>
+          <div class="bl-actions">
+            <a href="#contacts" class="btn btn-primary">Обсудить задачу</a>
+            <a href="/blog/ii-dlya-prodazh.html" class="btn btn-outline">Разбор процесса: ИИ для продаж</a>
+          </div>
         </div>
 
         <HeroArt variant="chat"
@@ -277,7 +288,8 @@ const jsonLd = [
       </div>
 
       <div class="bl-author">
-        <AuthorCard theme="light" />
+        {/* На посадочной подпись карточки — «кто ведёт проект»: «Автор» здесь читается как статья */}
+        <AuthorCard theme="light" label="Кто ведёт проект" />
       </div>
     </div>
   </main>
