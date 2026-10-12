@@ -341,7 +341,8 @@ def main() -> None:
         found_tg = set(re.findall(r'href="https://t\.me/([\w_]+)"', html))
         if tg and found_tg and found_tg != {tg.group(1)}:
             errors.append(f'{rel}: Telegram {sorted(found_tg)} ≠ {tg.group(1)} из site.ts')
-        found_mail = set(re.findall(r'href="mailto:([^"]+)"', html))
+        # mailto с темой письма (mailto:адрес?subject=…) — тот же адрес, сравнивать тему не нужно
+        found_mail = {m.split('?', 1)[0] for m in re.findall(r'href="mailto:([^"]+)"', html)}
         if mail and found_mail and found_mail != {mail.group(1)}:
             errors.append(f'{rel}: почта {sorted(found_mail)} ≠ {mail.group(1)} из site.ts')
 

@@ -4,13 +4,16 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const DIST = process.env.DIST || '/home/user/ss-blog/site/dist';
-const SKIP = new Set(['404.html']);
+// 404 — служебная страница: в аудиты контента она не входит, но вёрстку её проверяем
+// (переполнения, наезды, мобильные ширины — всё то же, что у обычных страниц).
+const SERVICE = new Set(['404.html']);
 // файлы верификации поисковых систем — не страницы сайта
 const VERIFY = /^(google|yandex)[\w-]*\.html$/;
 
-export function sitePages(dist = DIST) {
+export function sitePages(dist = DIST, { with404 = false } = {}) {
+  const skip = with404 ? new Set() : SERVICE;
   const list = [];
-  const root = fs.readdirSync(dist).filter((f) => f.endsWith('.html') && !SKIP.has(f) && !VERIFY.test(f));
+  const root = fs.readdirSync(dist).filter((f) => f.endsWith('.html') && !skip.has(f) && !VERIFY.test(f));
   list.push(...root);
   for (const dir of ['blog', 'cases']) {
     const p = path.join(dist, dir);

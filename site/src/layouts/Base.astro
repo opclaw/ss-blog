@@ -33,12 +33,14 @@ interface Props {
   mainWrap?: boolean;
   /** закрыть страницу от индексации (служебные страницы вроде 404) */
   noindex?: boolean;
+  /** не выводить canonical: у служебной страницы (404) канонический адрес смысла не имеет */
+  noCanonical?: boolean;
 }
 const {
   title, description, path,
   ogTitle = title, ogDescription = description, ogType = 'website', ogImage = SITE.ogImage,
   jsonLd = [], active = null, skipTo = '#main-content', effects = false, readProgress = false, hasContacts = true, bodyClass,
-  mainWrap = true, noindex = false,
+  mainWrap = true, noindex = false, noCanonical = false,
 } = Astro.props;
 const isHome = path === '/';
 const canonical = new URL(path, SITE.url).href;
@@ -50,7 +52,7 @@ const canonical = new URL(path, SITE.url).href;
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title}</title>
   <meta name="description" content={description}>
-  <link rel="canonical" href={canonical}>
+  {!noCanonical && <link rel="canonical" href={canonical}>}
   {noindex && <meta name="robots" content="noindex, follow">}
   <meta property="og:title" content={ogTitle}>
   <meta property="og:description" content={ogDescription}>

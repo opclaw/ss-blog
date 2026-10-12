@@ -331,13 +331,56 @@ def main() -> None:
             if '<lastmod>' not in m.group(2):
                 pass  # lastmod не обязем — считаем по наличию выше
 
+    # --- страница 404: служебная, но живая
+    p404 = DIST / '404.html'
+    if not p404.exists():
+        err('нет 404.html — на несуществующих адресах хостинг отдаст свою заглушку')
+    else:
+        h404 = p404.read_text(encoding='utf-8')
+        if 'name="robots" content="noindex, follow"' not in h404:
+            err('404.html: нет «noindex, follow» — страница может попасть в индекс')
+        if 'rel="canonical"' in h404:
+            err('404.html: выведен canonical — у страницы ошибки его быть не должно')
+        if len(re.findall(r'<h1\b', h404)) != 1:
+            err('404.html: H1 должен быть ровно один')
+        for other in DIST.rglob('*.html'):
+            if other.name == '404.html':
+                continue
+            if re.search(r'href="[^"]*404\.html', other.read_text(encoding='utf-8')):
+                err(f'{rel(other)}: ссылка на /404.html — страница ошибки не должна быть адресом')
+
+    # --- поисковый индекс: страница 404 ищет по нему; без файла поиск на бою не работает
+    idx_file = DIST / 'search-index.json'
+    if not idx_file.exists():
+        err('нет search-index.json — поиск на странице 404 не работает (npm run build собирает его сам)')
+    else:
+        try:
+            idx = json.loads(idx_file.read_text(encoding='utf-8'))
+            entries = idx.get('pages') or []
+            urls_idx = {e.get('u') for e in entries}
+            if len(entries) != len(pages):
+                err(f'search-index.json: {len(entries)} записей против {len(pages)} страниц сборки')
+            if any('/404.html' in (u or '') for u in urls_idx):
+                err('search-index.json: служебная 404 попала в поиск')
+            page_paths = {urlparse(url_of(rel(p_))).path or '/' for p_ in pages}
+            for u in sorted(urls_idx):
+                if u not in page_paths:
+                    err(f'search-index.json: адрес {u} не соответствует странице сборки')
+            note(f'поиск по сайту: {len(entries)} страниц, {idx_file.stat().st_size / 1024:.0f} КБ')
+        except json.JSONDecodeError as e:
+            err(f'search-index.json: битый JSON ({e})')
+
     # --- .htaccess
     ht = PUBLIC / '.htaccess'
     if ht.exists():
         hb = ht.read_text(encoding='utf-8')
+        if 'ErrorDocument 404 /404.html' not in hb:
+            err('.htaccess: нет «ErrorDocument 404 /404.html» — ошибки отдаст заглушка хостинга')
         if re.search(r'FilesMatch\s+"[^"]*json', hb) and (DIST / 'manifest.json').exists():
             if 'manifest' not in hb:
                 err('.htaccess: запрет .json закрывает /manifest.json (его запрашивает браузер)')
+        if re.search(r'FilesMatch[^"]*"\(\?!manifest[^"]*json', hb) and 'search-index' not in hb:
+            err('.htaccess: запрет .json закрывает /search-index.json — поиск на странице 404 не заработает')
         for m in re.finditer(r'Files?\s+"([^"]+)"', hb):
             name = m.group(1)
             if name.startswith('.') or name == 'send.php':

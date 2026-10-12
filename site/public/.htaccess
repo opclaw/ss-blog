@@ -57,15 +57,16 @@ RewriteRule ^ - [G]
 
 # Сжатие
 <IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
 </IfModule>
 
 # Безопасность: запрет листинга директорий
 Options -Indexes
 
 # Безопасность: запрет доступа к служебным файлам
-# manifest.json — исключение: его запрашивает браузер (иконка сайта на Android)
-<FilesMatch "^(?!manifest\.json$).+\.(md|json|jsonl)$">
+# Исключения: manifest.json запрашивает браузер (иконка сайта на Android),
+# search-index.json читает поиск на странице 404 — без него поиск на бою не работает.
+<FilesMatch "^(?!manifest\.json$|search-index\.json$).+\.(md|json|jsonl)$">
     Require all denied
 </FilesMatch>
 

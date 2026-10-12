@@ -5,7 +5,7 @@
  *   LD_LIBRARY_PATH=/tmp/al2023/lib node tools/audit-layout.mjs \
  *     --base http://127.0.0.1:4321 --json /tmp/audit-layout.json [--only blog/] [--jobs 2]
  *
- * Полный прогон (31 страница x 4 разрешения = 124 замера) — около 7 минут.
+ * Полный прогон (32 страницы x 4 разрешения = 128 замеров) — около 7 минут.
  * В работе гонять с --only: одна страница на всех разрешениях — ~20 секунд.
  *
  * Что проверяет на каждом разрешении (1440, 1024, 768, 390):
@@ -294,7 +294,7 @@ async function measure(page, vp) {
   }
 }
 
-const pages = sitePages();
+const pages = sitePages(undefined, { with404: true });
 const list = pages.filter((p) => (ONLY ? p.includes(ONLY) : true));
 const viewports = [
   { w: 1440, h: 900, name: 'desktop' },

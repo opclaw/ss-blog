@@ -1,37 +1,561 @@
 ---
-// Страница 404. Раньше её не было: Beget отдавал свою заглушку, и посетитель терял путь.
-// Задача команды: не «извиниться», а вернуть человека к делу — услуги, AI-направление, блог.
-// Адрес /404.html закрыт от индексации (noindex) и не попадает в sitemap.
+// Страница 404 — не «извинение», а маршрутизатор: человек пришёл по несуществующему
+// адресу, и задача страницы — за один экран вернуть его к делу.
+//
+// Что здесь есть:
+//   1) честное объяснение (адрес изменился / опечатка) и адрес, по которому пришли;
+//   2) поиск по сайту — по индексу из сборки (tools/make-search-index.mjs, dist/search-index.json);
+//   3) «возможно, вы искали» — подсказка, если адрес похож на существующий (JS);
+//   4) статические маршруты: разделы, посадочные и статьи, которые читают чаще всего;
+//   5) «сообщить о битой ссылке» — письмо с адресом и источником перехода.
+//
+// Правила страницы: noindex + follow, canonical не выводим, в sitemap не входит,
+// на хостинге работает через `ErrorDocument 404 /404.html` (public/.htaccess).
+// Без JavaScript страница остаётся рабочей: поиск скрыт, маршруты и контакты — на месте.
 import Base from '../layouts/Base.astro';
+import { CONTACTS } from '../data/site';
 
-const links = [
-  { href: '/', label: 'Главная', note: 'Как мы строим системы привлечения клиентов' },
-  { href: '/services.html', label: 'Услуги и цены', note: 'Проект под ключ и сопровождение' },
-  { href: '/ai.html', label: 'AI-направление', note: 'Внедрение ИИ с замером эффекта в часах и рублях' },
-  { href: '/blog/', label: 'Блог', note: '21 разбор: процессы, отрасли, расчёты' },
+const title = 'Такой страницы нет — Smart Solutions';
+const description =
+  'Такой страницы нет: адрес мог измениться или в ссылке опечатка. Поиск по сайту, разделы и статьи блога — или напишите нам, и мы поправим ссылку.';
+const reportHref = `mailto:${CONTACTS.email}?subject=${encodeURIComponent('Битая ссылка на сайте')}`;
+
+// Маршруты: куда чаще всего идут с несуществующего адреса. Адреса — реальные страницы сайта.
+const routes = [
+  {
+    href: '/services.html',
+    badge: 'раздел',
+    title: 'Услуги и цены',
+    note: 'Проект под ключ и сопровождение: что входит, сроки и от чего зависит цена.',
+  },
+  {
+    href: '/ai.html',
+    badge: 'раздел',
+    title: 'AI-направление',
+    note: 'Аудит, пилот, внедрение: эффект считаем в часах и рублях.',
+  },
+  {
+    href: '/blog/',
+    badge: 'раздел',
+    title: 'Блог',
+    note: 'Разборы по отраслям и процессам: расчёты, ограничения, пилоты.',
+  },
+  {
+    href: '/#projects',
+    badge: 'раздел',
+    title: 'Проекты',
+    note: 'Кейсы с цифрами: что было, что сделали и что изменилось.',
+  },
+];
+
+const landings = [
+  {
+    href: '/ai-agenty.html',
+    badge: 'услуга',
+    title: 'ИИ-агенты для бизнеса',
+    note: 'Агент под конкретный процесс: заявки, документы, поддержка на сайте.',
+  },
+  {
+    href: '/avtomatizaciya-prodazh.html',
+    badge: 'услуга',
+    title: 'Автоматизация отдела продаж',
+    note: 'Скорость ответа, скоринг и follow-up без роста штата.',
+  },
+  {
+    href: '/ii-assistent-dlya-sajta.html',
+    badge: 'услуга',
+    title: 'ИИ-ассистент для сайта',
+    note: 'Отвечает по вашей базе знаний, сложное передаёт человеку.',
+  },
+];
+
+const articles = [
+  {
+    href: '/blog/vnedrenie-ii-v-biznes.html',
+    badge: 'статья',
+    title: 'Внедрение ИИ в бизнес: с чего начать',
+    note: 'Как выбрать первый процесс и довести пилот до рабочей системы.',
+  },
+  {
+    href: '/blog/skolko-stoit-vnedrenie-ii.html',
+    badge: 'статья',
+    title: 'Сколько стоит внедрение ИИ',
+    note: 'Аудит бесплатно, пилот 50–150 тыс ₽, внедрение от 200 тыс ₽ — и формула окупаемости.',
+  },
+  {
+    href: '/blog/kak-poschitat-effekt-ot-ii-do-pilota.html',
+    badge: 'статья',
+    title: 'Как посчитать эффект от ИИ до пилота',
+    note: 'Формула «часы × ставка = рубли», пример расчёта и шаблон под свой процесс.',
+  },
+  {
+    href: '/blog/chto-takoe-ii-agent.html',
+    badge: 'статья',
+    title: 'Что такое ИИ-агент простыми словами',
+    note: 'Чем агент отличается от чат-бота, как он работает и где окупается.',
+  },
 ];
 ---
 <Base
-  title="Страница не найдена — Smart Solutions"
-  description="Такой страницы нет: возможно, адрес изменился или в ссылке опечатка. Вернитесь на главную, посмотрите услуги и блог."
+  title={title}
+  description={description}
   path="/404.html"
   hasContacts={false}
   noindex
+  noCanonical
 >
-  <section class="section section-hero" id="main-content">
+  <section class="e404" id="main-content">
     <div class="container">
-      <p class="section-label">Ошибка 404</p>
-      <h1>Такой страницы нет</h1>
-      <p class="hero-subtitle">Возможно, адрес изменился или в ссылке опечатка. Ниже — то, что чаще всего ищут.</p>
-      <div class="related-grid" style="margin-top: 28px; max-width: 640px;">
-        {links.map((l) => (
-          <a class="related-card" href={l.href}>
-            <span class="related-title">{l.label}</span>
-            <span class="related-meta">{l.note}</span>
-            <span class="related-arrow">→</span>
-          </a>
-        ))}
+      <div class="e404-top">
+        <div class="e404-copy">
+          <p class="label e404-code"><span class="e404-code-num">404</span> адрес не найден</p>
+          <h1 class="e404-title">Такой страницы нет</h1>
+          <p class="e404-lead">
+            Адрес мог измениться или в ссылке опечатка: старые адреса живут в чужих подборках
+            и закладках дольше, чем страницы на сайте. Ниже — поиск по сайту и разделы, куда
+            чаще всего приходят. Если ссылка ведёт сюда с другого сайта — напишите, поправим.
+          </p>
+          <p class="e404-path" id="e404-path" hidden>Запрошенный адрес: <code id="e404-path-value"></code></p>
+          <div class="e404-actions">
+            <a class="btn btn-primary" href="/">На главную</a>
+            <a class="btn btn-outline" id="e404-report" href={reportHref}>Сообщить о битой ссылке</a>
+          </div>
+        </div>
+
+        <figure class="e404-fig" aria-hidden="true">
+          {/* Схема: запрошенный адрес не найден, но работающие маршруты — рядом.
+              Рисуется линиями 1px без свечения и градиентов (GRAPHICS-STYLE.md). */}
+          <svg viewBox="0 0 520 296" role="presentation" focusable="false">
+            <rect class="e404-fig-chip" x="24" y="28" width="216" height="48" rx="10" stroke-dasharray="5 6"/>
+            <text class="e404-fig-text" x="132" y="57" text-anchor="middle">такого адреса нет</text>
+            <path class="e404-fig-x" d="M248 44 L262 58 M262 44 L248 58"/>
+            <path class="e404-fig-dash" d="M132 76 L132 232"/>
+            <path class="e404-fig-accent" d="M125 224 L132 236 L139 224"/>
+            <text class="e404-fig-note" x="496" y="222" text-anchor="end">работающие маршруты</text>
+            <line class="e404-fig-line" x1="24" y1="250" x2="496" y2="250"/>
+            <circle class="e404-fig-node" cx="100" cy="250" r="5.5"/>
+            <circle class="e404-fig-node" cx="210" cy="250" r="5.5"/>
+            <circle class="e404-fig-node" cx="320" cy="250" r="5.5"/>
+            <circle class="e404-fig-node" cx="430" cy="250" r="5.5"/>
+            <text class="e404-fig-text" x="100" y="278" text-anchor="middle">Главная</text>
+            <text class="e404-fig-text" x="210" y="278" text-anchor="middle">Услуги</text>
+            <text class="e404-fig-text" x="320" y="278" text-anchor="middle">AI</text>
+            <text class="e404-fig-text" x="430" y="278" text-anchor="middle">Блог</text>
+          </svg>
+        </figure>
       </div>
+
+      <section class="e404-search" id="e404-search" hidden aria-labelledby="e404-search-title">
+        <h2 class="e404-h" id="e404-search-title">Поиск по сайту</h2>
+        <div class="e404-field">
+          <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+            <circle cx="8.5" cy="8.5" r="5.5"/>
+            <line x1="12.8" y1="12.8" x2="17.5" y2="17.5"/>
+          </svg>
+          <input
+            class="e404-input"
+            id="e404-input"
+            type="search"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="Например: продажи, стоимость, ИИ для HR"
+            aria-describedby="e404-search-hint"
+            aria-controls="e404-results"
+          >
+        </div>
+        <p class="e404-hint" id="e404-search-hint">
+          Ищем по <span id="e404-count">31</span> странице: разделы, посадочные и статьи блога.
+        </p>
+
+        <div class="e404-results-wrap" id="e404-results-wrap" hidden>
+          <p class="e404-status" id="e404-status" role="status"></p>
+          <ul class="e404-cards" id="e404-results"></ul>
+          <p class="e404-empty" id="e404-empty" hidden>
+            Ничего не нашлось по этому запросу. Напишите — подскажем, где это лежит:
+            <a href={CONTACTS.telegram}>Telegram</a> или <a href={`mailto:${CONTACTS.email}`}>почта</a>.
+          </p>
+        </div>
+
+        <div class="e404-suggest" id="e404-suggest" hidden>
+          <p class="e404-suggest-title">Возможно, вы искали</p>
+          <ul class="e404-cards" id="e404-suggest-list"></ul>
+        </div>
+      </section>
+
+      <section class="e404-block" aria-labelledby="e404-routes-title">
+        <h2 class="e404-h" id="e404-routes-title">Разделы сайта</h2>
+        <ul class="e404-cards">
+          {routes.map((c) => (
+            <li>
+              <a class="e404-card" href={c.href}>
+                <span class="e404-card-top">
+                  <span class="e404-badge">{c.badge}</span>
+                  <span class="e404-url">{c.href}</span>
+                </span>
+                <span class="e404-card-title">{c.title}</span>
+                <span class="e404-card-note">{c.note}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="e404-block" aria-labelledby="e404-landings-title">
+        <h2 class="e404-h" id="e404-landings-title">Услуги по ИИ</h2>
+        <ul class="e404-cards">
+          {landings.map((c) => (
+            <li>
+              <a class="e404-card" href={c.href}>
+                <span class="e404-card-top">
+                  <span class="e404-badge">{c.badge}</span>
+                  <span class="e404-url">{c.href}</span>
+                </span>
+                <span class="e404-card-title">{c.title}</span>
+                <span class="e404-card-note">{c.note}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="e404-block" aria-labelledby="e404-articles-title">
+        <h2 class="e404-h" id="e404-articles-title">Часто читают в блоге</h2>
+        <ul class="e404-cards">
+          {articles.map((c) => (
+            <li>
+              <a class="e404-card" href={c.href}>
+                <span class="e404-card-top">
+                  <span class="e404-badge">{c.badge}</span>
+                  <span class="e404-url">{c.href}</span>
+                </span>
+                <span class="e404-card-title">{c.title}</span>
+                <span class="e404-card-note">{c.note}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="e404-help">
+        <h2 class="e404-h">Не нашли нужное?</h2>
+        <p>
+          Напишите — подскажем, где искать, или вернём страницу по старому адресу.
+          Быстрее всего это в мессенджере.
+        </p>
+        <ul class="e404-contacts">
+          <li><a href={CONTACTS.telegram}>Telegram</a></li>
+          <li><a href={CONTACTS.whatsapp} target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href={`tel:${CONTACTS.tel}`}>{CONTACTS.phone}</a></li>
+          <li><a href={`mailto:${CONTACTS.email}`}>{CONTACTS.email}</a></li>
+        </ul>
+      </section>
     </div>
   </section>
+
+  {/* Карточка результата поиска: один шаблон на все результаты, наполняется скриптом ниже */}
+  <template id="e404-card-tpl">
+    <li>
+      <a class="e404-card" href="">
+        <span class="e404-card-top">
+          <span class="e404-badge"></span>
+          <span class="e404-url"></span>
+        </span>
+        <span class="e404-card-title"></span>
+        <span class="e404-card-note"></span>
+      </a>
+    </li>
+  </template>
+
+  <Fragment slot="tail">
+    <script is:inline>
+      (function () {
+        'use strict';
+
+        var searchBox = document.getElementById('e404-search');
+        var input = document.getElementById('e404-input');
+        var pathBox = document.getElementById('e404-path');
+        var pathValue = document.getElementById('e404-path-value');
+        var report = document.getElementById('e404-report');
+        var suggest = document.getElementById('e404-suggest');
+        var suggestList = document.getElementById('e404-suggest-list');
+        var resultsWrap = document.getElementById('e404-results-wrap');
+        var results = document.getElementById('e404-results');
+        var status = document.getElementById('e404-status');
+        var empty = document.getElementById('e404-empty');
+        var counter = document.getElementById('e404-count');
+        var tpl = document.getElementById('e404-card-tpl');
+        if (!searchBox || !input || !results || !tpl) return;
+
+        var INDEX = [];
+        var searchSent = false;
+        var suggestReady = false;
+
+        /* Цели для Метрики: page_404_search (воспользовался поиском) и page_404_report
+           (нажал «сообщить о битой ссылке»). Номера целей создаются в интерфейсе Метрики;
+           если счётчик выключен, вызовы молча ничего не делают. */
+        function goal(name) {
+          try { if (window.YM_ID && typeof window.ym === 'function') window.ym(window.YM_ID, 'reachGoal', name); } catch (e) {}
+        }
+
+        /* --- адрес, по которому пришли: видно человеку, попадает в письмо о битой ссылке --- */
+        var requested = location.pathname + location.search;
+        if (pathBox && pathValue) {
+          pathValue.textContent = requested;
+          pathBox.hidden = false;
+        }
+        if (report) {
+          var body = 'Запрошенный адрес: ' + location.href + '\nОткуда пришёл: ' + (document.referrer || 'неизвестно');
+          report.href = report.getAttribute('href') + '&body=' + encodeURIComponent(body);
+          report.addEventListener('click', function () { goal('page_404_report'); }, { passive: true });
+        }
+
+        searchBox.hidden = false;
+
+        /* --- приведение текста к сравнению: регистр, «ё», знаки --- */
+        function norm(s) { return String(s || '').toLowerCase().replace(/ё/g, 'е').replace(/[^a-zа-я0-9]+/g, ' ').trim(); }
+        function words(s) { return norm(s).split(' ').filter(function (w) { return w.length > 1 || /\d/.test(w); }); }
+
+        /* --- поиск --- */
+        function prepare(page) {
+          page.f = [
+            [norm(page.t), 8],   // заголовок страницы
+            [norm(page.h), 7],   // H1
+            [norm(page.d), 3],   // описание
+            [norm(page.w), 2],   // заголовки разделов внутри страницы
+            [norm(page.a), 2],   // слова, которыми тоже ищут (латиница ↔ русская раскладка)
+            [norm(page.u), 4]    // адрес: ищут и по «hr», «crm», «geo»
+          ];
+          return page;
+        }
+
+        /* Сравнение по началу слова: русские формы в запросе и в тексте не совпадают
+           буквально — «продажи» против «продаж», «кадры» против «кадров». */
+        function commonStart(a, b) {
+          var limit = Math.min(a.length, b.length), i = 0;
+          while (i < limit && a.charAt(i) === b.charAt(i)) i++;
+          return i;
+        }
+
+        function fieldScore(text, token, weight) {
+          if (!text) return 0;
+          var parts = text.split(' '), best = 0;
+          for (var i = 0; i < parts.length; i++) {
+            var w = parts[i], score = 0;
+            if (w === token) score = weight * 2;
+            else if (token.length > 1 && w.indexOf(token) === 0) score = weight * 1.6;
+            else if (commonStart(w, token) >= 4) score = weight * 1.4;
+            else if (token.length > 2 && w.indexOf(token) > -1) score = weight * 1.1;
+            if (score > best) best = score;
+          }
+          return best;
+        }
+
+        function search(queryTokens) {
+          var found = [];
+          for (var i = 0; i < INDEX.length; i++) {
+            var page = INDEX[i], total = 0, matched = true;
+            for (var t = 0; t < queryTokens.length; t++) {
+              var score = 0;
+              for (var j = 0; j < page.f.length; j++) score += fieldScore(page.f[j][0], queryTokens[t], page.f[j][1]);
+              if (score <= 0) { matched = false; break; }
+              total += score;
+            }
+            if (matched) found.push({ page: page, score: total });
+          }
+          found.sort(function (a, b) { return b.score - a.score; });
+          return found.slice(0, 8).map(function (x) { return x.page; });
+        }
+
+        /* --- лучший отрывок: сначала описание, потом заголовки разделов статьи --- */
+        function snippet(page, queryTokens) {
+          var lines = [];
+          if (page.d) lines.push(page.d);
+          String(page.w || '').split(' · ').forEach(function (l) { if (l && l.length > 12) lines.push(l); });
+          var best = '', bestScore = 0;
+          for (var i = 0; i < lines.length; i++) {
+            var text = norm(lines[i]), score = 0;
+            for (var t = 0; t < queryTokens.length; t++) score += fieldScore(text, queryTokens[t], 1);
+            if (score > bestScore) { bestScore = score; best = lines[i]; }
+          }
+          return best || page.d || '';
+        }
+
+        /* --- подсветка совпадений: только текстовые узлы и <mark>, без innerHTML --- */
+        function markify(text, queryTokens) {
+          var fragment = document.createDocumentFragment();
+          var low = text.toLowerCase().replace(/ё/g, 'е');
+          var ranges = [];
+          for (var t = 0; t < queryTokens.length; t++) {
+            var from = 0, guard = 0;
+            while (guard++ < 8) {
+              var at = low.indexOf(queryTokens[t], from);
+              if (at < 0) break;
+              ranges.push([at, at + queryTokens[t].length]);
+              from = at + queryTokens[t].length;
+            }
+          }
+          ranges.sort(function (a, b) { return a[0] - b[0]; });
+          var pos = 0;
+          for (var r = 0; r < ranges.length; r++) {
+            if (ranges[r][0] < pos) continue;
+            if (ranges[r][0] > pos) fragment.appendChild(document.createTextNode(text.slice(pos, ranges[r][0])));
+            var mark = document.createElement('mark');
+            mark.textContent = text.slice(ranges[r][0], ranges[r][1]);
+            fragment.appendChild(mark);
+            pos = ranges[r][1];
+          }
+          if (pos < text.length) fragment.appendChild(document.createTextNode(text.slice(pos)));
+          return fragment;
+        }
+
+        function card(page, queryTokens) {
+          var list = tpl.content.firstElementChild.cloneNode(true);
+          list.querySelector('a').href = page.u;
+          list.querySelector('.e404-badge').textContent = page.k || page.s;
+          list.querySelector('.e404-url').textContent = page.u;
+          list.querySelector('.e404-card-title').textContent = page.t || page.h;
+          var note = list.querySelector('.e404-card-note');
+          var text = snippet(page, queryTokens);
+          if (text) note.appendChild(markify(text, queryTokens));
+          else note.remove();
+          return list;
+        }
+
+        function plural(n, one, few, many) {
+          var m10 = n % 10, m100 = n % 100;
+          if (m10 === 1 && m100 !== 11) return one;
+          if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return few;
+          return many;
+        }
+
+        function render(list, queryTokens) {
+          results.textContent = '';
+          if (!list.length) {
+            resultsWrap.hidden = false;
+            status.textContent = 'Ничего не нашлось';
+            empty.hidden = false;
+            return;
+          }
+          empty.hidden = true;
+          for (var i = 0; i < list.length; i++) results.appendChild(card(list[i], queryTokens));
+          resultsWrap.hidden = false;
+          status.textContent = 'Найдено ' + list.length + ' ' + plural(list.length, 'страница', 'страницы', 'страниц');
+        }
+
+        function clearResults() {
+          results.textContent = '';
+          resultsWrap.hidden = true;
+          empty.hidden = true;
+        }
+
+        input.addEventListener('input', function () {
+          var queryTokens = words(input.value);
+          if (!queryTokens.length) {
+            clearResults();
+            if (suggestReady) suggest.hidden = false;
+            return;
+          }
+          suggest.hidden = true;   // подсказка по опечатке не должна оттеснять результат поиска
+          var list = search(queryTokens);
+          render(list, queryTokens);
+          if (list.length && !searchSent) { searchSent = true; goal('page_404_search'); }
+        });
+
+        input.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') { input.value = ''; clearResults(); return; }
+          if (e.key === 'Enter' || e.key === 'ArrowDown') {
+            var first = results.querySelector('a');
+            if (!first) return;
+            e.preventDefault();
+            first.focus();
+          }
+        });
+
+        results.addEventListener('keydown', function (e) {
+          var links = Array.prototype.slice.call(results.querySelectorAll('a'));
+          var at = links.indexOf(document.activeElement);
+          if (e.key === 'ArrowDown') { e.preventDefault(); (links[at + 1] || links[0]).focus(); }
+          if (e.key === 'ArrowUp') { e.preventDefault(); if (at <= 0) input.focus(); else links[at - 1].focus(); }
+        });
+
+        /* --- «возможно, вы искали»: похожий адрес по пути из строки браузера --- */
+        function slugWords(url) {
+          return norm(String(url).replace(/\.html$/, '').replace(/\/$/, '')).split(' ').filter(function (w) { return w.length > 1; });
+        }
+
+        /* Похожесть двух адресов: слова сравниваем по началу, поэтому «prodazhi»
+           ближе к «prodazh», чем к любому другому адресу блога. */
+        function slugScore(asked, candidate) {
+          if (!asked.length || !candidate.length) return 0;
+          var sum = 0, matched = 0;
+          for (var i = 0; i < asked.length; i++) {
+            var best = 0;
+            for (var j = 0; j < candidate.length; j++) {
+              var a = asked[i], b = candidate[j], score = 0;
+              if (a === b) score = 1;
+              else if (a.indexOf(b) === 0 || b.indexOf(a) === 0) score = 0.9;
+              else {
+                var common = commonStart(a, b);
+                if (common >= 4) score = 0.7 * (common / Math.min(a.length, b.length));
+              }
+              if (score > best) best = score;
+            }
+            sum += best;
+            if (best > 0) matched++;
+          }
+          var coverage = matched / asked.length;
+          var extra = (candidate.length - matched) * 0.04;
+          var score = Math.max(0, sum / asked.length - extra);
+          return coverage === 1 ? score : score * coverage;
+        }
+
+        function findTypo() {
+          var asked = slugWords(location.pathname);
+          if (!asked.length || location.pathname === '/') return;
+          var scored = [];
+          for (var i = 0; i < INDEX.length; i++) {
+            var score = slugScore(asked, slugWords(INDEX[i].u));
+            if (score >= 0.5) scored.push({ page: INDEX[i], score: score, exact: INDEX[i].u === location.pathname });
+          }
+          scored = scored.filter(function (x) { return !x.exact; });
+          scored.sort(function (a, b) { return b.score - a.score; });
+          scored = scored.slice(0, 3);
+          if (!scored.length) return;
+          for (var s = 0; s < scored.length; s++) {
+            var node = card(scored[s].page, []);
+            node.querySelector('.e404-badge').textContent = scored[s].page.s || scored[s].page.k;
+            node.querySelector('.e404-card-note').textContent = scored[s].page.d || '';
+            suggestList.appendChild(node);
+          }
+          suggest.hidden = false;
+          suggestReady = true;
+        }
+
+        /* Индекс не отдался (старый браузер, сеть, ошибка на сервере) — поиск выключаем,
+           но страница продолжает работать: маршруты и контакты никуда не делись. */
+        function degrade() {
+          input.disabled = true;
+          input.placeholder = 'Поиск недоступен';
+          var hint = document.getElementById('e404-search-hint');
+          if (hint) hint.textContent = 'Поиск временно недоступен — воспользуйтесь разделами ниже.';
+        }
+
+        try {
+          fetch('/search-index.json', { cache: 'no-cache' })
+            .then(function (response) {
+              if (!response.ok) throw new Error(String(response.status));
+              return response.json();
+            })
+            .then(function (data) {
+              INDEX = ((data && data.pages) || []).map(prepare);
+              if (counter) counter.textContent = String(INDEX.length);
+              findTypo();
+            })
+            .catch(degrade);
+        } catch (e) {
+          degrade();
+        }
+      })();
+    </script>
+  </Fragment>
 </Base>

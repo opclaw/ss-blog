@@ -30,12 +30,14 @@
 │   ├── src/data/site.ts   <- телефон, почта, мессенджеры, адрес, меню, ID Метрики
 │   ├── src/components/    <- Nav, MobileMenu, Footer, ContactCards, Metrika, blog/*
 │   ├── src/layouts/       <- Base.astro (каркас), Article.astro (статьи нового образца)
-│   ├── src/pages/         <- 31 страница: index, services, ai, ai-agenty, avtomatizaciya-prodazh,
-│   │                         ii-assistent-dlya-sajta, 404, cases/ (3), blog/ (21 статья + оглавление)
+│   ├── src/pages/         <- 31 адрес в карте сайта + служебная 404: index, services, ai, ai-agenty,
+│   │                         avtomatizaciya-prodazh, ii-assistent-dlya-sajta, 404, cases/ (3),
+│   │                         blog/ (21 статья + оглавление)
 │   ├── public/            <- styles.css, script.js, blog-assets/, images/, logos/,
 │   │                         robots.txt, sitemap.xml, .htaccess, manifest.json, верификации
 │   ├── tools/             <- verify.py (сверка), make-sitemap.py, seo-audit.py,
-│   │                         js-check.mjs, kit-check.mjs (интерактив), audit-*.mjs (разовые аудиты)
+│   │                         js-check.mjs, kit-check.mjs (интерактив), check-404.mjs (404 и поиск),
+│   │                         make-search-index.mjs (индекс поиска), audit-*.mjs (разовые аудиты)
 │   └── dist/              <- сборка; её и заливаем на хостинг (в git не попадает)
 ├── legacy/version-4/      <- исходный сайт из `version 4.zip`: эталон для сверки и откат
 ├── deliverables/          <- отчёты, планы, шаблоны, черновики статей
@@ -89,8 +91,15 @@
   BreadcrumbList в статьях; Organization + WebSite на главной; на страницах услуг, кейсов и
   посадочных `ai-agenty`/`avtomatizaciya-prodazh`/`ii-assistent-dlya-sajta` — BreadcrumbList),
   `.htaccess`, canonical на всех страницах.
-- **Проверки:** `npm run check` = сборка → сверка с `legacy/version-4` → sitemap актуален →
-  JS на всех страницах → интерактив kit → SEO-аудит (`npm run audit`). То же гоняется в GitHub Actions.
+- **Проверки:** `npm run check` = сборка (+ поисковый индекс) → сверка с `legacy/version-4` →
+  sitemap актуален → JS на всех страницах → интерактив kit → страница 404 и её поиск
+  (`tools/check-404.mjs`) → QA (якоря, доступность, типографика) → SEO-аудит (`npm run audit`).
+  То же гоняется в GitHub Actions.
+- **Страница 404 и поиск по сайту:** `src/pages/404.astro` — `noindex, follow`, без `canonical`,
+  вне `sitemap.xml`, на хостинге через `ErrorDocument 404 /404.html`. Ищет по индексу
+  `dist/search-index.json` (собирается при `npm run build`, `npm run index` — отдельно),
+  плюс подсказка «возможно, вы искали» по похожему адресу. `search-index.json` открыт в `.htaccess`
+  (исключение из запрета `.json`) — при правке правила исключение сохранять.
 - **Деплой:** Vercel (preview `ss-ai-preview.vercel.app`) → Beget (prod, rsync `site/dist/`).
 - **Графика:** SVG-фигуры рисуются вручную в статьях (2–3 шт/статья, данные из текста).
 - **CSS-токены:** переменные в `:root` (цвета, шрифты, отступы), бан-лист идей в голове (нет cyan/purple, нет эмодзи, нет курсива).
@@ -178,13 +187,14 @@
    (журнал уехал в архив, мёртвый код удалён, аудит вёрстки ускоряется).
 6. Мониторинг позиций и заявок через 4–6 недель после выгрузки.
 
-**Закрыто ранее** (не считать открытым): Метрика стоит на всех 31 странице; пункт «Блог» есть в меню;
+**Закрыто ранее** (не считать открытым): страница 404 переделана под маршрутизацию + поиск по сайту
+(2026-10-12, `deliverables/TEAM-RUN-17.md`); Метрика стоит на всех 31 странице; пункт «Блог» есть в меню;
 схемы есть на главной (Organization + WebSite), в статьях (Article + FAQPage + BreadcrumbList);
 все 21 статья на едином макете `Article.astro`; цены приведены к вилке пилота 50–150 тыс.;
 стоимость часа считается по одной формуле «полные затраты ÷ 168».
 
 ---
 
-*История изменений: 2026-06-30 (исходная) → 2026-08-24 (синхронизация с реальностью `version 4`: добавлен AI-раздел и блог; убраны форма/Метрика/consent/privacy; добавлены MODEL-ROUTING/CONTENT-MAP/SESSION-правила) → 2026-09-25 (перенос на Astro, `site/`; аудит: исправлены robots/.htaccess/sitemap, карточки ai.html, оптимизированы картинки; обновлены приоритеты).*
+*История изменений: 2026-06-30 (исходная) → 2026-08-24 (синхронизация с реальностью `version 4`: добавлен AI-раздел и блог; убраны форма/Метрика/consent/privacy; добавлены MODEL-ROUTING/CONTENT-MAP/SESSION-правила) → 2026-09-25 (перенос на Astro, `site/`; аудит: исправлены robots/.htaccess/sitemap, карточки ai.html, оптимизированы картинки; обновлены приоритеты) → 2026-10-12 (страница 404: поиск по сайту, индекс `search-index.json`, подсказка «возможно, вы искали», проверка `check-404.mjs`, служебные проверки прода — `deliverables/TEAM-RUN-17.md`).*
 
 *Примечание к истории: раздел «версии 1/2/3» больше неактуален — в рабочем дереве остались только `site/` (активная) и `legacy/version-4/` (эталон).*

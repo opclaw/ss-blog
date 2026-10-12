@@ -3528,3 +3528,192 @@ p.format-note.text-secondary {
   .hero-case-vals { font-size: 0.82rem; }
   .hero-case-cause { font-size: 0.76rem; margin-top: 0.8rem; padding-top: 0.7rem; }
 }
+
+/* ================================================================
+   СТРАНИЦА 404
+   Не «извинение», а маршрутизатор: объяснить, показать адрес, дать
+   поиск и разложить разделы. Стили держим в общем файле, чтобы не
+   плодить страничные блоки; без JS страница работает (поиск скрыт).
+   ================================================================ */
+.e404 { padding: 8.5rem 1.5rem 5rem; }
+.e404 [hidden] { display: none !important; }
+
+.e404-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 3rem;
+  align-items: center;
+}
+.e404-code { display: flex; align-items: center; gap: 0.75rem; }
+.e404-code-num {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  border: 1px solid rgba(0, 217, 255, 0.35);
+  border-radius: 6px;
+  padding: 0.15rem 0.5rem;
+}
+.e404-title {
+  font-size: clamp(1.9rem, 5vw, 2.75rem);
+  font-weight: 800;
+  margin-bottom: 1.25rem;
+}
+.e404-lead { color: var(--secondary); font-size: 1.0625rem; line-height: 1.75; max-width: 56ch; }
+.e404-path { margin-top: 1.25rem; color: var(--muted); font-size: 0.9rem; }
+.e404-path code {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--fg);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.15rem 0.45rem;
+  overflow-wrap: anywhere;
+}
+.e404-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.75rem; }
+
+/* Схема: запрос → тупик, рядом работающие маршруты */
+.e404-fig { margin: 0; }
+.e404-fig svg { display: block; width: 100%; height: auto; }
+.e404-fig-line { stroke: rgba(255, 255, 255, 0.16); stroke-width: 1; }
+.e404-fig-dash { stroke: rgba(255, 255, 255, 0.3); stroke-width: 1; stroke-dasharray: 5 6; fill: none; }
+.e404-fig-chip { fill: rgba(255, 255, 255, 0.03); stroke: var(--border-hover); }
+.e404-fig-x { stroke: rgba(255, 255, 255, 0.35); stroke-width: 1; }
+.e404-fig-accent { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.e404-fig-node { fill: var(--bg); stroke: var(--accent); stroke-width: 1.5; }
+.e404-fig-text { fill: var(--secondary); font-family: 'Manrope', sans-serif; font-size: 13px; }
+.e404-fig-note {
+  fill: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Поиск по сайту */
+.e404-search { margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid var(--border); }
+.e404-h { font-size: clamp(1.25rem, 2.4vw, 1.6rem); font-weight: 700; margin-bottom: 0.5rem; }
+.e404-field { position: relative; max-width: 640px; margin-top: 1.25rem; }
+.e404-field > svg {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  stroke: var(--muted);
+  stroke-width: 1.6;
+  fill: none;
+  pointer-events: none;
+}
+.e404-input {
+  width: 100%;
+  padding: 1rem 1rem 1rem 3rem;
+  font-size: 1rem;
+  color: var(--fg);
+  background: var(--card-bg);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius);
+  transition: border-color var(--transition), background var(--transition);
+  appearance: none;
+  -webkit-appearance: none;
+}
+.e404-input::placeholder { color: var(--muted); }
+.e404-input:focus { border-color: rgba(0, 217, 255, 0.55); background: rgba(0, 217, 255, 0.03); }
+.e404-input:focus:not(:focus-visible) { outline: none; }   /* кольцо фокуса оставляем клавиатуре */
+.e404-input:disabled { opacity: 0.45; cursor: not-allowed; }
+.e404-input::-webkit-search-cancel-button { -webkit-appearance: none; }
+.e404-hint { margin-top: 0.75rem; font-size: 0.85rem; color: var(--muted); }
+.e404-status { margin: 1.5rem 0 0.75rem; font-size: 0.85rem; color: var(--muted); }
+.e404-empty { margin-top: 0.75rem; font-size: 0.9rem; color: var(--secondary); max-width: 58ch; }
+.e404-empty a { color: var(--accent); border-bottom: 1px solid rgba(0, 217, 255, 0.4); }
+.e404-suggest { margin-top: 1.75rem; }
+.e404-suggest-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+
+/* Карточки: раздел, адрес, название, пояснение */
+.e404-block { margin-top: 3rem; }
+.e404-cards {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.625rem;
+  margin-top: 1.25rem;
+}
+.e404-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  height: 100%;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.015);
+  transition: background var(--transition), border-color var(--transition), transform var(--transition);
+}
+.e404-card:hover {
+  background: rgba(0, 217, 255, 0.04);
+  border-color: rgba(0, 217, 255, 0.4);
+  transform: translateY(-2px);
+}
+.e404-card-top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.e404-badge {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  border-radius: 4px;
+  padding: 0.15rem 0.4rem;
+  white-space: nowrap;
+}
+.e404-url {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.e404-card-title { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 1rem; line-height: 1.35; }
+.e404-card-note { font-size: 0.875rem; line-height: 1.55; color: var(--secondary); }
+.e404-card-note mark { background: rgba(0, 217, 255, 0.18); color: var(--fg); border-radius: 3px; padding: 0 0.08em; }
+
+/* Контакты: последний выход, не блок с четырьмя карточками */
+.e404-help {
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.5rem 3rem;
+  align-items: start;
+}
+.e404-help p { color: var(--secondary); max-width: 48ch; }
+.e404-contacts { list-style: none; display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; }
+.e404-contacts a { color: var(--fg); border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding-bottom: 2px; }
+.e404-contacts a:hover { color: var(--accent); border-color: var(--accent); }
+
+@media (max-width: 900px) {
+  .e404-top { grid-template-columns: 1fr; gap: 2.25rem; }
+  .e404-fig { max-width: 520px; }
+}
+@media (max-width: 720px) {
+  .e404 { padding: 7rem 1.25rem 4rem; }
+  .e404-cards { grid-template-columns: 1fr; }
+  .e404-help { grid-template-columns: 1fr; gap: 1.25rem; }
+  .e404-search { margin-top: 2.75rem; padding-top: 2rem; }
+  .e404-block { margin-top: 2.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .e404-card { transition: none; }
+  .e404-card:hover { transform: none; }
+}

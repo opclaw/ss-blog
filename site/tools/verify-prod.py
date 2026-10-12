@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 """Проверка прода после выкладки: все URL из sitemap отвечают 200 и совпадают со сборкой.
+Плюс две служебные проверки, которые видно только на бою:
+  - несуществующий адрес отдаёт нашу страницу 404 с кодом 404 (а не заглушку хостинга);
+  - /search-index.json доступен (его читает поиск на странице 404; правило .htaccess
+    могло закрыть файл — тогда поиск молча не заработает).
 
     python3 tools/verify-prod.py            # проверить прод по dist/sitemap.xml
     python3 tools/verify-prod.py --json     # машинный отчёт (для релизного скрипта)
@@ -41,7 +45,8 @@ def fetch(url: str) -> tuple[int, str]:
         with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
             return r.status, r.read().decode('utf-8', 'replace')
     except urllib.error.HTTPError as e:
-        return e.code, ''
+        # у страницы 404 тело тоже нужно: проверяем, что отдана именно наша страница
+        return e.code, e.read().decode('utf-8', 'replace')
     except Exception as e:  # noqa: BLE001 — сеть, DNS, TLS
         raise RuntimeError(str(e)) from e
 
@@ -72,6 +77,40 @@ def main() -> int:
         print('✗ Прод недоступен из этого окружения — запустите проверку там, откуда виден сайт.')
         return 2
 
+    # --- служебные адреса: своя страница 404 и поисковый индекс
+    service_fail = 0
+    host = urls[0].split('/')[2] if urls else 'smartsolutions.today'
+    probe = f'https://{host}/net-takoj-stranicy-proverka.html'
+    try:
+        status, body = fetch(probe)
+        if status != 404:
+            print(f'  ✗ несуществующий адрес отвечает {status}, ожидался 404')
+            service_fail += 1
+        elif 'class="e404' not in body:
+            print('  ✗ несуществующий адрес отдаёт не нашу страницу 404 (заглушка хостинга?)')
+            service_fail += 1
+        else:
+            print('  ✓ несуществующий адрес: наша страница 404 с кодом 404')
+    except RuntimeError as e:
+        print(f'  ✗ несуществующий адрес: {e}')
+        service_fail += 1
+
+    try:
+        status, body = fetch(f'https://{host}/search-index.json')
+        if status != 200:
+            print(f'  ✗ /search-index.json отвечает {status} — поиск на странице 404 не заработает')
+            service_fail += 1
+        else:
+            pages_index = len(json.loads(body).get('pages') or [])
+            if not pages_index:
+                print('  ✗ /search-index.json пуст — поиск на странице 404 не найдёт ни одной страницы')
+                service_fail += 1
+            else:
+                print(f'  ✓ /search-index.json доступен: {pages_index} страниц для поиска')
+    except (RuntimeError, json.JSONDecodeError) as e:
+        print(f'  ✗ /search-index.json: {e}')
+        service_fail += 1
+
     bad = [i for i in report if i.get('status') != 200]
     print(f'Проверено URL: {len(report)} · не 200: {len(bad)} · расхождений заголовка со сборкой: {title_diff}')
     for i in bad:
@@ -84,7 +123,7 @@ def main() -> int:
         Path(ROOT / 'deliverables/release-report.json').write_text(
             json.dumps({'urls': len(report), 'not_200': len(bad), 'title_diff': title_diff, 'report': report},
                        ensure_ascii=False, indent=2), encoding='utf-8')
-    return 0 if not bad and not title_diff else 1
+    return 0 if not bad and not title_diff and not service_fail else 1
 
 
 if __name__ == '__main__':
