@@ -378,35 +378,13 @@ svg text, svg tspan, b, em {
   font-variant-numeric: tabular-nums;
 }
 
-/* ===== Посадочная на «листе»: коммерческие признаки первого экрана =====
-   Служебная строка с ценами и кнопки. Нужны, чтобы коммерческая страница не читалась
-   как статья: у статьи в первом экране нет ни цен, ни кнопок (только кикер, H1 и мета).
-   Классы используют только посадочные (/avtomatizaciya-prodazh.html, /ii-assistent-dlya-sajta.html). */
-.bl-service{margin:22px 0 0;font:500 14px/1.6 var(--f-m);color:var(--fg);display:flex;flex-wrap:wrap;gap:6px 14px}
-.bl-service span{white-space:nowrap}
-.bl-service span+span::before{content:'·';margin-right:14px;color:var(--mute)}
-.bl-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
-.bl-actions .btn{padding:.9rem 1.6rem;font-size:.93rem;text-decoration:none}
-/* Кнопки сайта рассчитаны на тёмный фон (btn-primary — светлая на тёмном). На белой
-   бумаге такая кнопка исчезает, поэтому здесь свои цвета из палитры листа. */
-.bl-actions .btn-primary{background:var(--ink);color:var(--on-ink);border:1px solid var(--ink)}
-.bl-actions .btn-primary:hover{background:#1D1D24}
-.bl-actions .btn-outline{background:transparent;color:var(--fg);border:1px solid var(--line2)}
-.bl-actions .btn-outline:hover{background:var(--paper2);border-color:var(--ink)}
-@media (max-width:600px){
-  .bl-actions .btn{width:100%;justify-content:center}
-  /* на узком экране цены идут столбиком: точки-разделители в начале строк лишние */
-  .bl-service{display:grid;gap:4px}
-  .bl-service span+span::before{content:none}
-}
 
-/* ===== ТЁМНЫЙ ЛИСТ (посадочные) =====
-   Посадочные в корне (/avtomatizaciya-prodazh.html, /ii-assistent-dlya-sajta.html) собраны на
-   том же макете, что статьи, но по решению владельца 2026-10-12 идут в тёмной теме сайта:
-   «тёмное = разделы и услуги, светлый лист = блог». Меняется только палитра и то, что было
-   захардкожено под бумагу; разметка, интерактив и тексты статей не затрагиваются.
-   Переменные — тот же набор имён, что у светлого листа выше, поэтому kit.css и блоки статьи
-   переключаются автоматически. */
+/* ===== ТЁМНАЯ ПАЛИТРА ДЛЯ ИНТЕРАКТИВА (посадочные-разделы) =====
+   Посадочные в корне (/avtomatizaciya-prodazh.html, /ii-assistent-dlya-sajta.html) — разделы
+   в тёмной теме сайта: «тёмное = разделы и услуги, светлый лист = блог» (решение 2026-10-12).
+   Их разметка — свои секции (components/landing/*), а блог-инструменты (воронка, калькулятор,
+   таймлайн, чек-лист) подключаются внутрь тёмной обёртки .bl-dark и берут цвета отсюда.
+   Имена переменных те же, что у светлого листа, поэтому kit.css переключается автоматически. */
 .bl-dark{
   --paper:#08080D; --paper2:#0E0E14; --card:#111119;
   --fg:#F5F5F7; --text:rgba(245,245,247,.78); --dim:rgba(245,245,247,.62); --mute:rgba(245,245,247,.5);
@@ -439,14 +417,7 @@ svg text, svg tspan, b, em {
 /* кнопка внутри текста (inline CTA) */
 .bl-dark .bl-inline-cta a{background:var(--fg);color:var(--bg)!important}
 /* кнопки первого экрана: на тёмном работает тема сайта, а не «чёрная плашка на бумаге» */
-.bl-dark .bl-actions .btn-primary{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-.bl-dark .bl-actions .btn-primary:hover{background:rgba(245,245,247,.85)}
-.bl-dark .bl-actions .btn-outline{color:var(--fg);border-color:var(--line2)}
-.bl-dark .bl-actions .btn-outline:hover{background:rgba(255,255,255,.06);border-color:var(--fg)}
-/* служебная строка цен: те же цвета, что у текста на тёмном */
-.bl-dark .bl-service{color:var(--fg)}
-.bl-dark .bl-service span+span::before{color:var(--mute)}
-/* интерактив кита (kit.css) — два захардкоженных под бумагу места */
+/* интерактив кита (kit.css) — два места, захардкоженных под светлую бумагу */
 .bl-dark .kit-btn{color:var(--bg)}
 .bl-dark .kit-doc{background:repeating-linear-gradient(0deg,transparent 0 29px,rgba(255,255,255,.035) 29px 30px),#0C0C13}
 /* инлайновые схемы: цвета «чернила на бумаге» вынесены в классы, чтобы работали в обеих темах */
@@ -461,3 +432,13 @@ svg text, svg tspan, b, em {
 .bl-dark .fg-dim-line{stroke:rgba(255,255,255,.26)}
 .bl-dark .fg-warn-plate{fill:rgba(251,146,60,.16);stroke:rgba(251,146,60,.6)}
 .bl-dark .fg-green-plate{fill:rgba(16,185,129,.16);stroke:#34D399}
+
+/* Подписи инлайновых схем вне светлого листа (посадочные в тёмной теме):
+   те же классы, что у статей, но без обёртки .bl-sheet. */
+.bl-dark .f-label { fill: var(--fg); }
+.bl-dark .f-mono { fill: var(--muted); }
+.bl-dark .f-green { fill: var(--green-t); }
+.bl-dark .f-label-acc, .bl-dark .f-acc { fill: var(--acc-t); }
+.bl-dark .f-value { fill: var(--fg); }
+.bl-dark .f-neg { fill: var(--red); }
+.bl-dark .f-warn { fill: #FBBF24; }

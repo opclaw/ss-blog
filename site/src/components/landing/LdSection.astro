@@ -1,0 +1,34 @@
+---
+// Секция-раздел посадочной: заголовок блока (метка, H2, пояснение) и содержимое слотом.
+// Одинаковая структура у всех блоков: проблема, цифры, что делаем, расчёт, замер, процесс, цены.
+interface Props {
+  id?: string;
+  /** метка над заголовком: коротко, о чём блок */
+  label?: string;
+  title: string;
+  sub?: string;
+  /** чередование фона секций: как на главной и на услугах */
+  alt?: boolean;
+  top?: boolean;
+  narrow?: boolean;
+  /** класс для содержимого секции (например, ld-tools для интерактива) */
+  bodyClass?: string;
+}
+const { id, label, title, sub, alt = false, top = true, narrow = false, bodyClass } = Astro.props;
+---
+
+<section
+  id={id}
+  class:list={['section', alt && 'section-alt', top && 'section-border-top']}
+>
+  <div class:list={['container', narrow && 'container-narrow']}>
+    <div class="section-header">
+      {label && <p class="label label-accent">{label}</p>}
+      <h2>{title}</h2>
+      {sub && <p class="text-secondary">{sub}</p>}
+    </div>
+    <div class={bodyClass}>
+      <slot />
+    </div>
+  </div>
+</section>

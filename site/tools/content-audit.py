@@ -140,7 +140,10 @@ def main() -> None:
     for p in sorted(DIST.glob('*.html')):
         if p.name == '404.html' or re.match(r'(google|yandex)', p.name):
             continue
-        if 'class="bl-text"' in p.read_text(encoding='utf-8'):
+        html_p = p.read_text(encoding='utf-8')
+        # По схеме Service отличаем коммерческие посадочные от блога: макет тут не признак
+        # (посадочные-разделы собраны из своих секций, а не из .bl-text).
+        if '"@type":"Service"' in html_p.replace(' ', '') or '"@type": "Service"' in html_p.replace('\n', ' ').replace('  ', ' '):
             pages.append(p)
     # время чтения считает article.js по тексту .bl-text; тот же расчёт делает
     # tools/fix-minutes.mjs и складывает в dist/minutes.json — берём его, а не свою прикидку

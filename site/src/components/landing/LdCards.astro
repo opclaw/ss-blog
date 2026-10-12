@@ -1,0 +1,33 @@
+---
+// Карточки раздела: «где теряются деньги», «что автоматизируем», «что умеет ассистент».
+// Каждая карточка — заголовок, объяснение и необязательная строка с тем, что остаётся человеку.
+interface Card {
+  /** номер или короткая метка в углу карточки */
+  n?: string;
+  t: string;
+  d: string;
+  /** что остаётся человеку / чем ограничено — подчёркивает честность, а не переобещание */
+  note?: string;
+  noteLabel?: string;
+}
+interface Props {
+  items: Card[];
+}
+const { items } = Astro.props;
+---
+
+<div class="ld-grid">
+  {items.map((c) => (
+    <article class="ld-card">
+      {c.n && <span class="ld-card-n">{c.n}</span>}
+      <h3>{c.t}</h3>
+      <p>{c.d}</p>
+      {c.note && (
+        <p class="ld-card-note">
+          {c.noteLabel && <b>{c.noteLabel}: </b>}
+          {c.note}
+        </p>
+      )}
+    </article>
+  ))}
+</div>

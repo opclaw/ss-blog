@@ -1,0 +1,21 @@
+---
+// Частые вопросы раздела. Видимый FAQ совпадает со схемой FAQPage (проверяет seo-audit):
+// вопросы и ответы приходят из того же массива, что и JSON-LD страницы.
+interface QA {
+  q: string;
+  a: string;
+}
+interface Props {
+  items: QA[];
+}
+const { items } = Astro.props;
+---
+
+<div class="ld-faq">
+  {items.map((f) => (
+    <details>
+      <summary>{f.q}</summary>
+      <p>{f.a}</p>
+    </details>
+  ))}
+</div>

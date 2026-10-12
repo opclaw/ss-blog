@@ -1,0 +1,22 @@
+---
+// «Почитать по теме»: ссылки на статьи блога и соседние страницы направления.
+// Заменяет статейный блок «Смотрите также» — в разделе это короткие карточки, без времени чтения.
+interface Link {
+  href: string;
+  meta: string;
+  title: string;
+}
+interface Props {
+  items: Link[];
+}
+const { items } = Astro.props as { items: Link[] };
+---
+
+<div class="ld-links">
+  {items.map((l) => (
+    <a class="ld-link" href={l.href}>
+      <span>{l.meta}</span>
+      <b>{l.title}</b>
+    </a>
+  ))}
+</div>

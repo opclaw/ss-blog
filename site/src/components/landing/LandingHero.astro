@@ -1,0 +1,42 @@
+---
+// Первый экран посадочной-раздела: оффер, цена, кнопки и панель процесса справа.
+// Не статья: здесь нет ни даты, ни автора, ни времени чтения — только обещание, цена и действие.
+// Стили — ld- в styles.css. Схема справа передаётся слотом (HeroPanel или при необходимости другое).
+interface Action {
+  href: string;
+  label: string;
+  kind?: 'primary' | 'outline';
+}
+interface Props {
+  /** надзаголовок, например «Услуга · AI-направление» */
+  label: string;
+  /** H1: сюда попадает коммерческий запрос страницы */
+  title: string;
+  lead: string;
+  /** строки цен: те же вилки, что в блоке «Цены и сроки» ниже */
+  prices: string[];
+  actions: Action[];
+}
+const { label, title, lead, prices, actions } = Astro.props;
+---
+
+<header class="ld-hero">
+  <div class="container">
+    <div class="ld-hero-in">
+      <div class="ld-hero-txt">
+        <p class="label label-accent">{label}</p>
+        <h1 class="ld-title" set:html={title} />
+        <p class="ld-lead">{lead}</p>
+        <p class="ld-prices">
+          {prices.map((p) => <span>{p}</span>)}
+        </p>
+        <div class="ld-actions">
+          {actions.map((a) => (
+            <a href={a.href} class:list={['btn', a.kind === 'outline' ? 'btn-outline' : 'btn-primary']}>{a.label}</a>
+          ))}
+        </div>
+      </div>
+      <slot name="aside" />
+    </div>
+  </div>
+</header>

@@ -1,0 +1,37 @@
+---
+// Цены и сроки: карточки этапов работ. Оформление — как у пакетов на /services.html
+// (services-package-*), чтобы раздел читался в одном языке с остальным сайтом.
+interface Plan {
+  name: string;
+  price: string;
+  /** срок или пометка под ценой */
+  term?: string;
+  items: string[];
+  /** выделенная карточка: обычно пилот — с него начинают */
+  featured?: boolean;
+}
+interface Props {
+  plans: Plan[];
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+const { plans, ctaLabel = 'Обсудить', ctaHref = '#contacts' } = Astro.props;
+---
+
+<div class="services-packages">
+  {plans.map((p) => (
+    <div class:list={['services-package-card', p.featured && 'services-package-featured']}>
+      <div class:list={['services-package-badge', p.featured && 'services-package-badge-accent']}>{p.name}</div>
+      <p class="services-package-price">{p.price}{p.term && <span> · {p.term}</span>}</p>
+      <ul class="services-package-list">
+        {p.items.map((i) => (
+          <li>
+            <svg width="16" height="16"><use href="/icons.svg#icon-check" /></svg>
+            {i}
+          </li>
+        ))}
+      </ul>
+      <a href={ctaHref} class:list={['btn', p.featured ? 'btn-primary' : 'btn-outline', 'services-package-btn']}>{ctaLabel}</a>
+    </div>
+  ))}
+</div>
