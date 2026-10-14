@@ -66,23 +66,23 @@ IndexNow (Яндекс и Bing; Google — только sitemap и Search Consol
 1. Откройте [vercel.com](https://vercel.com) и войдите тем аккаунтом, к которому подключён проект
    (тот же GitHub-аккаунт: `opclaw` или привязанный к нему Vercel-логин).
 2. Проект **`ss-blog`** → вкладка **Deployments** → верхняя строка — самый свежий деплой
-   (коммит `80caf7f`, ветка `arena/01a0d848-ss-blog`, статус **Ready**).
+   (коммит `932ac91`, ветка `arena/498e9471-ss-blog`, статус **Ready**).
 3. Нажмите **Visit** справа — откроется сайт. Дальше идите по нужным адресам, например:
-   `/blog/ii-dlya-turagentstva.html`, `/blog/ii-dlya-buhgalterii.html` (новая диаграмма),
-   `/blog/ii-dlya-medcentra.html` (диаграмма no-show), `/blog/ii-dlya-proizvodstva.html`
-   (разбивка экономии по ролям).
+   `/avtomatizaciya-prodazh.html` и `/ii-assistent-dlya-sajta.html` (разделы с новыми схемами,
+   таблицами «до/после» и калькуляторами), `/ai-agenty.html` (эталон подачи раздела),
+   `/blog/` (статьи).
 
-Прямые ссылки на деплои этого дня:
+Прямые ссылки (актуально на 2026-10-14):
 
 | Что | Адрес |
 |---|---|
-| Превью ветки (всегда последний коммит ветки) | https://ss-blog-git-arena-01a0d848-ss-blog-opclaws-projects-1b852b6a.vercel.app |
-| Превью конкретного деплоя (коммит `4c30458`, последний на 2026-09-26) | https://ss-blog-dxrlmpjro-opclaws-projects-1b852b6a.vercel.app |
+| Превью ветки (обновляется с каждым коммитом ветки) | https://ss-blog-git-arena-498e9471-ss-blog-opclaws-projects-1b852b6a.vercel.app |
+| Превью конкретного деплоя (коммит `932ac91`) | https://ss-blog-17w3hxr7t-opclaws-projects-1b852b6a.vercel.app |
 | Прод (то, что сейчас в `main`) | посмотрите в Deployments → строка с меткой **Production** |
 
 **Почему вас просит залогиниться.** У проекта включена защита деплоев (Vercel Authentication):
 ссылка открывается только после входа в аккаунт Vercel. Мне она недоступна — я вижу страницу
-«Protected Deployment» (проверено 2026-09-26 fetch'ем). Это не ошибка сборки.
+«Protected Deployment» (проверено 2026-10-14 fetch'ем). Это не ошибка сборки.
 
 *Если хотите смотреть без логина или показывать ссылку коллегам:*
 Vercel → проект `ss-blog` → **Settings** → **Deployment Protection** → **Vercel Authentication** →
@@ -90,11 +90,11 @@ Vercel → проект `ss-blog` → **Settings** → **Deployment Protection**
 
 ### 3.2. Если хочется, чтобы Vercel показывал наши обновления как «прод»
 
-Сейчас на Vercel прод — это `main`, а вся работа лежит в ветке `arena/01a0d848-ss-blog`
-(у нас открыт PR #3). Варианты:
+Сейчас на Vercel прод — это `main` (коммит `9f19b7d`, PR #3 туда влит), а вся новая работа лежит
+в ветке `arena/498e9471-ss-blog` (5 коммитов; PR по ней пока не открыт). Варианты:
 
 * **Оставить как есть** — превью ветки всегда показывает последнее состояние работы.
-* **Влить PR #3 в `main`** — Vercel за 1–2 минуты соберёт Production; но, по вашему решению,
+* **Влить ветку в `main`** — Vercel за 1–2 минуты соберёт Production; но, по вашему решению,
   релиз отложен одним пакетом, поэтому спешить не нужно.
 * **Пропустить Vercel вперёд Beget** (когда решите): сначала убрать защиту деплоев, затем
   привязать домен.
