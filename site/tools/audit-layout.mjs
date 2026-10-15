@@ -302,6 +302,13 @@ const viewports = [
   { w: 768, h: 900, name: 'tablet' },
   { w: 390, h: 844, name: 'phone' },
 ];
+// Добор ширин приёмки (320/360/414/1280/1920 в дополнение к четырём выше):
+//   node tools/audit-layout.mjs --widths 320,360,414,1280,1920
+const extraWidths = getArg('--widths', '');
+const checkedViewports = extraWidths
+  ? extraWidths.split(',').map((s) => Number(s.trim())).filter((w) => w > 0)
+      .map((w) => ({ w, h: w < 500 ? 844 : w < 900 ? 900 : 850, name: `w${w}` }))
+  : viewports;
 
 // Воркеров по умолчанию 2: в песочнице 2 ядра. На 4 воркерах Chromium начинал сыпаться —
 // 56 срывов из 124 замеров, и «0 замечаний» означало бы просто «0 проверенных».
@@ -317,7 +324,7 @@ const pageScroll = `({ x: document.documentElement.scrollWidth - document.docume
 // состояние между замерами не течёт. Последовательный прогон 31 страницы занимал 9–12 минут;
 // параллельность даёт ускорение, близкое к числу воркеров.
 const jobs = [];
-for (const page of list) for (const vp of viewports) jobs.push({ page, vp });
+for (const page of list) for (const vp of checkedViewports) jobs.push({ page, vp });
 const done = new Map();
 let cursor = 0;
 
@@ -363,7 +370,7 @@ await Promise.all(Array.from({ length: Math.min(JOBS, jobs.length) }, worker));
 const report = { at: new Date().toISOString(), jobs: JOBS, pages: [] };
 for (const page of list) {
   const entry = { page, viewports: {} };
-  for (const vp of viewports) {
+  for (const vp of checkedViewports) {
     const r = done.get(`${page}@${vp.name}`);
     if (!r) continue;
     entry.viewports[vp.name] = r.ok

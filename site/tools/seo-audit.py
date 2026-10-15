@@ -35,6 +35,7 @@ DIST = ROOT / 'dist'
 PUBLIC = ROOT / 'public'
 BASE = 'https://smartsolutions.today/'
 IMG_WARN_KB = 300
+PAGE_WARN_KB = 450    # критический путь страницы: планка приёмки команды 2
 TITLE = (25, 60)          # рекомендация Яндекса/Google по длине
 DESC = (80, 170)
 
@@ -486,23 +487,50 @@ def main() -> None:
             if found and set(found) != {want}:
                 err(f'{rel(p_)}: счётчик Метрики {found} ≠ {want} из site.ts')
 
-    # --- вес страницы: HTML + подключённые css/js/картинки
+    # --- вес страницы: критический путь (HTML + css/js + картинки первого экрана)
+    # и отдельно ленивые картинки: они грузятся по мере прокрутки, а не при отрисовке.
+    # Если картинка отдана через <picture><source type="image/webp">, в вес идёт WebP:
+    # фолбэк <img> скачивают только старые браузеры.
     heavy_pages = []
+    lazy_pages = []
     for p_ in pages:
         html_ = p_.read_text(encoding='utf-8')
         total = p_.stat().st_size
-        for m in re.finditer(r'<(?:link|script)[^>]+(?:href|src)="(/[^"]+\.(?:css|js))"', html_):
+        for m in re.finditer(r'<(?:link|script)[^>]+(?:href|src)="(/[^"?]+\.(?:css|js))(?:\?[^"]*)?"', html_):
             f = DIST / m.group(1).lstrip('/')
             if f.exists():
                 total += f.stat().st_size
-        for m in re.finditer(r'<img[^>]+src="(/images/[^"]+)"', html_):
-            f = DIST / m.group(1).lstrip('/')
-            if f.exists():
+        webp = set(re.findall(r'<source[^>]+srcset="(/images/[^"?]+\.webp)"', html_))
+        lazy = 0
+        for m in re.finditer(r'<img\b[^>]*>', html_):
+            tag = m.group(0)
+            src = re.search(r'src="(/images/[^"]+)"', tag)
+            if not src:
+                continue
+            path_ = src.group(1)
+            fallback = path_.rsplit('.', 1)[0] + '.webp'
+            if fallback in webp:            # браузер возьмёт WebP
+                path_ = fallback
+            f = DIST / path_.lstrip('/')
+            if not f.exists():
+                continue
+            if re.search(r'loading="lazy"', tag):
+                lazy += f.stat().st_size
+            else:
                 total += f.stat().st_size
         heavy_pages.append((total / 1024, rel(p_)))
+        if lazy:
+            lazy_pages.append((lazy / 1024, rel(p_)))
     heavy_pages.sort(reverse=True)
-    note('тяжелейшие страницы (HTML + свои css/js + картинки): ' +
+    note('тяжелейшие страницы, критический путь (HTML + css/js + картинки первого экрана): ' +
          ', '.join(f'{r} {kb:.0f} КБ' for kb, r in heavy_pages[:4]))
+    lazy_pages.sort(reverse=True)
+    if lazy_pages:
+        note('ленивые картинки (догружаются при прокрутке): ' +
+             ', '.join(f'{r} +{kb:.0f} КБ' for kb, r in lazy_pages[:4]))
+    for kb, r in heavy_pages:
+        if kb > PAGE_WARN_KB:
+            warn(f'{r}: критический путь {kb:.0f} КБ — больше {PAGE_WARN_KB} КБ')
 
     # --- вес
     css = PUBLIC / 'styles.css'
@@ -517,8 +545,11 @@ def main() -> None:
     if big:
         warn(f'тяжёлые картинки (>{IMG_WARN_KB} КБ): ' +
              ', '.join(f'{f.name} {kb:.0f} КБ' for f, kb in big[:6]))
-    images_total = sum(f.stat().st_size for f in (PUBLIC / 'images').rglob('*') if f.is_file()) / 1024 / 1024
-    note(f'images/ всего {images_total:.1f} МБ')
+    webp_total = sum(f.stat().st_size for f in (PUBLIC / 'images').rglob('*.webp') if f.is_file()) / 1024
+    orig_total = sum(f.stat().st_size for f in (PUBLIC / 'images').rglob('*')
+                     if f.is_file() and f.suffix.lower() not in {'.webp'}) / 1024
+    note(f'images/ всего {(webp_total + orig_total) / 1024:.1f} МБ: '
+         f'WebP {webp_total:.0f} КБ (их и грузит браузер), фолбэки {orig_total:.0f} КБ (только для старых браузеров)')
 
     # --- Метрика
     with_metrika = sum(1 for p in pages if 'mc.yandex.ru' in p.read_text(encoding='utf-8'))
