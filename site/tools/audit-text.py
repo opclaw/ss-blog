@@ -28,6 +28,7 @@ DIST_BLOG = os.path.normpath(os.path.join(SITE, 'dist/blog'))
 args = sys.argv[1:]
 ONLY = ''
 JSON_OUT = '/tmp/audit-text.json'
+ALL = '--all' in args
 if '--only' in args:
     ONLY = args[args.index('--only') + 1]
 if '--json' in args:
@@ -147,6 +148,94 @@ def check_article(path):
             'seo': {'title_len': len(title), 'desc_len': len(desc), 'h2': len(h2s), 'inner_links': inner_links}}
 
 
+def check_generic_page(path):
+    """Нестатейные страницы: главная, услуги, хаб AI, посадочные, 404, индекс блога, кейсы.
+
+    Правила мягче, чем для статьи: нет требования к «Рис. N» и ссылкам на статьи,
+    но проверяются один H1, длины title/description, разделы, нейрослоп, канцелярит,
+    портянки, дубли предложений и типографика. Цель — покрыть вычиткой весь сайт,
+    а не только блог (просьба владельца в TEAM-RUN-18).
+    """
+    slug = os.path.basename(path)[:-5]
+    raw = open(path, encoding='utf-8').read()
+    errs, warns, notes = [], [], []
+
+    title = re.search(r'(?is)<title>(.*?)</title>', raw)
+    title = html.unescape(title.group(1).strip()) if title else ''
+    desc = re.search(r'(?is)<meta name="description" content="(.*?)"', raw)
+    desc = html.unescape(desc.group(1).strip()) if desc else ''
+    h1s = re.findall(r'(?is)<h1[^>]*>(.*?)</h1>', raw)
+    h2s = [strip_html(x).strip() for x in re.findall(r'(?is)<h2[^>]*>(.*?)</h2>', raw)]
+
+    if len(h1s) != 1:
+        errs.append(f'SEO: заголовков H1 — {len(h1s)} (должен быть ровно один)')
+    if not (40 <= len(title) <= 65):
+        warns.append(f'SEO: title {len(title)} знаков (норма 40–65): «{title[:70]}»')
+    if not (120 <= len(desc) <= 175):
+        warns.append(f'SEO: description {len(desc)} знаков (норма 120–175)')
+    if len(h2s) < 3:
+        warns.append(f'SEO: разделов H2 — {len(h2s)} (для раздела норма ≥3)')
+
+    # текст страницы без шапки/подвала/скриптов
+    body = re.sub(r'(?is)<(script|style|svg|nav|header|footer)[^>]*>.*?</\1>', ' ', raw)
+    body = re.sub(r'(?is)<figure.*?</figure>|<pre.*?</pre>|<table.*?</table>', ' ', body)
+    text = strip_html(body)
+    text = re.sub(r'\s+', ' ', text).strip()
+    text_low = text.lower()
+
+    paras = [p.strip() for p in re.findall(r'(?is)<p[^>]*>(.*?)</p>', raw)]
+    paras = [re.sub(r'\s+', ' ', html.unescape(re.sub(r'(?s)<[^>]+>', '', p))).strip() for p in paras]
+    paras = [p for p in paras if len(p) > 40]
+    long_paras = [p for p in paras if len(p) > 600]
+    if long_paras:
+        warns.append(f'Портянки: абзацев > 600 знаков — {len(long_paras)} (макс {max(len(p) for p in long_paras)})')
+
+    def has_word(w):
+        return re.search(r'(?<![а-яёa-z])' + re.escape(w) + r'(?![а-яёa-z])', text_low) is not None
+    cl = [c for c in CLICHE if has_word(c)]
+    if cl:
+        warns.append('Клише: ' + '; '.join(cl[:5]))
+    bur = [b for b in BUREAUCRATIC if has_word(b)]
+    if bur:
+        warns.append('Канцелярит: ' + '; '.join(bur[:5]))
+
+    sents = [s.strip() for s in re.split(r'(?<=[.!?])\s+', text) if len(s.strip().split()) >= 10]
+    dup = [s for s, n in Counter(sents).items() if n > 1]
+    if dup:
+        warns.append(f'Дубли предложений: {len(dup)} — «{dup[0][:80]}…»')
+
+    prose = ' '.join(paras + [strip_html(re.sub(r'(?s)<[^>]+>', ' ', t)) for t in h2s])
+    typos = []
+    if re.search(r'[а-яёА-ЯЁ0-9)]\s+[.,;:!?]', prose):
+        typos.append('пробел перед знаком препинания')
+    if re.search(r'[а-яёА-ЯЁ]\s-\s[а-яёА-ЯЁ]', prose):
+        typos.append('дефис с пробелами вместо тире')
+    if '  ' in prose:
+        typos.append('двойные пробелы')
+    if typos:
+        warns.append('Типографика: ' + '; '.join(typos))
+
+    notes.append(f'знаков {len(text)}, абзацев {len(paras)}, H2 {len(h2s)}')
+    return {'slug': slug, 'errors': errs, 'warnings': warns, 'notes': notes,
+            'seo': {'title_len': len(title), 'desc_len': len(desc), 'h2': len(h2s)}}
+
+
+def generic_page_paths():
+    """Корневые страницы, индекс блога и кейсы — всё, что не покрывает check_article."""
+    DIST = os.path.dirname(DIST_BLOG)
+    paths = []
+    for f in sorted(os.listdir(DIST)):
+        if f.endswith('.html') and not re.match(r'(google|yandex)', f):
+            paths.append(os.path.join(DIST, f))
+    idx = os.path.join(DIST_BLOG, 'index.html')
+    if os.path.exists(idx):
+        paths.append(idx)
+    cases = os.path.join(DIST, 'cases')
+    if os.path.isdir(cases):
+        paths += [os.path.join(cases, f) for f in sorted(os.listdir(cases)) if f.endswith('.html')]
+    return paths
+
+
 def page_paths():
     """Статьи блога + посадочные из корня dist: те же, что собирает tools/pages.mjs для остальных аудитов."""
     DIST = os.path.dirname(DIST_BLOG)
@@ -168,11 +257,15 @@ def page_paths():
 
 def main():
     files = page_paths()
+    if ALL:
+        article_set = set(files)
+        files = files + [p for p in generic_page_paths() if p not in article_set]
     if ONLY:
         files = [f for f in files if ONLY in f]
     report = {'articles': [], 'totals': Counter()}
     for f in files:
-        res = check_article(f)
+        is_article = os.path.dirname(f).endswith('blog') and os.path.basename(f) != 'index.html'
+        res = check_article(f) if is_article else check_generic_page(f)
         report['articles'].append(res)
         for e in res['errors']:
             report['totals']['errors'] += 1
