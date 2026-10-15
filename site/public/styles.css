@@ -2630,9 +2630,6 @@ p.format-note.text-secondary {
   line-height: 1.6;
 }
 
-/* --- Протокол пилота: таймлайн неделями --- */
-.ai-week:hover { background: var(--card-bg); }
-
 /* --- Отказы --- */
 .ai-refuse-list { margin-top: 10px; }
 .ai-refuse {
@@ -2687,7 +2684,6 @@ p.format-note.text-secondary {
 
 /* --- Адаптив v2 --- */
 @media (max-width: 900px) {
-  .ai-week { grid-template-columns: 1fr; gap: 8px; padding: 22px 0; }
   .ai-formula-eq { font-size: clamp(1.05rem, 5.4vw, 1.5rem); }
 }
 
@@ -2710,59 +2706,6 @@ p.format-note.text-secondary {
 .article-meta {
   font-family: var(--font-mono); font-size: 0.76rem; color: var(--muted);
   margin-bottom: clamp(36px, 5vw, 56px);
-}
-.related-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
-  margin-top: 16px;
-}
-.related-card {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 14px;
-  align-items: center;
-  padding: 14px 16px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.015);
-  text-decoration: none;
-  color: inherit;
-  transition: background var(--transition), border-color var(--transition), transform var(--transition);
-}
-.related-card:hover {
-  background: rgba(0, 217, 255, 0.04);
-  border-color: rgba(0, 217, 255, 0.4);
-  transform: translateX(3px);
-}
-.related-card .related-meta {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  color: var(--accent);
-  text-transform: uppercase;
-  padding: 4px 8px;
-  border: 1px solid rgba(0, 217, 255, 0.3);
-  border-radius: 4px;
-  white-space: nowrap;
-  margin: 0;
-}
-.related-card .related-title {
-  font-family: 'Manrope', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  line-height: 1.4;
-  color: var(--fg);
-}
-.related-card .related-arrow {
-  color: var(--accent);
-  font-size: 1.2rem;
-  opacity: 0.5;
-  transition: opacity var(--transition), transform var(--transition);
-}
-.related-card:hover .related-arrow {
-  opacity: 1;
-  transform: translateX(3px);
 }
 @media (max-width: 640px) {
   .article { padding-top: 110px; }
@@ -3324,7 +3267,7 @@ p.format-note.text-secondary {
 .case-timeline-year, .ag-card-n, .ag-chip,
 .ag-step-n, .ag-price-t, .ai-service-num, .ai-step-num,
 .ai-payback-stat, .ai-payback-meta, .receipt-val,
-.nav-phone, .related-meta {
+.nav-phone {
   font-variant-numeric: tabular-nums;
 }
 
@@ -3921,7 +3864,7 @@ p.format-note.text-secondary {
 .ld-page .kit-cap em { color: var(--muted); }
 .ld-page .kit-calc-out { background: var(--bg); }
 .ld-page .kit-calc-rows li { border-top-style: solid; }
-.ld-page .kit-calc-next, .ld-page .kit-calc-in label { border-color: var(--border); }
+.ld-page .kit-calc-in label { border-color: var(--border); }
 .ld-page .kit-foot { background: transparent; color: var(--muted); }
 .ld-page .kit-calc-verdict { background: transparent; border-left-width: 2px; color: var(--secondary); }
 .ld-page .kit-calc-verdict.is-go { background: transparent; }

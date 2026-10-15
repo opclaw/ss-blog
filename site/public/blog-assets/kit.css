@@ -321,7 +321,7 @@
    текстовым шрифтом с табличными цифрами. Моно остаётся там, где цифр нет:
    надзаголовки, подписи к рисункам, служебные ярлыки. */
 output, .kit-tl-n, .kit-funnel-lbl, .kit-calc-out,
-.bl-meta, .bl-hero-cap, .bl-left, .related-meta, figcaption,
+.bl-meta, .bl-hero-cap, .bl-left, figcaption,
 svg text, svg tspan, b, em {
   font-family: var(--f-t);
   font-variant-numeric: tabular-nums;
