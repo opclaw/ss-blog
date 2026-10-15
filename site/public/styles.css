@@ -3656,10 +3656,16 @@ p.format-note.text-secondary {
 }
 @media (max-width: 720px) {
   .e404 { padding: 7rem 1.25rem 4rem; }
-  .e404-cards { grid-template-columns: 1fr; }
+  /* minmax(0, 1fr), а не 1fr: адрес в карточке не переносится, и колонка 1fr
+     растягивалась по нему шире экрана (переполнение на 320–360 px) */
+  .e404-cards { grid-template-columns: minmax(0, 1fr); }
   .e404-help { grid-template-columns: 1fr; gap: 1.25rem; }
   .e404-search { margin-top: 2.75rem; padding-top: 2rem; }
   .e404-block { margin-top: 2.5rem; }
+}
+@media (max-width: 400px) {
+  /* на узком экране адрес не режем многоточием — показываем целиком, с переносом по слогам-символам */
+  .e404-url { white-space: normal; overflow-wrap: anywhere; }
 }
 @media (prefers-reduced-motion: reduce) {
   .e404-card { transition: none; }
