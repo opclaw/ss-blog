@@ -877,6 +877,7 @@ a {
   transform: translateY(-2px);
   box-shadow: none; /* мягкая тень убрана (было размытие 24px) */;
 }
+.gallery-item picture { display: block; }
 .gallery-item img {
   width: 100%;
   height: 150px;
