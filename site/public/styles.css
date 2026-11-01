@@ -534,9 +534,20 @@ a {
 }
 
 .hero-title--stacked {
-  line-height: 0.92;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.75rem, 7.8vw, 2.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.015em;
   text-wrap: balance;
+}
+.hero-title--stacked .hero-line {
+  display: block;
+  line-height: 0.95;
+}
+.hero-title--stacked .hero-line + .hero-line {
+  margin-top: 0.22em;
+}
+.hero-title--stacked .hero-line.text-accent {
+  margin-top: 0.32em;
 }
 
 .hero-subtitle {
@@ -1703,6 +1714,7 @@ p.format-note.text-secondary {
 
   /* кегль растёт постепенно: скачок с 44px сразу до 56px в узкой колонке давал 10 строк заголовка */
   .hero-title { font-size: clamp(2.75rem, 5.6vw, 3.5rem); }
+  .hero-title--stacked { font-size: clamp(2.4rem, 5vw, 3.05rem); }
   .hero-visual {
     display: block;
   }
@@ -1786,6 +1798,7 @@ p.format-note.text-secondary {
   .nav { padding: 1.25rem 5rem; }
 
   .hero-title { font-size: clamp(3.5rem, 5.2vw, 4.25rem); }
+  .hero-title--stacked { font-size: clamp(3rem, 4.6vw, 3.7rem); }
   .hero-visual { flex: 0 1 clamp(340px, 40%, 440px); }
   
 
@@ -1800,6 +1813,7 @@ p.format-note.text-secondary {
    ================================================================ */
 @media (min-width: 1280px) {
   .hero-title { font-size: 4.75rem; }
+  .hero-title--stacked { font-size: 4.1rem; }
   /* схема «Партнёрство» занимает 388px — две колонки включаем только когда колонка визуала их вмещает */
   .partnership-layout { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); align-items: center; }
   .hero-visual { flex: 0 0 500px; }
