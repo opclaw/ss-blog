@@ -533,6 +533,12 @@ a {
   line-height: 1.08;
 }
 
+.hero-title--stacked {
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
 .hero-subtitle {
   font-size: 1.125rem;
   color: var(--secondary);
