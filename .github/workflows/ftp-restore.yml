@@ -1,0 +1,32 @@
+name: ftp-restore
+on:
+  workflow_dispatch:
+jobs:
+  deploy-ftp:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: arena/498e9471-ss-blog
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - name: FTP deploy to Beget
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.BEGET_HOST }}
+          username: ${{ secrets.BEGET_USER }}
+          password: ${{ secrets.BEGET_PASS }}
+          server-dir: ${{ secrets.BEGET_PATH }}
+          local-dir: site/dist/
+          dangerous-clean-slate: true
+          exclude: |
+            **/.well-known/**
+            **/*.md
